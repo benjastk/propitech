@@ -17,6 +17,7 @@
         <!-- App Css-->
         <link href="{!! asset('/css/app.min.css') !!}" rel="stylesheet" type="text/css" />
         <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
+        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> 
         @toastr_css
     </head>
 
