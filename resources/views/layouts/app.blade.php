@@ -316,7 +316,7 @@
         <div class="rightbar-overlay"></div>
 
         <!-- JAVASCRIPT -->
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script src="/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="/libs/metismenu/metisMenu.min.js"></script>
         <script src="/libs/simplebar/simplebar.min.js"></script>
