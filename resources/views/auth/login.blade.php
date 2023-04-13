@@ -84,7 +84,7 @@
                                         </div>
             
                                         <div class="mt-4 text-center">
-                                            <a href="#" class="text-muted"><i class="mdi mdi-lock mr-1"></i> Forgot your password?</a>
+                                            <a href="#" class="text-muted"><i class="mdi mdi-lock mr-1"></i> Olvidaste tu contraseña? Comunicate con admin</a>
                                         </div>
                                     </form>
                                 </div>

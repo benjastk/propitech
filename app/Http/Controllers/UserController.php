@@ -86,7 +86,7 @@ class UserController extends Controller
 
             DB::commit();
             toastr()->success('Usuario registrado exitosamente');
-            return back();
+            return redirect('/users');
         } catch (ModelNotFoundException $e) {
             toastr()->warning('No autorizado');
             DB::rollback();

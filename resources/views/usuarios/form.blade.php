@@ -36,6 +36,7 @@
     </div>
     <div class="row">
         <div class="col-6">
+        <label>Nombres</label>
             @if(!isset($usuario->name))
                 <input type="text" name="name" value="{{old('name')}}" class="form-control" placeholder="Nombre" required>
             @else
@@ -43,6 +44,7 @@
             @endif
         </div>
         <div class="col-6">
+        <label>Apellidos</label>
             @if(!isset($usuario->apellido))
                 <input type="text" name="apellido" value="{{old('apellido')}}" class="form-control" placeholder="Apellido" required >
             @else
@@ -53,6 +55,7 @@
     <br>
     <div class="row">
         <div class="col-4">
+        <label>Rut</label>
             @if(!isset($usuario->rut))
                 <input type="text" name="rut" value="{{old('rut')}}" class="form-control" placeholder="Rut" required>
             @else
@@ -61,6 +64,7 @@
             
         </div>
         <div class="col-4">
+        <label>Numero de Serie</label>
             @if(!isset($usuario->numeroSerie))
                 <input type="text" name="numeroSerie" value="{{old('numeroSerie')}}" class="form-control" placeholder="Numero de Serie">
             @else
@@ -68,6 +72,7 @@
             @endif
         </div>
         <div class="col-4">
+        <label>Correo electronico</label>
             @if(!isset($usuario->email))
                 <input type="email" name="email" value="{{old('email')}}" class="form-control" placeholder="Correo" required>
             @else
@@ -78,6 +83,7 @@
     <br>
     <div class="row">
         <div class="col-6">
+        <label>Telefono</label>
             @if(!isset($usuario->telefono))
                 <input type="text" name="telefono" value="{{old('telefono')}}" class="form-control" placeholder="Telefono" required>
             @else
@@ -85,6 +91,7 @@
             @endif
         </div>
         <div class="col-6">
+        <label>Profesion</label>
             @if(!isset($usuario->profesion))
                 <input type="text" name="profesion" value="{{old('profesion')}}" class="form-control" placeholder="Profesion" >
             @else
@@ -97,6 +104,7 @@
         <div class="col-3">
             <div class="form-group row">
                 <div class="col-md-12">
+                <label>Pais</label>
                     <select name="idPais" id="idPais" class="form-control" required >
                         @if(!isset($usuario->idPais))
                             <option value="" >Pais</option>
@@ -116,6 +124,7 @@
         <div class="col-3">
             <div class="form-group row">
                 <div class="col-md-12">
+                <label>Region</label>
                     <select name="idRegion" id="idRegion" class="form-control" required >
                     @if(!isset($usuario->idRegion))
                         <option value="" >Region</option>
@@ -131,6 +140,7 @@
         <div class="col-3">
             <div class="form-group row">
                 <div class="col-md-12">
+                <label>Provincia</label>
                     <select name="idProvincia" id="idProvincia" class="form-control" required>
                         @if(!isset($usuario->idProvincia))
                             <option value="" >Provincia</option>
@@ -146,6 +156,7 @@
         <div class="col-3">
             <div class="form-group row">
                 <div class="col-md-12">
+                <label>Comuna</label>
                     <select name="idComuna" id="idComuna" class="form-control" required>
                         @if(!isset($usuario->idComuna))
                             <option value="" >Comuna</option>
@@ -162,13 +173,15 @@
     <br>
     <div class="row">
         <div class="col-8">
+        <label>Direccion</label>
             @if(!isset($usuario->direccion))
-                <input type="text" name="direccion" value="{{old('direccion')}}" class="form-control" placeholder="direccion" required >
+                <input type="text" name="direccion" value="{{old('direccion')}}" class="form-control" placeholder="Direccion" required >
             @else
-                <input type="text" name="direccion" value="{{ $usuario->direccion }}" class="form-control" placeholder="direccion" required >
+                <input type="text" name="direccion" value="{{ $usuario->direccion }}" class="form-control" placeholder="Direccion" required >
             @endif
         </div>
         <div class="col-4">
+        <label>Numero</label>
             @if(!isset($usuario->numero))
                 <input type="text" name="numero" value="{{old('numero')}}" class="form-control" placeholder="numero" required >
             @else
@@ -181,6 +194,7 @@
         <div class="col-3">
             <div class="form-group row">
                 <div class="col-md-12">
+                <label>Genero</label>
                     <select name="idGenero" class="form-control" required >
                         @if(!isset($usuario->idGenero))
                             @foreach($generos as $genero)
@@ -196,6 +210,7 @@
             </div>
         </div>
         <div class="col-3">
+        <label>Nacionalidad</label>
             @if(!isset($usuario->nacionalidad))
                 <input type="text" name="nacionalidad" value="{{old('nacionalidad')}}" class="form-control" placeholder="nacionalidad" required >
             @else
@@ -203,6 +218,7 @@
             @endif
         </div>
         <div class="col-3">
+        <label>Estado Civil</label>
             @if(!isset($usuario->estadoCivil))
                 <input type="text" name="estadoCivil" value="{{old('estadoCivil')}}" class="form-control" placeholder="Estado Civil">
             @else
@@ -212,6 +228,7 @@
         <div class="col-3">
             <div class="form-group row">
                 <div class="col-md-12">
+                <label>Tipo Usuario Comercial</label>
                     <select name="idTipoUsuarioComercial" class="form-control" required >
                         @if(!isset($usuario->idTipoUsuarioComercial))
                             @foreach($tiposComerciales as $tipos)
@@ -230,6 +247,7 @@
     <br>
     <div class="row">
         <div class="col-6">
+        <label>Contraseña</label>
             @if(!isset($usuario->password))
                 <input type="password" name="contrasena1" class="form-control" placeholder="Contraseña" required >
             @else
@@ -237,6 +255,7 @@
             @endif 
         </div>
         <div class="col-6">
+        <label>Confirme contraseña</label>
             @if(!isset($usuario->password))
                 <input type="password" name="contrasena2" class="form-control" placeholder="Contraseña" required >
             @else
