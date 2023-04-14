@@ -121,104 +121,6 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-7">
-            <label>Direccion</label>
-            @if(!isset($propiedad->direccion))
-                <input type="text" name="direccion" id="direccion" value="{{old('direccion')}}" class="form-control" placeholder="Direccion" required >
-            @else
-                <input type="text" name="direccion" id="direccion" value="{{ $propiedad->direccion }}" class="form-control" placeholder="Direccion" required >
-            @endif
-        </div>
-        <div class="col-3">
-            <label>Numero</label>
-            @if(!isset($propiedad->numero))
-                <input type="text" name="numero" id="numero" value="{{old('numero')}}" class="form-control" placeholder="Numero" required >
-            @else
-                <input type="text" name="numero" id="numero" value="{{ $propiedad->numero }}" class="form-control" placeholder="Numero" required >
-            @endif
-        </div>
-        <div class="col-2">
-            <label>Block/Dpto</label>
-            @if(!isset($propiedad->block))
-                <input type="text" name="block" id="block" value="{{old('block')}}" class="form-control" placeholder="Block/Dpto" >
-            @else
-                <input type="text" name="block" id="block" value="{{ $propiedad->block }}" class="form-control" placeholder="Block/Dpto" >
-            @endif
-        </div>
-    </div>
-    <br>
-    <div class="row">
-        <div class="col-3">
-            <div class="form-group row">
-                <div class="col-md-12">
-                    <label>Pais</label>
-                    <select name="idPais" id="idPais" class="form-control" required >
-                        @if(!isset($propiedad->idPais))
-                            <option value="" >Pais</option>
-                            @foreach($paises as $pais)
-                            <option value="{{ $pais->idPais }}" {{ (Input::old("idPais") == $pais->idPais ? "selected":"") }} >{{ $pais->nombrePais }}</option>
-                            @endforeach
-                        @else
-                            <option>Pais</option>
-                            @foreach ($paises as $pais)
-                                <option value="{{ $pais->idPais }}" {{ ($pais->idPais == $propiedad->idPais) ? 'selected' : ''}}>{{ $pais->nombrePais}}</option>
-                            @endforeach
-                        @endif
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="col-3">
-            <div class="form-group row">
-                <div class="col-md-12">
-                    <label>Region</label>
-                    <select name="idRegion" id="idRegion" class="form-control" required >
-                    @if(!isset($propiedad->idRegion))
-                        <option value="" >Region</option>
-                    @else
-                        @foreach ($regiones as $region)
-                            <option value="{{ $region->id }}" {{ ($region->id == $propiedad->idRegion) ? 'selected' : ''}}>{{ $region->nombre}}</option>
-                        @endforeach
-                    @endif
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="col-3">
-            <div class="form-group row">
-                <div class="col-md-12">
-                    <label>Provincia</label>
-                    <select name="idProvincia" id="idProvincia" class="form-control" required>
-                        @if(!isset($propiedad->idProvincia))
-                            <option value="" >Provincia</option>
-                        @else
-                            @foreach ($provincias as $provincia)
-                                <option value="{{ $provincia->id }}" {{ ($provincia->id == $propiedad->idProvincia) ? 'selected' : ''}}>{{ $provincia->nombre}}</option>
-                            @endforeach
-                        @endif
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="col-3">
-            <div class="form-group row">
-                <div class="col-md-12">
-                    <label>Comuna</label>
-                    <select name="idComuna" id="idComuna" class="form-control" required>
-                        @if(!isset($propiedad->idComuna))
-                            <option value="" >Comuna</option>
-                        @else
-                            @foreach ($comunas as $comuna)
-                                <option value="{{ $comuna->id }}" {{ ($comuna->id == $propiedad->idComuna) ? 'selected' : ''}}>{{ $comuna->nombre}}</option>
-                            @endforeach
-                        @endif
-                    </select>
-                </div>
-            </div>
-        </div>
-    </div>
-    <br>
-    <div class="row">
         <div class="col-2">
             <label>M Total</label>
             @if(!isset($propiedad->mTotal))
@@ -350,6 +252,104 @@
     </div>
     <br>
     <div class="row">
+        <div class="col-7">
+            <label>Direccion</label>
+            @if(!isset($propiedad->direccion))
+                <input type="text" name="direccion" id="direccion" value="{{old('direccion')}}" class="form-control" placeholder="Direccion" required >
+            @else
+                <input type="text" name="direccion" id="direccion" value="{{ $propiedad->direccion }}" class="form-control" placeholder="Direccion" required >
+            @endif
+        </div>
+        <div class="col-3">
+            <label>Numero</label>
+            @if(!isset($propiedad->numero))
+                <input type="text" name="numero" id="numero" value="{{old('numero')}}" class="form-control" placeholder="Numero" required >
+            @else
+                <input type="text" name="numero" id="numero" value="{{ $propiedad->numero }}" class="form-control" placeholder="Numero" required >
+            @endif
+        </div>
+        <div class="col-2">
+            <label>Block/Dpto</label>
+            @if(!isset($propiedad->block))
+                <input type="text" name="block" id="block" value="{{old('block')}}" class="form-control" placeholder="Block/Dpto" >
+            @else
+                <input type="text" name="block" id="block" value="{{ $propiedad->block }}" class="form-control" placeholder="Block/Dpto" >
+            @endif
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-3">
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label>Pais</label>
+                    <select name="idPais" id="idPais" class="form-control" required >
+                        @if(!isset($propiedad->idPais))
+                            <option value="" >Pais</option>
+                            @foreach($paises as $pais)
+                            <option value="{{ $pais->idPais }}" {{ (Input::old("idPais") == $pais->idPais ? "selected":"") }} >{{ $pais->nombrePais }}</option>
+                            @endforeach
+                        @else
+                            <option>Pais</option>
+                            @foreach ($paises as $pais)
+                                <option value="{{ $pais->idPais }}" {{ ($pais->idPais == $propiedad->idPais) ? 'selected' : ''}}>{{ $pais->nombrePais}}</option>
+                            @endforeach
+                        @endif
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label>Region</label>
+                    <select name="idRegion" id="idRegion" class="form-control" required >
+                    @if(!isset($propiedad->idRegion))
+                        <option value="" >Region</option>
+                    @else
+                        @foreach ($regiones as $region)
+                            <option value="{{ $region->id }}" {{ ($region->id == $propiedad->idRegion) ? 'selected' : ''}}>{{ $region->nombre}}</option>
+                        @endforeach
+                    @endif
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label>Provincia</label>
+                    <select name="idProvincia" id="idProvincia" class="form-control" required>
+                        @if(!isset($propiedad->idProvincia))
+                            <option value="" >Provincia</option>
+                        @else
+                            @foreach ($provincias as $provincia)
+                                <option value="{{ $provincia->id }}" {{ ($provincia->id == $propiedad->idProvincia) ? 'selected' : ''}}>{{ $provincia->nombre}}</option>
+                            @endforeach
+                        @endif
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label>Comuna</label>
+                    <select name="idComuna" id="idComuna" class="form-control" required>
+                        @if(!isset($propiedad->idComuna))
+                            <option value="" >Comuna</option>
+                        @else
+                            @foreach ($comunas as $comuna)
+                                <option value="{{ $comuna->id }}" {{ ($comuna->id == $propiedad->idComuna) ? 'selected' : ''}}>{{ $comuna->nombre}}</option>
+                            @endforeach
+                        @endif
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
         <div class="col-12">
             <div class="form-row">
                 <label>Mapa</label>
@@ -372,7 +372,7 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-12">
+        <div class="col-6">
             <div class="row">
                 @if(!isset($propiedad->fotoPrincipal))
                 <div class="col-12">
@@ -386,12 +386,45 @@
                     <input type="file" class="form-control-file" id="foto" name="foto" id="fotoPrincipal" accept="image/*">
                 </div>
                 <div class="col-6">
+                <label>Foto principal</label>
                     <div class="form-group" >
                         <img src="/img/propiedad/{{ $propiedad->fotoPrincipal}}" width="150px" height="120px">
                     </div>
                 </div>
                 @endif
             </div>
+        </div>
+        <div class="col-6">
+            <label>Comodidades</label>
+            <select class="form-control js-example-basic-multiple" name="comodidades[]" multiple='multiple' required>
+            @if(!isset($propiedad->direccion))
+                @foreach ($caracteristicasPropiedades as $caracteristicaPropiedad)
+                    <option value="{{ $caracteristicaPropiedad->idCaracteristicaPropiedad }}">{{ $caracteristicaPropiedad->nombreCaracteristica }}</option>
+                @endforeach
+            @else
+                @if(isset($caracteristicaPorPropiedad))
+                    @if($caracteristicaPorPropiedad->isEmpty())
+                        @foreach ($caracteristicasPropiedades as $caracteristicaPropiedad)
+                            <option value="{{ $caracteristicaPropiedad->idCaracteristicaPropiedad }}">{{ $caracteristicaPropiedad->nombreCaracteristica }}</option>
+                        @endforeach
+                    @else
+                        @foreach ($caracteristicasPropiedades as $caracteristicaPropiedad)
+                            @php($encontrado = false)
+                            @foreach ($caracteristicaPorPropiedad as $comodidadPropiedad)
+                                @if($caracteristicaPropiedad->idCaracteristicaPropiedad == $comodidadPropiedad->idCaracteristicaPropiedad)
+                                    @php($encontrado = true)
+                                    <option value="{{ $caracteristicaPropiedad->idCaracteristicaPropiedad }}" selected>{{ $caracteristicaPropiedad->nombreCaracteristica }}</option>        
+                                    @break
+                                @endif
+                            @endforeach
+                            @if($encontrado == false)
+                                <option value="{{ $caracteristicaPropiedad->idCaracteristicaPropiedad }}">{{ $caracteristicaPropiedad->nombreCaracteristica }}</option>
+                            @endif
+                        @endforeach
+                    @endif
+                @endif
+            @endif
+            </select>
         </div>
     </div>
     <br>

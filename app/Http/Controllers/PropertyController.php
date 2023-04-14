@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\CaracteristicasPorPropiedades;
+use App\CaracteristicasPropiedades;
 use App\NivelUsoPropiedad;
 use App\TipoPropiedad;
 use App\Propiedad;
@@ -53,12 +55,14 @@ class PropertyController extends Controller
         $nivelesUsoPropiedad = NivelUsoPropiedad::get();
         $tiposPropiedades = TipoPropiedad::get();
         $estados = Estado::where('idTipoEstado', 8)->get();
+        $caracteristicasPropiedades = CaracteristicasPropiedades::get();
         $expertosVendedores = User::select('users.*')
         ->join('rol_usuario', 'rol_usuario.id_usuario', '=', 'users.id')
         ->where('users.eliminado', 0)
         ->whereIn('rol_usuario.id_rol', [1,2])
         ->get();
-        return view('properties.create', compact('estados', 'user', 'paises', 'regiones', 'provincias', 'comunas', 'nivelesUsoPropiedad', 'tiposPropiedades', 'expertosVendedores'));
+        return view('properties.create', compact('estados', 'user', 'paises', 'regiones', 'provincias', 'comunas', 'nivelesUsoPropiedad', 'tiposPropiedades', 
+        'expertosVendedores', 'caracteristicasPropiedades'));
     }
 
     /**
@@ -114,6 +118,21 @@ class PropertyController extends Controller
                 $propiedad->fotoPrincipal = $nombreArchivo;
             }
             $propiedad->save();
+            if($request->comodidades != null) {
+                $caracteristicaPropiedad = CaracteristicasPorPropiedades::where('idPropiedad','=',$id)->get();
+                if($caracteristicaPropiedad)
+                {
+                    foreach ($caracteristicaPropiedad as $caracteristicaDeLaPropiedad ) {
+                        $caracteristicaDeLaPropiedad->delete();
+                    }
+                }
+                foreach ($request->comodidades as $idCaracteristica) {
+                    $caracteristicaPropiedad = new CaracteristicasPorPropiedades;
+                    $caracteristicaPropiedad->idPropiedad = $propiedad->id;
+                    $caracteristicaPropiedad->idCaracteristicaPropiedad = $idCaracteristica;
+                    $caracteristicaPropiedad->save();
+                }
+            }
             DB::commit();
             toastr()->success('Propiedad registrada exitosamente');
             return redirect('/properties');
@@ -164,12 +183,15 @@ class PropertyController extends Controller
         $nivelesUsoPropiedad = NivelUsoPropiedad::get();
         $tiposPropiedades = TipoPropiedad::get();
         $estados = Estado::where('idTipoEstado', 8)->get();
+        $caracteristicasPropiedades = CaracteristicasPropiedades::get();
+        $caracteristicaPorPropiedad = CaracteristicasPorPropiedades::where('idPropiedad', $id)->get();
         $expertosVendedores = User::select('users.*')
         ->join('rol_usuario', 'rol_usuario.id_usuario', '=', 'users.id')
         ->where('users.eliminado', 0)
         ->whereIn('rol_usuario.id_rol', [1,2])
         ->get();
-        return view('properties.edit', compact('propiedad', 'user', 'paises', 'regiones', 'provincias', 'comunas', 'nivelesUsoPropiedad', 'tiposPropiedades', 'expertosVendedores', 'estados'));
+        return view('properties.edit', compact('propiedad', 'user', 'paises', 'regiones', 'provincias', 'comunas', 'nivelesUsoPropiedad', 
+        'tiposPropiedades', 'expertosVendedores', 'estados', 'caracteristicasPropiedades', 'caracteristicaPorPropiedad'));
     }
 
     /**
@@ -226,6 +248,22 @@ class PropertyController extends Controller
             }
             $propiedad->save();
 
+            if($request->comodidades != null) {
+                $caracteristicaPropiedad = CaracteristicasPorPropiedades::where('idPropiedad','=',$id)->get();
+                if($caracteristicaPropiedad)
+                {
+                    foreach ($caracteristicaPropiedad as $caracteristicaDeLaPropiedad ) {
+                        $caracteristicaDeLaPropiedad->delete();
+                    }
+                }
+                foreach ($request->comodidades as $idCaracteristica) {
+                    $caracteristicaPropiedad = new CaracteristicasPorPropiedades;
+                    $caracteristicaPropiedad->idPropiedad = $id;
+                    $caracteristicaPropiedad->idCaracteristicaPropiedad = $idCaracteristica;
+                    $caracteristicaPropiedad->save();
+                }
+            }
+
             DB::commit();
             toastr()->success('Propiedad actualizada exitosamente');
             return redirect('/properties');
@@ -242,7 +280,7 @@ class PropertyController extends Controller
             DB::rollback();
             return back()->withInput($request->all());
         } catch (\Exception $e) {
-            toastr()->warning($e->getMessage());
+            return $e->getMessage();
             DB::rollback();
             return back()->withInput($request->all());
         }

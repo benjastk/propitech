@@ -47,6 +47,11 @@
 @endsection
 @section('script')
     <script>
+        $(document).ready(function() {
+            $('.js-example-basic-multiple').select2({});
+        });
+    </script>
+    <script>
         $("#idPais").change(function(){
             var idPais = $("#idPais").val();          
             $.ajax({

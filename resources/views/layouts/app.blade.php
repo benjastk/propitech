@@ -18,6 +18,7 @@
         <link href="{!! asset('/css/app.min.css') !!}" rel="stylesheet" type="text/css" />
         <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
         <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> 
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" />
         @toastr_css
     </head>
 
@@ -330,6 +331,8 @@
 
         <!-- App js -->
         <script src="/js/app.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/i18n/es.js"></script>
         @jquery
         @toastr_js
         @toastr_render
