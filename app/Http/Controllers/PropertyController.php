@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\CaracteristicasPorPropiedades;
 use App\CaracteristicasPropiedades;
 use App\NivelUsoPropiedad;
+use App\UsuarioPropiedad;
 use App\TipoPropiedad;
 use App\Propiedad;
 use App\Provincia;
@@ -56,13 +57,17 @@ class PropertyController extends Controller
         $tiposPropiedades = TipoPropiedad::get();
         $estados = Estado::where('idTipoEstado', 8)->get();
         $caracteristicasPropiedades = CaracteristicasPropiedades::get();
+        $propietarios = User::select('users.*')
+        ->join('rol_usuario', 'rol_usuario.id_usuario', '=', 'users.id')
+        ->where('users.eliminado', 0)
+        ->get();
         $expertosVendedores = User::select('users.*')
         ->join('rol_usuario', 'rol_usuario.id_usuario', '=', 'users.id')
         ->where('users.eliminado', 0)
         ->whereIn('rol_usuario.id_rol', [1,2])
         ->get();
         return view('properties.create', compact('estados', 'user', 'paises', 'regiones', 'provincias', 'comunas', 'nivelesUsoPropiedad', 'tiposPropiedades', 
-        'expertosVendedores', 'caracteristicasPropiedades'));
+        'expertosVendedores', 'caracteristicasPropiedades', 'propietarios'));
     }
 
     /**
@@ -185,13 +190,18 @@ class PropertyController extends Controller
         $estados = Estado::where('idTipoEstado', 8)->get();
         $caracteristicasPropiedades = CaracteristicasPropiedades::get();
         $caracteristicaPorPropiedad = CaracteristicasPorPropiedades::where('idPropiedad', $id)->get();
+        $usuarioPropietario = UsuarioPropiedad::where('id_propiedad', $id)->first();
+        $propietarios = User::select('users.*')
+        ->join('rol_usuario', 'rol_usuario.id_usuario', '=', 'users.id')
+        ->where('users.eliminado', 0)
+        ->get();
         $expertosVendedores = User::select('users.*')
         ->join('rol_usuario', 'rol_usuario.id_usuario', '=', 'users.id')
         ->where('users.eliminado', 0)
         ->whereIn('rol_usuario.id_rol', [1,2])
         ->get();
         return view('properties.edit', compact('propiedad', 'user', 'paises', 'regiones', 'provincias', 'comunas', 'nivelesUsoPropiedad', 
-        'tiposPropiedades', 'expertosVendedores', 'estados', 'caracteristicasPropiedades', 'caracteristicaPorPropiedad'));
+        'tiposPropiedades', 'expertosVendedores', 'estados', 'caracteristicasPropiedades', 'caracteristicaPorPropiedad', 'propietarios', 'usuarioPropietario'));
     }
 
     /**
@@ -263,7 +273,18 @@ class PropertyController extends Controller
                     $caracteristicaPropiedad->save();
                 }
             }
-
+            if($request->idUsuarioPropietario)
+            {
+                $usuarioPropietario = UsuarioPropiedad::where('id_propiedad', $id)->first();
+                if($usuarioPropietario)
+                {
+                    $usuarioPropietario->delete();
+                }
+                $usuarioPropietarioNew = new UsuarioPropiedad();
+                $usuarioPropietarioNew->id_usuario = $request->idUsuarioPropietario;
+                $usuarioPropietarioNew->id_propiedad = $id;
+                $usuarioPropietarioNew->save();
+            }
             DB::commit();
             toastr()->success('Propiedad actualizada exitosamente');
             return redirect('/properties');

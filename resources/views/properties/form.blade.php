@@ -440,18 +440,21 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-4">
+        <div class="col-3">
             
         </div>
-        <div class="col-4">
+        <div class="col-3">
             <label>Experto</label>
         </div>
-        <div class="col-4">
+        <div class="col-3">
+            <label>Propietario</label>
+        </div>
+        <div class="col-3">
             <label>Rut Propietario</label>
         </div>
     </div>
     <div class="row">
-        <div class="col-4" style="text-align:center">
+        <div class="col-3" style="text-align:center">
             @if(!isset($propiedad->idDestacado))
                 <div class="custom-control custom-switch mb-2" dir="ltr">
                     <input name="idDestacado1" type="checkbox" class="custom-control-input" id="customSwitch4" {{ (Input::old("idDestacado") == 'on' ? "checked":"") }} >
@@ -464,7 +467,7 @@
                 </div>
             @endif
         </div>
-        <div class="col-4">
+        <div class="col-3">
             <select name="idUsuarioExpertoVendedor" id="idUsuarioExpertoVendedor" class="form-control" required>
                 @if(!isset($propiedad->idUsuarioExpertoVendedor))
                     <option value="" >Seleccione experto</option>
@@ -472,14 +475,29 @@
                         <option value="{{ $experto->id }}" >{{ $experto->name }} {{ $experto->apellido }}</option>
                     @endforeach
                 @else
+                    <option value="" >Seleccione experto</option>
                     @foreach ($expertosVendedores as $experto)
-                        <option value="" >Seleccione experto</option>
                         <option value="{{ $experto->id }}" {{ ($experto->id == $propiedad->idUsuarioExpertoVendedor) ? 'selected' : ''}}>{{ $experto->name }} {{ $experto->apellido }}</option>
                     @endforeach
                 @endif
             </select>
         </div>
-        <div class="col-4">
+        <div class="col-3">
+            <select name="idUsuarioPropietario" id="idUsuarioPropietario" class="form-control" >
+                @if(!isset($usuarioPropietario))
+                    <option value="" >Seleccione propietario</option>
+                    @foreach ($propietarios as $propietario)
+                        <option value="{{ $propietario->id }}" >{{ $propietario->name }} {{ $propietario->apellido }}</option>
+                    @endforeach
+                @else
+                    <option value="" >Seleccione propietario</option>
+                    @foreach ($propietarios as $propietario1)
+                        <option value="{{ $propietario1->id }}" {{ ($propietario1->id == $usuarioPropietario->id_usuario) ? 'selected' : ''}}>{{ $propietario1->name }} {{ $propietario1->apellido }}</option>
+                    @endforeach
+                @endif
+            </select>
+        </div>
+        <div class="col-3">
             @if(!isset($propiedad->rut))
                 <input type="text" name="rut" value="{{old('rut')}}" class="form-control" placeholder="Rut propietario">
             @else
