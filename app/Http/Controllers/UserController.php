@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use App\UsuarioCuentaBancaria;
+use App\TipoCuentaBancaria;
+use App\LogTransaccion;
 use App\TipoComercial;
 use App\Provincia;
 use App\UserRol;
 use App\Genero;
 use App\Comuna;
 use App\Region;
+use App\Banco;
 use App\Pais;
 use App\User;
 use Session;
@@ -33,7 +37,7 @@ class UserController extends Controller
         ->leftjoin('roles', 'roles.id', '=', 'rol_usuario.id_rol')
         ->where('users.eliminado', 0)
         ->paginate(15);
-        return view('usuarios.index', compact('user', 'users'));
+        return view('back-office.usuarios.index', compact('user', 'users'));
     }
 
     /**
@@ -50,7 +54,7 @@ class UserController extends Controller
         $comunas = Comuna::get();
         $generos = Genero::get();
         $tiposComerciales = TipoComercial::get();
-        return view('usuarios.create', compact('user', 'paises', 'regiones', 'provincias', 'comunas', 'generos', 'tiposComerciales'));
+        return view('back-office.usuarios.create', compact('user', 'paises', 'regiones', 'provincias', 'comunas', 'generos', 'tiposComerciales'));
     }
 
     /**
@@ -84,15 +88,23 @@ class UserController extends Controller
             }
             $usuario->save();
 
+            $logTransaccion = new LogTransaccion();
+            $logTransaccion->tipoTransaccion = 'Creacion de usuario';
+            $logTransaccion->idUsuario =  Auth::user()->id;
+            $logTransaccion->webclient = $request->userAgent();
+            $logTransaccion->descripcionTransaccion = 'Creacion de usuario:'. $request->name. ' '.$request->apellido.
+            ' Rut: '. $request->rut. ' Email: '. $request->email. ' Telefono: '. $request->telefono;
+            $logTransaccion->save();
+
             DB::commit();
-            toastr()->success('Usuario registrado exitosamente');
+            toastr()->success('Usuario registrado exitosamente', 'Operación exitosa');
             return redirect('/users');
         } catch (ModelNotFoundException $e) {
-            toastr()->warning('No autorizado');
+            toastr()->warning('No autorizado', 'Advertencia');
             DB::rollback();
             return back()->withInput($request->all());
         } catch (QueryException $e) {
-            toastr()->warning('Ha ocurrido un error, favor intente nuevamente' . $e->getMessage());
+            toastr()->warning('Ha ocurrido un error, favor intente nuevamente' . $e->getMessage(), 'Advertencia');
             DB::rollback();
             return back()->withInput($request->all());
         } catch (DecryptException $e) {
@@ -100,7 +112,7 @@ class UserController extends Controller
             DB::rollback();
             return back()->withInput($request->all());
         } catch (\Exception $e) {
-            toastr()->warning($e->getMessage());
+            toastr()->warning($e->getMessage(), 'Error');
             DB::rollback();
             return back()->withInput($request->all());
         }
@@ -133,7 +145,7 @@ class UserController extends Controller
         $comunas = Comuna::get();
         $generos = Genero::get();
         $tiposComerciales = TipoComercial::get();
-        return view('usuarios.edit', compact('usuario', 'user', 'paises', 'regiones', 'provincias', 'comunas', 'generos', 'tiposComerciales'));
+        return view('back-office.usuarios.edit', compact('usuario', 'user', 'paises', 'regiones', 'provincias', 'comunas', 'generos', 'tiposComerciales'));
     }
 
     /**
@@ -167,15 +179,22 @@ class UserController extends Controller
                 $usuarioRol->id_rol = 3;
                 $usuarioRol->save();
             }
+            $logTransaccion = new LogTransaccion();
+            $logTransaccion->tipoTransaccion = 'Actualizacion de usuario';
+            $logTransaccion->idUsuario =  Auth::user()->id;
+            $logTransaccion->webclient = $request->userAgent();
+            $logTransaccion->descripcionTransaccion = 'Actualizacion de usuario: '. $request->name. ' '.$request->apellido.
+            ' Rut: '. $request->rut. ' Email: '. $request->email. ' Telefono: '. $request->telefono;
+            $logTransaccion->save();
             DB::commit();
-            toastr()->success('Usuario actualizado exitosamente');
+            toastr()->success('Usuario actualizado exitosamente', 'Operación exitosa');
             return redirect('/users');
         } catch (ModelNotFoundException $e) {
-            toastr()->warning('No autorizado');
+            toastr()->warning('No autorizado', 'Advertencia');
             DB::rollback();
             return back()->withInput($request->all());
         } catch (QueryException $e) {
-            toastr()->warning('Ha ocurrido un error, favor intente nuevamente' . $e->getMessage());
+            toastr()->warning('Ha ocurrido un error, favor intente nuevamente' . $e->getMessage(), 'Advertencia');
             DB::rollback();
             return back()->withInput($request->all());
         } catch (DecryptException $e) {
@@ -183,7 +202,7 @@ class UserController extends Controller
             DB::rollback();
             return back()->withInput($request->all());
         } catch (\Exception $e) {
-            toastr()->warning($e->getMessage());
+            toastr()->warning($e->getMessage(), 'Error');
             DB::rollback();
             return back()->withInput($request->all());
         }
@@ -204,15 +223,23 @@ class UserController extends Controller
             $usuario->eliminado = 1;
             $usuario->save();
 
+            $logTransaccion = new LogTransaccion();
+            $logTransaccion->tipoTransaccion = 'Eliminacion de usuario';
+            $logTransaccion->idUsuario =  Auth::user()->id;
+            $logTransaccion->webclient = $request->userAgent();
+            $logTransaccion->descripcionTransaccion = 'Eliminacion de usuario:'. $usuario->name. ' '.$usuario->apellido.
+            ' Rut: '. $usuario->rut. ' Email: '. $usuario->email. ' Telefono: '. $usuario->telefono;
+            $logTransaccion->save();
+
             DB::commit();
-            toastr()->success('Usuario eliminado exitosamente');
+            toastr()->success('Usuario eliminado exitosamente', 'Operación exitosa');
             return redirect('/users');
         } catch (ModelNotFoundException $e) {
-            toastr()->warning('No autorizado');
+            toastr()->warning('No autorizado', 'Advertencia');
             DB::rollback();
             return back()->withInput($request->all());
         } catch (QueryException $e) {
-            toastr()->warning('Ha ocurrido un error, favor intente nuevamente' . $e->getMessage());
+            toastr()->warning('Ha ocurrido un error, favor intente nuevamente' . $e->getMessage(), 'Advertencia');
             DB::rollback();
             return back()->withInput($request->all());
         } catch (DecryptException $e) {
@@ -220,7 +247,135 @@ class UserController extends Controller
             DB::rollback();
             return back()->withInput($request->all());
         } catch (\Exception $e) {
-            toastr()->warning($e->getMessage());
+            toastr()->warning($e->getMessage(), 'Error');
+            DB::rollback();
+            return back()->withInput($request->all());
+        }
+    }
+
+    public function cuentasBancarias($id)
+    {
+        $user = Auth::user();
+        $bancos = Banco::get();
+        $tiposCuentasBancarias = TipoCuentaBancaria::get();
+        $cuentasBancarias = UsuarioCuentaBancaria::join('bancos', 'bancos.idBanco', '=', 'usuarios_cuentas_bancarias.idBanco')
+        ->join('tipos_cuentas_bancos', 'tipos_cuentas_bancos.idTipoCuenta', '=', 'usuarios_cuentas_bancarias.idTipoCuenta')
+        ->where('usuarios_cuentas_bancarias.idUsuario', $id)->get();
+        $usuario = User::where('id', $id)->first();
+        return view('back-office.usuarios.cuentasBancarias', compact('user', 'cuentasBancarias', 'bancos', 'tiposCuentasBancarias', 'usuario'));
+    }
+    public function storeCuentaBancaria(Request $request)
+    {
+        try{
+            DB::beginTransaction();
+            $usuarioCuentaBancaria = new UsuarioCuentaBancaria();
+            $usuarioCuentaBancaria->fill($request->all());
+            $usuarioCuentaBancaria->save();
+
+            $usuario = User::where('id', $request->idUsuario)->first();
+
+            $logTransaccion = new LogTransaccion();
+            $logTransaccion->tipoTransaccion = 'Nueva Cuenta Bancaria';
+            $logTransaccion->idUsuario =  Auth::user()->id;
+            $logTransaccion->webclient = $request->userAgent();
+            $logTransaccion->descripcionTransaccion = 'Nueva cuenta bancaria en usuario: '. $usuario->name. ' '.$usuario->apellido.
+            ' Rut: '. $usuario->rut. ' Numero de cuenta: '. $request->numeroCuenta. ' Banco: '. $request->idBanco;
+            $logTransaccion->save();
+
+            DB::commit();
+            toastr()->success('Cuenta Bancaria registrada exitosamente', 'Operación exitosa');
+            return redirect('/users/cuentas-bancarias/'.$usuario->id);
+        } catch (ModelNotFoundException $e) {
+            toastr()->warning('No autorizado', 'Advertencia');
+            DB::rollback();
+            return back()->withInput($request->all());
+        } catch (QueryException $e) {
+            toastr()->warning('Ha ocurrido un error, favor intente nuevamente' . $e->getMessage(), 'Advertencia');
+            DB::rollback();
+            return back()->withInput($request->all());
+        } catch (DecryptException $e) {
+            toastr()->info('Ocurrio un error al intentar acceder al recurso solicitado');
+            DB::rollback();
+            return back()->withInput($request->all());
+        } catch (\Exception $e) {
+            toastr()->warning($e->getMessage(), 'Error');
+            DB::rollback();
+            return back()->withInput($request->all());
+        }
+    }
+    public function updateCuentaBancaria(Request $request, $id)
+    {
+        try{
+            DB::beginTransaction();
+            $editarUsuarioCuentaBancaria = UsuarioCuentaBancaria::where('idUsuarioCuentaBancaria', $id)->first();
+            $editarUsuarioCuentaBancaria->fill($request->all());
+            $editarUsuarioCuentaBancaria->save();
+
+            $usuario = User::where('id', $request->idUsuario)->first();
+
+            $logTransaccion = new LogTransaccion();
+            $logTransaccion->tipoTransaccion = 'Actualizacion Cuenta Bancaria';
+            $logTransaccion->idUsuario =  Auth::user()->id;
+            $logTransaccion->webclient = $request->userAgent();
+            $logTransaccion->descripcionTransaccion = 'Actualizacion cuenta bancaria en usuario: '. $usuario->name. ' '.$usuario->apellido.
+            ' Rut: '. $usuario->rut. ' Numero de cuenta: '. $request->numeroCuenta. ' Banco: '. $request->idBanco;
+            $logTransaccion->save();
+
+            DB::commit();
+            toastr()->success('Cuenta Bancaria actualizada exitosamente', 'Operación exitosa');
+            return redirect('/users/cuentas-bancarias/'.$usuario->id);
+        } catch (ModelNotFoundException $e) {
+            toastr()->warning('No autorizado', 'Advertencia');
+            DB::rollback();
+            return back()->withInput($request->all());
+        } catch (QueryException $e) {
+            toastr()->warning('Ha ocurrido un error, favor intente nuevamente' . $e->getMessage(), 'Advertencia');
+            DB::rollback();
+            return back()->withInput($request->all());
+        } catch (DecryptException $e) {
+            toastr()->info('Ocurrio un error al intentar acceder al recurso solicitado');
+            DB::rollback();
+            return back()->withInput($request->all());
+        } catch (\Exception $e) {
+            toastr()->warning($e->getMessage(), 'Error');
+            DB::rollback();
+            return back()->withInput($request->all());
+        }
+    }
+    public function deleteCuentaBancaria(Request $request)
+    {
+        try{
+            DB::beginTransaction();
+            $deleteUsuarioCuentaBancaria = UsuarioCuentaBancaria::where('idUsuarioCuentaBancaria', $request->id)->first();
+            $deleteUsuarioCuentaBancaria->delete();
+
+            $usuario = User::where('id', $deleteUsuarioCuentaBancaria->idUsuario)->first();
+
+            $logTransaccion = new LogTransaccion();
+            $logTransaccion->tipoTransaccion = 'Eliminar Cuenta Bancaria';
+            $logTransaccion->idUsuario =  Auth::user()->id;
+            $logTransaccion->webclient = $request->userAgent();
+            $logTransaccion->descripcionTransaccion = 'Eliminar cuenta bancaria en usuario: '. $usuario->name. ' '.$usuario->apellido.
+            ' Rut: '. $usuario->rut. ' Numero de cuenta: '. $deleteUsuarioCuentaBancaria->numeroCuenta. ' Banco: '. $deleteUsuarioCuentaBancaria->idBanco;
+            $logTransaccion->save();
+
+            DB::commit();
+            toastr()->success('Cuenta Bancaria eliminada exitosamente', 'Operación exitosa');
+            return redirect('/users/cuentas-bancarias/'.$usuario->id);
+        } catch (ModelNotFoundException $e) {
+            toastr()->warning('No autorizado', 'Advertencia');
+            DB::rollback();
+            return back()->withInput($request->all());
+        } catch (QueryException $e) {
+            toastr()->warning('Ha ocurrido un error, favor intente nuevamente' . $e->getMessage(), 'Advertencia');
+            DB::rollback();
+            return back()->withInput($request->all());
+        } catch (DecryptException $e) {
+            toastr()->info('Ocurrio un error al intentar acceder al recurso solicitado');
+            DB::rollback();
+            return back()->withInput($request->all());
+        } catch (\Exception $e) {
+            toastr()->warning($e->getMessage(), 'Error');
             DB::rollback();
             return back()->withInput($request->all());
         }

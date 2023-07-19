@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Comuna;
+use App\User;
 use App\Region;
 use App\Provincia;
+use App\UsuarioCuentaBancaria;
 class DataGeneralController extends Controller
 {
     public function getRegion(Request $request)
@@ -30,6 +32,46 @@ class DataGeneralController extends Controller
         if ($request->ajax()) {
             return $comunas = Comuna::where('idProvincia', $request->id)->get();
         } else {
+            return response()->json(['status' => false, 'message' => 'Sin permiso de acceso'], 401);
+        }
+    }
+    public function getComunaRegion(Request $request)
+    {
+        if ($request->ajax()) {
+            return $comunas = Comuna::whereIn('idProvincia', Provincia::select('id')->where('idRegion', $request->id)->get())->get();
+        } else {
+            return response()->json(['status' => false, 'message' => 'Sin permiso de acceso'], 401);
+        }
+    }
+    public function buscarUsuario(Request $request)
+    {
+        if($request->ajax()){
+            $usuario = User::select('users.id', 'users.rut', 'users.numeroSerie', 'users.name', 'users.apellido', 'users.email', 'users.telefono', 'users.nacionalidad', 'users.estadoCivil', 'users.direccion', 'region.nombre as nombreRegion', 'comuna.nombre as nombreComuna')
+                        ->join('region', 'region.id', '=', 'users.idRegion')
+                        ->join('comuna', 'comuna.id', '=', 'users.idComuna')
+                        ->where('users.rut', '=', $request->all())
+                        ->first();
+            return $usuario;
+        }else{
+            return response()->json(['status' => false, 'message' => 'Sin permiso de acceso'], 401);
+        }
+    }
+    public function buscarUsuarioPropietario(Request $request)
+    {
+        if($request->ajax()){
+            $usuario = User::select('users.id', 'users.rut', 'users.numeroSerie', 'users.name', 'users.apellido', 'users.email', 'users.telefono', 
+            'users.nacionalidad', 'users.estadoCivil', 'users.direccion', 'users.profesion', 'users.numero', 'region.nombre as nombreRegion', 
+            'comuna.nombre as nombreComuna')
+            ->leftjoin('region', 'region.id', '=', 'users.idRegion')
+            ->leftjoin('comuna', 'comuna.id', '=', 'users.idComuna')
+            ->where('users.rut', '=', $request->all())
+            ->first();
+            $usuario->cuentas = UsuarioCuentaBancaria::where('idUsuario', '=', $usuario->id)
+            ->join('bancos', 'bancos.idbanco', '=', 'usuarios_cuentas_bancarias.idBanco')
+            ->join('tipos_cuentas_bancos', 'usuarios_cuentas_bancarias.idTipoCuenta', '=', 'tipos_cuentas_bancos.idTipoCuenta')
+            ->get();
+            return $usuario;
+        }else{
             return response()->json(['status' => false, 'message' => 'Sin permiso de acceso'], 401);
         }
     }

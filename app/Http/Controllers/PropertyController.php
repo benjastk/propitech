@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Intervention\Image\ImageManager;
 use App\CaracteristicasPorPropiedades;
 use App\CaracteristicasPropiedades;
 use App\NivelUsoPropiedad;
 use App\UsuarioPropiedad;
+use App\LogTransaccion;
 use App\TipoPropiedad;
 use App\Propiedad;
 use App\Provincia;
@@ -14,8 +17,10 @@ use App\Comuna;
 use App\Region;
 use App\Estado;
 use App\Pais;
+use App\Foto;
 use App\User;
 use Session;
+use Image;
 use Auth;
 use DB;
 class PropertyController extends Controller
@@ -38,7 +43,7 @@ class PropertyController extends Controller
         ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
         ->join('estados', 'estados.idEstado', '=', 'propiedades.idEstado')
         ->paginate(10);
-        return view('properties.index', compact('user', 'propiedades'));
+        return view('back-office.properties.index', compact('user', 'propiedades'));
     }
 
     /**
@@ -66,7 +71,7 @@ class PropertyController extends Controller
         ->where('users.eliminado', 0)
         ->whereIn('rol_usuario.id_rol', [1,2])
         ->get();
-        return view('properties.create', compact('estados', 'user', 'paises', 'regiones', 'provincias', 'comunas', 'nivelesUsoPropiedad', 'tiposPropiedades', 
+        return view('back-office.properties.create', compact('estados', 'user', 'paises', 'regiones', 'provincias', 'comunas', 'nivelesUsoPropiedad', 'tiposPropiedades', 
         'expertosVendedores', 'caracteristicasPropiedades', 'propietarios'));
     }
 
@@ -124,7 +129,7 @@ class PropertyController extends Controller
             }
             $propiedad->save();
             if($request->comodidades != null) {
-                $caracteristicaPropiedad = CaracteristicasPorPropiedades::where('idPropiedad','=',$id)->get();
+                $caracteristicaPropiedad = CaracteristicasPorPropiedades::where('idPropiedad','=', $propiedad->id)->get();
                 if($caracteristicaPropiedad)
                 {
                     foreach ($caracteristicaPropiedad as $caracteristicaDeLaPropiedad ) {
@@ -138,15 +143,22 @@ class PropertyController extends Controller
                     $caracteristicaPropiedad->save();
                 }
             }
+            $logTransaccion = new LogTransaccion();
+            $logTransaccion->tipoTransaccion = 'Nueva propiedad';
+            $logTransaccion->idUsuario =  Auth::user()->id;
+            $logTransaccion->webclient = $request->userAgent();
+            $logTransaccion->descripcionTransaccion = 'Nueva propiedad con direccion en: '. $request->direccion. ' numero: '.$request->numero.
+            ' Region: '. $request->idRegion. ' Comuna: '. $request->idComuna;
+            $logTransaccion->save();
             DB::commit();
-            toastr()->success('Propiedad registrada exitosamente');
+            toastr()->success('Propiedad registrada exitosamente', 'Operación exitosa');
             return redirect('/properties');
         } catch (ModelNotFoundException $e) {
-            toastr()->warning('No autorizado');
+            toastr()->warning('No autorizado', 'Advertencia');
             DB::rollback();
             return back()->withInput($request->all());
         } catch (QueryException $e) {
-            toastr()->warning('Ha ocurrido un error, favor intente nuevamente' . $e->getMessage());
+            toastr()->warning('Ha ocurrido un error, favor intente nuevamente' . $e->getMessage(), 'Advertencia');
             DB::rollback();
             return back()->withInput($request->all());
         } catch (DecryptException $e) {
@@ -154,7 +166,7 @@ class PropertyController extends Controller
             DB::rollback();
             return back()->withInput($request->all());
         } catch (\Exception $e) {
-            toastr()->warning($e->getMessage());
+            toastr()->warning($e->getMessage(), 'Error');
             DB::rollback();
             return back()->withInput($request->all());
         }
@@ -200,8 +212,11 @@ class PropertyController extends Controller
         ->where('users.eliminado', 0)
         ->whereIn('rol_usuario.id_rol', [1,2])
         ->get();
-        return view('properties.edit', compact('propiedad', 'user', 'paises', 'regiones', 'provincias', 'comunas', 'nivelesUsoPropiedad', 
-        'tiposPropiedades', 'expertosVendedores', 'estados', 'caracteristicasPropiedades', 'caracteristicaPorPropiedad', 'propietarios', 'usuarioPropietario'));
+
+        $fotos = Foto::where('idPropiedad', $id)->get();
+        return view('back-office.properties.edit', compact('propiedad', 'user', 'paises', 'regiones', 'provincias', 'comunas', 'nivelesUsoPropiedad', 
+        'tiposPropiedades', 'expertosVendedores', 'estados', 'caracteristicasPropiedades', 'caracteristicaPorPropiedad', 'propietarios', 
+        'usuarioPropietario', 'fotos'));
     }
 
     /**
@@ -259,7 +274,7 @@ class PropertyController extends Controller
             $propiedad->save();
 
             if($request->comodidades != null) {
-                $caracteristicaPropiedad = CaracteristicasPorPropiedades::where('idPropiedad','=',$id)->get();
+                $caracteristicaPropiedad = CaracteristicasPorPropiedades::where('idPropiedad', '=', $id)->get();
                 if($caracteristicaPropiedad)
                 {
                     foreach ($caracteristicaPropiedad as $caracteristicaDeLaPropiedad ) {
@@ -285,15 +300,24 @@ class PropertyController extends Controller
                 $usuarioPropietarioNew->id_propiedad = $id;
                 $usuarioPropietarioNew->save();
             }
+
+            $logTransaccion = new LogTransaccion();
+            $logTransaccion->tipoTransaccion = 'Actualizacion propiedad';
+            $logTransaccion->idUsuario =  Auth::user()->id;
+            $logTransaccion->webclient = $request->userAgent();
+            $logTransaccion->descripcionTransaccion = 'Actualizacion de propiedad con direccion en: '. $request->direccion. ' numero: '.$request->numero.
+            ' Region: '. $request->idRegion. ' Comuna: '. $request->idComuna;
+            $logTransaccion->save();
+
             DB::commit();
-            toastr()->success('Propiedad actualizada exitosamente');
+            toastr()->success('Propiedad actualizada exitosamente', 'Operación exitosa');
             return redirect('/properties');
         } catch (ModelNotFoundException $e) {
-            toastr()->warning('No autorizado');
+            toastr()->warning('No autorizado', 'Advertencia');
             DB::rollback();
             return back()->withInput($request->all());
         } catch (QueryException $e) {
-            toastr()->warning('Ha ocurrido un error, favor intente nuevamente' . $e->getMessage());
+            toastr()->warning('Ha ocurrido un error, favor intente nuevamente' . $e->getMessage(), 'Advertencia');
             DB::rollback();
             return back()->withInput($request->all());
         } catch (DecryptException $e) {
@@ -303,7 +327,7 @@ class PropertyController extends Controller
         } catch (\Exception $e) {
             return $e->getMessage();
             DB::rollback();
-            return back()->withInput($request->all());
+            return back()->withInput($request->all(), 'Error');
         }
     }
 
@@ -326,11 +350,11 @@ class PropertyController extends Controller
             toastr()->info('Para eliminar se debe suspender la propiedad desde su estado');
             return redirect('/properties');
         } catch (ModelNotFoundException $e) {
-            toastr()->warning('No autorizado');
+            toastr()->warning('No autorizado', 'Advertencia');
             DB::rollback();
             return back()->withInput($request->all());
         } catch (QueryException $e) {
-            toastr()->warning('Ha ocurrido un error, favor intente nuevamente' . $e->getMessage());
+            toastr()->warning('Ha ocurrido un error, favor intente nuevamente' . $e->getMessage(), 'Advertencia');
             DB::rollback();
             return back()->withInput($request->all());
         } catch (DecryptException $e) {
@@ -338,9 +362,59 @@ class PropertyController extends Controller
             DB::rollback();
             return back()->withInput($request->all());
         } catch (\Exception $e) {
-            toastr()->warning($e->getMessage());
+            toastr()->warning($e->getMessage(), 'Error');
             DB::rollback();
             return back()->withInput($request->all());
         }
     }
+    // sube imagenes de propiedades
+    public function subirImagen($id, Request $request) 
+    {
+		try {
+			$file = $request->file('file');
+		    $path = public_path() . '/img/propiedad/';
+
+		    $propiedad = Propiedad::where('id', '=', $id)->first();		    
+			$img = \Image::make($file);
+            // insertando logo a foto subida de la propiedad
+			/*$img->insert(public_path() . '/img/logos/otrologo_mini.png', 'center');*/
+            // fin isertar marca de agua
+		    $fileName = uniqid() . $file->getClientOriginalName();
+		    $img->save($path . $fileName);
+
+		    // guardando ruta donde fue almacenada la imagen de la propiedad en la base de datos
+		    $foto = new Foto();
+		    $foto->idPropiedad = $id;
+		    $foto->nombreArchivo = $fileName;
+		    $foto->save();
+
+		} catch (QueryException $e) {
+			toastr()->warning('Error durante la subida de la(s) imagen(es). Revise que los nombres no tengan espacios ni caracteres invalidos', 'Error');
+			return back();
+		}
+	}
+    public function eliminarImagen($id) 
+    {
+		try {
+            if ($id) {
+            	$eliminarFoto = Foto::where('idFoto', '=', $id)->firstOrFail();
+                File::delete(public_path('img/propiedad/' . $eliminarFoto->nombreArchivo));
+            	$eliminarFoto->delete();
+                toastr()->success('Imagen eliminada exitosamente', 'Operación exitosa');
+                return back();
+            } else {
+            	toastr()->warning('Debe indicar un nombre de archivo', 'Advertencia');
+            	return back();
+            }
+		} catch (QueryException $e) {
+			toastr()->error('Error de conexion, favor intente nuevamente');
+			return back();
+		} catch (ModelNotFoundException $e) {
+			toastr()->error('Imagen no encontrada');
+			return back();
+		} catch (Exception $e) {
+			toastr()->error('Se ha producido un error, favor intente nuevamente');
+			return back();
+		}
+	}
 }

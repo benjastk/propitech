@@ -20,4 +20,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('getRegion','Api\DataGeneralController@getRegion');
 Route::get('getProvincia','Api\DataGeneralController@getProvincia');
 Route::get('getComuna','Api\DataGeneralController@getComuna');
+Route::get('getComunaRegion','Api\DataGeneralController@getComunaRegion');
 Route::get('maps/{direccion}','Api\DataGeneralController@maps');
+Route::post('buscarUsuario','Api\DataGeneralController@buscarUsuario');
+Route::post('buscarUsuarioPropietario','Api\DataGeneralController@buscarUsuarioPropietario');
+
+Route::post('/storeCaracteristica', 'Api\CaracteristicaController@storeCaracteristica');
+Route::post('/updateCaracteristica/{propiedad}', 'Api\CaracteristicaController@updateCaracteristica');
+Route::post('/destroyCaracteristica', 'Api\CaracteristicaController@destroyCaracteristica');

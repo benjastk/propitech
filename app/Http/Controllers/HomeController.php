@@ -25,7 +25,7 @@ class HomeController extends Controller
     public function index()
     {
         $user = Auth::user();
-        return view('home', compact('user'));
+        return view('back-office.home', compact('user'));
     }
     public function users()
     {
@@ -33,6 +33,6 @@ class HomeController extends Controller
         $users = User::join('rol_usuario', 'rol_usuario.id_usuario', '=', 'users.id')
         ->join('roles', 'roles.id', '=', 'rol_usuario.id_rol')
         ->get();
-        return view('users', compact('user', 'users'));
+        return view('back-office.users', compact('user', 'users'));
     }
 }
