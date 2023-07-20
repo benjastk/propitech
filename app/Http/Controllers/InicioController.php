@@ -386,9 +386,16 @@ class InicioController extends Controller
         $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
         $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
 
+        $telefonoContacto = ParametroGeneral::where('parametroGeneral', 'TELEFONO CONTACTO')->first();
+        $telefonoContacto2 = ParametroGeneral::where('parametroGeneral', 'TELEFONO CONTACTO 2')->first();
+        $correoContacto = ParametroGeneral::where('parametroGeneral', 'CORREO CONTACTO')->first();
+        $horarioSemana = ParametroGeneral::where('parametroGeneral', 'HORARIO SEMANA')->first();
+        $horarioFinDeSemana = ParametroGeneral::where('parametroGeneral', 'HORARIO FIN DE SEMANA')->first();
+
         $tiposPropiedades = TipoPropiedad::get();
         $tiposComerciales = TipoComercial::get();
         return view('front-end.trabaja-con-nosotros', compact('tiposPropiedades', 'tiposComerciales', 
-        'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram'));
+        'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram',
+        'telefonoContacto', 'telefonoContacto2', 'correoContacto', 'horarioSemana', 'horarioFinDeSemana'));
     }
 }

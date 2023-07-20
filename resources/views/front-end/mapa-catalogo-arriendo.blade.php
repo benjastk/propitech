@@ -24,13 +24,14 @@
 @endsection
 @section('content')
 <section class="position-relative" style="display: contents">
-    <div class="container-fluid px-0" style="height: 100%;
-    position: fixed;">
+    <div class="container-fluid px-0" style="height: 100%; position: fixed; overflow-y: auto;">
         <div class="row no-gutters" style="height: 100%;">
             <div class="col-xl-5 order-1 order-xl-1" id="map-sticky">
                 <div class="map_box_container">
-                <div id="map" style="height: 100%; !important">
-                </div>
+                    <div id="map" clas="d-none d-lg-block d-md-block" style="height: 100% !important">
+                    </div>
+                    <div id="map1" class=".d-none .d-sm-block .d-md-none" style="height: 300px !important; position: relative: !important">
+                    </div>
                 </div>
             </div>
             <div class="col-xl-7 pt-7 pb-11 order-2 order-xl-2 px-3 px-xxl-8" style="overflow: scroll; height: 100%;">
@@ -140,6 +141,61 @@
     mapboxgl.accessToken = 'pk.eyJ1IjoiYmVuamFzdGsiLCJhIjoiY2xnZHYwZ2V0MG82MjNscnl6dXQxZWxsaiJ9.wLKdL8bv-Y9DKI8qSW_AZw';
     var map = new mapboxgl.Map({
         container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [-70.64827, -33.45694],
+        zoom: 10
+    });
+    $('.mapboxgl-canvas').css('height', '100%');
+    map.resize();
+          
+    @if($propiedadesEnArriendo)
+    @foreach($propiedadesEnArriendo as $propiedadArriendo)
+        const popup{{ $propiedadArriendo->id }} = new mapboxgl.Popup({ offset: 25 }).setHTML(
+            `<div class="mappopupdiv">
+                <div > 
+                    <img src="/img/propiedad/{{ $propiedadArriendo->fotoPrincipal }}" style="height: 160px; width: 100%;"alt="">
+                </div>
+                <div style="padding: 10px 10px 15px !important">
+                    <div > 
+                        <h6 style="font-family: 'Poppins', sans-serif;">{{ $propiedadArriendo->direccion }} {{ $propiedadArriendo->numero }}, {{ $propiedadArriendo->nombreComuna }}</h6> 
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <svg class="icon icon-bedroom fs-18 text-primary mr-2">
+                                <use xlink:href="#icon-bedroom"></use>
+                            </svg>
+                            {{ $propiedadArriendo->habitacion }}
+                        </div>
+                        <div class="col-4">
+                            <svg class="icon icon-shower fs-18 text-primary mr-2">
+                                <use xlink:href="#icon-shower"></use>
+                            </svg>
+                            {{ $propiedadArriendo->bano }}
+                        </div>
+                        <div class="col-4">
+                            <svg class="icon icon-square fs-18 text-primary mr-2">
+                                <use xlink:href="#icon-square"></use>
+                            </svg>
+                            {{ $propiedadArriendo->mTotal }}
+                        </div>
+                    </div>
+                    <div >
+                        <h5 style="margin-bottom: 0px !important; text-align: right; margin-top: 7px; color: #096ba0 !important; font-weight: bolder; font-family: 'Poppins', sans-serif;">$ {{ number_format($propiedadArriendo->valorArriendo, 0, ",", ".") }}</h5>
+                    </div>
+                </div>
+            </div>`
+        );
+        var marker{{ $propiedadArriendo->id }} = new mapboxgl.Marker({ color: '#2db5ff' })
+        .setLngLat([{{ $propiedadArriendo->longitud }}, {{ $propiedadArriendo->latitud }}])
+        .addTo(map)
+        .setPopup(popup{{ $propiedadArriendo->id }});
+    @endforeach
+    @endif
+</script>
+<script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoiYmVuamFzdGsiLCJhIjoiY2xnZHYwZ2V0MG82MjNscnl6dXQxZWxsaiJ9.wLKdL8bv-Y9DKI8qSW_AZw';
+    var map = new mapboxgl.Map({
+        container: 'map1',
         style: 'mapbox://styles/mapbox/streets-v11',
         center: [-70.64827, -33.45694],
         zoom: 10

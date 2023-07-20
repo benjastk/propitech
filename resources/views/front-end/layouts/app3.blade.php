@@ -140,20 +140,20 @@
                 </ul>
                 <div class="d-block d-lg-none">
                     <ul class="navbar-nav flex-row ml-auto align-items-center justify-content-lg-end flex-wrap py-2">
-                        <li class="divider"></li>
+                        <!--<li class="divider"></li>
                         <li class="nav-item">
                             <a class="nav-link pl-3 px-2" data-toggle="modal" href="#login-register-modal">Iniciar sesion</a>
-                        </li>
+                        </li>-->
                     </ul>
                 </div>
                 </div>
                 <div class="d-none d-lg-block">
                 <ul class="navbar-nav flex-row ml-auto align-items-center justify-content-lg-end flex-wrap py-2">
-                    <li class="divider"></li>
+                    <!--<li class="divider"></li>
                     <li class="nav-item">
                         <a class="nav-link pl-3 px-2" data-toggle="modal" href="#login-register-modal">Iniciar sesion</a>
                     </li>
-                    <!--<li class="nav-item">
+                    <li class="nav-item">
                     <a class="nav-link px-2 position-relative" href="#">
                         <i class="fal fa-heart fs-large-4"></i>
                         <span class="badge badge-primary badge-circle badge-absolute">1</span>
@@ -227,14 +227,14 @@
                 </div>
                 </div>
                 <div class="mt-0 mt-md-10 row">
-                <ul class="list-inline mb-0 col-md-6 mr-auto">
-                    <li class="list-inline-item mr-6">
-                        <a href="#" class="text-muted lh-26 font-weight-500 hover-white">Terms of Use</a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a href="#" class="text-muted lh-26 font-weight-500 hover-white">Privacy Policy</a>
-                    </li>
-                </ul>
+                    <!--<ul class="list-inline mb-0 col-md-6 mr-auto">
+                        <li class="list-inline-item mr-6">
+                            <a href="#" class="text-muted lh-26 font-weight-500 hover-white">Terms of Use</a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#" class="text-muted lh-26 font-weight-500 hover-white">Privacy Policy</a>
+                        </li>
+                    </ul>-->
                 <p class="col-md-auto mb-0 text-muted">
                     © Propitech 2023. Todos los derechos reservados
                 </p>

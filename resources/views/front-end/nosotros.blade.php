@@ -20,21 +20,19 @@
 
 <section class="bg-patten-03 bg-gray-01 pb-13">
     <div class="container">
-        <div class="card border-0 mt-n13 z-index-3 mb-12">
-            <div class="card-body p-6 px-lg-14 py-lg-13">
+        <div class="card border-0 mt-n13 z-index-3 mb-6">
+            <div class="card-body p-6 px-lg-8 py-lg-8">
                 <p class="letter-spacing-263 text-uppercase text-primary mb-6 font-weight-500 text-center">Bienvenido a Propitech</p>
-                <h2 class="text-heading mb-4 fs-22 fs-md-32 text-center lh-16 px-6">Trabajamos todos los dias para entregarte
-                    un servicio profesional y de calidad. </h2>
+                <h2 class="text-heading mb-4 fs-22 fs-md-32 text-center lh-16 px-6">Somos Propitech</h2>
                 <p class="text-center px-lg-11 fs-15 lh-17 mb-11">
-                Durante este ultimo año, hemos vendido y arrendado mas de 200 propiedades, contamos con mas de 150 propiedades en todo el pais. 
-                Visita nuestra tienda para encontrar esa propiedad que tanto buscas y contactanos para poder asesorarte en tu proximo hogar.
+                Propitech, es una empresa dedicada al corretaje y a la administración de propiedades. El éxito se debe principalmente al 
+                arduo trabajo, con el objetivo de proporcionar a los clientes un servicio dinámico y satisfactorio en el negocio de corretaje de 
+                propiedades.
                 </p>
             </div>
         </div>
         <h2 class="text-dark lh-1625 text-center mb-2 fs-22 fs-md-32">Nuestros servicios</h2>
-        <p class="mxw-751 text-center mb-1 px-8">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-        eiusmod tempor
-        incididunt ut labore et dolore magna aliqua. Ut enim</p>
+        <p class="mxw-751 text-center mb-1 px-8">Tenemos todo lo que necesitas para ayudarte con tu propiedad.</p>
         <div class="row mt-8">
             <div class="col-md-4 mb-6 mb-lg-0">
                 <div class="card shadow-2 px-7 pb-6 pt-4 h-100 border-0">
@@ -45,8 +43,8 @@
                 <div class="card-body px-0 pt-6 pb-0 text-center">
                     <h4 class="card-title fs-18 lh-17 text-dark mb-2">Administracion de propiedades</h4>
                     <p class="card-text px-2">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                    incididunt ut labore et dolore magna
+                        Administramos tu propiedad y nos encargamos de publicarla en los mejores portales para buscar al arrendatario
+                        que buscas.
                     </p>
                 </div>
                 </div>
@@ -61,8 +59,7 @@
                 <div class="card-body px-0 pt-6 pb-0 text-center">
                     <h4 class="card-title fs-18 lh-17 text-dark mb-2">Venta de inmuebles</h4>
                     <p class="card-text px-2">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                    incididunt ut labore et dolore magna
+                        Nos encargamos de la venta de tu propiedad desde inicio a fin para que tu comprador quede satisfecho con su nuevo hogar.
                     </p>
                 </div>
                 </div>
@@ -75,10 +72,9 @@
                     </span>
                 </div>
                 <div class="card-body px-0 pt-6 text-center pb-0">
-                    <h4 class="card-title fs-18 lh-17 text-dark mb-2">Asesorias en arriendos</h4>
+                    <h4 class="card-title fs-18 lh-17 text-dark mb-2">Asesorias en ventas y arriendos</h4>
                     <p class="card-text px-2">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                    incididunt ut labore et dolore magna
+                    Contáctanos y te ofreceremos soluciones acordes a las que necesitas para vender o arrendar tu propiedad.
                     </p>
                 </div>
                 </div>
@@ -86,55 +82,18 @@
         </div>
     </div>
 </section>
-<section class="py-12">
+<section class="py-8">
     <div class="container">
         <h2 class="text-dark lh-1625 text-center mb-2 fs-22 fs-md-32">Nuestro equipo</h2>
-        <p class="mxw-751 text-center mb-1 px-8">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-        eiusmod tempor
-        incididunt ut labore et dolore magna aliqua. Ut enim</p>
+        <p class="mxw-751 text-center mb-1 px-8">Tenemos al mejor equipo de expertos en asesoría inmobiliaria</p>
         <div class="row">
-            <div class="col-lg-3 col-sm-6 mb-sm-0 mb-7">
-                <div class="card border-0 our-team text-center">
-                <div class="rounded overflow-hidden bg-hover-overlay d-inline-block">
-                    <img class="card-img" src="/front/images/our-team-04.jpg" alt="Dollie Horton">
-                    <ul class="list-inline text-gray-lighter position-absolute w-100 m-0 p-0 z-index-2">
-                        <li class="list-inline-item m-0">
-                            <a href="#"
-                                        class="w-32px h-32 rounded shadow-xxs-3 bg-hover-primary bg-white hover-white text-body d-flex align-items-center justify-content-center"><i
-                                            class="fab fa-twitter"></i></a>
-                        </li>
-                        <li class="list-inline-item mr-0 ml-2">
-                            <a href="#"
-                                        class="w-32px h-32 rounded shadow-xxs-3 bg-hover-primary bg-white hover-white text-body d-flex align-items-center justify-content-center"><i
-                                            class="fab fa-facebook-f"></i></a>
-                        </li>
-                        <li class="list-inline-item mr-0 ml-2">
-                            <a href="#"
-                                        class="w-32px h-32 rounded shadow-xxs-3 bg-hover-primary bg-white hover-white text-body d-flex align-items-center justify-content-center"><i
-                                            class="fab fa-instagram"></i></a>
-                        </li>
-                        <li class="list-inline-item mr-0 ml-2">
-                            <a href="#"
-                                        class="w-32px h-32 rounded shadow-xxs-3 bg-hover-primary bg-white hover-white text-body d-flex align-items-center justify-content-center"><i
-                                            class="fab fa-linkedin-in"></i></a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="card-body pt-5">
-                    <h3 class="fs-16 text-heading mb-1 lh-2">
-                    <a href="#" class="text-heading hover-primary">Benjamin Perez</a>
-                    </h3>
-                    <p>Director comercial</p>
-                </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6 mb-sm-0 mb-7">
+            <div class="col-lg-4 col-sm-6 mb-sm-0 mb-7">
                 <div class="card border-0 our-team text-center">
                 <div class="rounded overflow-hidden bg-hover-overlay d-inline-block">
                     <img class="card-img" src="/front/images/our-team-05.jpg"
                                 alt="Dollie Horton">
                     <ul class="list-inline text-gray-lighter position-absolute w-100 m-0 p-0 z-index-2">
-                        <li class="list-inline-item m-0">
+                        <!--<li class="list-inline-item m-0">
                             <a href="#"
                                         class="w-32px h-32 rounded shadow-xxs-3 bg-hover-primary bg-white hover-white text-body d-flex align-items-center justify-content-center"><i
                                             class="fab fa-twitter"></i></a>
@@ -148,7 +107,7 @@
                             <a href="#"
                                         class="w-32px h-32 rounded shadow-xxs-3 bg-hover-primary bg-white hover-white text-body d-flex align-items-center justify-content-center"><i
                                             class="fab fa-instagram"></i></a>
-                        </li>
+                        </li>-->
                         <li class="list-inline-item mr-0 ml-2">
                             <a href="#"
                                         class="w-32px h-32 rounded shadow-xxs-3 bg-hover-primary bg-white hover-white text-body d-flex align-items-center justify-content-center"><i
@@ -164,13 +123,13 @@
                 </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-sm-6 mb-sm-0 mb-7">
+            <div class="col-lg-4 col-sm-6 mb-sm-0 mb-7">
                 <div class="card border-0 our-team text-center">
                 <div class="rounded overflow-hidden bg-hover-overlay d-inline-block">
                     <img class="card-img" src="/front/images/our-team-06.jpg"
                                 alt="Dollie Horton">
                     <ul class="list-inline text-gray-lighter position-absolute w-100 m-0 p-0 z-index-2">
-                        <li class="list-inline-item m-0">
+                        <!--<li class="list-inline-item m-0">
                             <a href="#"
                                         class="w-32px h-32 rounded shadow-xxs-3 bg-hover-primary bg-white hover-white text-body d-flex align-items-center justify-content-center"><i
                                             class="fab fa-twitter"></i></a>
@@ -184,7 +143,7 @@
                             <a href="#"
                                         class="w-32px h-32 rounded shadow-xxs-3 bg-hover-primary bg-white hover-white text-body d-flex align-items-center justify-content-center"><i
                                             class="fab fa-instagram"></i></a>
-                        </li>
+                        </li>-->
                         <li class="list-inline-item mr-0 ml-2">
                             <a href="#"
                                         class="w-32px h-32 rounded shadow-xxs-3 bg-hover-primary bg-white hover-white text-body d-flex align-items-center justify-content-center"><i
@@ -200,13 +159,13 @@
                 </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-sm-6 mb-sm-0 mb-7">
+            <div class="col-lg-4 col-sm-6 mb-sm-0 mb-7">
                 <div class="card border-0 our-team text-center">
                 <div class="rounded overflow-hidden bg-hover-overlay d-inline-block">
                     <img class="card-img" src="/front/images/our-team-07.jpg"
                                 alt="Dollie Horton">
                     <ul class="list-inline text-gray-lighter position-absolute w-100 m-0 p-0 z-index-2">
-                        <li class="list-inline-item m-0">
+                        <!--<li class="list-inline-item m-0">
                             <a href="#"
                                         class="w-32px h-32 rounded shadow-xxs-3 bg-hover-primary bg-white hover-white text-body d-flex align-items-center justify-content-center"><i
                                             class="fab fa-twitter"></i></a>
@@ -220,7 +179,7 @@
                             <a href="#"
                                         class="w-32px h-32 rounded shadow-xxs-3 bg-hover-primary bg-white hover-white text-body d-flex align-items-center justify-content-center"><i
                                             class="fab fa-instagram"></i></a>
-                        </li>
+                        </li>-->
                         <li class="list-inline-item mr-0 ml-2">
                             <a href="#"
                                         class="w-32px h-32 rounded shadow-xxs-3 bg-hover-primary bg-white hover-white text-body d-flex align-items-center justify-content-center"><i
@@ -242,14 +201,19 @@
 <section>
     <div class="container">
         <h2 class="text-heading mb-4 fs-22 fs-md-32 text-center lh-16 px-md-13">
-        Propitech es una agencia inmobiliaria que ayuda a las personas a vivir de forma mas comoda y armoniosa.
+            Nuestro Proposito
         </h2>
         <p class="text-center px-md-17 fs-15 lh-17 mb-8">
-        Nuestro nucleo son las propiedades, por lo que buscamos que tu experiencia al momento de arrendar sea facil y accesible,
-        al mismo tiempo trabajamos dia a dia para entregarte los mejores precios del mercado.
+            Entregar asesoría de calidad, con gran enfoque en la atención a nuestros clientes, facilitando a los usuarios la compra, 
+            venta y arriendo del inmueble, ya que contamos con personal capacitado en el área. Entregamos, además, asistencia y orientación 
+            en cuanto a la obtención de créditos, trámites, apoyo en documentación, revisión de antecedentes financieros de potenciales clientes.
+        </p>
+        <br>
+        <p class="text-center px-md-17 fs-15 lh-17 mb-8">
+        Experimenta nuestra innovación y únete al cambio
         </p>
         <div class="text-center mb-11">
-            <a href="#" class="btn btn-lg btn-primary">Trabaja con nosotros</a>
+            <a href="/trabaja-con-nosotros" class="btn btn-lg btn-primary">Trabaja con nosotros</a>
         </div>
     </div>
     </section>

@@ -5,14 +5,13 @@
 @section('css')
 @endsection
 @section('content')
-<section class="bg-patten-05 mb-13">
+<section class="bg-patten-05 mb-13 mt-13">
     <div class="container">
         <h2 class="text-heading mb-2 fs-22 fs-md-32 text-center lh-16 mxw-571 px-lg-8">
             Publica tu propiedad con nosotros
         </h2>
         <p class="text-center mxw-670 mb-8">
-            Lorem ipsum dolor sit amet, consec tetur cing elit. Suspe ndisse suscorem ipsum dolor sit ametcipsum
-            ipsumg consec tetur cing elitelit.
+        Dejanos tus datos y el de tu propiedad y uno de nuestros asesores te contactará para ayudarte a vender o arrendar tu propiedad en simples pasos.
         </p>
         <form class="mxw-774">
             <div class="row">

@@ -23,7 +23,7 @@
         <div class="card mt-n13 z-index-3 pt-10 border-0">
             <div class="card-body p-0">
                 <h2 class="text-dark lh-1625 text-center mb-2">Nuestros servicios</h2>
-                <p class="mxw-751 text-center mb-8 px-8">Contamos con servicios que tu necesitas para ayudarte a vender o arrendar tu propiedad.
+                <p class="mxw-751 text-center mb-8 px-8">Contamos con servicios que tú necesitas para ayudarte a vender o arrendar tu propiedad.
                 </p>
             </div>
         </div>
@@ -38,7 +38,7 @@
                     <div class="card-body px-0 pt-6 pb-0 text-center">
                         <h4 class="card-title fs-18 lh-17 text-dark mb-2">Venta de propiedades</h4>
                         <p class="card-text px-2">
-                            Nos encargamos de vender tu propiedad publicandola en los mejores portales inmobiliarios.
+                        Nos encargamos de vender tu propiedad publicándola en los mejores portales inmobiliarios.
                         </p>
                     </div>
                 </div>
@@ -67,7 +67,7 @@
                     <div class="card-body px-0 pt-6 text-center pb-0">
                         <h4 class="card-title fs-18 lh-17 text-dark mb-2">Servicios de asesorias</h4>
                         <p class="card-text px-2">
-                            Te asesoramos en el proceso de compra y venta de tu propiedad, tambien te ofrecemos los mejores precios del mercado en arriendos.
+                        Te asesoramos en el proceso de compra y venta de tu propiedad, también te ofrecemos los mejores precios del mercado en arriendos.
                         </p>
                     </div>
                 </div>
@@ -123,7 +123,7 @@
             <h1 class="fs-30 lh-1 mb-0 text-heading font-weight-600 mb-6">Planes de administración</h1>
         </div>
         <div class="container">
-            <h4 class="mb-2 fs-22 lh-15 text-heading">Te ofrecemos los mejores planes del mercardo con la mejor administración:</h4>
+            <h4 class="mb-2 fs-22 lh-15 text-heading">Te ofrecemos los mejores planes del mercado con la mejor administración:</h4>
             <div class="row">
                 @if($planes)
                 @foreach($planes as $plan)
@@ -171,7 +171,7 @@
                             @endforeach
                             @endif
                         </ul>
-                        <a href="#" class="btn btn-primary btn-block h-52 pl-4 pr-3 d-flex justify-content-between align-items-center">¡Lo quiero!
+                        <a href="#formularioPlanes" class="btn btn-primary btn-block h-52 pl-4 pr-3 d-flex justify-content-between align-items-center">¡Lo quiero!
                         <i class="far fa-arrow-right ml-1"></i>
                         </a>
                     </div>
@@ -181,9 +181,9 @@
                 @endif
             </div>
         </div>
-        <hr class="mb-11">
+        <hr class="mb-11" id="formularioPlanes">
         <h2 class="text-heading mb-2 fs-22 fs-md-32 text-center lh-16 mxw-571 px-lg-8">
-            ¿Estas interesado en alguno de nuestros servicios? ¡Contactanos!
+        ¿Estás interesado en alguno de nuestros servicios? ¡Contactanos!
         </h2>
         <!--<p class="text-center mxw-670 mb-8">
             Lorem ipsum dolor sit amet, consec tetur cing elit. Suspe ndisse suscorem ipsum dolor sit ametcipsum

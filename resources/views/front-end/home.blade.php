@@ -97,7 +97,7 @@
     </div>
 </section>
 <section>
-    <div class="slick-slider mx-0" data-slick-options='{"slidesToShow": 1, "autoplay":false,"dots":false,"arrows":false}'>
+    <div class="slick-slider mx-0" data-slick-options='{"slidesToShow": 1, "autoplay":true,"dots":false,"arrows":false}'>
         @if(count($propiedadesDestacadas))
         @foreach($propiedadesDestacadas as $destacada)
         <div class="box px-0 d-flex flex-column">
@@ -322,40 +322,41 @@
         <span class="heading-divider mx-auto"></span>
         <div class="row mt-7 mb-6 mb-lg-11">
             <div class="col-lg-6 mb-6 mb-lg-0">
-                <div class="media rounded-lg bg-white border border-hover shadow-xs-2 shadow-hover-lg-1 px-7 py-8 hover-change-image flex-column flex-sm-row h-100"
-                        data-animate="fadeInUp">
-                    <img src="front/images/group-16.png" alt="Buy a new home" class="mb-6 mb-sm-0 mr-sm-6">
-                    <div class="media-body">
-                    <a href="#" class="text-decoration-none d-flex align-items-center">
-                        <h4 class="fs-20 lh-1625 text-secondary mb-1">Comprar una propiedad</h4>
-                        <div class="position-relative d-flex align-items-center ml-2">
-                        <span class="image text-primary position-absolute pos-fixed-left-center fs-16"><i class="fal fa-long-arrow-right"></i></span>
-                        <span class="text-primary fs-42 lh-1 hover-image d-flex align-items-center"><svg class="icon icon-long-arrow"><use xlink:href="#icon-long-arrow"></use></svg></span>
+                <a href="/catalogo-propiedades-venta">
+                    <div class="media rounded-lg bg-white border border-hover shadow-xs-2 shadow-hover-lg-1 px-7 py-8 hover-change-image flex-column flex-sm-row h-100"
+                            data-animate="fadeInUp">
+                        <img src="front/images/group-16.png" alt="Buy a new home" class="mb-6 mb-sm-0 mr-sm-6">
+                        <div class="media-body">
+                            <h4 class="fs-20 lh-1625 text-secondary mb-1">Comprar una propiedad</h4>
+                            <div class="position-relative d-flex align-items-center ml-2">
+                            <span class="image text-primary position-absolute pos-fixed-left-center fs-16"><i class="fal fa-long-arrow-right"></i></span>
+                            <span class="text-primary fs-42 lh-1 hover-image d-flex align-items-center"><svg class="icon icon-long-arrow"><use xlink:href="#icon-long-arrow"></use></svg></span>
+                            </div>
+                        <p class="mb-0">
+                            Revisa nuestra tienda y encuentra las mejores propiedades en venta.
+                        </p>
                         </div>
-                    </a>
-                    <p class="mb-0">
-                        Lorem ipsum dolor sit amet, consec tetur cing elit. Suspe ndisse suscipit
-                    </p>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col-lg-6 mb-6 mb-lg-0">
+                <a href="/catalogo-propiedades">
                 <div class="media rounded-lg bg-white border border-hover shadow-xs-2 shadow-hover-lg-1 px-7 py-8 hover-change-image flex-column flex-sm-row h-100"
                         data-animate="fadeInUp">
                     <img src="front/images/group-17.png" alt="Sell a home" class="mb-6 mb-sm-0 mr-sm-6">
                     <div class="media-body">
-                    <a href="#" class="text-decoration-none d-flex align-items-center">
                         <h4 class="fs-20 lh-1625 text-secondary mb-1">Arrendar una propiedad</h4>
                         <div class="position-relative d-flex align-items-center ml-2">
                         <span class="image text-primary position-absolute pos-fixed-left-center fs-16"><i class="fal fa-long-arrow-right"></i></span>
                         <span class="text-primary fs-42 lh-1 hover-image d-flex align-items-center"><svg class="icon icon-long-arrow"><use xlink:href="#icon-long-arrow"></use></svg></span>
                         </div>
-                    </a>
+                    
                     <p class="mb-0">
-                        Lorem ipsum dolor sit amet, consec tetur cing elit. Suspe ndisse suscipit
+                        ¿Buscar arriendo? Tenemos los mejores precios del mercado.
                     </p>
                     </div>
                 </div>
+                </a>
             </div>
         </div>
     </div>
@@ -367,7 +368,7 @@
     </section>
     <section>
         <div class="container">
-            <h4 class="mb-2 fs-22 lh-15 text-heading">Te ofrecemos los mejores planes del mercardo con la mejor administración</h4>
+            <h4 class="mb-2 fs-22 lh-15 text-heading">Te ofrecemos los mejores planes del mercado con la mejor administración</h4>
             <div class="row">
                 @if($planes)
                 @foreach($planes as $plan)
@@ -415,7 +416,7 @@
                             @endforeach
                             @endif
                         </ul>
-                        <a href="#" class="btn btn-primary btn-block h-52 pl-4 pr-3 d-flex justify-content-between align-items-center">¡Lo quiero!
+                        <a href="/servicios-administracion-propiedades#formularioPlanes" class="btn btn-primary btn-block h-52 pl-4 pr-3 d-flex justify-content-between align-items-center">¡Lo quiero!
                         <i class="far fa-arrow-right ml-1"></i>
                         </a>
                     </div>
@@ -433,7 +434,7 @@
                     <img src="front/images/customer-support.png" alt="Sell a home" class="mb-6 mb-sm-0 mr-sm-6">
                 </div>
                 <div class="col-md-6 col-sm-12 pb-7 pb-lg-0">
-                    <h2 class="text-heading mb-4 fs-22 lh-15 pr-6" style="color: white !important; font-weight: bolder; text-align: center">¿Necesitas asesoria? ¡Contactanos!</h2>
+                    <h2 class="text-heading mb-4 fs-22 lh-15 pr-6" style="color: white !important; font-weight: bolder; text-align: center">¿Necesitas asesoría? ¡Contactanos!</h2>
                     <form action="{{ route('formulario-contacto-propiedades')}}" method="post" >
                         @csrf
                         <div class="row">
@@ -469,7 +470,7 @@
         <div class="container">
         <p class="text-primary letter-spacing-263 text-uppercase lh-186 text-center mb-0">Noticias y articulos</p>
         <h2 class="text-center lh-1625 text-dark pb-1">
-            Ultimos articulos publicados
+        Últimos artículos publicados
         </h2>
         <div class="mx-n2">
             <div class="slick-slider mt-6 mx-n1 slick-dots-mt-0" data-slick-options='{"slidesToShow": 3, "infinite":true, "autoplay":true,"arrows":true,"dots":false,"responsive":[{"breakpoint": 992,"settings": {"slidesToShow":2}},{"breakpoint": 768,"settings": {"slidesToShow": 2,"autoplay":true}},{"breakpoint": 576,"settings": {"slidesToShow": 1,"arrows":false,"dots":true,"autoplay":true}}]}'>
