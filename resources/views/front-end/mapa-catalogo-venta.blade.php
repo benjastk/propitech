@@ -87,7 +87,7 @@
                             <img src="/img/propiedad/{{ $propiedadVenta->fotoPrincipal }}" style="height: 160px; width: 100%;"alt="Villa on Hollywood Boulevard">
                             <div class="card-img-overlay d-flex flex-column justify-content-between h-100">
                             <div>
-                                <span class="badge badge-orange mr-2">Arriendo</span>
+                                <span class="badge badge-orange mr-2">Venta</span>
                             </div>
                             <ul class="list-inline mb-0 hover-image text-center">
                             </ul>

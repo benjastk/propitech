@@ -30,6 +30,12 @@
                     </a>
                 </li>
                 <li>
+                    <a href="/mandatos" class="waves-effect">
+                        <i class="bx bxs-home-circle"></i>
+                        <span>Mandatos de Administracion</span>
+                    </a>
+                </li>
+                <li>
                     <a href="/noticias" class="waves-effect">
                         <i class="bx bxs-news"></i>
                         <span>Publicaciones</span>

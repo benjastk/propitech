@@ -34,7 +34,7 @@
                                                 <th scope="col" >Arrendatario</th>
                                                 <th scope="col" >Propiedad</th>
                                                 <th scope="col" >Estado</th>
-                                                <th scope="col" >valor</th>
+                                                <th scope="col" >Comision Administracion</th>
                                                 <th scope="col" >Acciones</th>
                                             </tr>
                                         </thead>
@@ -48,16 +48,17 @@
                                                 <td>{{ $mandato->nombreArrendatario }} {{ $mandato->apellidoArrendatario }}</td>
                                                 <td>
                                                     <div>
-                                                        @if($mandato->idEstado == 61)
+                                                        @if($mandato->idEstadoMandato == 61)
                                                         <a href="#" class="badge badge-soft-success font-size-11 m-1">{{ $mandato->nombreEstado }}</a>
-                                                        @elseif($mandato->idEstado == 62)
+                                                        @elseif($mandato->idEstadoMandato == 62)
                                                         <a href="#" class="badge badge-soft-danger font-size-11 m-1">{{ $mandato->nombreEstado }}</a>
                                                         @else
                                                         <a href="#" class="badge badge-soft-primary font-size-11 m-1">{{ $mandato->nombreEstado }}</a>
                                                         @endif
                                                     </div>
                                                 </td>
-                                                <td>${{ number_format($mandato->arriendoMensual, 0, '', '.')}}</td>
+                                                <td>{{ $mandato->direccionPropiedad }} {{ $mandato->block }}</td>
+                                                <td>{{ $mandato->comisionAdministracion }}%</td>
                                                 <td>
                                                     <ul class="list-inline font-size-20 contact-links mb-0">
                                                         <!--<li class="list-inline-item px-2">

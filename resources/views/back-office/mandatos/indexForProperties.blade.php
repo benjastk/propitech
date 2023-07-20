@@ -28,13 +28,13 @@
                                     <table class="table table-centered table-nowrap table-hover">
                                         <thead class="thead-light">
                                             <tr>
-                                                <th scope="col" >Desde</th>
-                                                <th scope="col" >Hasta</th>
+                                            <th scope="col" >Fecha de Inicio</th>
+                                                <th scope="col" >Fecha de Termino</th>
                                                 <th scope="col" >Propietario</th>
                                                 <th scope="col" >Arrendatario</th>
                                                 <th scope="col" >Propiedad</th>
                                                 <th scope="col" >Estado</th>
-                                                <th scope="col" >valor</th>
+                                                <th scope="col" >Comision Administracion</th>
                                                 <th scope="col" >Acciones</th>
                                             </tr>
                                         </thead>
@@ -57,7 +57,8 @@
                                                         @endif
                                                     </div>
                                                 </td>
-                                                <td>${{ number_format($mandato->arriendoMensual, 0, '', '.')}}</td>
+                                                <td>{{ $mandato->direccionPropiedad }} {{ $mandato->block }}</td>
+                                                <td>{{ $mandato->comisionAdministracion }}%</td>
                                                 <td>
                                                     <ul class="list-inline font-size-20 contact-links mb-0">
                                                         <!--<li class="list-inline-item px-2">

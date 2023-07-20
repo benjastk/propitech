@@ -176,11 +176,11 @@
                     <img src="/front/images/logo-white-primary.png" alt="HomeID">
                     </a>
                     <div class="lh-26 font-weight-500">
-                    <p class="mb-0">Santiago de Chile</p>
-                    <a class="d-block text-muted hover-white" href="mailto:contact@homeid.com">contacto@propitech.cl</a>
+                    <p class="mb-0">{{ $direccionHome->valorParametro }}</p>
+                    <a class="d-block text-muted hover-white" href="mailto:{{ $correoHome->valorParametro }} ">{{ $correoHome->valorParametro }}</a>
                     <a class="d-block text-lighter font-weight-bold fs-15 hover-white"
-                            href="tel:(+56)989583599">+56989583599</a>
-                    <a class="d-block text-muted hover-white" href=".">www.homeid.com</a>
+                            href="tel:{{ $telefonoWhatsapp->valorParametro }}">{{ $telefonoWhatsapp->valorParametro }}</a>
+                    <!--<a class="d-block text-muted hover-white" href=".">www.homeid.com</a>-->
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-2 mb-6 mb-md-0">
@@ -215,16 +215,13 @@
                     </form>
                     <ul class="list-inline mb-0">
                         <li class="list-inline-item mr-0">
-                            <a href="#" class="text-white opacity-3 fs-25 px-4 opacity-hover-10"><i class="fab fa-twitter"></i></a>
+                            <a href="{{ $twitter->valorParametro }}" target="_blank" class="text-white opacity-3 fs-25 px-4 opacity-hover-10"><i class="fab fa-twitter"></i></a>
                         </li>
                         <li class="list-inline-item mr-0">
-                            <a href="#" class="text-white opacity-3 fs-25 px-4 opacity-hover-10"><i class="fab fa-facebook-f"></i></a>
+                            <a href="{{ $instagram->valorParametro }}" target="_blank" class="text-white opacity-3 fs-25 px-4 opacity-hover-10"><i class="fab fa-instagram"></i></a>
                         </li>
                         <li class="list-inline-item mr-0">
-                            <a href="#" class="text-white opacity-3 fs-25 px-4 opacity-hover-10"><i class="fab fa-skype"></i></a>
-                        </li>
-                        <li class="list-inline-item mr-0">
-                            <a href="#" class="text-white opacity-3 fs-25 px-4 opacity-hover-10"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="{{ $linkedin->valorParametro }}" target="_blank"  class="text-white opacity-3 fs-25 px-4 opacity-hover-10"><i class="fab fa-linkedin-in"></i></a>
                         </li>
                     </ul>
                 </div>

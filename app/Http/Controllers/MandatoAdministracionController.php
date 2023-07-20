@@ -29,9 +29,11 @@ class MandatoAdministracionController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $mandatosAdministracion = MandatoAdministracion::select('mandatos_propiedad.*', 'estados.nombreEstado', 'propiedades.direccion', 'propiedades.numero', 'propiedades.block')
+        $mandatosAdministracion = MandatoAdministracion::select('mandatos_propiedad.*', 'estados.nombreEstado', 'propiedades.direccion', 
+        'propiedades.numero', 'propiedades.block', 'planes.nombre as nombrePlan', 'planes.comisionAdministracion')
         ->join('propiedades', 'mandatos_propiedad.idPropiedad', '=', 'propiedades.id')
         ->join('estados', 'estados.idEstado', '=', 'mandatos_propiedad.idEstadoMandato')
+        ->join('planes', 'planes.id', '=', 'mandatos_propiedad.idPlan')
         ->paginate(10);
         return view('back-office.mandatos.index', compact('user', 'mandatosAdministracion'));
     }
@@ -91,9 +93,9 @@ class MandatoAdministracionController extends Controller
             $nuevoMandato->idPropietario = $propietario->id;
             $nuevoMandato->tokenMandato = uniqid();
             $nuevoMandato->conTraspaso = 0;
-            $nuevoMandato->porcentajeComision = floatval($planElegido->comisionAdministracion);
+            $nuevoMandato->porcentajeComision = (float) str_replace(['.', ','], ['', '.'], $planElegido->comisionAdministracion);
             $nuevoMandato->idEstadoMandato = $request->idEstadoMandato;
-            $nuevoMandato->creadoPor = session('nombre').' '.session('apellido');
+            $nuevoMandato->creadoPor = Auth::user()->name.' '.Auth::user()->apellido;
             if($usuarioCuentaBancaria)
             {
                 $nuevoMandato->cuentaPropietario = $usuarioCuentaBancaria->numeroCuenta;
@@ -171,9 +173,10 @@ class MandatoAdministracionController extends Controller
     {
         $user = Auth::user();
         $mandatosAdministracion = MandatoAdministracion::select('mandatos_propiedad.*','propiedades.id', 'propiedades.nombrePropiedad', 
-        'estados.nombreEstado', 'estados.idEstado')
+        'estados.nombreEstado', 'estados.idEstado', 'planes.nombre as nombrePlan', 'planes.comisionAdministracion')
         ->join('propiedades', 'mandatos_propiedad.idPropiedad', '=', 'propiedades.id')
         ->join('estados', 'estados.idEstado', '=', 'mandatos_propiedad.idEstadoMandato')
+        ->join('planes', 'planes.id', '=', 'mandatos_propiedad.idPlan')
         ->where('propiedades.id', '=', $id)
         ->get();
         $propiedad = Propiedad::where('id', $id)->first();
@@ -195,7 +198,10 @@ class MandatoAdministracionController extends Controller
         $usuarios = User::get();
         $estadosContrato = Estado::whereIn('idTipoEstado', [14, 18])->get();
         $porcentajeComision = ParametroGeneral::where('parametroGeneral', '=', 'PORCENTAJE DE COMISION')->first();
-        $usuariosCuentasBancarias = UsuarioCuentaBancaria::where('idUsuario', $mandato->idPropietario)->get();
+        $usuariosCuentasBancarias = UsuarioCuentaBancaria::join('bancos', 'bancos.idBanco', '=', 'usuarios_cuentas_bancarias.idBanco')
+        ->join('tipos_cuentas_bancos', 'tipos_cuentas_bancos.idTipoCuenta', '=', 'usuarios_cuentas_bancarias.idTipoCuenta')
+        ->where('idUsuario', $mandato->idPropietario)
+        ->get();
         $propiedad = Propiedad::select('propiedades.id', 'rut', 'rolPropiedad', 'nombrePropiedad', 'propiedades.nombrePropiedad', 'propiedades.direccion', 'propiedades.numero', 'region.nombre as nombreRegion', 
         'comuna.nombre as nombreComuna', 'propiedades.idNivelUsoPropiedad', 'niveles_uso_propiedad.nombreNivelUsoPropiedad', 'propiedades.valorArriendo')
         ->join('region', 'region.id', '=', 'propiedades.idRegion')
@@ -219,8 +225,7 @@ class MandatoAdministracionController extends Controller
         try{
             DB::beginTransaction();
 
-            return $planElegido = PlanAdministracion::where('id', $request->idPlan)->first();
-            return (double)$planElegido->comisionAdministracion;
+            $planElegido = PlanAdministracion::where('id', $request->idPlan)->first();
             $usuarioCuentaBancaria = UsuarioCuentaBancaria::where('idUsuarioCuentaBancaria', '=', $request->cuentaBancaria)
             ->join('bancos', 'bancos.idBanco', '=', 'usuarios_cuentas_bancarias.idBanco')
             ->first();
@@ -228,10 +233,10 @@ class MandatoAdministracionController extends Controller
             $propietario = User::where('rut', '=', $request->rutPropietario)->first();
             $actualizarMandato = MandatoAdministracion::where('idMandatoPropiedad', $id)->first();
             $actualizarMandato->fill($request->all());
-            $actualizarMandato->idPropietario = $propietario->idUsuario;
+            $actualizarMandato->idPropietario = $propietario->id;
             $actualizarMandato->idEstadoMandato = $request->idEstadoMandato;
-            $actualizarMandato->porcentajeComision = (float)$planElegido->comisionAdministracion;
-            $actualizarMandato->creadoPor = session('nombre').' '.session('apellido');
+            $actualizarMandato->porcentajeComision = (float) str_replace(['.', ','], ['', '.'], $planElegido->comisionAdministracion);
+            $actualizarMandato->creadoPor = Auth::user()->name.' '.Auth::user()->apellido;
             if($usuarioCuentaBancaria)
             {
                 $actualizarMandato->cuentaPropietario = $usuarioCuentaBancaria->numeroCuenta;
@@ -259,6 +264,14 @@ class MandatoAdministracionController extends Controller
                 $actualizarMandato->apellidoArrendatario = $contrato->apellidoArrendatario;
                 $actualizarMandato->correoArrendatario = $contrato->correoArrendatario;
                 $actualizarMandato->telefonoArrendatario = $contrato->numeroTelefonoArrendatario;
+            }
+            if($request->seguroDeArriendo)
+            {
+                $actualizarMandato->seguroDeArriendo = 1;
+            }
+            else
+            {
+                $actualizarMandato->seguroDeArriendo = 0;
             }
             $actualizarMandato->save();
             $nuevoLogTransaccion = new LogTransaccion();
@@ -297,8 +310,41 @@ class MandatoAdministracionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $eliminarMandato = MandatoAdministracion::where('idMandatoPropiedad', '=', $request->id)->first();
+            $eliminarMandato->idEstadoMandato = 62;
+            $eliminarMandato->save();
+
+            $logTransaccion = new LogTransaccion();
+            $logTransaccion->tipoTransaccion = 'Eliminacion de Mandato de administracion';
+            $logTransaccion->idUsuario =  Auth::user()->id;
+            $logTransaccion->webclient = $request->userAgent();
+            $logTransaccion->descripcionTransaccion = 'Eliminacion de Mandato de administracion en propiedad: '. $eliminarMandato->direccionPropiedad. ' - Propietario: '.
+            $eliminarMandato->nombrePropietario.' '. $eliminarMandato->apellidoPropietario;
+            $logTransaccion->save();
+
+            toastr()->success('Mandato eliminado correctamente');
+            DB::commit();
+            return redirect('/mandatos');
+        } catch (ModelNotFoundException $e) {
+            toastr()->warning('No autorizado');
+            DB::rollback();
+            return back();
+        } catch (QueryException $e) {
+            toastr()->warning('Ha ocurrido un error, favor intente nuevamente' . $e->getMessage());
+            DB::rollback();
+            return back();
+        } catch (DecryptException $e) {
+            toastr()->info('Ocurrio un error al intentar acceder al recurso solicitado');
+            DB::rollback();
+            return back();
+        } catch (\Exception $e) {
+            toastr()->warning($e->getMessage());
+            DB::rollback();
+            return back();
+        }
     }
 }

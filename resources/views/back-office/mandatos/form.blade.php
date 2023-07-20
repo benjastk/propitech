@@ -188,7 +188,7 @@
             @else
                 <select class="form-control" name="cuentaBancaria" id="cuentaBancaria" required>
                     @foreach ($usuariosCuentasBancarias as $usuarioCuentaBancaria)
-                        <option value="{{ $usuarioCuentaBancaria->idUsuarioCuentaBancaria }}" {{ ($usuarioCuentaBancaria->idUsuarioCuentaBancaria == $mandato->idUsuarioCuentaBancaria) ? 'selected' : '' }}>{{ $usuarioCuentaBancaria->numeroCuenta }} {{ $usuarioCuentaBancaria->nombreBanco }}</option>
+                        <option value="{{ $usuarioCuentaBancaria->idUsuarioCuentaBancaria }}" {{ ($usuarioCuentaBancaria->idUsuarioCuentaBancaria == $mandato->idUsuarioCuentaBancaria) ? 'selected' : '' }}>{{ $usuarioCuentaBancaria->numeroCuenta }} - {{ $usuarioCuentaBancaria->nombreBanco }} - {{ $usuarioCuentaBancaria->nombreTipoCuenta }}</option>
                     @endforeach
                 </select>
             @endif
