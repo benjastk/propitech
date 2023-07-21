@@ -28,7 +28,7 @@ class FormularioCanje extends Mailable
      */
     public function build()
     {
-        return $this->from('admin@propitech.cl')
+        return $this->from('contacto@propitech.cl')
                 ->subject('Formulario Canje Propitech.cl')
                 ->view('emails.mailCanje');
     }
