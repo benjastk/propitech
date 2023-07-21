@@ -3,9 +3,6 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="Real Estate Html Template">
-        <meta name="author" content="">
-        <meta name="generator" content="Jekyll v4.1.1">
         @yield('titulo')
         <!-- Google fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap"
@@ -25,22 +22,6 @@
         <link rel="stylesheet" href="/front/css/themes.css">
         <!-- Favicons -->
         <link rel="icon" href="/front/images/favicon.ico">
-        <!-- Twitter -->
-        <meta name="twitter:card" content="summary">
-        <meta name="twitter:site" content="@">
-        <meta name="twitter:creator" content="@">
-        <meta name="twitter:title" content="Home 05">
-        <meta name="twitter:description" content="Real Estate Html Template">
-        <meta name="twitter:image" content="/front/images/homeid-social-logo.png">
-        <!-- Facebook -->
-        <meta property="og:url" content="home-05.html">
-        <meta property="og:title" content="Home 05">
-        <meta property="og:description" content="Real Estate Html Template">
-        <meta property="og:type" content="website">
-        <meta property="og:image" content="/front/images/homeid-social.png">
-        <meta property="og:image:type" content="image/png">
-        <meta property="og:image:width" content="1200">
-        <meta property="og:image:height" content="630">
         <style>
             .bg-secondary
             {
@@ -48,9 +29,32 @@
             }
             
         </style>
+        <style>
+            .whatsapp {
+                position:fixed;
+                width:60px;
+                height:60px;
+                bottom:40px;
+                right:40px;
+                background-color:#25d366;
+                color:#FFF;
+                border-radius:50px;
+                text-align:center;
+                font-size:30px;
+                z-index:100;
+            }
+
+            .whatsapp-icon {
+                margin-top:13px;
+            }
+        </style>
         @yield('css')
     </head>
     <body>
+        <a href="https://wa.me/{{ $telefonoWhatsapp->valorParametro}}?text=Hola,%20Estoy%20interesado%20en%20saber%20mas%20de%20el%20servicio" 
+            class="whatsapp" target="_blank"> 
+            <i class="fab fa-whatsapp" style="margin-top: 9px; font-size: 40px;"></i>
+        </a>
         <header class="main-header navbar-dark bg-secondary pb-lg-9 header-sticky header-sticky-smart header-mobile-lg" style="padding-bottom: 0px !important">
         <div class="sticky-area bg-secondary">
             <div class="container">

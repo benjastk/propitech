@@ -112,6 +112,7 @@ class InicioController extends Controller
         $paises = Pais::get();
         $regiones = Region::get();
         $provincias = Provincia::get();
+        $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
         if($request->tipoVenta == 1)
         {
             $propiedadesEnVenta1 = Propiedad::select('propiedades.*', 'comuna.nombre as nombreComuna', 'provincia.nombre as nombreProvincia',
@@ -130,7 +131,8 @@ class InicioController extends Controller
                 $propiedadesEnVenta1->where('propiedades.idComuna', $request->comuna);
             }
             $propiedadesEnVenta = $propiedadesEnVenta1->get();
-            return view('front-end.mapa-catalogo-venta', compact('propiedadesEnVenta','comunas', 'paises', 'regiones', 'provincias', 'habitaciones'));
+            return view('front-end.mapa-catalogo-venta', compact('propiedadesEnVenta','comunas', 'paises', 'regiones', 'provincias', 'habitaciones',
+                'telefonoWhatsapp'));
         }
         else if($request->tipoVenta == 2)
         {
@@ -151,7 +153,8 @@ class InicioController extends Controller
             }
             $propiedadesEnArriendo = $propiedadesEnArriendo1->get();
             
-            return view('front-end.mapa-catalogo-arriendo', compact('propiedadesEnArriendo','comunas', 'paises', 'regiones', 'provincias', 'habitaciones'));
+            return view('front-end.mapa-catalogo-arriendo', compact('propiedadesEnArriendo','comunas', 'paises', 'regiones', 'provincias', 
+                'habitaciones', 'telefonoWhatsapp'));
         }
         else
         {
@@ -171,7 +174,8 @@ class InicioController extends Controller
                 $propiedadesEnArriendo1->where('propiedades.idComuna', $request->comuna);
             }
             $propiedadesEnArriendo = $propiedadesEnArriendo1->get();
-            return view('front-end.mapa-catalogo-arriendo', compact('propiedadesEnArriendo','comunas', 'paises', 'regiones', 'provincias', 'habitaciones'));
+            return view('front-end.mapa-catalogo-arriendo', compact('propiedadesEnArriendo','comunas', 'paises', 'regiones', 'provincias', 
+                'habitaciones', 'telefonoWhatsapp'));
         }
     }
     public function mapaCatalogoPropiedades()
@@ -195,7 +199,9 @@ class InicioController extends Controller
         ->where('propiedades.idEstado', 42)
         ->where('propiedades.idTipoComercial', 2) //Arriendo
         ->get();
-        return view('front-end.mapa-catalogo-arriendo', compact('propiedadesEnArriendo','comunas', 'paises', 'regiones', 'provincias', 'habitaciones'));
+        $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+        return view('front-end.mapa-catalogo-arriendo', compact('propiedadesEnArriendo','comunas', 'paises', 'regiones', 'provincias', 'habitaciones',
+        'telefonoWhatsapp'));
     }
     public function mapaCatalogoPropiedadesVenta()
     {
@@ -218,7 +224,9 @@ class InicioController extends Controller
         ->where('propiedades.idEstado', 42)
         ->where('propiedades.idTipoComercial', 1) //venta
         ->get();
-        return view('front-end.mapa-catalogo-venta', compact('propiedadesEnVenta','comunas', 'paises', 'regiones', 'provincias', 'habitaciones'));
+        $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+        return view('front-end.mapa-catalogo-venta', compact('propiedadesEnVenta','comunas', 'paises', 'regiones', 'provincias', 'habitaciones', 
+        'telefonoWhatsapp'));
     }
     public function singleProperty($id)
     {
