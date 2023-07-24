@@ -454,9 +454,9 @@
         <div class="col-12">
             <label>Descripción de la Propiedad</label>
             @if(!isset($propiedad->descripcion))
-                <textarea class="form-control" name="descripcion" rows="4" placeholder="Ingrese descripción de la propiedad" value="{{ old('descripcion') }}"></textarea>
+                <textarea class="form-control" name="descripcion" id="summernote" rows="4" placeholder="Ingrese descripción de la propiedad" >{{ old('descripcion') }}</textarea>
             @else
-                <textarea class="form-control" name="descripcion" rows="4" placeholder="Ingrese descripción de la propiedad" value="{{ $propiedad->descripcion }}"> {{ $propiedad->descripcion }}</textarea>
+                <textarea class="form-control" name="descripcion" id="summernote" rows="4" placeholder="Ingrese descripción de la propiedad" >{{ $propiedad->descripcion }}</textarea>
             @endif
         </div>
     </div>

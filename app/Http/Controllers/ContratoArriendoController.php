@@ -239,7 +239,7 @@ class ContratoArriendoController extends Controller
         $user = Auth::user();
         $contratosArriendos = ContratoArriendo::select('contratos_arriendos.idContratoArriendo','propiedades.id', 'propiedades.nombrePropiedad', 'contratos_arriendos.created_at', 
         'contratos_arriendos.nota', 'contratos_arriendos.arriendoMensual', 'contratos_arriendos.nombreArrendatario', 
-        'contratos_arriendos.apellidoArrendatario', 'estados.nombreEstado', 'estados.idEstado')
+        'contratos_arriendos.apellidoArrendatario', 'estados.nombreEstado', 'estados.idEstado', 'contratos_arriendos.desde', 'contratos_arriendos.hasta')
         ->join('propiedades', 'contratos_arriendos.idPropiedad', '=', 'propiedades.id')
         ->join('estados', 'estados.idEstado', '=', 'contratos_arriendos.idEstado')
         ->where('propiedades.id', '=', $id)

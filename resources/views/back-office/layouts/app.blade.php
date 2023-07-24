@@ -36,19 +36,19 @@
                         <div class="navbar-brand-box">
                             <a href="/home" class="logo logo-dark">
                                 <span class="logo-sm">
-                                    <img src="/images/logo.svg" alt="" height="22">
+                                    <img src="/front/04.svg" alt="" style="width: 90%">
                                 </span>
                                 <span class="logo-lg">
-                                    <img src="/images/logo-dark.png" alt="" height="17">
+                                    <img src="/front/04.svg" alt="" style="width: 90%">
                                 </span>
                             </a>
 
                             <a href="/home" class="logo logo-light">
                                 <span class="logo-sm">
-                                    <img src="/images/logo-light.svg" alt="" height="22">
+                                    <img src="/front/04.svg" alt="" style="width: 90%">
                                 </span>
                                 <span class="logo-lg">
-                                    <img src="/images/logo-light.png" alt="" height="19">
+                                    <img src="/front/04.svg" alt="" style="width: 90%" >
                                 </span>
                             </a>
                         </div>
@@ -237,8 +237,11 @@
                         <div class="dropdown d-inline-block">
                             <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img class="rounded-circle header-profile-user" src="/img/usuarios/{{ $user->avatarImg }}"
-                                    alt="Header Avatar">
+                                @if($user->avatarImg)
+                                <img class="rounded-circle header-profile-user" src="/img/usuarios/{{ $user->avatarImg }}" alt="Header Avatar">
+                                @else
+                                <img class="rounded-circle header-profile-user" src="/images/userTransparent.png" alt="Header Avatar">
+                                @endif
                                 <span class="d-none d-xl-inline-block ml-1">{{ $user->name }} {{ $user->apellido }}</span>
                                 <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                             </button>

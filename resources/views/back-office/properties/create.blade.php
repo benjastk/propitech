@@ -1,4 +1,8 @@
 @extends('back-office.layouts.app')
+@section('css')
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+@endsection
 @section('content')
     <div class="main-content">
 
@@ -46,9 +50,28 @@
     </div>
 @endsection
 @section('script')
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.js"></script>
     <script>
         $(document).ready(function() {
             $('.js-example-basic-multiple').select2({});
+        });
+        $('#summernote').summernote({
+            placeholder: '',
+            tabsize: 2,
+            height: 200,
+            dialogsInBody: true,
+            dialogsFade: true,
+            toolbar: [
+                // [groupName, [list of button]]
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['font', ['strikethrough', 'superscript', 'subscript']],
+                ['fontsize', ['fontsize']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['picture', ['picture']],
+                ['table', ['table']]
+            ]
         });
     </script>
     <script>

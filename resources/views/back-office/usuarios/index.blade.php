@@ -71,7 +71,7 @@
                                                 <th scope="col" style="width: 70px;">#</th>
                                                 <th scope="col">Nombre</th>
                                                 <th scope="col">Correo Electronico</th>
-                                                <th scope="col">Status</th>
+                                                <!--<th scope="col">Status</th>-->
                                                 <th scope="col">Rol</th>
                                                 <th scope="col">Telefono</th>
                                                 <th scope="col">Acciones</th>
@@ -83,7 +83,11 @@
                                                 <td>
                                                     <div class="avatar-xs">
                                                         <span class="avatar-title rounded-circle">
-                                                            U
+                                                            @if($user1->avatarImg)
+                                                            <img src="/img/usuarios/{{ $user1->avatarImg }}" style="width: 100%;">
+                                                            @else
+                                                            <img src="/images/userTransparent.png" style="width: 100%;">
+                                                            @endif
                                                         </span>
                                                     </div>
                                                 </td>
@@ -92,7 +96,7 @@
                                                     <p class="text-muted mb-0">{{ $user1->cargo }}</p>
                                                 </td>
                                                 <td>{{ $user1->email }}</td>
-                                                <td>
+                                                <!--<td>
                                                     <div>
                                                         @if($user1->email_verified_at)
                                                         <a href="#" class="badge badge-soft-primary font-size-11 m-1">Verificado</a>
@@ -100,7 +104,7 @@
                                                         <a href="#" class="badge badge-soft-danger font-size-11 m-1">No Verificado</a>
                                                         @endif
                                                     </div>
-                                                </td>
+                                                </td>-->
                                                 <td>
                                                     <div>
                                                         <span class="badge badge-dark">{{ $user1->nombre }}</span>
@@ -117,6 +121,7 @@
                                                         <li class="list-inline-item px-2">
                                                             <a href="" data-toggle="tooltip" data-placement="top" title="Profile"><i class="bx bx-user-circle"></i></a>
                                                         </li>-->
+                                                        @if($rolUsuario->id_rol == 1)
                                                         <li class="list-inline-item px-2">
                                                             <a href="/users/cuentas-bancarias/{{ $user1->id }}" data-toggle="tooltip" data-placement="top" title="Cuentas Bancarias"><i class="bx bx-dollar"></i></a>
                                                         </li>
@@ -131,6 +136,22 @@
                                                             </form>
                                                             <!--<a href="/users/edit/{{ $user1->id }}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bx bxs-trash-alt"></i></a>-->
                                                         </li>
+                                                        @elseif($user1->idRol == $rolUsuario->id_rol)
+                                                        <li class="list-inline-item px-2">
+                                                            <a href="/users/cuentas-bancarias/{{ $user1->id }}" data-toggle="tooltip" data-placement="top" title="Cuentas Bancarias"><i class="bx bx-dollar"></i></a>
+                                                        </li>
+                                                        <li class="list-inline-item px-2">
+                                                            <a href="/users/edit/{{ $user1->id }}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bx bxs-edit-alt"></i></a>
+                                                        </li>
+                                                        <li class="list-inline-item px-2">
+                                                            <form id="form1" action="{{ url('/users/destroy') }}" method="post">
+                                                                {{ csrf_field() }}
+                                                                <input type="hidden" name="id" value="{{ $user1->id }}"/>
+                                                                <button style="border: 0px; background-color: white;" type="submit"><i class="bx bxs-trash-alt"></i></button>
+                                                            </form>
+                                                            <!--<a href="/users/edit/{{ $user1->id }}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bx bxs-trash-alt"></i></a>-->
+                                                        </li>
+                                                        @endif
                                                     </ul>
                                                 </td>
                                             </tr>

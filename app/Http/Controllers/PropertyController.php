@@ -88,6 +88,13 @@ class PropertyController extends Controller
             $propiedad = new Propiedad();
             $propiedad->fill($request->all());
             $propiedad->idBanco = 1;
+            $propiedad->descripcion = $request->descripcion;
+            $sanitizarTexto = $request->descripcion;
+            $sanitizarTexto = str_replace("</p>", "<br>", $sanitizarTexto);
+            $sanitizarTexto = str_replace("<br><br>", "<br>", $sanitizarTexto);
+            $sanitizarTexto = str_replace("<br><br><br>", "<br>", $sanitizarTexto);
+            $sanitizarTexto = strip_tags($sanitizarTexto, '<br>');
+            $propiedad->descripcion2 = $sanitizarTexto;
             if($request->usoGoceEstacionamiento1)
             {
                 $propiedad->usoGoceEstacionamiento = 1;
@@ -232,6 +239,13 @@ class PropertyController extends Controller
             DB::beginTransaction();
             $propiedad = Propiedad::where('id', $id)->firstOrFail();
             $propiedad->fill($request->all());
+            $propiedad->descripcion = $request->descripcion;
+            $sanitizarTexto = $request->descripcion;
+            $sanitizarTexto = str_replace("</p>", "<br>", $sanitizarTexto);
+            $sanitizarTexto = str_replace("<br><br>", "<br>", $sanitizarTexto);
+            $sanitizarTexto = str_replace("<br><br><br>", "<br>", $sanitizarTexto);
+            $sanitizarTexto = strip_tags($sanitizarTexto, '<br>');
+            $propiedad->descripcion2 = $sanitizarTexto;
             if($request->usoGoceEstacionamiento1)
             {
                 $propiedad->usoGoceEstacionamiento = 1;

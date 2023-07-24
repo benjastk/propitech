@@ -32,12 +32,13 @@ class UserController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $users = User::select('users.*', 'roles.nombre')
+        $users = User::select('users.*', 'roles.nombre', 'roles.id as idRol')
         ->leftjoin('rol_usuario', 'rol_usuario.id_usuario', '=', 'users.id')
         ->leftjoin('roles', 'roles.id', '=', 'rol_usuario.id_rol')
         ->where('users.eliminado', 0)
         ->get();
-        return view('back-office.usuarios.index', compact('user', 'users'));
+        $rolUsuario = Auth::user()->rol;
+        return view('back-office.usuarios.index', compact('user', 'users', 'rolUsuario'));
     }
 
     /**
@@ -161,7 +162,14 @@ class UserController extends Controller
             DB::beginTransaction();
 
             $usuario = User::where('id', $id)->firstOrFail();
+            $rolUsuario = UserRol::where('id_usuario', $id)->first();
+            if($usuario->id != Auth::user()->id && Auth::user()->rol->id_rol == $rolUsuario->id_rol)
+            {
+                toastr()->error('No puedes cambiar datos de un usuario de tu mismo rol');
+                return redirect('/users');
+            }
             $usuario->fill($request->all());
+            $usuario->password = Hash::make($request->contrasena1);
             if($request->hasFile('foto')){
                 $nombreArchivo = "";
                 $file =  $request['foto'];

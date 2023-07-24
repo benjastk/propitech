@@ -2,6 +2,7 @@
 @section('css')
 <link href="https://unpkg.com/dropzone/dist/dropzone.css" rel="stylesheet"/>
 <link href="https://unpkg.com/cropperjs/dist/cropper.css" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 @endsection
 @section('content')
     <div class="main-content">
@@ -23,9 +24,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="card">
-                            <form action="{{ url('/properties/update/'.$propiedad->id) }}" method="POST" enctype="multipart/form-data">
-                                {{ csrf_field() }}
-                                <div class="card-body">
+                            <div class="card-body">
                                 <div class="row">
                                     <div class="card-body pt-0"> 
                                         <div class="p-2">
@@ -71,7 +70,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                </div>
+                            </div>
+                            <form action="{{ url('/properties/update/'.$propiedad->id) }}" method="POST" enctype="multipart/form-data">
+                                {{ csrf_field() }}
                                 @include('back-office.properties.form')
                             </form>
                         </div>
@@ -94,9 +95,28 @@
     </div>
 @endsection
 @section('script')
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
     <script>
         $(document).ready(function() {
             $('.js-example-basic-multiple').select2({});
+            $('#summernote').summernote({
+                placeholder: '',
+                tabsize: 2,
+                height: 200,
+                dialogsInBody: true,
+                dialogsFade: true,
+                toolbar: [
+                    // [groupName, [list of button]]
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']],
+                    ['picture', ['picture']],
+                    ['table', ['table']]
+                ]
+            });
             var idTipoComercial = $("#idTipoComercial").val();          
             if(idTipoComercial == 1)
             {
