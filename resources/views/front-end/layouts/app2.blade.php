@@ -21,7 +21,7 @@
         <!-- Themes core CSS -->
         <link rel="stylesheet" href="/front/css/themes.css">
         <!-- Favicons -->
-        <link rel="icon" href="/front/images/favicon.ico">
+        <link rel="icon" href="/front/favicon.ico">
         <style>
             .bg-secondary
             {
@@ -59,7 +59,7 @@
             <div class="container">
                 <nav class="navbar navbar-expand-lg bg-transparent px-0">
                 <a class="navbar-brand" href="/">
-                    <img src="/front/images/logo-white.png" alt="HomeID">
+                    <img src="/front/01.svg" style="height: 63px" alt="PROPITECH">
                 </a>
                 <div class="d-flex d-lg-none ml-auto">
                     <button class="navbar-toggler border-0 px-0" type="button" data-toggle="collapse"

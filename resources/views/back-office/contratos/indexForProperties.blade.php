@@ -1,4 +1,44 @@
 @extends('back-office.layouts.app')
+@section('css')
+<link rel="stylesheet" href="{{ url('css/dataTables.bootstrap.min.css') }}">
+<style>
+    .dataTables_length
+    {
+        float: left;
+    }
+    .paginate_button.previous
+    {
+        border: 1px solid black;
+        padding: 6px;
+        border-radius: 5px;
+        background-color: #2a3042;
+        color: white !important;
+        font-weight: 500;
+    }
+    .paginate_button.next
+    {
+        border: 1px solid black;
+        padding: 6px;
+        border-radius: 5px;
+        background-color: #2a3042;
+        color: white !important;
+        font-weight: 500;
+    }
+    .paginate_button
+    {
+        border: 1px solid black;
+        padding: 6px;
+        border-radius: 5px;
+        background-color: #2a3042;
+        color: white !important;
+        font-weight: 500;
+    }
+    .pagination
+    {
+        float: right;
+    }
+</style>
+@endsection
 @section('content')
     <div class="main-content">
         <div class="page-content">
@@ -25,7 +65,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-centered table-nowrap table-hover">
+                                    <table id="tabla-ingresos" class="table table-centered table-nowrap table-hover">
                                         <thead class="thead-light">
                                             <tr>
                                                 <th scope="col">Fecha de contrato</th>
@@ -33,7 +73,7 @@
                                                 <th scope="col">Arrendatario</th>
                                                 <th scope="col">Valor Mensual</th>
                                                 <th scope="col">Estado</th>
-                                                <th scope="col">Nota</th>
+                                                <!--<th scope="col">Nota</th>-->
                                                 <th scope="col">Acciones</th>
                                             </tr>
                                         </thead>
@@ -56,15 +96,15 @@
                                                         @endif
                                                     </div>
                                                 </td>
-                                                <td>{{ $contrato->nota }}</td>
+                                                <!--<td>{{ $contrato->nota }}</td>-->
                                                 <td>
                                                     <ul class="list-inline font-size-20 contact-links mb-0">
                                                         <!--<li class="list-inline-item px-2">
                                                             <a href="" data-toggle="tooltip" data-placement="top" title="Message"><i class="bx bx-message-square-dots"></i></a>
-                                                        </li>
-                                                        <li class="list-inline-item px-2">
-                                                            <a href="" data-toggle="tooltip" data-placement="top" title="Profile"><i class="bx bx-user-circle"></i></a>
                                                         </li>-->
+                                                        <li class="list-inline-item px-2">
+                                                            <a href="/estados-pagos/mostrar/{{ $contrato->idContratoArriendo }}" data-toggle="tooltip" data-placement="top" title="Estados de pago"><i class="bx bxs-dollar-circle"></i></a>
+                                                        </li>
                                                         <li class="list-inline-item px-2">
                                                             <a href="/contratos/edit/{{ $contrato->idContratoArriendo }}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bx bxs-edit-alt"></i></a>
                                                         </li>
@@ -108,5 +148,16 @@
         </footer>
     </div>
     <!-- end main content-->
+@endsection
+@section('script')
+<script src="{{ url('js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url('js/dataTables.bootstrap.min.js') }}"></script>
+<script>
+	$(document).ready( function () {
+		$('#tabla-ingresos').DataTable( {
+			"order": [[ 0, "desc" ]]
+		});
+	} );
+</script>
 @endsection
         

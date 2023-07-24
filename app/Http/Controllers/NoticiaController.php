@@ -27,7 +27,7 @@ class NoticiaController extends Controller
         ->leftjoin('users', 'noticias.idUsuario', '=', 'users.id')
         ->leftjoin('rol_usuario', 'rol_usuario.id_usuario', '=', 'users.id')
         ->leftjoin('roles', 'roles.id', '=', 'rol_usuario.id_rol')
-        ->paginate(10);
+        ->get();
         return view('back-office.noticias.index', compact('noticias', 'user'));
     }
 

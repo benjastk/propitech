@@ -1,4 +1,44 @@
 @extends('back-office.layouts.app')
+@section('css')
+<link rel="stylesheet" href="{{ url('css/dataTables.bootstrap.min.css') }}">
+<style>
+    .dataTables_length
+    {
+        float: left;
+    }
+    .paginate_button.previous
+    {
+        border: 1px solid black;
+        padding: 6px;
+        border-radius: 5px;
+        background-color: #2a3042;
+        color: white !important;
+        font-weight: 500;
+    }
+    .paginate_button.next
+    {
+        border: 1px solid black;
+        padding: 6px;
+        border-radius: 5px;
+        background-color: #2a3042;
+        color: white !important;
+        font-weight: 500;
+    }
+    .paginate_button
+    {
+        border: 1px solid black;
+        padding: 6px;
+        border-radius: 5px;
+        background-color: #2a3042;
+        color: white !important;
+        font-weight: 500;
+    }
+    .pagination
+    {
+        float: right;
+    }
+</style>
+@endsection
 @section('content')
     <div class="main-content">
         <div class="page-content">
@@ -22,7 +62,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-hover">
+                                    <table id="tabla-ingresos" class="table table-hover">
                                         <thead class="thead-light">
                                             <tr>
                                                 <th scope="col" style="width: 50px !important">ID</th>
@@ -157,4 +197,13 @@
         });
     }
 </script>
-@endsection        
+<script src="{{ url('js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url('js/dataTables.bootstrap.min.js') }}"></script>
+<script>
+	$(document).ready( function () {
+		$('#tabla-ingresos').DataTable( {
+			"order": [[ 0, "desc" ]]
+		});
+	} );
+</script>
+@endsection   

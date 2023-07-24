@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Crypt;
 use App\TiempoPagoGarantia;
+use App\LogTransaccion;
 use App\ParametroGeneral;
 use App\ContratoArriendo;
 use App\TipoComercial;
@@ -42,7 +43,7 @@ class ContratoArriendoController extends Controller
         $contratosArriendos = ContratoArriendo::select('contratos_arriendos.*', 'estados.nombreEstado', 'propiedades.direccion', 'propiedades.numero', 'propiedades.block')
         ->join('propiedades', 'contratos_arriendos.idPropiedad', '=', 'propiedades.id')
         ->join('estados', 'estados.idEstado', '=', 'contratos_arriendos.idEstado')
-        ->paginate(10);
+        ->get();
         return view('back-office.contratos.index', compact('user', 'contratosArriendos'));
     }
 
@@ -132,7 +133,8 @@ class ContratoArriendoController extends Controller
 
                 if($i > 1)
                 {
-                    $nuevosEstadosPagos->fechaVencimiento = $fechaVencimientoInicial->addMonths(1);
+                    $fechaVencimientoInicial = Carbon::parse($fechaVencimientoInicial)->addMonths(1)->format('Y-m-d');
+                    $nuevosEstadosPagos->fechaVencimiento = $fechaVencimientoInicial;
                 }
                 else
                 {

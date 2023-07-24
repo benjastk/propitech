@@ -34,7 +34,7 @@ class MandatoAdministracionController extends Controller
         ->join('propiedades', 'mandatos_propiedad.idPropiedad', '=', 'propiedades.id')
         ->join('estados', 'estados.idEstado', '=', 'mandatos_propiedad.idEstadoMandato')
         ->join('planes', 'planes.id', '=', 'mandatos_propiedad.idPlan')
-        ->paginate(10);
+        ->get();
         return view('back-office.mandatos.index', compact('user', 'mandatosAdministracion'));
     }
 

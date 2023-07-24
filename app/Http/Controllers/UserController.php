@@ -36,7 +36,7 @@ class UserController extends Controller
         ->leftjoin('rol_usuario', 'rol_usuario.id_usuario', '=', 'users.id')
         ->leftjoin('roles', 'roles.id', '=', 'rol_usuario.id_rol')
         ->where('users.eliminado', 0)
-        ->paginate(15);
+        ->get();
         return view('back-office.usuarios.index', compact('user', 'users'));
     }
 

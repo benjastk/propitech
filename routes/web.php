@@ -112,6 +112,10 @@ Route::prefix('estados-pagos')->group(function () {
 
     Route::post('/createCargoDescuento', 'EstadoPagoController@createCargoDescuento');
     Route::post('/destroyCargoDescuento', 'EstadoPagoController@destroyCargoDescuento');
+    
+    Route::get('/pagos/{id}', 'EstadoPagoController@indexPagos');
+    Route::post('/pago-manual', 'EstadoPagoController@pagoManual')->name('pagoManual');
+    Route::post('/pago-manual-index', 'EstadoPagoController@pagoManualDesdeIndex')->name('pagoManualIndex');
 });
 Route::prefix('parametros')->group(function () {
     Route::get('/', 'ParametrosGeneralesController@index');

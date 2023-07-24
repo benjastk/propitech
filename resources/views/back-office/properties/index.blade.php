@@ -1,4 +1,44 @@
 @extends('back-office.layouts.app')
+@section('css')
+<link rel="stylesheet" href="{{ url('css/dataTables.bootstrap.min.css') }}">
+<style>
+    .dataTables_length
+    {
+        float: left;
+    }
+    .paginate_button.previous
+    {
+        border: 1px solid black;
+        padding: 6px;
+        border-radius: 5px;
+        background-color: #2a3042;
+        color: white !important;
+        font-weight: 500;
+    }
+    .paginate_button.next
+    {
+        border: 1px solid black;
+        padding: 6px;
+        border-radius: 5px;
+        background-color: #2a3042;
+        color: white !important;
+        font-weight: 500;
+    }
+    .paginate_button
+    {
+        border: 1px solid black;
+        padding: 6px;
+        border-radius: 5px;
+        background-color: #2a3042;
+        color: white !important;
+        font-weight: 500;
+    }
+    .pagination
+    {
+        float: right;
+    }
+</style>
+@endsection
 @section('content')
     <div class="main-content">
 
@@ -27,7 +67,7 @@
                     <div class="col-lg-12">
                         <div class="">
                             <div class="table-responsive">
-                                <table class="table project-list-table table-nowrap table-centered table-borderless">
+                                <table id="tabla-ingresos" class="table project-list-table table-nowrap table-centered table-borderless">
                                     <thead>
                                         <tr>
                                             <th scope="col" style="width: 100px">Foto</th>
@@ -116,7 +156,6 @@
                                     </tbody>
                                 </table>
                                 <div style="text-align:center">
-                                    {{ $propiedades->links() }}
                                 </div>
                             </div>
                         </div>
@@ -141,5 +180,16 @@
         </footer>
     </div>
     <!-- end main content-->
+@endsection
+@section('script')
+<script src="{{ url('js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url('js/dataTables.bootstrap.min.js') }}"></script>
+<script>
+	$(document).ready( function () {
+		$('#tabla-ingresos').DataTable( {
+			"order": [[ 0, "desc" ]]
+		});
+	} );
+</script>
 @endsection
         

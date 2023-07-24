@@ -42,7 +42,7 @@ class PropertyController extends Controller
         ->join('region', 'region.id', '=', 'propiedades.idRegion')
         ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
         ->join('estados', 'estados.idEstado', '=', 'propiedades.idEstado')
-        ->paginate(10);
+        ->get();
         return view('back-office.properties.index', compact('user', 'propiedades'));
     }
 

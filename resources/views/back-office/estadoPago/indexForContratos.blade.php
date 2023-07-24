@@ -91,14 +91,17 @@
                                                     <ul class="list-inline font-size-20 contact-links mb-0">
                                                         <!--<li class="list-inline-item px-2">
                                                             <a href="" data-toggle="tooltip" data-placement="top" title="Message"><i class="bx bx-message-square-dots"></i></a>
-                                                        </li>
-                                                        <li class="list-inline-item px-2">
-                                                            <a href="" data-toggle="tooltip" data-placement="top" title="Profile"><i class="bx bx-user-circle"></i></a>
                                                         </li>-->
-                                                        <li class="list-inline-item px-2">
+                                                        <li class="list-inline-item">
+                                                            <a href="#" data-toggle="modal" data-target=".modalPago{{ $estadoPago->idEstadoPago}}" title="Pagar"><i class="bx bx-money"></i></a>
+                                                        </li>
+                                                        <li class="list-inline-item">
+                                                            <a href="/estados-pagos/pagos/{{ $estadoPago->idEstadoPago }}" data-toggle="tooltip" data-placement="top" title="Pagos"><i class="bx bxs-dollar-circle"></i></a>
+                                                        </li>
+                                                        <li class="list-inline-item">
                                                             <a href="/estados-pagos/edit/{{ $estadoPago->idEstadoPago }}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bx bxs-edit-alt"></i></a>
                                                         </li>
-                                                        <li class="list-inline-item px-2">
+                                                        <li class="list-inline-item">
                                                             <form id="form1" action="{{ url('/estados-pagos/destroy') }}" method="post">
                                                                 {{ csrf_field() }}
                                                                 <input type="hidden" name="id" value="{{ $estadoPago->idEstadoPago }}"/>
@@ -182,6 +185,157 @@
                         </div>
                     </div>
                 </div>
+                <!--  Modal Caracteristicas -->
+                @if($estadosPagos)
+                @foreach($estadosPagos as $estadoPagoModal)
+                <div class="modal fade bs-example-modal-md modalPago{{ $estadoPagoModal->idEstadoPago}}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-md">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title mt-0" id="myLargeModalLabel">Pago rapido</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-lg-12" style="padding:20px !important">
+                                        <form method="POST" action="{{ route('pagoManual') }}" enctype="multipart/form-data">
+                                            {{ csrf_field() }}
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label for="nombre">Fecha de vencimiento</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <input id="fechaVencimiento" name="fechaVencimiento" type="date" value="{{ $estadoPagoModal->fechaVencimiento}}" class="form-control" readonly >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label for="nombre">Arriendo Mensual</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <input id="arriendoMensual" name="arriendoMensual" type="text" value="{{ $estadoPagoModal->arriendoMensual}}" class="form-control" readonly >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label for="nombre">Garantia</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <input id="garantia" name="garantia" type="text" value="{{ $estadoPagoModal->garantia}}" class="form-control" readonly >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label for="nombre">Comision</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <input id="comision" name="comision" type="text" value="{{ $estadoPagoModal->comision}}" class="form-control" readonly >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label for="nombre">Total a Pagar</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <input id="subtotal" name="subtotal" type="text" value="{{ $estadoPagoModal->subtotal}}" class="form-control" readonly >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label for="nombre">Metodo de pago</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <select name="idMetodoPago" id="idMetodoPago" class="form-control" required>
+                                                            <option value="">Seleccione metodo de pago</option>
+                                                            @foreach($metodosPagos as $metodoPago)
+                                                                <option value="{{ $metodoPago->idMetodosPagos }}">{{ $metodoPago->nombreMetodoPago }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label for="nombre">Numero de Transaccion</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <input id="numeroTransaccion" name="numeroTransaccion" type="text" class="form-control" >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label for="nombre">Comentario</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <textarea name="comentarios" class="form-control" id="comentarios" rows="2"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label for="nombre">Documento</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <input id="documento" name="documento" type="file" class="form-control" >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group col-md-6" style="display: none">
+                                                    <input type="text" name="idEstadoPago" id="idEstadoPago" class="form-control" value="{{ Crypt::encrypt($estadoPagoModal->idEstadoPago) }}" >
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <p style="margin-bottom: 5px">&nbsp;</p>
+                                                </div>
+                                                <div class="col-sm-4" style="text-align: right">
+                                                    <p style="margin-bottom: 5px">&nbsp;</p>
+                                                    <button class="btn btn-success"><i class="bx bx-money"></i> Pagar</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+                @endif
             </div> <!-- container-fluid -->
         </div>
         <!-- End Page-content -->
