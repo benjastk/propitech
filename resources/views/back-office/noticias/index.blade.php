@@ -105,13 +105,13 @@
                                                         <!--<li class="list-inline-item px-2">
                                                             <a href="" data-toggle="tooltip" data-placement="top" title="Message"><i class="bx bx-message-square-dots"></i></a>
                                                         </li>
-                                                        <li class="list-inline-item px-2">
+                                                        <li class="list-inline-item">
                                                             <a href="" data-toggle="tooltip" data-placement="top" title="Profile"><i class="bx bx-user-circle"></i></a>
                                                         </li>-->
-                                                        <li class="list-inline-item px-2">
+                                                        <li class="list-inline-item">
                                                             <a href="/noticias/edit/{{ $noticia->idNoticia }}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bx bxs-edit-alt"></i></a>
                                                         </li>
-                                                        <li class="list-inline-item px-2">
+                                                        <li class="list-inline-item">
                                                             <form id="form1" action="{{ url('/noticias/destroy') }}" method="post">
                                                                 {{ csrf_field() }}
                                                                 <input type="hidden" name="id" value="{{ $noticia->idNoticia }}"/>

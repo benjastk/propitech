@@ -84,6 +84,8 @@ class ContratoArriendo extends Model
         'idRenovacion',
         'fechaSalidaArrendatario',
         'motivoSalida',
+        'prohibiciones',
+        'renovacionAutomatica',
         'created_at',
         'updated_at'
     ];

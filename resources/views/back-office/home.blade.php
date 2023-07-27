@@ -95,6 +95,30 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title mb-4 float-sm-left">Contactos recibidos por la Web</h4>
+                                        <!--<div class="float-sm-right">
+                                            <ul class="nav nav-pills">
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="#">Week</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="#">Month</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link active" href="#">Year</a>
+                                                </li>
+                                            </ul>
+                                        </div>-->
+                                        <div class="clearfix"></div>
+                                        <div id="stacked-column-chart" class="apex-charts" dir="ltr"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -161,4 +185,81 @@
         </form>
     </div> <!-- end slimscroll-menu-->
 </div>
+@endsection
+@section('script')
+<!-- apexcharts -->
+<script src="/libs/apexcharts/apexcharts.min.js"></script>
+<script>
+    $(document).ready( function () {
+		
+	} );
+    var options={
+        chart:{
+            height:359,
+            type:"bar",
+            zoom:
+            {
+                enabled:!0
+            }
+        },
+        plotOptions:
+        {
+            bar:
+            {
+                horizontal: !1,
+                columnWidth: "15%",
+            }
+        },
+        series:
+        [
+            {
+                name:"Cantidad",
+                data:
+                [
+                    @if($leadsContactos)
+                    @foreach($leadsContactos as $leadContacto)
+                    {{ $leadContacto->cantidadLeads }},
+                    @endforeach
+                    @endif
+                ]
+            },
+        ],
+        xaxis:
+        {
+            categories:
+            [
+                @if($leadsContactos)
+                @foreach($leadsContactos as $leadContacto)
+                
+                    "{{ $leadContacto->fecha }}",
+                
+                @endforeach
+                @endif
+        ]
+        },
+        colors:
+        [
+            "#556ee6"
+        ],
+        legend:
+        {
+            position:"bottom"
+        },
+        fill:
+        {
+            opacity:1
+        },
+        labels: 
+        {
+            rotate: 0,
+            rotateAlways: false,
+            formatter: function (val) 
+            {
+                return val.toFixed(0);
+            }
+        },
+        decimalsInFloat: 0,
+    };
+    (chart=new ApexCharts(document.querySelector("#stacked-column-chart"),options)).render();
+</script>
 @endsection

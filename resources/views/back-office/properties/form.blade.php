@@ -527,6 +527,20 @@
             @endif
         </div>
     </div>
+    <div class="row">
+        <div class="col-12">
+            <label>Edificio o Comunidad</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            @if(!isset($propiedad->nombreEdificioComunidad))
+                <input type="text" name="nombreEdificioComunidad" value="{{old('nombreEdificioComunidad')}}" class="form-control" placeholder="Rut propietario">
+            @else
+                <input type="text" name="nombreEdificioComunidad" value="{{ $propiedad->nombreEdificioComunidad }}" class="form-control" placeholder="Rut propietario">
+            @endif
+        </div>
+    </div>
     <br>
     <div class="row">
         <div class="col-12" style="text-align:center">

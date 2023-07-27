@@ -77,6 +77,9 @@
                         </div>
                     </div>
                 </div>
+                <a href="/users" class="btn btn-danger waves-effect waves-light" style="margin-right: 10px">
+                    <i class="bx bx-arrow-back font-size-16 align-middle mr-2"></i> Volver
+                </a>
             </div> <!-- container-fluid -->
         </div>
         <!-- End Page-content -->

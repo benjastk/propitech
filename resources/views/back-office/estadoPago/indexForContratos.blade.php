@@ -104,7 +104,7 @@
                                                         <li class="list-inline-item">
                                                             <form id="form1" action="{{ url('/estados-pagos/destroy') }}" method="post">
                                                                 {{ csrf_field() }}
-                                                                <input type="hidden" name="id" value="{{ $estadoPago->idEstadoPago }}"/>
+                                                                <input type="hidden" name="id" value="{{ $estadoPago->idContrato }}"/>
                                                                 <button style="border: 0px; background-color: white;" type="submit"><i class="bx bxs-trash-alt"></i></button>
                                                             </form>
                                                             <!--<a href="/planes/edit/{{ $estadoPago->idEstadoPago }}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bx bxs-trash-alt"></i></a>-->
@@ -253,12 +253,20 @@
                                             <div class="row">
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
+                                                        @if($estadoPagoModal->saldo > 0)
+                                                        <label for="nombre">Saldo</label>
+                                                        @else
                                                         <label for="nombre">Total a Pagar</label>
+                                                        @endif
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
+                                                        @if($estadoPagoModal->saldo > 0)
+                                                        <input id="subtotal" name="subtotal" type="text" value="{{ $estadoPagoModal->saldo }}" class="form-control" readonly >
+                                                        @else
                                                         <input id="subtotal" name="subtotal" type="text" value="{{ $estadoPagoModal->subtotal}}" class="form-control" readonly >
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>

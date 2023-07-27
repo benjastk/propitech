@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Crypt;
 use App\Jobs\EnvioPagoArriendo;
 use Illuminate\Http\Request;
@@ -13,6 +14,7 @@ use App\DocumentoPago;
 use App\EstadoPago;
 use App\MetodoPago;
 use App\Propiedad;
+use Carbon\Carbon;
 use App\Descuento;
 use App\Estado;
 use App\Cargo;
@@ -173,9 +175,28 @@ class EstadoPagoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        try{
+            toastr()->warning('No se puede eliminar un estado de pago, favor contacte al administrador', 'Verificar operación');
+            return redirect('/estados-pagos/mostrar/'.$request->id);
+        } catch (ModelNotFoundException $e) {
+            toastr()->warning('No autorizado');
+            DB::rollback();
+            return back()->withInput($request->all());
+        } catch (QueryException $e) {
+            toastr()->warning('Ha ocurrido un error, favor intente nuevamente' . $e->getMessage());
+            DB::rollback();
+            return back()->withInput($request->all());
+        } catch (DecryptException $e) {
+            toastr()->info('Ocurrio un error al intentar acceder al recurso solicitado');
+            DB::rollback();
+            return back()->withInput($request->all());
+        } catch (\Exception $e) {
+            toastr()->warning($e->getMessage());
+            DB::rollback();
+            return back()->withInput($request->all());
+        }
     }
 
     public function createCargoDescuento(Request $request)
@@ -349,7 +370,7 @@ class EstadoPagoController extends Controller
         ->first();
         $pagos = Pago::select('pagos.*', 'metodos_pagos.nombreMetodoPago', 'documentos_pagos.idTipoDocumento', 'documentos_pagos.rutaDocumento')
         ->join('metodos_pagos', 'metodos_pagos.idMetodosPagos', '=', 'pagos.idMetodoPago')
-        ->leftjoin('documentos_pagos', 'documentos_pagos.idEstadoPago', '=', 'pagos.idEstadoPago')
+        ->leftjoin('documentos_pagos', 'documentos_pagos.idPago', '=', 'pagos.idPago')
         ->where('pagos.idEstadoPago', $id)
         ->get();
         $metodosPagos = MetodoPago::get();
@@ -362,12 +383,20 @@ class EstadoPagoController extends Controller
             DB::beginTransaction();
             $idEstadoDelPago = Crypt::decrypt($request->idEstadoPago);
             $estadoDePago = EstadoPago::where('idEstadoPago', '=', $idEstadoDelPago)->first();
+            $estadoDePagoAntes = EstadoPago::where('idEstadoPago', '=', $idEstadoDelPago)->first();
             if($estadoDePago->idEstado == 48)
             {
                 toastr()->info('Este pago ya se realizó');
                 return redirect('/estados-pagos/mostrar/'.$estadoDePago->idContrato);
             }
-            $estadoDePago->totalPagado = $estadoDePago->subtotal;
+            if($estadoDePago->saldo > 0)
+            {
+                $estadoDePago->totalPagado = $estadoDePago->totalPagado + $estadoDePago->saldo;
+            }
+            else
+            {
+                $estadoDePago->totalPagado = $estadoDePago->subtotal;
+            }
             $estadoDePago->saldo = 0; 
             $estadoDePago->idEstado = 48;
             $estadoDePago->save();
@@ -379,7 +408,14 @@ class EstadoPagoController extends Controller
 
             $nuevoPago = new Pago();
             $nuevoPago->idEstadoPago = $idEstadoDelPago;
-            $nuevoPago->montoPago = $estadoDePago->subtotal;
+            if($estadoDePagoAntes->saldo > 0)
+            {
+                $nuevoPago->montoPago = $estadoDePagoAntes->saldo;
+            }
+            else
+            {
+                $nuevoPago->montoPago = $estadoDePago->subtotal;
+            }
             $nuevoPago->numeroTransaccion = $request->numeroTransaccion;
             $nuevoPago->comentarios = $request->comentarios;
             $nuevoPago->idMetodoPago = $request->idMetodoPago;
@@ -600,6 +636,69 @@ class EstadoPagoController extends Controller
             toastr()->success('Pago Manual realizado con exito', 'Operacion exitosa');
             //return view('pagos.factura', compact('estadosDePago', 'cargos', 'descuentos', 'totalDescuento', 'totalCargo'));
             return redirect('/estados-pagos/pagos/'.$idEstadoDelPago);
+        } catch (ModelNotFoundException $e) {
+            toastr()->warning('No autorizado');
+            DB::rollback();
+            return back()->withInput($request->all());
+        } catch (QueryException $e) {
+            toastr()->warning('Ha ocurrido un error, favor intente nuevamente' . $e->getMessage());
+            DB::rollback();
+            return back()->withInput($request->all());
+        } catch (DecryptException $e) {
+            toastr()->info('Ocurrio un error al intentar acceder al recurso solicitado');
+            DB::rollback();
+            return back()->withInput($request->all());
+        } catch (\Exception $e) {
+            toastr()->warning($e->getMessage());
+            DB::rollback();
+            return back()->withInput($request->all());
+        }
+    }
+    public function deletePago(Request $request)
+    {
+        try{
+            DB::beginTransaction();
+            $pago = Pago::where('idPago', $request->idPago)->firstOrFail();
+            $estadoPago = EstadoPago::where('idEstadoPago', '=', $request->idEstadoPago)->firstOrFail();
+            $estadoPago->fill($request->all());
+            $estadoPago->totalPagado = $estadoPago->totalPagado - $pago->montoPago;
+            $estadoPago->saldo = $estadoPago->saldo + $pago->montoPago;
+
+            $fechaHoy = $mesYAnio = Carbon::now()->format('Y-m-d');
+            $fechaVencimiento = $mesYAnio = Carbon::parse($estadoPago->fechaVencimiento)->format('Y-m-d');
+
+            if(($estadoPago->saldo + $pago->montoPago) > 0)
+            {
+                if($fechaHoy > $fechaVencimiento)
+                {
+                    $estadoPago->idEstado = 50;
+                }
+                else
+                {
+                    $estadoPago->idEstado = 47;
+                }
+            }
+            $estadoPago->save();
+
+            $documentoPago = DocumentoPago::where('idPago', $pago->idPago)->first();
+            if($documentoPago)
+            {
+                File::delete(public_path('documentosPagos/' . $documentoPago->rutaDocumento));
+                $documentoPago->delete();
+            }
+            $pago->delete();
+            
+            $logTransaccion = new LogTransaccion();
+            $logTransaccion->tipoTransaccion = 'Eliminación de Pago';
+            $logTransaccion->idUsuario =  Auth::user()->id;
+            $logTransaccion->webclient = $request->userAgent();
+            $logTransaccion->descripcionTransaccion = 'Eliminación de Pago: '. $estadoPago->idEstadoPago. ' - Monto de reversa: '.
+            $pago->montoPago.' - Numero de transaccion: '. $pago->numeroTransaccion;
+            $logTransaccion->save();
+
+            DB::commit();
+            toastr()->success('Estado de pago eliminado exitosamente', 'Operación exitosa');
+            return redirect('/estados-pagos/pagos/'.$request->idEstadoPago);
         } catch (ModelNotFoundException $e) {
             toastr()->warning('No autorizado');
             DB::rollback();

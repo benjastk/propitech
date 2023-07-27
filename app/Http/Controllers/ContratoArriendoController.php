@@ -112,6 +112,14 @@ class ContratoArriendoController extends Controller
                     $nuevoContrato->reajustePesos = 0;
                 }
             }
+            if($request->renovacionAutomatica)
+            {
+                $nuevoContrato->renovacionAutomatica = 1;
+            }
+            else
+            {
+                $nuevoContrato->renovacionAutomatica = 0;
+            }
             $nuevoContrato->save();
 
             $logTransaccion = new LogTransaccion();
@@ -293,6 +301,14 @@ class ContratoArriendoController extends Controller
             $actualizarContrato->idUsuarioArrendatario = $arrendatario->id;
             $actualizarContrato->idUsuarioPropietario = $propietario->id;
             $actualizarContrato->idUsuarioCodeudor = $codeudor->id;
+            if($request->renovacionAutomatica)
+            {
+                $actualizarContrato->renovacionAutomatica = 1;
+            }
+            else
+            {
+                $actualizarContrato->renovacionAutomatica = 0;
+            }
             $actualizarContrato->save();
 
             $logTransaccion = new LogTransaccion();
@@ -382,5 +398,62 @@ class ContratoArriendoController extends Controller
             DB::rollback();
             return back();
         }
+    }
+    public function imprimirContratoArriendo(Request $request)
+    {
+        $contratoArriendo = ContratoArriendo::select('contratos_arriendos.*', 'propiedades.id', 'estados.nombreEstado', 'estados.idEstado',
+        'propiedades.direccion', 'propiedades.numero', 'propiedades.block', 'region.nombre as nombreRegion', 'comuna.nombre as nombreComuna', 
+        'propiedades.usoGoceBodega', 'propiedades.codigoBodega', 'propiedades.usoGoceEstacionamiento', 'propiedades.codigoEstacionamiento',
+        'propiedades.habitacion', 'propiedades.bano', 'user1.name as nombreArrendatario', 'user1.apellido as apellidoArrendatario', 'user1.rut as rutArrendatario',
+        'user1.direccion as direccionArrendatario', 'user1.numero as numeroArrendatario', 'comuna1.nombre as comunaArrendatario', 'user2.name as nombrePropietario', 
+        'user2.apellido as apellidoPropietario', 'user2.rut as rutPropietario','user2.direccion as direccionPropietario', 'user2.numero as numeroPropietario', 
+        'comuna2.nombre as comunaPropietario', 'user2.email as correoPropietario', 'user1.telefono as telefonoArrendatario', 'user1.email as correoArrendatario',
+        'user3.name as nombreCodeudor', 'user3.apellido as apellidoCodeudor', 'user3.rut as rutCodeudor','user3.direccion as direccionCodeudor', 
+        'user3.numero as numeroCodeudor', 'comuna3.nombre as comunaCodeudor', 'user3.email as correoCodeudor', 'user1.estadoCivil as estadoCivilArrendatario',
+        'user1.profesion as profesionArrendatario', 'user2.estadoCivil as estadoCivilPropietario', 'user2.profesion as profesionPropietario',
+        'user3.estadoCivil as estadoCivilCodeudor', 'user3.profesion as profesionCodeudor', 'propiedades.nombreEdificioComunidad')
+        ->join('propiedades', 'contratos_arriendos.idPropiedad', '=', 'propiedades.id')
+        ->join('region', 'region.id', '=', 'propiedades.idRegion')
+        ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
+        ->join('estados', 'estados.idEstado', '=', 'contratos_arriendos.idEstado')
+        ->join('users as user1', 'user1.id', '=', 'contratos_arriendos.idUsuarioArrendatario')
+        ->join('comuna as comuna1', 'comuna1.id', '=', 'user1.idComuna')
+        ->join('users as user2', 'user2.id', '=', 'contratos_arriendos.idUsuarioPropietario')
+        ->join('comuna as comuna2', 'comuna2.id', '=', 'user2.idComuna')
+        ->leftjoin('users as user3', 'user3.id', '=', 'contratos_arriendos.idUsuarioCodeudor')
+        ->leftjoin('comuna as comuna3', 'comuna3.id', '=', 'user3.idComuna')
+        ->where('contratos_arriendos.idContratoArriendo', '=', $request->id)
+        ->first();
+        $pdf = \PDF::loadView('prints.printContratoArriendo', compact('contratoArriendo'));
+        return $pdf->download('contrato-de-arriendo.pdf');
+    }
+    public function imprimirSalvoconducto(Request $request)
+    {
+        $salvoconducto = ContratoArriendo::select('contratos_arriendos.*', 'propiedades.id', 'estados.nombreEstado', 'estados.idEstado',
+        'propiedades.direccion', 'propiedades.numero', 'propiedades.block', 'region.nombre as nombreRegion', 'comuna.nombre as nombreComuna', 
+        'propiedades.usoGoceBodega', 'propiedades.codigoBodega', 'propiedades.usoGoceEstacionamiento', 'propiedades.codigoEstacionamiento',
+        'propiedades.habitacion', 'propiedades.bano', 'user1.name as nombreArrendatario', 'user1.apellido as apellidoArrendatario', 'user1.rut as rutArrendatario',
+        'user1.direccion as direccionArrendatario', 'user1.numero as numeroArrendatario', 'comuna1.nombre as comunaArrendatario', 'user2.name as nombrePropietario', 
+        'user2.apellido as apellidoPropietario', 'user2.rut as rutPropietario','user2.direccion as direccionPropietario', 'user2.numero as numeroPropietario', 
+        'comuna2.nombre as comunaPropietario', 'user2.email as correoPropietario', 'user1.telefono as telefonoArrendatario', 'user1.email as correoArrendatario',
+        'user3.name as nombreCodeudor', 'user3.apellido as apellidoCodeudor', 'user3.rut as rutCodeudor','user3.direccion as direccionCodeudor', 
+        'user3.numero as numeroCodeudor', 'comuna3.nombre as comunaCodeudor', 'user3.email as correoCodeudor', 'user1.estadoCivil as estadoCivilArrendatario',
+        'user1.profesion as profesionArrendatario', 'user2.estadoCivil as estadoCivilPropietario', 'user2.profesion as profesionPropietario',
+        'user3.estadoCivil as estadoCivilCodeudor', 'user3.profesion as profesionCodeudor', 'propiedades.nombreEdificioComunidad')
+        ->join('propiedades', 'contratos_arriendos.idPropiedad', '=', 'propiedades.id')
+        ->join('region', 'region.id', '=', 'propiedades.idRegion')
+        ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
+        ->join('estados', 'estados.idEstado', '=', 'contratos_arriendos.idEstado')
+        ->join('users as user1', 'user1.id', '=', 'contratos_arriendos.idUsuarioArrendatario')
+        ->join('comuna as comuna1', 'comuna1.id', '=', 'user1.idComuna')
+        ->join('users as user2', 'user2.id', '=', 'contratos_arriendos.idUsuarioPropietario')
+        ->join('comuna as comuna2', 'comuna2.id', '=', 'user2.idComuna')
+        ->leftjoin('users as user3', 'user3.id', '=', 'contratos_arriendos.idUsuarioCodeudor')
+        ->leftjoin('comuna as comuna3', 'comuna3.id', '=', 'user3.idComuna')
+        ->where('contratos_arriendos.idContratoArriendo', '=', $request->id)
+        ->first();
+        $fechaHoy = Carbon::now();
+        $pdf = \PDF::loadView('prints.printSalvoconductoArriendo', compact('salvoconducto', 'fechaHoy'));
+        return $pdf->download('Salvoconducto-arrendatario.pdf');
     }
 }

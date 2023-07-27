@@ -55,6 +55,7 @@ Route::prefix('users')->group(function () {
     Route::post('/cuentas-bancarias/store', 'UserController@storeCuentaBancaria');
     Route::post('/cuentas-bancarias/update/{parametro}', 'UserController@updateCuentaBancaria');
     Route::post('/cuentas-bancarias/delete', 'UserController@deleteCuentaBancaria');
+    Route::post('/reimpresionDeclaracionJurada', 'UserController@imprimirDeclaracionJurada');
 });
 Route::prefix('properties')->group(function () {
     Route::get('/', 'PropertyController@index')->name('properties');
@@ -91,6 +92,9 @@ Route::prefix('contratos')->group(function () {
     Route::get('/edit/{contrato}', 'ContratoArriendoController@edit');
     Route::post('/update/{contrato}', 'ContratoArriendoController@update');
     Route::post('/destroy', 'ContratoArriendoController@destroy');
+
+    Route::post('/reimpresionContratoArriendo', 'ContratoArriendoController@imprimirContratoArriendo');
+    Route::post('/reimpresionSalvoconductoArriendo', 'ContratoArriendoController@imprimirSalvoconducto');
 });
 Route::prefix('mandatos')->group(function () {
     Route::get('/', 'MandatoAdministracionController@index');
@@ -100,6 +104,8 @@ Route::prefix('mandatos')->group(function () {
     Route::get('/edit/{contrato}', 'MandatoAdministracionController@edit');
     Route::post('/update/{contrato}', 'MandatoAdministracionController@update');
     Route::post('/destroy', 'MandatoAdministracionController@destroy');
+
+    Route::post('/reimpresionMandatoAdministracion', 'MandatoAdministracionController@imprimirMandatoAdministracion');
 });
 Route::prefix('estados-pagos')->group(function () {
     Route::get('/', 'EstadoPagoController@index');
@@ -116,6 +122,7 @@ Route::prefix('estados-pagos')->group(function () {
     Route::get('/pagos/{id}', 'EstadoPagoController@indexPagos');
     Route::post('/pago-manual', 'EstadoPagoController@pagoManual')->name('pagoManual');
     Route::post('/pago-manual-index', 'EstadoPagoController@pagoManualDesdeIndex')->name('pagoManualIndex');
+    Route::post('/pagos/deletePago', 'EstadoPagoController@deletePago');
 });
 Route::prefix('parametros')->group(function () {
     Route::get('/', 'ParametrosGeneralesController@index');

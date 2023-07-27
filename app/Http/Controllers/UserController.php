@@ -7,6 +7,7 @@ use App\UsuarioCuentaBancaria;
 use App\TipoCuentaBancaria;
 use App\LogTransaccion;
 use App\TipoComercial;
+use Carbon\Carbon;
 use App\Provincia;
 use App\UserRol;
 use App\Genero;
@@ -387,5 +388,16 @@ class UserController extends Controller
             DB::rollback();
             return back()->withInput($request->all());
         }
+    }
+    public function imprimirDeclaracionJurada(Request $request)
+    {
+        $usuario = User::select('users.*', 'region.nombre as nombreRegion', 'comuna.nombre as nombreComuna')
+        ->join('region', 'region.id', '=', 'users.idRegion')
+        ->join('comuna', 'comuna.id', '=', 'users.idComuna')
+        ->where('users.id', '=', $request->id)
+        ->first();
+        $fechaHoy = Carbon::now();
+        $pdf = \PDF::loadView('prints.printDeclaracionJurada', compact('usuario', 'fechaHoy'));
+        return $pdf->download('Declaracion-Jurada.pdf');
     }
 }

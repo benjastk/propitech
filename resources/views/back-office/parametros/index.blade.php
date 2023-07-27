@@ -93,7 +93,7 @@
                                                 </td>
                                                 <td style="width: 20% !important" >
                                                     <ul class="list-inline font-size-20 contact-links mb-0">
-                                                        <li class="list-inline-item px-2">
+                                                        <li class="list-inline-item">
                                                             <a href="/parametros/edit/{{ $parametro->idParametroGeneral }}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bx bxs-edit-alt"></i></a>
                                                         </li>
                                                     </ul>

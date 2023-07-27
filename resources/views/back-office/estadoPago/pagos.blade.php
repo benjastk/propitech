@@ -25,7 +25,24 @@
                     <div class="col-12">
                         <div class="page-title-box d-flex align-items-center justify-content-between">
                             <h4 class="mb-0 font-size-18">Pagos {{ $estadoPago->direccionPropiedad }} 
-                                @if($estadoPago->block), Departamento {{ $estadoPago->block }} @endif {{ $estadoPago->nombreComunaPropiedad}}
+                                @if($estadoPago->block), Departamento {{ $estadoPago->block }} @endif {{ $estadoPago->nombreComunaPropiedad}} 
+                                    @if($estadoPago->idEstado == 47)
+                                    <a href="#" class="badge badge-soft-info font-size-11 m-1">{{ $estadoPago->nombreEstado }}</a>
+                                    @elseif($estadoPago->idEstado == 48)
+                                    <a href="#" class="badge badge-soft-success font-size-11 m-1">{{ $estadoPago->nombreEstado }}</a>
+                                    @elseif($estadoPago->idEstado == 49)
+                                    <a href="#" class="badge badge-soft-danger font-size-11 m-1">{{ $estadoPago->nombreEstado }}</a>
+                                    @elseif($estadoPago->idEstado == 50)
+                                    <a href="#" class="badge badge-soft-warning font-size-11 m-1">{{ $estadoPago->nombreEstado }}</a>
+                                    @elseif($estadoPago->idEstado == 70)
+                                    <a href="#" class="badge badge-soft-primary font-size-11 m-1">{{ $estadoPago->nombreEstado }}</a>
+                                    @elseif($estadoPago->idEstado == 83)
+                                    <a href="#" class="badge badge-soft-dark font-size-11 m-1">{{ $estadoPago->nombreEstado }}</a>
+                                    @elseif($estadoPago->idEstado == 84)
+                                    <a href="#" class="badge badge-soft-secondary font-size-11 m-1">{{ $estadoPago->nombreEstado }}</a>
+                                    @elseif($estadoPago->idEstado == 89)
+                                    <a href="#" class="badge badge-soft-danger font-size-11 m-1">{{ $estadoPago->nombreEstado }}</a>
+                                    @endif
                             </h4>
 
                             <div class="page-title-right">
@@ -85,9 +102,10 @@
                                                             <a href="" data-toggle="tooltip" data-placement="top" title="Profile"><i class="bx bx-user-circle"></i></a>
                                                         </li>-->
                                                         <li class="list-inline-item px-2">
-                                                            <form id="form1" action="{{ url('/estados-pagos/pagos/destroy') }}" method="post">
+                                                            <form id="form1" action="{{ url('/estados-pagos/pagos/deletePago') }}" method="post">
                                                                 {{ csrf_field() }}
-                                                                <input type="hidden" name="id" value="{{ $pago->idPago }}"/>
+                                                                <input type="hidden" name="idEstadoPago" value="{{ $estadoPago->idEstadoPago }}"/>
+                                                                <input type="hidden" name="idPago" value="{{ $pago->idPago }}"/>
                                                                 <button style="border: 0px; background-color: white;" type="submit"><i class="bx bxs-trash-alt"></i></button>
                                                             </form>
                                                             <!--<a href="/planes/edit/{{ $estadoPago->idEstadoPago }}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bx bxs-trash-alt"></i></a>-->

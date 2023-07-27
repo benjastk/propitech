@@ -418,12 +418,24 @@
         <div class="form-group col-md-12">
             <label>Notas internas</label>
             @if(!isset( $contrato->nota))
-                <textarea class="form-control" id="nota" name="nota" rows="4" placeholder="Nota"></textarea>
+                <textarea class="form-control" id="nota" name="nota" rows="2" placeholder="Nota"></textarea>
             @else
-                <textarea class="form-control" id="nota" name="nota" rows="4" placeholder="Nota"> {{ $contrato->nota }} </textarea>
+                <textarea class="form-control" id="nota" name="nota" rows="2" placeholder="Nota"> {{ $contrato->nota }} </textarea>
             @endif
         </div>
-        <div class="form-group col-md-3">
+        <br>
+        <div class="col-12">
+            <label>Prohibiciones</label>
+            @if(!isset($propiedad->prohibiciones))
+                <textarea class="form-control" name="prohibiciones" rows="2" placeholder="Prohibiciones" >{{ old('prohibiciones') }}</textarea>
+            @else
+                <textarea class="form-control" name="prohibiciones" rows="2" placeholder="Prohibiciones" >{{ $contrato->prohibiciones }}</textarea>
+            @endif
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="form-group col-md-4">
             <label>Corredor</label>
             @if( !isset($contrato->idCorredor))
                 <select name="idCorredor" class="form-control">
@@ -439,7 +451,7 @@
                 </select>
             @endif
         </div>
-        <div class="form-group col-md-3" >
+        <div class="form-group col-md-4" >
             <label>Estado Propiedad</label>
             @if(!isset( $contrato->idPropiedad))
             <select name="idEstadoPropiedad" class="form-control" readonly>
@@ -449,6 +461,19 @@
             <select name="idEstadoPropiedad" class="form-control" readonly>
                 <option value="{{ $propiedad->idNivelUsoPropiedad }}" >{{ $propiedad->nombreNivelUsoPropiedad}}</option>
             </select>
+            @endif
+        </div>
+        <div class="col-4" style="text-align:center">
+            @if(!isset($contrato->renovacionAutomatica))
+                <div class="custom-control custom-switch mb-2" dir="ltr">
+                    <input name="renovacionAutomatica" type="checkbox" class="custom-control-input" id="customSwitch4" {{ (Input::old("renovacionAutomatica") == 'on' ? "checked":"") }} >
+                    <label class="custom-control-label" for="customSwitch4">Renovación Automatica</label>
+                </div>
+            @else
+                <div class="custom-control custom-switch mb-2" dir="ltr">
+                    <input name="renovacionAutomatica" type="checkbox" class="custom-control-input" id="customSwitch4" {{ ( $contrato->renovacionAutomatica == 1 ? "checked":"") }} >
+                    <label class="custom-control-label" for="customSwitch4">Renovación Automatica</label>
+                </div>
             @endif
         </div>
     </div>

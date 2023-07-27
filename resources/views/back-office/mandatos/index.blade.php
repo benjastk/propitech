@@ -74,7 +74,7 @@
                                                 <th scope="col" >Arrendatario</th>
                                                 <th scope="col" >Propiedad</th>
                                                 <th scope="col" >Estado</th>
-                                                <th scope="col" >Comision Administracion</th>
+                                                <th scope="col" >Comision <br>Administracion</th>
                                                 <th scope="col" >Acciones</th>
                                             </tr>
                                         </thead>
@@ -101,16 +101,23 @@
                                                 <td>{{ $mandato->comisionAdministracion }}%</td>
                                                 <td>
                                                     <ul class="list-inline font-size-20 contact-links mb-0">
-                                                        <!--<li class="list-inline-item px-2">
+                                                        <!--<li class="list-inline-item">
                                                             <a href="" data-toggle="tooltip" data-placement="top" title="Message"><i class="bx bx-message-square-dots"></i></a>
                                                         </li>
-                                                        <li class="list-inline-item px-2">
+                                                        <li class="list-inline-item">
                                                             <a href="" data-toggle="tooltip" data-placement="top" title="Profile"><i class="bx bx-user-circle"></i></a>
                                                         </li>-->
-                                                        <li class="list-inline-item px-2">
+                                                        <li class="list-inline-item">
+                                                            <form id="form1" action="{{ url('/mandatos/reimpresionMandatoAdministracion') }}" method="post">
+                                                                {{ csrf_field() }}
+                                                                <input type="hidden" name="id" value="{{ $mandato->idMandatoPropiedad }}"/>
+                                                                <button style="border: 0px; background-color: white;" type="submit"><i class="bx bxs-printer"></i></button>
+                                                            </form>
+                                                        </li>
+                                                        <li class="list-inline-item">
                                                             <a href="/mandatos/edit/{{ $mandato->idMandatoPropiedad }}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bx bxs-edit-alt"></i></a>
                                                         </li>
-                                                        <li class="list-inline-item px-2">
+                                                        <li class="list-inline-item">
                                                             <form id="form1" action="{{ url('/mandatos/destroy') }}" method="post">
                                                                 {{ csrf_field() }}
                                                                 <input type="hidden" name="id" value="{{ $mandato->idMandatoPropiedad }}"/>

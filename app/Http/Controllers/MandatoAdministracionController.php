@@ -347,4 +347,52 @@ class MandatoAdministracionController extends Controller
             return back();
         }
     }
+    public function imprimirMandatoAdministracion(Request $request)
+    {
+        $mandatoAdministracion = MandatoAdministracion::select('mandatos_propiedad.*', 'user1.name as nombrePropietario', 'user1.apellido as apellidoPropietario', 
+        'user1.rut as rutPropietario','user1.direccion as direccionPropietario', 'user1.numero as numeroPropietario', 'comuna1.nombre as comunaPropietario', 
+        'user1.email as correoPropietario', 'user1.nacionalidad as nacionalidadPropietario', 'user1.estadoCivil as estadoCivilPropietario', 
+        'user1.profesion as profesionPropietario', 'region1.nombre as regionPropietario', 'propiedades.id', 'estados.nombreEstado', 'estados.idEstado',
+        'propiedades.direccion', 'propiedades.numero', 'propiedades.block', 'region.nombre as nombreRegion', 'comuna.nombre as nombreComuna', 
+        'propiedades.usoGoceBodega', 'propiedades.codigoBodega', 'propiedades.usoGoceEstacionamiento', 'propiedades.codigoEstacionamiento',
+        'propiedades.habitacion', 'propiedades.bano', 'planes.nombre as nombrePlan', 'usuarios_cuentas_bancarias.numeroCuenta', 'bancos.nombreBanco',
+        'usuarios_cuentas_bancarias.correoAsociado', 'user1.telefono')
+        ->join('propiedades', 'mandatos_propiedad.idPropiedad', '=', 'propiedades.id')
+        ->join('region', 'region.id', '=', 'propiedades.idRegion')
+        ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
+        ->join('estados', 'estados.idEstado', '=', 'mandatos_propiedad.idEstadoMandato')
+        ->join('users as user1', 'user1.id', '=', 'mandatos_propiedad.idPropietario')
+        ->join('comuna as comuna1', 'comuna1.id', '=', 'user1.idComuna')
+        ->join('region as region1', 'region1.id', '=', 'user1.idRegion')
+        ->join('planes', 'planes.id', '=', 'mandatos_propiedad.idPlan')
+        ->leftjoin('usuarios_cuentas_bancarias', 'usuarios_cuentas_bancarias.idUsuarioCuentaBancaria', '=', 'mandatos_propiedad.idUsuarioCuentaBancaria')
+        ->leftjoin('bancos', 'bancos.idBanco', '=', 'usuarios_cuentas_bancarias.idBanco')
+        ->where('mandatos_propiedad.idMandatoPropiedad', '=', $request->id)
+        ->first();
+        if($mandatoAdministracion->idPlan == 1)
+        {
+            $pdf = \PDF::loadView('prints.printMandatosAdministracion1', compact('mandatoAdministracion'));
+            return $pdf->download('mandato-administracion.pdf');
+        }
+        elseif($mandatoAdministracion->idPlan == 2)
+        {
+            $pdf = \PDF::loadView('prints.printMandatosAdministracion2', compact('mandatoAdministracion'));
+            return $pdf->download('mandato-administracion.pdf');
+        }
+        elseif($mandatoAdministracion->idPlan == 3)
+        {
+            $pdf = \PDF::loadView('prints.printMandatosAdministracion3', compact('mandatoAdministracion'));
+            return $pdf->download('mandato-administracion.pdf');
+        }
+        elseif($mandatoAdministracion->idPlan == 4)
+        {
+            $pdf = \PDF::loadView('prints.printMandatosAdministracion4', compact('mandatoAdministracion'));
+            return $pdf->download('mandato-administracion.pdf');
+        }
+        else
+        {
+            toastr()->error('No existe documento para imprimir Mandato, Favor contacte a Administrador');
+            return redirect('/mandatos');
+        }
+    }
 }

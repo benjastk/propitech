@@ -329,11 +329,6 @@
         <script src="/libs/simplebar/simplebar.min.js"></script>
         <script src="/libs/node-waves/waves.min.js"></script>
 
-        <!-- apexcharts -->
-        <script src="/libs/apexcharts/apexcharts.min.js"></script>
-
-        <script src="/js/pages/dashboard.init.js"></script>
-
         <!-- App js -->
         <script src="/js/app.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.min.js"></script>

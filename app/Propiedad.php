@@ -85,6 +85,7 @@ class Propiedad extends Model
         'antiguedad',
         'idTipoOrientacion',
         'mascotas',
+        'nombreEdificioComunidad',
         'created_at',
         'updated_at'
     ];
