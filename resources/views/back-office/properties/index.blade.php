@@ -56,6 +56,9 @@
                                     <li class="breadcrumb-item"><a href="javascript: void(0);">Contactos</a></li>
                                     <li class="breadcrumb-item active">Lista de usuarios</li>
                                 </ol>-->
+                                <a href="/properties/export" class="btn btn-success waves-effect waves-light" style="margin-right: 10px">
+                                <i class="far fa-file-excel"></i> Descargar Excel
+                                </a>
                                 <a href="/properties/create" class="btn btn-info waves-effect waves-light" style="margin-right: 10px">
                                     <i class="bx bx-plus font-size-16 align-middle mr-2"></i> Crear Propiedad
                                 </a>

@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 use DB;
 use Auth;
 use App\User;
+use App\Propiedad;
+use App\ContratoArriendo;
 use App\FormularioContacto;
+use App\MandatoAdministracion;
 class HomeController extends Controller
 {
     /**
@@ -31,7 +34,12 @@ class HomeController extends Controller
         ->orderBy('created_at', 'asc')
         ->get();
         $user = Auth::user();
-        return view('back-office.home', compact('user', 'leadsContactos'));
+        $propiedadesVenta = Propiedad::where('idTipoComercial', 1)->where('idEstado', 42)->count();
+        $propiedadesArriendo = Propiedad::where('idTipoComercial', 2)->where('idEstado', 42)->count();
+        $contratosArriendos = ContratoArriendo::where('idEstado', 61)->count();
+        $mandatosAdministracion = MandatoAdministracion::where('idEstadoMandato', 61)->count();
+        return view('back-office.home', compact('user', 'leadsContactos', 'propiedadesVenta', 'propiedadesArriendo', 'contratosArriendos', 
+        'mandatosAdministracion'));
     }
     public function users()
     {

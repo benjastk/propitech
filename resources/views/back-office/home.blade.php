@@ -27,13 +27,13 @@
                                     <div class="card-body" style="height: 120px;">
                                         <div class="media">
                                             <div class="media-body">
-                                                <p class="text-muted font-weight-medium">Propiedades en venta</p>
-                                                <h4 class="mb-0">3</h4>
+                                                <p class="text-muted font-weight-medium">Propiedades para venta</p>
+                                                <h4 class="mb-0">{{ $propiedadesVenta }}</h4>
                                             </div>
 
                                             <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
                                                 <span class="avatar-title rounded-circle bg-primary">
-                                                    <i class="bx bx-money font-size-24"></i>
+                                                    <i class="bx bx-home-alt font-size-24"></i>
                                                 </span>
                                             </div>
                                         </div>
@@ -45,13 +45,13 @@
                                     <div class="card-body" style="height: 120px;" >
                                         <div class="media">
                                             <div class="media-body">
-                                                <p class="text-muted font-weight-medium">Propiedades totales para venta</p>
-                                                <h4 class="mb-0">3</h4>
+                                                <p class="text-muted font-weight-medium">Propiedades para Arriendo</p>
+                                                <h4 class="mb-0">{{ $propiedadesArriendo }}</h4>
                                             </div>
 
                                             <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
-                                                <span class="avatar-title rounded-circle bg-primary">
-                                                    <i class="bx bx-money font-size-24"></i>
+                                                <span class="avatar-title rounded-circle bg-warning">
+                                                    <i class="bx bxs-home font-size-24"></i>
                                                 </span>
                                             </div>
                                         </div>
@@ -63,13 +63,13 @@
                                     <div class="card-body" style="height: 120px;">
                                         <div class="media">
                                             <div class="media-body">
-                                                <p class="text-muted font-weight-medium">Propiedades en arriendo</p>
-                                                <h4 class="mb-0">3</h4>
+                                                <p class="text-muted font-weight-medium">Contratos en arriendo</p>
+                                                <h4 class="mb-0">{{ $contratosArriendos }}</h4>
                                             </div>
 
                                             <div class="mini-stat-icon avatar-sm rounded-circle bg-primary align-self-center">
                                                 <span class="avatar-title">
-                                                    <i class="bx bx-home font-size-24"></i>
+                                                    <i class="bx bxs-file font-size-24"></i>
                                                 </span>
                                             </div>
                                         </div>
@@ -81,13 +81,13 @@
                                     <div class="card-body" style="height: 120px;">
                                         <div class="media">
                                             <div class="media-body">
-                                                <p class="text-muted font-weight-medium">Propiedades totales para arriendo</p>
-                                                <h4 class="mb-0">5</h4>
+                                                <p class="text-muted font-weight-medium">Mandatos de administracion</p>
+                                                <h4 class="mb-0">{{ $mandatosAdministracion }}</h4>
                                             </div>
 
                                             <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
                                                 <span class="avatar-title rounded-circle bg-primary">
-                                                    <i class="bx bx-home font-size-24"></i>
+                                                    <i class="fas fa-file-signature font-size-24"></i>
                                                 </span>
                                             </div>
                                         </div>

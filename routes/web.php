@@ -67,6 +67,7 @@ Route::prefix('properties')->group(function () {
 
     Route::post('/img/subir/{id}', 'PropertyController@subirImagen');
     Route::post('/img/eliminar/{fileName}', 'PropertyController@eliminarImagen');
+    Route::get('/export', 'PropertyController@exportExcel')->name('export-properties');
 });
 Route::prefix('noticias')->group(function () {
     Route::get('/', 'NoticiaController@index')->name('noticias');

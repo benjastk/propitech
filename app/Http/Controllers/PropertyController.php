@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\ImageManager;
+use App\Exports\PropertiesExport;
 use App\CaracteristicasPorPropiedades;
 use App\CaracteristicasPropiedades;
 use App\NivelUsoPropiedad;
@@ -420,6 +422,21 @@ class PropertyController extends Controller
             	toastr()->warning('Debe indicar un nombre de archivo', 'Advertencia');
             	return back();
             }
+		} catch (QueryException $e) {
+			toastr()->error('Error de conexion, favor intente nuevamente');
+			return back();
+		} catch (ModelNotFoundException $e) {
+			toastr()->error('Imagen no encontrada');
+			return back();
+		} catch (Exception $e) {
+			toastr()->error('Se ha producido un error, favor intente nuevamente');
+			return back();
+		}
+	}
+    public function exportExcel()
+    {
+		try {
+            return Excel::download(new PropertiesExport, 'propiedades.xlsx');
 		} catch (QueryException $e) {
 			toastr()->error('Error de conexion, favor intente nuevamente');
 			return back();
