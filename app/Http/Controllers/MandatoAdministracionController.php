@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Crypt;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\MandatosExport;
 use App\UsuarioCuentaBancaria;
 use App\MandatoAdministracion;
 use App\PlanAdministracion;
@@ -395,4 +397,19 @@ class MandatoAdministracionController extends Controller
             return redirect('/mandatos');
         }
     }
+    public function exportExcel()
+    {
+		try {
+            return Excel::download(new MandatosExport, 'mandatos.xlsx');
+		} catch (QueryException $e) {
+			toastr()->error($e->getMessage());
+			return back();
+		} catch (ModelNotFoundException $e) {
+			toastr()->error('Imagen no encontrada');
+			return back();
+		} catch (Exception $e) {
+			toastr()->error('Se ha producido un error, favor intente nuevamente');
+			return back();
+		}
+	}
 }

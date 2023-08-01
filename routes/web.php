@@ -96,6 +96,7 @@ Route::prefix('contratos')->group(function () {
 
     Route::post('/reimpresionContratoArriendo', 'ContratoArriendoController@imprimirContratoArriendo');
     Route::post('/reimpresionSalvoconductoArriendo', 'ContratoArriendoController@imprimirSalvoconducto');
+    Route::get('/export', 'ContratoArriendoController@exportExcel')->name('export-contratos');
 });
 Route::prefix('mandatos')->group(function () {
     Route::get('/', 'MandatoAdministracionController@index');
@@ -107,6 +108,7 @@ Route::prefix('mandatos')->group(function () {
     Route::post('/destroy', 'MandatoAdministracionController@destroy');
 
     Route::post('/reimpresionMandatoAdministracion', 'MandatoAdministracionController@imprimirMandatoAdministracion');
+    Route::get('/export', 'MandatoAdministracionController@exportExcel')->name('export-mandatos');
 });
 Route::prefix('estados-pagos')->group(function () {
     Route::get('/', 'EstadoPagoController@index');

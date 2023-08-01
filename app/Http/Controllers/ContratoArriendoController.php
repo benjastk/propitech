@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Crypt;
+use App\Exports\ContratosExport;
 use App\TiempoPagoGarantia;
 use App\LogTransaccion;
 use App\ParametroGeneral;
@@ -300,7 +302,20 @@ class ContratoArriendoController extends Controller
             $codeudor = User::where('rut', '=', $request->rutCodeudor)->first();
             $actualizarContrato->idUsuarioArrendatario = $arrendatario->id;
             $actualizarContrato->idUsuarioPropietario = $propietario->id;
-            $actualizarContrato->idUsuarioCodeudor = $codeudor->id;
+            if($codeudor)
+            {
+                $actualizarContrato->idUsuarioCodeudor = $codeudor->id;
+            }
+            else
+            {
+                $actualizarContrato->idUsuarioCodeudor = null;
+                $actualizarContrato->nombreCodeudor = null;
+                $actualizarContrato->apellidoCodeudor = null;
+                $actualizarContrato->rutCodeudor = null;
+                $actualizarContrato->nacionalidadCodeudor = null;
+                $actualizarContrato->telefonoCodeudor = null;
+                $actualizarContrato->correoCodeudor = null;
+            }
             if($request->renovacionAutomatica)
             {
                 $actualizarContrato->renovacionAutomatica = 1;
@@ -456,4 +471,19 @@ class ContratoArriendoController extends Controller
         $pdf = \PDF::loadView('prints.printSalvoconductoArriendo', compact('salvoconducto', 'fechaHoy'));
         return $pdf->download('Salvoconducto-arrendatario.pdf');
     }
+    public function exportExcel()
+    {
+		try {
+            return Excel::download(new ContratosExport, 'contratos.xlsx');
+		} catch (QueryException $e) {
+			toastr()->error($e->getMessage());
+			return back();
+		} catch (ModelNotFoundException $e) {
+			toastr()->error('Imagen no encontrada');
+			return back();
+		} catch (Exception $e) {
+			toastr()->error('Se ha producido un error, favor intente nuevamente');
+			return back();
+		}
+	}
 }

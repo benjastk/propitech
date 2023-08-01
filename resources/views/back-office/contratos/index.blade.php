@@ -49,6 +49,9 @@
                             <h4 class="mb-0 font-size-18">Lista de Contratos de arriendo</h4>
 
                             <div class="page-title-right">
+                                <a href="/contratos/export" class="btn btn-success waves-effect waves-light" style="margin-right: 10px">
+                                    <i class="far fa-file-excel"></i> Descargar Excel
+                                </a>
                                 <!--<ol class="breadcrumb m-0">
                                     <li class="breadcrumb-item"><a href="javascript: void(0);">Contactos</a></li>
                                     <li class="breadcrumb-item active">Lista de usuarios</li>

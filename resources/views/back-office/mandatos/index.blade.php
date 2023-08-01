@@ -56,6 +56,9 @@
                                 <a href="/contratos/create" class="btn btn-info waves-effect waves-light" style="margin-right: 10px">
                                     <i class="bx bx-user-plus font-size-16 align-middle mr-2"></i> Crear Contrato de arriendo
                                 </a>-->
+                                <a href="/mandatos/export" class="btn btn-success waves-effect waves-light" style="margin-right: 10px">
+                                    <i class="far fa-file-excel"></i> Descargar Excel
+                                </a>
                             </div>
                         </div>
                     </div>
