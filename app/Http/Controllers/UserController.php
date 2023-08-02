@@ -16,6 +16,7 @@ use App\Region;
 use App\Banco;
 use App\Pais;
 use App\User;
+use App\Rol;
 use Session;
 use Auth;
 use DB;
@@ -56,7 +57,16 @@ class UserController extends Controller
         $comunas = Comuna::get();
         $generos = Genero::get();
         $tiposComerciales = TipoComercial::get();
-        return view('back-office.usuarios.create', compact('user', 'paises', 'regiones', 'provincias', 'comunas', 'generos', 'tiposComerciales'));
+        if(Auth::user()->rol->id_rol == 1)
+        {
+            $roles = Rol::get();
+        }
+        else
+        {
+            $roles = Rol::where('id', '>', 1)->get();
+        }
+        
+        return view('back-office.usuarios.create', compact('user', 'paises', 'regiones', 'provincias', 'comunas', 'generos', 'tiposComerciales', 'roles'));
     }
 
     /**
@@ -140,14 +150,26 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = Auth::user();
-        $usuario = User::where('id', $id)->first();
+        $usuario = User::select('users.*', 'roles.nombre as nombreRol', 'roles.id as idRol')
+        ->where('users.id', $id)
+        ->join('rol_usuario', 'rol_usuario.id_usuario', '=', 'users.id')
+        ->join('roles', 'roles.id', '=', 'rol_usuario.id_rol')
+        ->first();
         $paises = Pais::get();
         $regiones = Region::get();
         $provincias = Provincia::get();
         $comunas = Comuna::get();
         $generos = Genero::get();
         $tiposComerciales = TipoComercial::get();
-        return view('back-office.usuarios.edit', compact('usuario', 'user', 'paises', 'regiones', 'provincias', 'comunas', 'generos', 'tiposComerciales'));
+        if(Auth::user()->rol->id_rol == 1)
+        {
+            $roles = Rol::get();
+        }
+        else
+        {
+            $roles = Rol::where('id', '>', 1)->get();
+        }
+        return view('back-office.usuarios.edit', compact('usuario', 'user', 'paises', 'regiones', 'provincias', 'comunas', 'generos', 'tiposComerciales', 'roles'));
     }
 
     /**

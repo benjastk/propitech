@@ -246,7 +246,7 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-6">
+        <div class="col-4">
         <label>Contraseña</label>
             @if(!isset($usuario->password))
                 <input type="password" name="contrasena1" class="form-control" placeholder="Contraseña" required >
@@ -254,13 +254,32 @@
                 <input type="password" name="contrasena1" value="{{ $usuario->password }}" class="form-control" placeholder="Contraseña" required >
             @endif 
         </div>
-        <div class="col-6">
+        <div class="col-4">
         <label>Confirme contraseña</label>
             @if(!isset($usuario->password))
                 <input type="password" name="contrasena2" class="form-control" placeholder="Contraseña" required >
             @else
                 <input type="password" name="contrasena2" value="{{ $usuario->password }}" class="form-control" placeholder="Contraseña" required >
             @endif 
+        </div>
+        <div class="col-4">
+            <div class="form-group row">
+                <div class="col-md-12">
+                <label>Rol Usuario</label>
+                    <select name="idRol" class="form-control" required >
+                        <option value="" >Seleccione un rol</option>
+                        @if(!isset($usuario->idRol))
+                            @foreach($roles as $rol)
+                            <option value="{{ $rol->id }}" {{ (Input::old("idRol") == $rol->id ? "selected":"") }} >{{ $rol->nombre }}</option>
+                            @endforeach
+                        @else
+                            @foreach($roles as $rol)
+                            <option value="{{ $rol->id }}" {{ $usuario->idRol == $rol->id ? "selected":"" }} >{{ $rol->nombre }}</option>
+                            @endforeach
+                        @endif                                        
+                    </select>
+                </div>
+            </div>
         </div>
     </div>
     <br>
