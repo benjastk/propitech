@@ -543,6 +543,25 @@
     </div>
     <br>
     <div class="row">
+        <div class="col-6">
+            <label>Numero de candado</label>
+            @if(!isset($propiedad->numeroCandado))
+                <input type="text" name="numeroCandado" value="{{old('numeroCandado')}}" class="form-control" placeholder="Numero Candado" >
+            @else
+                <input type="text" name="numeroCandado" value="{{ $propiedad->numeroCandado }}" class="form-control" placeholder="Numero Candado" >
+            @endif
+        </div>
+        <div class="col-6">
+            <label>Clave de candado</label>
+            @if(!isset($propiedad->claveCandado))
+                <input type="text" name="claveCandado" value="{{old('claveCandado')}}" class="form-control" placeholder="Clave Candado" >
+            @else
+                <input type="text" name="claveCandado" value="{{ $propiedad->claveCandado }}" class="form-control" placeholder="Clave Candado" >
+            @endif
+        </div>
+    </div>
+    <br>
+    <div class="row">
         <div class="col-12" style="text-align:center">
             <a href="/properties" class="btn btn-danger waves-effect waves-light" style="margin-right: 10px">
                 <i class="bx bx-arrow-back font-size-16 align-middle mr-2"></i> Volver
