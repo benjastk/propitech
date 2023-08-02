@@ -100,6 +100,14 @@ class UserController extends Controller
             }
             $usuario->save();
 
+            if($request->idRol)
+            {
+                $userRol = new UserRol();
+                $userRol->id_usuario = $usuario->id;
+                $userRol->id_rol = $request->idRol;
+                $userRol->save();
+            }
+
             $logTransaccion = new LogTransaccion();
             $logTransaccion->tipoTransaccion = 'Creacion de usuario';
             $logTransaccion->idUsuario =  Auth::user()->id;
@@ -202,13 +210,10 @@ class UserController extends Controller
             }
             $usuario->save();
 
-            $usuarioRol = UserRol::where('id_usuario', $id)->first();
-            if(!$usuarioRol)
+            if($request->idRol)
             {
-                $usuarioRol = new UserRol();
-                $usuarioRol->id_usuario = $id;
-                $usuarioRol->id_rol = 3;
-                $usuarioRol->save();
+                $rolUsuario->id_rol = $request->idRol;
+                $rolUsuario->save();
             }
             $logTransaccion = new LogTransaccion();
             $logTransaccion->tipoTransaccion = 'Actualizacion de usuario';
