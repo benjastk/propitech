@@ -7,7 +7,9 @@ use DB;
 use Auth;
 use App\User;
 use App\Propiedad;
+use App\FormularioCanje;
 use App\ContratoArriendo;
+use App\FormularioCaptador;
 use App\FormularioContacto;
 use App\MandatoAdministracion;
 class HomeController extends Controller
@@ -40,6 +42,27 @@ class HomeController extends Controller
         $mandatosAdministracion = MandatoAdministracion::where('idEstadoMandato', 61)->count();
         return view('back-office.home', compact('user', 'leadsContactos', 'propiedadesVenta', 'propiedadesArriendo', 'contratosArriendos', 
         'mandatosAdministracion'));
+    }
+    public function leads()
+    {
+        $leadsContactos = FormularioContacto::orderBy('formulario_contacto.created_at', 'desc')
+        ->limit(500)
+        ->get();
+
+        $leadsCanjes = FormularioCanje::select('formulario_canjes.*', 'tipos_comerciales.nombreTipoComercial')
+        ->leftjoin('tipos_comerciales', 'tipos_comerciales.idTipoComercial', '=', 'formulario_canjes.tipoOperacion')
+        ->orderBy('formulario_canjes.created_at', 'asc')
+        ->limit(500)
+        ->get();
+
+        $leadsCaptadores = FormularioCaptador::select('formulario_captador.*', 'tipos_propiedades.nombreTipoPropiedad', 'tipos_comerciales.nombreTipoComercial')
+        ->leftjoin('tipos_propiedades', 'tipos_propiedades.idTipoPropiedad', '=', 'formulario_captador.tipoPropiedad')
+        ->leftjoin('tipos_comerciales', 'tipos_comerciales.idTipoComercial', '=', 'formulario_captador.tipoOperacion')
+        ->orderBy('created_at', 'asc')
+        ->limit(500)
+        ->get();
+        $user = Auth::user();
+        return view('back-office.leads', compact('user', 'leadsContactos', 'leadsCanjes', 'leadsCaptadores'));
     }
     public function users()
     {

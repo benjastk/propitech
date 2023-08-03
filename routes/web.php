@@ -43,6 +43,7 @@ Route::get('/login', function () {
 
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/leads', 'HomeController@leads')->name('leads');
 Route::prefix('users')->group(function () {
     Route::get('/', 'UserController@index')->name('users');
     Route::get('/create', 'UserController@create');
