@@ -55,6 +55,12 @@
                     </a>
                 </li>
                 @endif
+                <li>
+                    <a href="/leads" class="waves-effect">
+                        <i class="bx bx-voicemail"></i>
+                        <span>Interacciones Web</span>
+                    </a>
+                </li>
             </ul>
         </div>
         <!-- Sidebar -->
