@@ -104,7 +104,7 @@
                                                         <td>{{ $leadContacto->nombre }}</td>
                                                         <td>{{ $leadContacto->telefono }}</td>
                                                         <td>{{ $leadContacto->email }}</td>
-                                                        <td>{{ $leadContacto->cantidadPropiedades }}</td>
+                                                        <td>{{ $leadContacto->mensaje }}</td>
                                                         <td>{{ strftime("%d-%m-%Y", strtotime($leadContacto->created_at)) }}</td>
                                                     </tr>
                                                     @endforeach
