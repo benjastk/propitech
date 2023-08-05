@@ -130,9 +130,24 @@ class InicioController extends Controller
             {
                 $propiedadesEnVenta1->where('propiedades.idComuna', $request->comuna);
             }
+            //coordenada central
+            if($request->region)
+            {
+                $region = Region::where('id', $request->region)->first();
+                $coordenada = '['. $region->longitudRegion.', '. $region->latitudRegion.']';
+            }
+            else if($request->comuna)
+            {
+                $comuna = Comuna::where('id', $request->comuna)->first();
+                $coordenada = '['. $comuna->longitudComuna.', '. $comuna->latitudComuna.']';
+            }
+            else
+            {
+                $coordenada = '[-70.64827, -33.45694]';
+            }   
             $propiedadesEnVenta = $propiedadesEnVenta1->get();
             return view('front-end.mapa-catalogo-venta', compact('propiedadesEnVenta','comunas', 'paises', 'regiones', 'provincias', 'habitaciones',
-                'telefonoWhatsapp'));
+                'telefonoWhatsapp', 'coordenada'));
         }
         else if($request->tipoVenta == 2)
         {
@@ -152,9 +167,23 @@ class InicioController extends Controller
                 $propiedadesEnArriendo1->where('propiedades.idComuna', $request->comuna);
             }
             $propiedadesEnArriendo = $propiedadesEnArriendo1->get();
-            
+            //coordenada central
+            if($request->region)
+            {
+                $region = Region::where('id', $request->region)->first();
+                $coordenada = '['. $region->longitudRegion.', '. $region->latitudRegion.']';
+            }
+            else if($request->comuna)
+            {
+                $comuna = Comuna::where('id', $request->comuna)->first();
+                $coordenada = '['. $comuna->longitudComuna.', '. $comuna->latitudComuna.']';
+            }
+            else
+            {
+                $coordenada = '[-70.64827, -33.45694]';
+            }   
             return view('front-end.mapa-catalogo-arriendo', compact('propiedadesEnArriendo','comunas', 'paises', 'regiones', 'provincias', 
-                'habitaciones', 'telefonoWhatsapp'));
+                'habitaciones', 'telefonoWhatsapp', 'coordenada'));
         }
         else
         {
@@ -173,9 +202,24 @@ class InicioController extends Controller
             {
                 $propiedadesEnArriendo1->where('propiedades.idComuna', $request->comuna);
             }
+            //coordenada central
+            if($request->region)
+            {
+                $region = Region::where('id', $request->region)->first();
+                $coordenada = '['. $region->longitudRegion.', '. $region->latitudRegion.']';
+            }
+            else if($request->comuna)
+            {
+                $comuna = Comuna::where('id', $request->comuna)->first();
+                $coordenada = '['. $comuna->longitudComuna.', '. $comuna->latitudComuna.']';
+            }
+            else
+            {
+                $coordenada = '[-70.64827, -33.45694]';
+            }   
             $propiedadesEnArriendo = $propiedadesEnArriendo1->get();
             return view('front-end.mapa-catalogo-arriendo', compact('propiedadesEnArriendo','comunas', 'paises', 'regiones', 'provincias', 
-                'habitaciones', 'telefonoWhatsapp'));
+                'habitaciones', 'telefonoWhatsapp', 'coordenada'));
         }
     }
     public function mapaCatalogoPropiedades()
@@ -199,9 +243,24 @@ class InicioController extends Controller
         ->where('propiedades.idEstado', 42)
         ->where('propiedades.idTipoComercial', 2) //Arriendo
         ->get();
+        //coordenada central
+        if($request->region)
+        {
+            $region = Region::where('id', $request->region)->first();
+            $coordenada = '['. $region->longitudRegion.', '. $region->latitudRegion.']';
+        }
+        else if($request->comuna)
+        {
+            $comuna = Comuna::where('id', $request->comuna)->first();
+            $coordenada = '['. $comuna->longitudComuna.', '. $comuna->latitudComuna.']';
+        }
+        else
+        {
+            $coordenada = '[-70.64827, -33.45694]';
+        }   
         $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
         return view('front-end.mapa-catalogo-arriendo', compact('propiedadesEnArriendo','comunas', 'paises', 'regiones', 'provincias', 'habitaciones',
-        'telefonoWhatsapp'));
+        'telefonoWhatsapp', 'coordenada'));
     }
     public function mapaCatalogoPropiedadesVenta()
     {
@@ -224,9 +283,24 @@ class InicioController extends Controller
         ->where('propiedades.idEstado', 42)
         ->where('propiedades.idTipoComercial', 1) //venta
         ->get();
+        //coordenada central
+        if($request->region)
+        {
+            $region = Region::where('id', $request->region)->first();
+            $coordenada = '['. $region->longitudRegion.', '. $region->latitudRegion.']';
+        }
+        else if($request->comuna)
+        {
+            $comuna = Comuna::where('id', $request->comuna)->first();
+            $coordenada = '['. $comuna->longitudComuna.', '. $comuna->latitudComuna.']';
+        }
+        else
+        {
+            $coordenada = '[-70.64827, -33.45694]';
+        }   
         $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
         return view('front-end.mapa-catalogo-venta', compact('propiedadesEnVenta','comunas', 'paises', 'regiones', 'provincias', 'habitaciones', 
-        'telefonoWhatsapp'));
+        'telefonoWhatsapp', 'coordenada'));
     }
     public function singleProperty($id)
     {

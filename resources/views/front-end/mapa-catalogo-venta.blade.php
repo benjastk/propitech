@@ -28,9 +28,13 @@
         <div class="row no-gutters" style="height: 100%;">
             <div class="col-xl-5 order-1 order-xl-1" id="map-sticky">
                 <div class="map_box_container">
-                    <div id="map" clas="d-none d-lg-block d-md-block" style="height: 100% !important">
+                    <div clas="d-none d-lg-block d-md-block">
+                        <div id="map" style="height: 100% !important">
+                        </div>
                     </div>
-                    <div id="map1" class=".d-none .d-sm-block .d-md-none" style="height: 300px !important; position: relative: !important">
+                    <div class="d-none d-sm-block" >
+                        <div id="map1" style="height: 300px; position: relative: !important">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -142,7 +146,7 @@
     var map = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/mapbox/streets-v11',
-        center: [-70.64827, -33.45694],
+        center: {{ $coordenada }},
         zoom: 10
     });
     $('.mapboxgl-canvas').css('height', '100%');
@@ -197,7 +201,7 @@
     var map = new mapboxgl.Map({
         container: 'map1',
         style: 'mapbox://styles/mapbox/streets-v11',
-        center: [-70.64827, -33.45694],
+        center: {{ $coordenada }},
         zoom: 10
     });
     $('.mapboxgl-canvas').css('height', '100%');
