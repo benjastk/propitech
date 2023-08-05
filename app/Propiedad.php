@@ -88,6 +88,7 @@ class Propiedad extends Model
         'nombreEdificioComunidad',
         'numeroCandado',
         'claveCandado',
+        'orientacion',
         'created_at',
         'updated_at'
     ];

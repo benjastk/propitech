@@ -543,7 +543,7 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-6">
+        <div class="col-4">
             <label>Numero de candado</label>
             @if(!isset($propiedad->numeroCandado))
                 <input type="text" name="numeroCandado" value="{{old('numeroCandado')}}" class="form-control" placeholder="Numero Candado" >
@@ -551,12 +551,20 @@
                 <input type="text" name="numeroCandado" value="{{ $propiedad->numeroCandado }}" class="form-control" placeholder="Numero Candado" >
             @endif
         </div>
-        <div class="col-6">
+        <div class="col-4">
             <label>Clave de candado</label>
             @if(!isset($propiedad->claveCandado))
                 <input type="text" name="claveCandado" value="{{old('claveCandado')}}" class="form-control" placeholder="Clave Candado" >
             @else
                 <input type="text" name="claveCandado" value="{{ $propiedad->claveCandado }}" class="form-control" placeholder="Clave Candado" >
+            @endif
+        </div>
+        <div class="col-4">
+            <label>Orientacion</label>
+            @if(!isset($propiedad->orientacion))
+                <input type="text" name="orientacion" value="{{old('orientacion')}}" class="form-control" placeholder="Orientacion" >
+            @else
+                <input type="text" name="orientacion" value="{{ $propiedad->orientacion }}" class="form-control" placeholder="Orientacion" >
             @endif
         </div>
     </div>

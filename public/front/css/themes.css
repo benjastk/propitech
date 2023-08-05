@@ -22733,7 +22733,6 @@ button:focus {
 }
 
 [data-animate] {
-  opacity: 0;
 }
 
 [data-animate].animated {

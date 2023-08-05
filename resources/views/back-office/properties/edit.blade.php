@@ -214,7 +214,7 @@
             url: '/properties/img/subir/{{$propiedad->id}}',
             paramName: "file", // Las imágenes se van a usar bajo este nombre de parámetro
             maxFilesize: 10, // Tamaño máximo en MB
-            acceptedFiles: ".jpg",
+            acceptedFiles: "image/jpeg,image/png,image/gif",
             headers: {
             'X-CSRF-TOKEN': '{{ csrf_token() }}'
             },

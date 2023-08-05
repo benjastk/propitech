@@ -232,6 +232,12 @@
                         <dt class="w-110px fs-14 font-weight-500 text-heading pr-2">Metros terraza</dt>
                         <dd>{{ $propiedad->mTerraza }}</dd>
                     </dl>
+                    @if($propiedad->orientacion)
+                    <dl class="col-sm-6 mb-0 d-flex">
+                        <dt class="w-110px fs-14 font-weight-500 text-heading pr-2">Orientación</dt>
+                        <dd>{{ $propiedad->orientacion }}</dd>
+                    </dl>
+                    @endif
                 </div>
             </section>
             <section class="mt-2 pb-7 px-6 pt-5 bg-white rounded-lg">
@@ -421,6 +427,21 @@
                             <div class="media-body">
                                 <h5 class="fs-13 font-weight-normal mb-0">Bodega</h5>
                                 <p class="mb-0 fs-13 font-weight-bold text-dark">1</p>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+                    @if($propiedad->orientacion)
+                    <div class="col-6 mb-3">
+                        <div class="media">
+                            <div class="p-2 shadow-xxs-1 rounded-lg mr-2 lh-1">
+                                <svg class="icon icon-my-package fs-18 text-primary mr-1">
+                                    <use xlink:href="#icon-save-search"></use>
+                                </svg>
+                            </div>
+                            <div class="media-body">
+                                <h5 class="fs-13 font-weight-normal mb-0">Orientación</h5>
+                                <p class="mb-0 fs-13 font-weight-bold text-dark">{{ $propiedad->orientacion }}</p>
                             </div>
                         </div>
                     </div>
