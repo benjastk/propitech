@@ -82,7 +82,7 @@
                 <div class="row mx-lg-n2">
                 @if(count($propiedadesEnVenta))
                 @foreach($propiedadesEnVenta as $propiedadVenta)
-                <div class="col-lg-4 col-sm-6 pb-6 px-lg-2" data-animate="fadeInUp" >
+                <div class="col-lg-4 col-sm-6 pb-6 px-lg-2" >
                     <div class="card border-0 hover-change-image" style="border: 2px solid #2db5ff !important; border-radius: 6px; padding: 0px !important; height: 100%;">
                         <div class="bg-overlay-gradient-1 bg-hover-overlay-gradient-3 rounded-lg card-img">
                             <img src="/img/propiedad/{{ $propiedadVenta->fotoPrincipal }}" style="height: 160px; width: 100%;"alt="Villa on Hollywood Boulevard">
