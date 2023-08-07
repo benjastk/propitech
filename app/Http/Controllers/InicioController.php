@@ -339,7 +339,7 @@ class InicioController extends Controller
         $amenidades = CaracteristicasPorPropiedades::select('caracteristicas_propiedades.*')
         ->join('propiedades', 'propiedades.id', '=', 'caracteristicas_por_propiedades.idPropiedad')
         ->join('caracteristicas_propiedades', 'caracteristicas_propiedades.idCaracteristicaPropiedad', '=', 'caracteristicas_por_propiedades.idCaracteristicaPropiedad')
-        ->where('caracteristicas_por_propiedades.idPropiedad', 1)
+        ->where('caracteristicas_por_propiedades.idPropiedad', $propiedad->id)
         ->get();
 
         $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
