@@ -132,4 +132,6 @@ Route::prefix('parametros')->group(function () {
     Route::get('/', 'ParametrosGeneralesController@index');
     Route::get('/edit/{parametro}', 'ParametrosGeneralesController@edit');
     Route::post('/update/{parametro}', 'ParametrosGeneralesController@update');
+
+    Route::get('/recordarPago', 'EstadoPagoController@recordarPago');
 });

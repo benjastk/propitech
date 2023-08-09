@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Mail\YaSeEncuentraDisponibleTuPago;
 use Illuminate\Database\QueryException;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 use App\Jobs\EnvioPagoArriendo;
 use Illuminate\Http\Request;
 use App\ParametroGeneral;
@@ -715,6 +717,31 @@ class EstadoPagoController extends Controller
             toastr()->warning($e->getMessage());
             DB::rollback();
             return back()->withInput($request->all());
+        }
+    }
+    public function recordarPago()
+    {
+        try{
+            Mail::to(['beenjaahp@hotmail.com',
+                'beenjaahp@gmail.com'])
+            ->send(new YaSeEncuentraDisponibleTuPago());
+            return redirect('/home');
+        } catch (ModelNotFoundException $e) {
+            toastr()->warning('No autorizado');
+            DB::rollback();
+            return back()->withInput($request->all());
+        } catch (QueryException $e) {
+            toastr()->warning('Ha ocurrido un error, favor intente nuevamente' . $e->getMessage());
+            DB::rollback();
+            return back()->withInput($request->all());
+        } catch (DecryptException $e) {
+            toastr()->info('Ocurrio un error al intentar acceder al recurso solicitado');
+            DB::rollback();
+            return back()->withInput($request->all());
+        } catch (\Exception $e) {
+            toastr()->warning($e->getMessage());
+            DB::rollback();
+            return $e->getMessage();
         }
     }
 }
