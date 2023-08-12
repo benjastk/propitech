@@ -23,13 +23,13 @@
         <!-- Favicons -->
         <link rel="icon" href="/front/favicon.ico">
         <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-N5V22X2F84"></script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-ET9XJDPBDJ"></script>
         <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
 
-        gtag('config', 'G-N5V22X2F84');
+        gtag('config', 'G-ET9XJDPBDJ');
         </script>
         <style>
             .bg-secondary
