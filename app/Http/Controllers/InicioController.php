@@ -222,7 +222,7 @@ class InicioController extends Controller
                 'habitaciones', 'telefonoWhatsapp', 'coordenada'));
         }
     }
-    public function mapaCatalogoPropiedades()
+    public function mapaCatalogoPropiedades(Request $request)
     {
         $habitaciones = Propiedad::select('propiedades.habitacion')
         ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
