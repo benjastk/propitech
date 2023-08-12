@@ -22,6 +22,15 @@
         <link rel="stylesheet" href="/front/css/themes.css">
         <!-- Favicons -->
         <link rel="icon" href="/front/favicon.ico">
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-N5V22X2F84"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-N5V22X2F84');
+        </script>
         <style>
             .bg-secondary
             {

@@ -262,7 +262,7 @@ class InicioController extends Controller
         return view('front-end.mapa-catalogo-arriendo', compact('propiedadesEnArriendo','comunas', 'paises', 'regiones', 'provincias', 'habitaciones',
         'telefonoWhatsapp', 'coordenada'));
     }
-    public function mapaCatalogoPropiedadesVenta()
+    public function mapaCatalogoPropiedadesVenta(Request $request)
     {
         $habitaciones = Propiedad::select('propiedades.habitacion')
         ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
