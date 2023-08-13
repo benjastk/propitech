@@ -38,7 +38,7 @@
                         <div class="box px-0">
                             <div class="item item-size-3-2">
                                 <div class="card p-0 hover-change-image">
-                                    <a href="/img/propiedad/{{ $propiedad->fotoPrincipal }}" class="card-img" data-gtf-mfp="true" data-gallery-id="04" style="background-image:url(/img/propiedad/{{ $propiedad->fotoPrincipal }})">
+                                    <a href="/img/propiedad/{{ $propiedad->fotoPrincipal }}" class="card-img" data-gtf-mfp="true" data-gallery-id="04" style="background-image:url('/img/propiedad/{{ $propiedad->fotoPrincipal }}')">
                                 </a>
                                 </div>
                             </div>
@@ -48,7 +48,7 @@
                             <div class="box px-0">
                                 <div class="item item-size-3-2">
                                     <div class="card p-0 hover-change-image">
-                                        <a href="/img/propiedad/{{ $foto1->nombreArchivo }}" class="card-img" data-gtf-mfp="true" data-gallery-id="04" style="background-image:url(/img/propiedad/{{ $foto1->nombreArchivo }})">
+                                        <a href="/img/propiedad/{{ $foto1->nombreArchivo }}" class="card-img" data-gtf-mfp="true" data-gallery-id="04" style="background-image:url('/img/propiedad/{{ $foto1->nombreArchivo }}')">
                                     </a>
                                     </div>
                                 </div>
