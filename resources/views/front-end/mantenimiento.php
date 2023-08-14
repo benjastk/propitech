@@ -38,7 +38,7 @@
                             <a class="btn btn-dark waves-effect waves-light" href="/login">Iniciar Sesion</a>
                             <div class="row justify-content-center mt-5">
                                 <div class="col-md-8">
-                                    <div data-countdown="2023/07/31" class="counter-number"></div>
+                                    <div data-countdown="2023/08/16" class="counter-number"></div>
                                 </div> <!-- end col-->
                             </div> <!-- end row-->
                         </div>
