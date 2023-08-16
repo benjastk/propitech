@@ -269,7 +269,8 @@
                         </div>
                     </div>
                     <div class="form-group mb-6">
-                        <textarea class="form-control form-control-lg border-0" placeholder="Tu mensaje" name="mensaje" rows="5"></textarea>
+                        <textarea class="form-control form-control-lg border-0" placeholder="Tu mensaje" name="mensaje" rows="5">Hola, estoy interesado en la propiedad {{ $propiedad->direccion }} {{ $propiedad->numero }}, {{ $propiedad->nombreComuna }} - ID:{{ $propiedad->id }}
+                        </textarea>
                         <input type="hidden" name="id_formulario" value="3">
                     </div>
                     <button type="submit" class="btn btn-lg btn-primary px-10">Contactar</button>
@@ -508,7 +509,7 @@
                             <input type="tel" name="telefono" class="form-control form-control-lg border-0" placeholder="Tu Telefono">
                         </div>
                         <div class="form-group mb-2">
-                            <textarea class="form-control border-0" name="mensaje" rows="4">Hola, estoy interesado en la propiedad {{ $propiedad->direccion }} {{ $propiedad->numero }}, {{ $propiedad->nombreComuna }}</textarea>
+                            <textarea class="form-control border-0" name="mensaje" rows="4">Hola, estoy interesado en la propiedad {{ $propiedad->direccion }} {{ $propiedad->numero }}, {{ $propiedad->nombreComuna }} - ID:{{ $propiedad->id }}</textarea>
                         </div>
                         <div class="form-group form-check mb-4">
                             <input type="checkbox" class="form-check-input" id="exampleCheck3">

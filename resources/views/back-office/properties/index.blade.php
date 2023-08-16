@@ -73,6 +73,7 @@
                                 <table id="tabla-ingresos" class="table project-list-table table-nowrap table-centered table-borderless">
                                     <thead>
                                         <tr>
+                                            <th scope="col" >ID</th>
                                             <th scope="col" style="width: 100px">Foto</th>
                                             <th scope="col">Propiedad</th>
                                             <th scope="col" style="text-align:center" >Distribucion</th>
@@ -85,9 +86,12 @@
                                         @foreach($propiedades as $propiedad)
                                         <tr>
                                             <td>
-                                                <img src="/img/propiedad/{{ $propiedad->fotoPrincipal}}" width="120px" height="100px">
+                                                <p>{{ $propiedad->id }}</p>
                                             </td>
                                             <td>
+                                                <img src="/img/propiedad/{{ $propiedad->fotoPrincipal}}" width="120px" height="100px">
+                                            </td>
+                                            <td >
                                                 <h5 class="text-truncate font-size-14"><a href="#" class="text-dark">{{ $propiedad->nombrePropiedad }}</a> 
                                                     <span class="badge badge-soft-primary">{{ $propiedad->nombreTipoPropiedad}}</span>
                                                     @if($propiedad->idDestacado == 1)
