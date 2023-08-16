@@ -105,6 +105,9 @@
                                                     @endif
                                                 </h5>
                                                 <p class="text-muted mb-0">{{ $propiedad->direccion }} {{ $propiedad->numero }}, {{ $propiedad->nombreComuna }}, {{ $propiedad->nombreRegion }}</p>
+                                                @if($propiedad->idExterno)
+                                                    ID Ext: {{ $propiedad->idExterno }}
+                                                @endif
                                             </td>
                                             <td style="text-align:center" >
                                             @if($propiedad->habitacion > 0)<i class="bx bx-bed"></i> {{ $propiedad->habitacion }} @else <i class="bx bx-bed"></i> Estudio @endif - 
