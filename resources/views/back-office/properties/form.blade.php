@@ -1,6 +1,6 @@
 <div class="card-body">
     <div class="row">
-        <div class="col-6">
+        <div class="col-3">
             <label>Nombre de la Propiedad</label>
             @if(!isset($propiedad->nombrePropiedad))
                 <input type="text" name="nombrePropiedad" value="{{old('nombrePropiedad')}}" class="form-control" placeholder="Nombre propiedad" required>
@@ -11,9 +11,17 @@
         <div class="col-3">
             <label>Rol propiedad</label>
             @if(!isset($propiedad->rolPropiedad))
-                <input type="text" name="rolPropiedad" value="{{old('rolPropiedad')}}" class="form-control" placeholder="Rol" required >
+                <input type="text" name="rolPropiedad" value="{{old('rolPropiedad')}}" class="form-control" placeholder="Rol" >
             @else
-                <input type="text" name="rolPropiedad" value="{{ $propiedad->rolPropiedad }}" class="form-control" placeholder="Rol" required >
+                <input type="text" name="rolPropiedad" value="{{ $propiedad->rolPropiedad }}" class="form-control" placeholder="Rol" >
+            @endif
+        </div>
+        <div class="col-3">
+            <label>ID Externo</label>
+            @if(!isset($propiedad->idExterno))
+                <input type="text" name="idExterno" value="{{old('idExterno')}}" class="form-control" placeholder="ID Externo" >
+            @else
+                <input type="text" name="idExterno" value="{{ $propiedad->idExterno }}" class="form-control" placeholder="ID Externo" >
             @endif
         </div>
         <div class="col-3">
@@ -527,17 +535,38 @@
             @endif
         </div>
     </div>
+    <br>
     <div class="row">
-        <div class="col-12">
+        <div class="col-4">
             <label>Edificio o Comunidad</label>
+        </div>
+        <div class="col-4">
+            <label>URL Portal Inmobiliario</label>
+        </div>
+        <div class="col-4">
+            <label>URL Yapo</label>
         </div>
     </div>
     <div class="row">
-        <div class="col-12">
+        <div class="col-4">
             @if(!isset($propiedad->nombreEdificioComunidad))
-                <input type="text" name="nombreEdificioComunidad" value="{{old('nombreEdificioComunidad')}}" class="form-control" placeholder="Rut propietario">
+                <input type="text" name="nombreEdificioComunidad" value="{{old('nombreEdificioComunidad')}}" class="form-control" placeholder="Edificio o comunidad">
             @else
-                <input type="text" name="nombreEdificioComunidad" value="{{ $propiedad->nombreEdificioComunidad }}" class="form-control" placeholder="Rut propietario">
+                <input type="text" name="nombreEdificioComunidad" value="{{ $propiedad->nombreEdificioComunidad }}" class="form-control" placeholder="Edificio o comunidad">
+            @endif
+        </div>
+        <div class="col-4">
+            @if(!isset($propiedad->urlPortalInmobiliario))
+                <input type="text" name="urlPortalInmobiliario" value="{{old('urlPortalInmobiliario')}}" class="form-control" placeholder="URL Portal Inmobiliario">
+            @else
+                <input type="text" name="urlPortalInmobiliario" value="{{ $propiedad->urlPortalInmobiliario }}" class="form-control" placeholder="URL Portal Inmobiliario">
+            @endif
+        </div>
+        <div class="col-4">
+            @if(!isset($propiedad->urlYapo))
+                <input type="text" name="urlYapo" value="{{old('urlYapo')}}" class="form-control" placeholder="URL Yapo">
+            @else
+                <input type="text" name="urlYapo" value="{{ $propiedad->urlYapo }}" class="form-control" placeholder="URL Yapo">
             @endif
         </div>
     </div>

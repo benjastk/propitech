@@ -89,6 +89,9 @@ class Propiedad extends Model
         'numeroCandado',
         'claveCandado',
         'orientacion',
+        'urlPortalInmobiliario',
+        'urlYapo',
+        'idExterno',
         'created_at',
         'updated_at'
     ];
