@@ -7,7 +7,7 @@ $(document).ready(function(){
         var region = $("#idRegion option:selected").html();
         var provincia = $("#idProvincia option:selected").html();
         var comuna = $("#idComuna option:selected").html();
-        var direccionEnviar = "" + direccion + " " + numero + " " + comuna + " " + provincia + " " + region + " " + pais + " ";
+        var direccionEnviar = "" + direccion + " " + numero + " " + comuna + " " + region + " " + pais + " ";
         if(direccion){
             $.ajax({
                 url: '/api/maps/' + direccionEnviar,
