@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 // front-end routes
-Route::get('/', 'InicioController@comingSoon');
-Route::get('/inicio', 'InicioController@index');
+//Route::get('/', 'InicioController@comingSoon'); MANTENIMIENTO
+Route::get('/', 'InicioController@index');
 Route::post('/formulario-contacto-propiedades', 'ContactoController@contactoController')->name('formulario-contacto-propiedades');
 Route::post('/formulario-canje-propiedades', 'ContactoController@formularioCanje')->name('formulario-canje-propiedades');
 Route::post('/formulario-captador-propiedades', 'ContactoController@formularioCaptador')->name('formulario-captador-propiedades');
