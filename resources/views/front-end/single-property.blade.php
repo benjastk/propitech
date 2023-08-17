@@ -6,23 +6,31 @@
 @endsection
 @section('content')
 <main id="content">
-    <section class="bg-gray-01 py-8 py-lg-0">
-        <div class="container">
-            <nav aria-label="breadcrumb">
-            <!--<ol class="breadcrumb py-3">
-                <li class="breadcrumb-item letter-spacing-1">
-                <a href=".">Home</a>
-                </li>
-                <li class="breadcrumb-item letter-spacing-1">
-                <a href="listing-grid-with-left-filter.html">Listing</a>
-                </li>
-                <li class="breadcrumb-item letter-spacing-1 active">Villa on Hollywood Boulevard</li>
-            </ol>-->
-            </nav>
-        </div>
-    </section>
     <div class="primary-content bg-gray-01 pb-12">
         <div class="container">
+            <div class="d-block d-lg-none">
+                <div class="row">
+                    <article class="col-12" style="padding: 20px">
+                        <ul class="list-inline d-sm-flex align-items-sm-center mb-2">
+                            @if($propiedad->idDestacado > 0)
+                                <li class="list-inline-item badge badge-orange mr-2">Destacada</li>
+                            @endif
+                            @if($propiedad->idTipoComercial == 2)
+                                <li class="list-inline-item badge badge-primary mr-3">Arriendo</li>
+                            @else
+                                <li class="list-inline-item badge badge-primary mr-3">Venta</li>
+                            @endif
+                        </ul>
+                        <h2 class="fs-22 text-heading pt-2">{{ $propiedad->nombrePropiedad }}</h2>
+                        <p class="mb-2"><i class="fal fa-map-marker-alt mr-1"></i>{{ $propiedad->direccion }} {{ $propiedad->numero }}, {{ $propiedad->nombreComuna }}, {{ $propiedad->nombreRegion }}</p>
+                        @if($propiedad->idTipoComercial == 2)
+                            <h3 class="fs-17 font-weight-bold text-heading mb-0">$ {{ number_format($propiedad->valorArriendo, 0, ",", ".") }}</h3>
+                        @else
+                            <h3 class="fs-17 font-weight-bold text-heading mb-0">UF {{ number_format($propiedad->precio, 0, ",", ".") }}</h3>
+                        @endif
+                    </article>
+                </div>
+            </div>
             <div class="row">
             <article class="col-lg-8" style="top: 15px;">
                 <section>
