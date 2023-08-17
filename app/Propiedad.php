@@ -92,6 +92,8 @@ class Propiedad extends Model
         'urlPortalInmobiliario',
         'urlYapo',
         'idExterno',
+        'captador',
+        'comisionPropiedad',
         'created_at',
         'updated_at'
     ];

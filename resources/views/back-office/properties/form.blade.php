@@ -1,6 +1,6 @@
 <div class="card-body">
     <div class="row">
-        <div class="col-3">
+        <div class="col-5">
             <label>Nombre de la Propiedad</label>
             @if(!isset($propiedad->nombrePropiedad))
                 <input type="text" name="nombrePropiedad" value="{{old('nombrePropiedad')}}" class="form-control" placeholder="Nombre propiedad" required>
@@ -8,7 +8,7 @@
                 <input type="text" name="nombrePropiedad" value="{{ $propiedad->nombrePropiedad }}" class="form-control" placeholder="Nombre propiedad" required>
             @endif
         </div>
-        <div class="col-3">
+        <div class="col-2">
             <label>Rol propiedad</label>
             @if(!isset($propiedad->rolPropiedad))
                 <input type="text" name="rolPropiedad" value="{{old('rolPropiedad')}}" class="form-control" placeholder="Rol" >
@@ -16,7 +16,7 @@
                 <input type="text" name="rolPropiedad" value="{{ $propiedad->rolPropiedad }}" class="form-control" placeholder="Rol" >
             @endif
         </div>
-        <div class="col-3">
+        <div class="col-2">
             <label>ID Externo</label>
             @if(!isset($propiedad->idExterno))
                 <input type="text" name="idExterno" value="{{old('idExterno')}}" class="form-control" placeholder="ID Externo" >
@@ -299,7 +299,7 @@
             @endif
         </div>
         <div class="col-2">
-            <label>Block/Dpto</label>
+            <label>Block O Torre</label>
             @if(!isset($propiedad->block))
                 <input type="text" name="block" id="block" value="{{old('block')}}" class="form-control" placeholder="Block/Dpto" >
             @else
@@ -376,6 +376,33 @@
                     </select>
                 </div>
             </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-6">
+            <label>Propietario</label>
+            <select name="idUsuarioPropietario" id="idUsuarioPropietario" class="form-control" >
+                @if(!isset($usuarioPropietario))
+                    <option value="" >Seleccione propietario</option>
+                    @foreach ($propietarios as $propietario)
+                        <option value="{{ $propietario->id }}" >{{ $propietario->name }} {{ $propietario->apellido }}</option>
+                    @endforeach
+                @else
+                    <option value="" >Seleccione propietario</option>
+                    @foreach ($propietarios as $propietario1)
+                        <option value="{{ $propietario1->id }}" {{ ($propietario1->id == $usuarioPropietario->id_usuario) ? 'selected' : ''}}>{{ $propietario1->name }} {{ $propietario1->apellido }}</option>
+                    @endforeach
+                @endif
+            </select>
+        </div>
+        <div class="col-6">
+            <label>Rut Propietario</label>
+            @if(!isset($propiedad->rut))
+                <input type="text" name="rut" value="{{old('rut')}}" class="form-control" placeholder="Rut propietario">
+            @else
+                <input type="text" name="rut" value="{{ $propiedad->rut }}" class="form-control" placeholder="Rut propietario">
+            @endif
         </div>
     </div>
     <br>
@@ -477,10 +504,10 @@
             <label>Experto</label>
         </div>
         <div class="col-3">
-            <label>Propietario</label>
+            <label>Captador</label>
         </div>
         <div class="col-3">
-            <label>Rut Propietario</label>
+            <label>Comisión Propiedad</label>
         </div>
     </div>
     <div class="row">
@@ -513,25 +540,17 @@
             </select>
         </div>
         <div class="col-3">
-            <select name="idUsuarioPropietario" id="idUsuarioPropietario" class="form-control" >
-                @if(!isset($usuarioPropietario))
-                    <option value="" >Seleccione propietario</option>
-                    @foreach ($propietarios as $propietario)
-                        <option value="{{ $propietario->id }}" >{{ $propietario->name }} {{ $propietario->apellido }}</option>
-                    @endforeach
-                @else
-                    <option value="" >Seleccione propietario</option>
-                    @foreach ($propietarios as $propietario1)
-                        <option value="{{ $propietario1->id }}" {{ ($propietario1->id == $usuarioPropietario->id_usuario) ? 'selected' : ''}}>{{ $propietario1->name }} {{ $propietario1->apellido }}</option>
-                    @endforeach
-                @endif
-            </select>
+            @if(!isset($propiedad->captador))
+                <input type="text" name="captador" value="{{old('captador')}}" class="form-control" placeholder="Captador">
+            @else
+                <input type="text" name="captador" value="{{ $propiedad->captador }}" class="form-control" placeholder="Captador">
+            @endif
         </div>
         <div class="col-3">
-            @if(!isset($propiedad->rut))
-                <input type="text" name="rut" value="{{old('rut')}}" class="form-control" placeholder="Rut propietario">
+            @if(!isset($propiedad->comisionPropiedad))
+                <input type="text" name="comisionPropiedad" value="{{old('comisionPropiedad')}}" class="form-control" placeholder="Comisión Propiedad">
             @else
-                <input type="text" name="rut" value="{{ $propiedad->rut }}" class="form-control" placeholder="Rut propietario">
+                <input type="text" name="comisionPropiedad" value="{{ $propiedad->comisionPropiedad }}" class="form-control" placeholder="Comisión Propiedad">
             @endif
         </div>
     </div>
