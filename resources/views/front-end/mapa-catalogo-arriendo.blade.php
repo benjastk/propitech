@@ -28,11 +28,11 @@
         <div class="row no-gutters" style="height: 100%;">
             <div class="col-xl-5 order-1 order-xl-1" id="map-sticky">
                 <div class="map_box_container">
-                    <div clas="d-none d-lg-block d-md-block">
+                    <div clas="d-block d-sm-none">
                         <div id="map" style="height: 100% !important">
                         </div>
                     </div>
-                    <div class="d-none d-sm-block" >
+                    <div class="d-block" >
                         <div id="map1" style="height: 300px; position: relative: !important">
                         </div>
                     </div>
@@ -140,116 +140,74 @@
     </section>
 @endsection
 @section('jss')
-<script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzyDN_wIGU_xsKCYm-0L7pF54cuR2sq5I&callback=initMap" async defer></script>
 <script>
-    mapboxgl.accessToken = 'pk.eyJ1IjoiYmVuamFzdGsiLCJhIjoiY2xnZHYwZ2V0MG82MjNscnl6dXQxZWxsaiJ9.wLKdL8bv-Y9DKI8qSW_AZw';
-    var map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v11',
-        center: {{ $coordenada }},
-        zoom: 10
-    });
-    $('.mapboxgl-canvas').css('height', '100%');
-    map.resize();
-          
-    @if($propiedadesEnArriendo)
-    @foreach($propiedadesEnArriendo as $propiedadArriendo)
-        const popup{{ $propiedadArriendo->id }} = new mapboxgl.Popup({ offset: 25 }).setHTML(
-            `<div class="mappopupdiv">
-                <div > 
-                    <img src="/img/propiedad/{{ $propiedadArriendo->fotoPrincipal }}" style="height: 160px; width: 100%;"alt="">
-                </div>
-                <div style="padding: 10px 10px 15px !important">
+    var map;
+    var str = String({{ $coordenada }});
+    var str_array = str.split(',');
+    var lat = parseFloat(str_array[1]);
+    var lng = parseFloat(str_array[0]);
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: { lng, lat },
+            zoom: 14,
+            streetViewControl: false,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            disableDefaultUI: true
+        });
+        @if($propiedadesEnArriendo)
+        @foreach($propiedadesEnArriendo as $propiedadArriendo)
+            var contentString = 
+                `<div class="mappopupdiv" style="width: 97%">
                     <div > 
-                        <h6 style="font-family: 'Poppins', sans-serif;">{{ $propiedadArriendo->direccion }} {{ $propiedadArriendo->numero }}, {{ $propiedadArriendo->nombreComuna }}</h6> 
+                        <img src="/img/propiedad/{{ $propiedadArriendo->fotoPrincipal }}" style="height: 160px; width: 100%;"alt="">
                     </div>
-                    <div class="row">
-                        <div class="col-4">
-                            <svg class="icon icon-bedroom fs-18 text-primary mr-2">
-                                <use xlink:href="#icon-bedroom"></use>
-                            </svg>
-                            {{ $propiedadArriendo->habitacion }}
+                    <div style="padding: 10px 10px 15px !important">
+                        <div > 
+                            <h6 style="font-family: 'Poppins', sans-serif;">{{ $propiedadArriendo->direccion }} {{ $propiedadArriendo->numero }}, {{ $propiedadArriendo->nombreComuna }}</h6> 
                         </div>
-                        <div class="col-4">
-                            <svg class="icon icon-shower fs-18 text-primary mr-2">
-                                <use xlink:href="#icon-shower"></use>
-                            </svg>
-                            {{ $propiedadArriendo->bano }}
+                        <div class="row">
+                            <div class="col-4">
+                                <svg class="icon icon-bedroom fs-18 text-primary mr-2">
+                                    <use xlink:href="#icon-bedroom"></use>
+                                </svg>
+                                {{ $propiedadArriendo->habitacion }}
+                            </div>
+                            <div class="col-4">
+                                <svg class="icon icon-shower fs-18 text-primary mr-2">
+                                    <use xlink:href="#icon-shower"></use>
+                                </svg>
+                                {{ $propiedadArriendo->bano }}
+                            </div>
+                            <div class="col-4">
+                                <svg class="icon icon-square fs-18 text-primary mr-2">
+                                    <use xlink:href="#icon-square"></use>
+                                </svg>
+                                {{ $propiedadArriendo->mTotal }}
+                            </div>
                         </div>
-                        <div class="col-4">
-                            <svg class="icon icon-square fs-18 text-primary mr-2">
-                                <use xlink:href="#icon-square"></use>
-                            </svg>
-                            {{ $propiedadArriendo->mTotal }}
+                        <div >
+                            <h5 style="margin-bottom: 0px !important; text-align: right; margin-top: 7px; color: #096ba0 !important; font-weight: bolder; font-family: 'Poppins', sans-serif;">$ {{ number_format($propiedadArriendo->valorArriendo, 0, ",", ".") }}</h5>
                         </div>
                     </div>
-                    <div >
-                        <h5 style="margin-bottom: 0px !important; text-align: right; margin-top: 7px; color: #096ba0 !important; font-weight: bolder; font-family: 'Poppins', sans-serif;">$ {{ number_format($propiedadArriendo->valorArriendo, 0, ",", ".") }}</h5>
-                    </div>
-                </div>
-            </div>`
-        );
-        var marker{{ $propiedadArriendo->id }} = new mapboxgl.Marker({ color: '#2db5ff' })
-        .setLngLat([{{ $propiedadArriendo->longitud }}, {{ $propiedadArriendo->latitud }}])
-        .addTo(map)
-        .setPopup(popup{{ $propiedadArriendo->id }});
-    @endforeach
-    @endif
+                </div>`;
+            var infowindow{{ $propiedadArriendo->id }} = new google.maps.InfoWindow({
+                content: contentString,
+                maxWidth: 250
+            });
+            var myLatlng{{ $propiedadArriendo->id }} = new google.maps.LatLng( {{ $propiedadArriendo->latitud }}, {{ $propiedadArriendo->longitud }});
+            var marker{{ $propiedadArriendo->id }} = new google.maps.Marker({
+                position: myLatlng{{ $propiedadArriendo->id }}
+            });
+            marker{{ $propiedadArriendo->id }}.addListener("click", () => {
+                infowindow{{ $propiedadArriendo->id }}.open({
+                    anchor: marker{{ $propiedadArriendo->id }},
+                    map,
+                });
+            });
+            marker{{ $propiedadArriendo->id }}.setMap(map);
+        @endforeach
+        @endif
+    }
 </script>
-<script>
-    mapboxgl.accessToken = 'pk.eyJ1IjoiYmVuamFzdGsiLCJhIjoiY2xnZHYwZ2V0MG82MjNscnl6dXQxZWxsaiJ9.wLKdL8bv-Y9DKI8qSW_AZw';
-    var map = new mapboxgl.Map({
-        container: 'map1',
-        style: 'mapbox://styles/mapbox/streets-v11',
-        center: {{ $coordenada }},
-        zoom: 10
-    });
-    $('.mapboxgl-canvas').css('height', '100%');
-    map.resize();
-          
-    @if($propiedadesEnArriendo)
-    @foreach($propiedadesEnArriendo as $propiedadArriendo)
-        const popup{{ $propiedadArriendo->id }} = new mapboxgl.Popup({ offset: 25 }).setHTML(
-            `<div class="mappopupdiv">
-                <div > 
-                    <img src="/img/propiedad/{{ $propiedadArriendo->fotoPrincipal }}" style="height: 160px; width: 100%;"alt="">
-                </div>
-                <div style="padding: 10px 10px 15px !important">
-                    <div > 
-                        <h6 style="font-family: 'Poppins', sans-serif;">{{ $propiedadArriendo->direccion }} {{ $propiedadArriendo->numero }}, {{ $propiedadArriendo->nombreComuna }}</h6> 
-                    </div>
-                    <div class="row">
-                        <div class="col-4">
-                            <svg class="icon icon-bedroom fs-18 text-primary mr-2">
-                                <use xlink:href="#icon-bedroom"></use>
-                            </svg>
-                            {{ $propiedadArriendo->habitacion }}
-                        </div>
-                        <div class="col-4">
-                            <svg class="icon icon-shower fs-18 text-primary mr-2">
-                                <use xlink:href="#icon-shower"></use>
-                            </svg>
-                            {{ $propiedadArriendo->bano }}
-                        </div>
-                        <div class="col-4">
-                            <svg class="icon icon-square fs-18 text-primary mr-2">
-                                <use xlink:href="#icon-square"></use>
-                            </svg>
-                            {{ $propiedadArriendo->mTotal }}
-                        </div>
-                    </div>
-                    <div >
-                        <h5 style="margin-bottom: 0px !important; text-align: right; margin-top: 7px; color: #096ba0 !important; font-weight: bolder; font-family: 'Poppins', sans-serif;">$ {{ number_format($propiedadArriendo->valorArriendo, 0, ",", ".") }}</h5>
-                    </div>
-                </div>
-            </div>`
-        );
-        var marker{{ $propiedadArriendo->id }} = new mapboxgl.Marker({ color: '#2db5ff' })
-        .setLngLat([{{ $propiedadArriendo->longitud }}, {{ $propiedadArriendo->latitud }}])
-        .addTo(map)
-        .setPopup(popup{{ $propiedadArriendo->id }});
-    @endforeach
-    @endif
-</script>
-<script src="{{ asset('front/js/maps.js') }}"></script>
 @endsection

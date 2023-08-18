@@ -534,7 +534,7 @@
 </main>
 @endsection
 @section('jss')
-<script>
+<!--<script>
     mapboxgl.accessToken = 'pk.eyJ1IjoiYmVuamFzdGsiLCJhIjoiY2xnZHYwZ2V0MG82MjNscnl6dXQxZWxsaiJ9.wLKdL8bv-Y9DKI8qSW_AZw';
     var map = new mapboxgl.Map({
         container: 'map',
@@ -547,5 +547,25 @@
     var marker{{ $propiedad->id }} = new mapboxgl.Marker({ color: '#2db5ff' })
     .setLngLat([{{ $propiedad->longitud }}, {{ $propiedad->latitud }}])
     .addTo(map);
+</script>-->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzyDN_wIGU_xsKCYm-0L7pF54cuR2sq5I&callback=initMap" async defer></script>
+<script>
+    var map;
+    var lat = {{ $propiedad->latitud }};
+    var lng = {{ $propiedad->longitud }};
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: { lng, lat },
+            zoom: 14,
+            streetViewControl: false,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            disableDefaultUI: true
+        });
+        var myLatlng = new google.maps.LatLng(lat, lng);
+        var marker = new google.maps.Marker({
+            position: myLatlng
+        });
+        marker.setMap(map);
+    }
 </script>
 @endsection
