@@ -2,6 +2,11 @@
 @section('titulo')
 <title>Propitech - Blog de propiedades</title>
 @endsection
+@section('meta')
+<meta name="description" content="{{ $noticia->titulo }}">
+<meta name="author" content="benjaminperez.cl">
+<meta name="generator" content="LaravelV7">
+@endsection
 @section('css')
 @endsection
 @section('content')

@@ -2,6 +2,11 @@
 @section('titulo')
 <title>Propitech - Trabaja con nosotros</title>
 @endsection
+@section('meta')
+<meta name="description" content="Captacion de propiedad - Canje de propiedades">
+<meta name="author" content="benjaminperez.cl">
+<meta name="generator" content="LaravelV7">
+@endsection
 @section('css')
 @endsection
 @section('content')

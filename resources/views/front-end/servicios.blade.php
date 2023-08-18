@@ -2,6 +2,11 @@
 @section('titulo')
 <title>Propitech - Nuestros servicios</title>
 @endsection
+@section('meta')
+<meta name="description" content="Servicios que ofrecemos para vender o arrendar tu propiedad">
+<meta name="author" content="benjaminperez.cl">
+<meta name="generator" content="LaravelV7">
+@endsection
 @section('css')
 @endsection
 @section('content')
