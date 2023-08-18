@@ -36,19 +36,19 @@
                         <div class="navbar-brand-box">
                             <a href="/home" class="logo logo-dark">
                                 <span class="logo-sm">
-                                    <img src="/front/04.svg" alt="" style="width: 90%">
+                                    <img src="/front/LOGOPROPITECHby.png" alt="" style="width: 90%; height: 60px;">
                                 </span>
                                 <span class="logo-lg">
-                                    <img src="/front/04.svg" alt="" style="width: 90%">
+                                    <img src="/front/LOGOPROPITECHby.png" alt="" style="width: 90%; height: 60px;">
                                 </span>
                             </a>
 
                             <a href="/home" class="logo logo-light">
                                 <span class="logo-sm">
-                                    <img src="/front/04.svg" alt="" style="width: 90%">
+                                    <img src="/front/LOGOPROPITECHby.png" alt="" style="width: 90%; height: 60px;">
                                 </span>
                                 <span class="logo-lg">
-                                    <img src="/front/04.svg" alt="" style="width: 90%" >
+                                    <img src="/front/LOGOPROPITECHby.png" alt="" style="width: 90%; height: 60px;" >
                                 </span>
                             </a>
                         </div>

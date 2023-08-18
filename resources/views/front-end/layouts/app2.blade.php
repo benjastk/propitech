@@ -69,7 +69,7 @@
             <div class="container">
                 <nav class="navbar navbar-expand-lg bg-transparent px-0">
                 <a class="navbar-brand" href="/">
-                    <img src="/front/01.svg" style="height: 63px" alt="PROPITECH">
+                    <img src="/front/LOGOPROPITECHby.png" style="height: 68px" alt="PROPITECH">
                 </a>
                 <div class="d-flex d-lg-none ml-auto">
                     <button class="navbar-toggler border-0 px-0" type="button" data-toggle="collapse"
