@@ -235,7 +235,7 @@
             @else
                 <input type="text" id="rolPropiedad" name="rolPropiedad" class="form-control  " value="{{ $mandato->rolPropiedad }}" readonly >
             @endif
-            <input type="text" id="idPropiedad" name="idPropiedad" class="form-control" value="{{ $mandato->idPropiedad }}" readonly style="display:none">
+            <input type="text" id="idPropiedad" name="idPropiedad" class="form-control" value="{{ $propiedad->id }}" readonly style="display:none">
         </div>
         <div class="form-group col-md-3">
             <label>Estado Propiedad</label>
