@@ -49,7 +49,11 @@
             <p>&nbsp;</p>
             <p>&nbsp;</p>
             <p>&nbsp;</p>
-            <p>Yo, {{ $usuario->name }} {{ $usuario->apellido }}, C&eacute;dula Nacional de Identidad N&deg; {{ $usuario->rut}}, con domicilio en
+            @php
+            $rutUsuario1 = explode( "-", $usuario->rut );
+            $rutUsuario = number_format( $rutUsuario1[0], 0, "", ".") . '-' . $rutUsuario1[1];
+            @endphp
+            <p>Yo, {{ $usuario->name }} {{ $usuario->apellido }}, C&eacute;dula Nacional de Identidad N&deg; {{ $rutUsuario }}, con domicilio en
             {{ $usuario->direccion }} {{ $usuario->numero }}, @if($usuario->block ) {{ $usuario->block }}, @endif comuna de {{ $usuario->nombreComuna }}, por medio de este 
             documento declaro bajo juramento lo siguiente:</p>
             <p>&nbsp;</p>
@@ -75,7 +79,7 @@
             <p>&nbsp;</p>
             <p style="text-align: center;">______________________________</p>
             <p style="text-align: center;">{{ $usuario->name }} {{ $usuario->apellido }}</p>
-            <p style="text-align: center;">C&eacute;dula Nacional de Identidad N&deg; {{ $usuario->rut}}</p>
+            <p style="text-align: center;">C&eacute;dula Nacional de Identidad N&deg; {{ $rutUsuario }}</p>
             <p>&nbsp;</p>
             <p>&nbsp;</p>
             <p>&nbsp;</p>
