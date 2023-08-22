@@ -315,7 +315,7 @@
                 <input type="text" id="block" name="block" class="form-control" value="{{ $contrato->block }}" readonly>
             @endif
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-3">
             <label>Comuna</label>
             @if(!isset( $contrato->nombreComunaPropiedad))
                 <input type="text" id="nombreComunaPropiedad" name="nombreComunaPropiedad" class="form-control  " value="{{ $propiedad->nombreComuna}}" readonly>
@@ -323,7 +323,7 @@
                 <input type="text" id="nombreComunaPropiedad" name="nombreComunaPropiedad" class="form-control  " value="{{ $contrato->nombreComunaPropiedad }}" readonly>
             @endif
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-3">
             <label>Region</label>
             @if(!isset( $contrato->nombreRegionPropiedad))
                 <input type="text" id="nombreRegionPropiedad" name="nombreRegionPropiedad" class="form-control  " value="{{ $propiedad->nombreRegion}}" readonly>
@@ -331,7 +331,7 @@
                 <input type="text" id="nombreRegionPropiedad" name="nombreRegionPropiedad" class="form-control  " value="{{ $contrato->nombreRegionPropiedad }}" readonly>
             @endif
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-3">
             <label>Rol</label>
             @if(!isset( $contrato->rolPropiedad))
                 <input type="text" id="rolPropiedad" name="rolPropiedad" class="form-control  " value="{{ $propiedad->rolPropiedad}}" readonly >
@@ -339,7 +339,7 @@
                 <input type="text" id="rolPropiedad" name="rolPropiedad" class="form-control  " value="{{ $contrato->rolPropiedad }}" readonly >
             @endif
         </div>
-        <div class="form-group col-md-2">
+        <div class="form-group col-md-3">
             <label>Moneda</label>
             @if( !isset($contrato->idMoneda))
                 <select name="idMoneda" class="form-control">
@@ -361,6 +361,14 @@
                 <input type="number" id="arriendoMensual" name="arriendoMensual" class="form-control" value="{{$propiedad->valorArriendo}}" readonly>
             @else
                 <input type="number" id="arriendoMensual" name="arriendoMensual" class="form-control  " value="{{ $contrato->arriendoMensual }}" required>
+            @endif
+        </div>
+        <div class="form-group col-md-2">
+            <label>Cant. Garantias</label>
+            @if(!isset( $contrato->cantidadGarantias))
+                <input type="number" id="cantidadGarantias" name="cantidadGarantias" class="form-control" step="0.01">
+            @else
+                <input type="number" id="cantidadGarantias" name="cantidadGarantias" class="form-control " step="0.01" value="{{ $contrato->cantidadGarantias }}" required>
             @endif
         </div>
         <div class="form-group col-md-2">

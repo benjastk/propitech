@@ -102,7 +102,7 @@
                     <td width="225">
                         <p>
                             @if($contratoArriendo->block)
-                            , Departamento {{ $contratoArriendo->block }}
+                            Departamento {{ $contratoArriendo->block }}
                             @else
                             N/A
                             @endif
@@ -195,7 +195,11 @@
                     <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp; RUT</p>
                     </td> 
                     <td width="225">
-                        <p>{{ $contratoArriendo->rutPropietario }}</p>
+                        @php
+                        $rutPropietario1 = explode( "-", $contratoArriendo->rutPropietario );
+                        $rutPropietario = number_format( $rutPropietario1[0], 0, "", ".") . '-' . $rutPropietario1[1];
+                        @endphp
+                        <p>{{ $rutPropietario }}</p>
                     </td>
                 </tr>
                 <tr>
@@ -286,7 +290,11 @@
                     <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp; RUT</p>
                     </td> 
                     <td width="225">
-                        <p>{{ $contratoArriendo->rutArrendatario }}</p>
+                        @php
+                        $rutArrendatario1 = explode( "-", $contratoArriendo->rutArrendatario );
+                        $rutArrendatario = number_format( $rutArrendatario1[0], 0, "", ".") . '-' . $rutArrendatario1[1];
+                        @endphp
+                        <p>{{ $rutArrendatario }}</p>
                     </td>
                 </tr>
                 <tr>
@@ -334,7 +342,13 @@
                     <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp; RUT</p>
                     </td> 
                     <td width="225">
-                        <p>{{ $contratoArriendo->rutCodeudor }}</p>
+                        @if($contratoArriendo->idUsuarioCodeudor)
+                        @php
+                        $rutCodeudor1 = explode( "-", $contratoArriendo->rutCodeudor );
+                        $rutCodeudor = number_format( $rutCodeudor1[0], 0, "", ".") . '-' . $rutCodeudor1[1];
+                        @endphp
+                        <p>{{ $rutCodeudor }}</p>
+                        @endif
                     </td>
                 </tr>
                 <tr>
@@ -342,7 +356,9 @@
                         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp; Domicilio:</p>
                     </td> 
                     <td width="225">
+                        @if($contratoArriendo->idUsuarioCodeudor)
                         <p>{{ $contratoArriendo->direccionCodeudor }} {{ $contratoArriendo->numeroCodeudor }}, {{ $contratoArriendo->comunaCodeudor }}</p>
+                        @endif
                     </td>
                 </tr>
                 <tr>
@@ -415,7 +431,7 @@
                     </td>
                     <td width="225">
                         <p>@if($contratoArriendo->renovacionAutomatica == 1) Si @else No @endif</p>
-                        <p>12 meses. REVISAR</p>
+                        <p>12 meses.</p>
                     </td>
                 </tr>
             </tbody>
@@ -446,7 +462,7 @@
                     <td width="225">
                         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
                         <p>${{ number_format($contratoArriendo->arriendoMensual, 0, '', '.')}}</p>
-                        <p>Anual según IPC REVISAR</p>
+                        <p>Anual según IPC</p>
                     </td>
                 </tr>
             </tbody>
@@ -541,7 +557,7 @@
                 </tr>
                 <tr style="heigth:5px">
                     <td width="225" colspan="2">
-                        <p>&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp; Fecha del Poder: 1 de abril 2023 REVISAR</p>
+                        <p>&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp; Fecha del Poder: 1 de abril 2023</p>
                     </td>
                 </tr>
                 <tr style="heigth:5px">
@@ -574,13 +590,13 @@
 
             <p>&nbsp;</p>
             <p>Don <strong>{{ $contratoArriendo->nombrePropietario }} {{ $contratoArriendo->apellidoPropietario }}</strong><strong>, </strong>
-            Rut {{ $contratoArriendo->rutPropietario }}, Estado civil {{ $contratoArriendo->estadoCivilPropietario }}<strong>, </strong>
+            Rut {{ $rutPropietario }}, Estado civil {{ $contratoArriendo->estadoCivilPropietario }}<strong>, </strong>
             de profesi&oacute;n {{ $contratoArriendo->profesionPropietario }}, domiciliado en {{ $contratoArriendo->direccionPropietario }}, 
             Comuna {{ $contratoArriendo->comunaPropietario }}, en adelante el <strong>ARRENDADOR </strong>o la parte arrendadora y por la otra, 
-            Don <strong>{{ $contratoArriendo->nombreArrendatario }} {{ $contratoArriendo->apellidoArrendatario }}</strong>, Rut {{ $contratoArriendo->rutArrendatario }}, 
+            Don <strong>{{ $contratoArriendo->nombreArrendatario }} {{ $contratoArriendo->apellidoArrendatario }}</strong>, Rut {{ $rutArrendatario }}, 
             Estado civil {{ $contratoArriendo->estadoCivilArrendatario }}, con domicilio actual en {{ $contratoArriendo->direccionArrendatario }}, {{ $contratoArriendo->numeroArrendatario }}, 
             comuna de {{ $contratoArriendo->comunaArrendatario }}, de profesi&oacute;n {{ $contratoArriendo->profesionArrendatario }} @if($contratoArriendo->idUsuarioCodeudor) 
-            y su <strong>CODEUDOR</strong>, Don {{ $contratoArriendo->nombreCodeudor }}, Rut {{ $contratoArriendo->rutCodeudor }}, Estado civil {{ $contratoArriendo->estadoCivilCodeudor }}, 
+            y su <strong>CODEUDOR</strong>, Don {{ $contratoArriendo->nombreCodeudor }}, Rut {{ $rutCodeudor }}, Estado civil {{ $contratoArriendo->estadoCivilCodeudor }}, 
             con domicilio actual {{ $contratoArriendo->domicilioCodeudor }} comuna {{ $contratoArriendo->comunaCodeudor }}, de profesi&oacute;n {{ $contratoArriendo->profesionCodeudor }} @endif, 
             quienes har&aacute; uso de la propiedad, en calidad de en adelante el <strong>ARRENDATARIO</strong> o <strong>PARTE ARRENDATARIA</strong>, quienes acreditan
              su identidad con las respectivas c&eacute;dulas, y que han convenido en el siguiente contrato:</p>
@@ -602,7 +618,7 @@
             <p style="page-break-after: always;">
             <p><strong><u>TERCERO</u></strong><strong>: RENTA </strong></p>
             <p>La renta de arriendo se pagar&aacute; mensualmente, de manera anticipada, a m&aacute;s tardar el d&iacute;a {{ $contratoArriendo->diaPago }} 
-            de cada mes y tendr&aacute; un valor de <strong>${{ number_format($contratoArriendo->arriendoMensual, 0, '', '.')}}.- (doscientos sesenta mil pesos).</strong></p>
+            de cada mes y tendr&aacute; un valor de <strong>${{ number_format($contratoArriendo->arriendoMensual, 0, '', '.')}}.- ({{ $arriendoEnLetra }}).</strong></p>
             <p>&nbsp;</p>
             <p>En caso de mora o simple retardo en el pago de la renta de arrendamiento, se deber&aacute; pagar el equivalente al 1% de la renta pactada por 
             cada d&iacute;a de atraso. Si como consecuencia del retardo, se le encarga a un abogado la cobranza judicial, el &ldquo;Arrendatario&rdquo; 
@@ -687,8 +703,8 @@
             <p>&nbsp;</p>
             
             <p><strong><u>DECIMO</u></strong><strong>: GARANT&Iacute;A DE ARRIENDO. </strong>El <strong>&ldquo;Arrendatario&rdquo; </strong>entrega en este 
-            acto la suma de &nbsp;<strong>${{ number_format($contratoArriendo->garantia, 0, '', '.')}}.- (quinientos veinte mil pesos),</strong> 
-            que corresponde a&nbsp; dos de garant&iacute;a, a fin de garantizar la conservaci&oacute;n de la propiedad y su restituci&oacute;n en el 
+            acto la suma de &nbsp;<strong>${{ number_format($contratoArriendo->garantia, 0, '', '.')}}.- ({{ $garantiaEnLetra }}),</strong> 
+            que corresponde a&nbsp; {{ $contratoArriendo->cantidadGarantias }} de garant&iacute;a, a fin de garantizar la conservaci&oacute;n de la propiedad y su restituci&oacute;n en el 
             mismo estado en que la recibe; la devoluci&oacute;n y conservaci&oacute;n de las especies y artefactos que se indicar&aacute;n en el inventario; 
             el pago de los perjuicios y deterioros que se causen en la propiedad arrendada, sus servicios e instalaciones y en general, para responder 
             del fiel cumplimiento de las estipulaciones de este contrato de arrendamiento. El &ldquo;<strong>Arrendador&rdquo;</strong> se obliga a devolver 
@@ -739,7 +755,7 @@
             <p style="text-align: center;"><strong>__________________________________________</strong></p>
             <p style="text-align: center;"><strong>GUSTAVO ENRIQUE CISTERNAS PEREZ</strong></p>
             <p style="text-align: center;"><strong>REPRESENTANTE LEGAL.</strong></p>
-            <p style="text-align: center;"><strong>RUT XXXXXXXXXXXXXXXXXX</strong></p>
+            <p style="text-align: center;"><strong>RUT 11.857.826-0</strong></p>
             <!-- firma -->
             <p style="text-align: center;">&nbsp;</p>
             <p style="text-align: center;">&nbsp;</p>
@@ -748,7 +764,7 @@
             <p style="text-align: center;"><strong>__________________________________________</strong></p>
             <p style="text-align: center;"><strong>{{ $contratoArriendo->nombreArrendatario }} {{ $contratoArriendo->apellidoArrendatario }}</strong></p>
             <p style="text-align: center;"><strong>ARRENDATARIO</strong></p>
-            <p style="text-align: center;"><strong>RUT {{ $contratoArriendo->rutArrendatario }}</strong></p>
+            <p style="text-align: center;"><strong>RUT {{ $rutArrendatario }}</strong></p>
             <!-- firma -->
             @if($contratoArriendo->idUsuarioCodeudor)
             <p style="text-align: center;">&nbsp;</p>
@@ -758,7 +774,7 @@
             <p style="text-align: center;"><strong>__________________________________________</strong></p>
             <p style="text-align: center;"><strong>{{ $contratoArriendo->nombreCodeudor }} {{ $contratoArriendo->apellidoCodeudor }}</strong></p>
             <p style="text-align: center;"><strong>CODEUDOR</strong></p>
-            <p style="text-align: center;"><strong>RUT {{ $contratoArriendo->rutCodeudor }}</strong></p>
+            <p style="text-align: center;"><strong>RUT {{ $rutCodeudor }}</strong></p>
             @endif
         </main>
     </body>

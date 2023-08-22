@@ -8,6 +8,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Crypt;
 use App\Exports\ContratosExport;
+use App\NumerosEnLetras;
 use App\TiempoPagoGarantia;
 use App\LogTransaccion;
 use App\ParametroGeneral;
@@ -439,7 +440,10 @@ class ContratoArriendoController extends Controller
         ->leftjoin('comuna as comuna3', 'comuna3.id', '=', 'user3.idComuna')
         ->where('contratos_arriendos.idContratoArriendo', '=', $request->id)
         ->first();
-        $pdf = \PDF::loadView('prints.printContratoArriendo', compact('contratoArriendo'));
+        $arriendoEnLetra = NumerosEnLetras::convertir($contratoArriendo->arriendoMensual,'Pesos',false,'Centavos');
+        $garantiaEnLetra = NumerosEnLetras::convertir($contratoArriendo->garantia,'Pesos',false,'Centavos');
+        $garantiaDosEnLetra = NumerosEnLetras::convertir($contratoArriendo->garantiaDos,'Pesos',false,'Centavos');
+        $pdf = \PDF::loadView('prints.printContratoArriendo', compact('contratoArriendo', 'arriendoEnLetra', 'garantiaEnLetra', 'garantiaDosEnLetra'));
         return $pdf->download('contrato-de-arriendo.pdf');
     }
     public function imprimirSalvoconducto(Request $request)
