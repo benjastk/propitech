@@ -137,7 +137,7 @@ class ContratoArriendoController extends Controller
 
             $fechaVencimientoInicial = Carbon::parse($mesYAnio.'-'.$nuevoContrato->diaPago)->format('Y-m-d');
             $reajuste = ParametroGeneral::where('parametroGeneral', '=', 'PORCENTAJE DE AJUSTE ARRIENDO')->first();
-
+            $subtotal = 0;
             for($i = 1; $i <= $nuevoContrato->tiempoContrato; $i++){
                 $nuevosEstadosPagos = new EstadoPago();
                 $nuevosEstadosPagos->idContrato = $nuevoContrato->idContratoArriendo;
@@ -160,8 +160,28 @@ class ContratoArriendoController extends Controller
                 elseif($i == 1)
                 {
                     $nuevosEstadosPagos->comision = (($nuevoContrato->arriendoMensual / 2) * 1.19);
-                    $nuevosEstadosPagos->arriendoMensual = $nuevoContrato->arriendoMensual;
-                    $subtotal = $nuevoContrato->arriendoMensual + (($nuevoContrato->arriendoMensual / 2) * 1.19);
+                    /////////////////////////////////////dias proporcionales
+                    $fechaDesde = Carbon::parse($nuevoContrato->desde);
+                    $ultimoDiaDelMes = Carbon::parse($nuevoContrato->desde);
+                    $ultimoDiaDelMes->addMonth();
+                    $ultimoDiaDelMes->day = 0;
+                    $diasProporcionales = $fechaDesde->diffInDays($ultimoDiaDelMes);
+
+                    $valorProporcional = 0;
+                    if($fechaDesde->format("d") != "01")
+                    {
+                        $proporcionalMes = ($nuevoContrato->arriendoMensual / 30);
+                        $valorProporcionalParaMes = $proporcionalMes * $diasProporcionales;
+
+                        $nuevosEstadosPagos->arriendoMensual = $valorProporcionalParaMes;
+                        $subtotal = $valorProporcionalParaMes;
+                    }
+                    else
+                    {
+                        $nuevosEstadosPagos->arriendoMensual = $nuevoContrato->arriendoMensual;
+                        $subtotal = $subtotal;
+                    }
+                    ////////////////////////////////////// FIN DIAS PROPORCIONALES
                 }
                 else
                 {
@@ -176,7 +196,7 @@ class ContratoArriendoController extends Controller
                     if($i < $tiempoPagoGarantia->tiempo || $i == $tiempoPagoGarantia->tiempo)
                     {
                         $nuevosEstadosPagos->garantia = ($nuevoContrato->garantia / $tiempoPagoGarantia->tiempo);
-                        $subtotal = $subtotal + ($nuevoContrato->garantia / $tiempoPagoGarantia->tiempo);
+                        $subtotal = $subtotal + ($nuevoContrato->garantia / $tiempoPagoGarantia->tiempo) + $nuevosEstadosPagos->comision;
                     }
                 }
                 else
@@ -184,7 +204,7 @@ class ContratoArriendoController extends Controller
                     if($i == 1)
                     {
                         $nuevosEstadosPagos->garantia = $nuevoContrato->garantia;
-                        $subtotal = $subtotal + $nuevoContrato->garantia;
+                        $subtotal = $subtotal + $nuevoContrato->garantia + $nuevosEstadosPagos->comision;
                     }
                     else
                     {

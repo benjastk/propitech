@@ -143,7 +143,7 @@
                                                             </form>
                                                             <!--<a href="/users/edit/{{ $user1->id }}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bx bxs-trash-alt"></i></a>-->
                                                         </li>
-                                                        @elseif($user1->idRol == $rolUsuario->id_rol)
+                                                        @elseif($user1->idRol == $rolUsuario->id_rol || $user1->idRol > 1)
                                                         <li class="list-inline-item">
                                                             <form id="form1" action="{{ url('/users/reimpresionDeclaracionJurada') }}" method="post">
                                                                 {{ csrf_field() }}

@@ -60,7 +60,7 @@ class NumerosEnLetras
         if(count($div_decimales) > 1){
             $base_number = $div_decimales[0];
             $decNumberStr = (string) $div_decimales[1];
-            if(strlen($decNumberStr) == 2){
+            if(strlen($decNumberStr) == 1){
                 $decNumberStrFill = str_pad($decNumberStr, 9, '0', STR_PAD_LEFT);
                 $decCientos = substr($decNumberStrFill, 6);
                 $decimales = self::convertGroup($decCientos);
@@ -92,19 +92,13 @@ class NumerosEnLetras
                 $converted .= sprintf('%s ', self::convertGroup($cientos));
             }
         }
-        if($format){
-            if(empty($decimales)){
-                $valor_convertido = number_format($number, 2, ',', '.') . ' (' . ucfirst($converted) . '00/100 '.$currency.')';
-            } else {
-                $valor_convertido = number_format($number, 2, ',', '.') . ' (' . ucfirst($converted) . $decNumberStr . '/100 '.$currency.')';
-            }
-        }else{
-            if(empty($decimales)){
-                $valor_convertido = ucfirst($converted) . $currency;
-            } else {
-                $valor_convertido = ucfirst($converted) . $currency. ' con ' . $decimales . $decimals;
-            }
+        
+        if(empty($decimales)){
+            $valor_convertido = ucfirst($converted);
+        } else {
+            $valor_convertido = ucfirst($converted) . $currency. ' ' . $decimales . $decimals;
         }
+
         return $valor_convertido;
     }
     private static function convertGroup($n)

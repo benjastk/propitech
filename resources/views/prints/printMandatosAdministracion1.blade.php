@@ -51,11 +51,15 @@
             <p style="text-align: center;"><span style="text-decoration: underline;"><strong>MANDATO DE ADMINISTRACI&Oacute;N CON ARRIENDO SEGURO</strong></span></p>
             <p><strong>&nbsp;</strong></p>
             <p><strong>&nbsp;</strong></p>
+            @php
+            $rutPropiterario1 = explode( "-", $mandatoAdministracion->rutPropietario );
+            $rutPropietario = number_format( $rutPropiterario1[0], 0, "", ".") . '-' . $rutPropiterario1[1];
+            @endphp
             @php(setlocale(LC_TIME, 'spanish'))
             <p>En Santiago de Chile, a {{ strftime("%d de %B de %Y", strtotime($mandatoAdministracion->fechaCompromisoMandato)) }}, 
             {{ $mandatoAdministracion->nombrePropietario }} {{ $mandatoAdministracion->apellidoPropietario }} , de nacionalidad {{ $mandatoAdministracion->nacionalidadPropietario }}, estado civil 
             {{ $mandatoAdministracion->estadoCivilPropietario}}, de profesi&oacute;n {{ $mandatoAdministracion->profesionPropietario}}, 
-            C&eacute;dula de identidad N&deg; {{ $mandatoAdministracion->rutPropietario }}, correo <a href="mailto:{{ $mandatoAdministracion->correoPropietario }}">
+            C&eacute;dula de identidad N&deg; {{ $rutPropietario }}, correo <a href="mailto:{{ $mandatoAdministracion->correoPropietario }}">
             {{ $mandatoAdministracion->correoPropietario}},</a> con domicilio en {{ $mandatoAdministracion->direccionPropietario }} {{ $mandatoAdministracion->numeroPropietario }}, 
             comuna de {{ $mandatoAdministracion->comunaPropietario }}, Regi&oacute;n {{ $mandatoAdministracion->regionPropietario }}, en adelante 
             &ldquo;<strong>El MANDANTE&rdquo;</strong>; y por la otra parte comparece don <strong>GUSTAVO ENRIQUE CISTERNAS P&Eacute;REZ</strong>, 
@@ -121,12 +125,12 @@
             MANDANTE</strong>, pagar&aacute; a el<strong> MANDATARIO</strong>, la siguiente remuneraci&oacute;n:</p>
             <p>&nbsp;</p>
             <ol>
-            <li><strong>Comisi&oacute;n de Corretaje</strong>: un <strong>pago &uacute;nico</strong> por un cincuenta por ciento del monto de un 
+            <li><strong>Comisi&oacute;n de Corretaje</strong>: un <strong>pago &uacute;nico</strong> por un {{ $comisionCorretajePalabras }} por ciento del monto de un 
             mes de arriendo, m&aacute;s IVA;</li>
             </ol>
             <p>&nbsp;</p>
             <ol>
-            <li><strong>Comisi&oacute;n por Administraci&oacute;n</strong>: <strong>pagos mensuales</strong> de un cinco coma cinco por ciento del 
+            <li><strong>Comisi&oacute;n por Administraci&oacute;n</strong>: <strong>pagos mensuales</strong> de un {{ $porcentajeAdministracionPalabras }} por ciento del 
             arriendo, m&aacute;s IVA, por concepto de arrendamiento de(l) inmueble(es) materia de este contrato.</li>
             </ol>
             <p>&nbsp;</p>
@@ -135,12 +139,12 @@
             <strong>MANDANTE</strong> pagar un total del dos por ciento, y de su contraparte el saldo restante.</li>
             </ol>
             <p>&nbsp;</p>
-            <p>El pago de la remuneraci&oacute;n se efectuar&aacute; al<strong> MANDANTE </strong>dentro de los <strong>diez primeros d&iacute;as 
+            <p>El pago de la remuneraci&oacute;n se efectuar&aacute; al<strong> MANDANTE </strong>dentro de los <strong>{{ $diasEnPalabras }} primeros d&iacute;as 
             de cada mes</strong>, sin perjuicio de que la parte arrendataria no haya cancelado el arriendo. Para estos efectos del dep&oacute;sito 
             de sus dineros, el<strong> MANDANTE </strong>declara como cuenta corriente apta para dicho dep&oacute;sito la cuenta N&deg; 
-            <strong>{{ $mandatoAdministracion->numeroCuneta}}</strong>, del Banco <strong>{{ $mandatoAdministracion->nombreBanco}}</strong>, mail 
+            <strong>{{ $mandatoAdministracion->numeroCuenta}}</strong>, del Banco <strong>{{ $mandatoAdministracion->nombreBanco}}</strong>, mail 
             <a href="mailto:{{ $mandatoAdministracion->correoPropietario }}"><strong>{{ $mandatoAdministracion->correoPropietario }}</strong>,</a> 
-            Rut., <strong>{{ $mandatoAdministracion->rutPropietario }}</strong>.-</p>
+            Rut., <strong>{{ $rutPropietario }}</strong>.-</p>
             <p>&nbsp;</p>
             <p>Queda expresamente autorizado <strong>INVERSIONES Y SERVICIOS PROFESIONALES B&amp;C SpA</strong> para que, de las rentas o sumas que 
             perciba, se reembolse de la comisi&oacute;n o retribuci&oacute;n se&ntilde;alada, y de todo gasto en que incurra en la administraci&oacute;n 
@@ -163,8 +167,9 @@
             <li><strong>MANDANTE</strong>:</li>
             </ol>
             <ul>
-            <li>Domicilio: {{ $mandatoAdministracion->direccionPropietario }}, Comuna de {{ $mandatoAdministracion->comunaPropitetario }}, 
-                {{ $mandatoAdministracion->regionPropietario}}.</li>
+            <li>Domicilio: {{ $mandatoAdministracion->direccionPropietario }} {{ $mandatoAdministracion->numero }}
+                @if($mandatoAdministracion->block) Dpto. {{ $mandatoAdministracion->block }} @endif, Comuna de {{ $mandatoAdministracion->nombreComuna }}, Región  
+                {{ $mandatoAdministracion->nombreRegion }}.</li>
             <li>N&uacute;mero de Tel&eacute;fono: +56 {{ $mandatoAdministracion->telefono }}</li>
             <li>Correo Electr&oacute;nico: <a href="mailto:{{ $mandatoAdministracion->correoPropietario }}">{{ $mandatoAdministracion->correoPropietario }}</a></li>
             </ul>
@@ -213,9 +218,10 @@
             </tbody>
             </table>
             <p>&nbsp;</p>
-            <center><p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MANDANTE</strong></p></center>
-            <center><p><strong>{{ $mandatoAdministracion->nombrePropietario }} {{ $mandatoAdministracion->apellidoPropietario }}</strong></p></center>
-            <center><p><strong>&nbsp;C.I. N&ordm; {{ $mandatoAdministracion->rutPropietario }}</strong></p></center>
+            <p style="text-align: center;"><strong>__________________________________________</strong></p>
+            <p style="text-align: center;"><strong>MANDANTE</strong></p>
+            <p style="text-align: center;"><strong>{{ $mandatoAdministracion->nombrePropietario }} {{ $mandatoAdministracion->apellidoPropietario }}</strong></p>
+            <p style="text-align: center;"><strong>&nbsp;C.I. N&ordm; {{ $rutPropietario }}</strong></p>
             <p><strong>&nbsp;</strong></p>
             <p><strong>&nbsp;</strong></p>
             <p><strong>&nbsp;</strong></p>
@@ -232,10 +238,11 @@
             </tbody>
             </table>
             <p>&nbsp;</p>
-            <center><p><strong>MANDATARIO</strong></p></center>
-            <center><p><strong>INVERSIONES Y SERVICIOS PROFESIONALES B&amp;C SpA</strong></p></center>
-            <center><p><strong>RUT N&ordm; 77.135.302-9</strong></p></center>
-            <center><p><strong> pp. GUSTAVO ENRIQUE CISTERNAS P&Eacute;REZ</strong></p></center>
+            <p style="text-align: center;"><strong>__________________________________________</strong></p>
+            <p style="text-align: center;"><strong>MANDATARIO</strong></p>
+            <p style="text-align: center;"><strong>INVERSIONES Y SERVICIOS PROFESIONALES B&amp;C SpA</strong></p>
+            <p style="text-align: center;"><strong>RUT N&ordm; 77.135.302-9</strong></p>
+            <p style="text-align: center;"><strong> pp. GUSTAVO ENRIQUE CISTERNAS P&Eacute;REZ</strong></p>
         </main>
     </body>
 </html>
