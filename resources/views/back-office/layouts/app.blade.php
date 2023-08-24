@@ -11,11 +11,19 @@
         <link rel="shortcut icon" href="/images/favicon.ico">
 
         <!-- Bootstrap Css -->
-        <link href="{!! asset('/css/bootstrap.min.css') !!}" rel="stylesheet" type="text/css" />
+        @if($user->modoOscuro == 1)
+        <link href="{!! asset('/css/bootstrap-dark.min.css') !!}" rel="stylesheet" type="text/css" />
+        @else
+        <link href="{!! asset('/css/bootstrap.min.css') !!}" rel="stylesheet" type="text/css" />-
+        @endif
         <!-- Icons Css -->
         <link href="{!! asset('/css/icons.min.css') !!}" rel="stylesheet" type="text/css" />
         <!-- App Css-->
+        @if($user->modoOscuro == 1)
+        <link href="{!! asset('/css/app-dark.min.css') !!}" rel="stylesheet" type="text/css" />
+        @else
         <link href="{!! asset('/css/app.min.css') !!}" rel="stylesheet" type="text/css" />
+        @endif
         <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
         <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> 
         <link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" />
@@ -24,11 +32,9 @@
         @yield('css')
     </head>
 
-    <body data-sidebar="dark">
-
+    <body data-sidebar="dark" >
         <!-- Begin page -->
         <div id="layout-wrapper">
-
             <header id="page-topbar">
                 <div class="navbar-header">
                     <div class="d-flex">
@@ -247,8 +253,8 @@
                             </button>
                             <div class="dropdown-menu dropdown-menu-right">
                                 <!-- item-->
-                                <!--<a class="dropdown-item" href="#"><i class="bx bx-user font-size-16 align-middle mr-1"></i> Profile</a>
-                                <a class="dropdown-item" href="#"><i class="bx bx-wallet font-size-16 align-middle mr-1"></i> My Wallet</a>
+                                <a class="dropdown-item" href="/users/edit/{{ $user->id }}"><i class="bx bx-user font-size-16 align-middle mr-1"></i> Editar Perfil</a>
+                                <!--<a class="dropdown-item" href="#"><i class="bx bx-wallet font-size-16 align-middle mr-1"></i> My Wallet</a>
                                 <a class="dropdown-item d-block" href="#"><span class="badge badge-success float-right">11</span><i class="bx bx-wrench font-size-16 align-middle mr-1"></i> Settings</a>
                                 <a class="dropdown-item" href="#"><i class="bx bx-lock-open font-size-16 align-middle mr-1"></i> Lock screen</a>
                                 <div class="dropdown-divider"></div>-->

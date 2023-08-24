@@ -16,7 +16,7 @@
                     @else
                     <div class="col-6">                     
                         @if($noticia->imagenNoticia)
-                            <img src="/{{ $noticia->imagenNoticia}}" alt="thumbnail" style="heigth: 200px; width: 200px">
+                            <img src="/img/noticias/{{ $noticia->imagenNoticia}}" alt="thumbnail" style="heigth: 200px; width: 200px">
                         @endif
                     </div>
                     <div class="col-6">
@@ -45,9 +45,9 @@
         <div class="col-12">
             <label>Texto resumen</label>
             @if(!isset($noticia->textoResumen))
-                <input type="text" name="textoResumen" value="{{old('textoResumen')}}" class="form-control" placeholder="Rol" required >
+                <input type="text" name="textoResumen" value="{{old('textoResumen')}}" class="form-control" placeholder="Texto resumen" required >
             @else
-                <input type="text" name="textoResumen" value="{{ $noticia->textoResumen }}" class="form-control" placeholder="Rol" required >
+                <input type="text" name="textoResumen" value="{{ $noticia->textoResumen }}" class="form-control" placeholder="Texto resumen" required >
             @endif
         </div>
     </div>
@@ -56,9 +56,9 @@
         <div class="col-12">
             <label>Texto</label>
             @if(!isset($noticia->texto))
-                <textarea class="form-control" name="texto" rows="4" placeholder="Texto de la publicacion" value="{{ old('texto') }}"></textarea>
+                <textarea class="form-control" name="texto" id="summernote" rows="4" placeholder="Texto de la publicacion" value="{{ old('texto') }}"></textarea>
             @else
-                <textarea class="form-control" name="descripcion" rows="4" placeholder="Texto de la publicacion" >{{ $noticia->texto }}</textarea>
+                <textarea class="form-control" name="texto" id="summernote" rows="4" placeholder="Texto de la publicacion" >{{ $noticia->texto }}</textarea>
             @endif
         </div>
     </div>

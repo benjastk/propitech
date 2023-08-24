@@ -191,7 +191,6 @@ class UserController extends Controller
     {
         try{
             DB::beginTransaction();
-
             $usuario = User::where('id', $id)->firstOrFail();
             $rolUsuario = UserRol::where('id_usuario', $id)->first();
             /*if($usuario->id != Auth::user()->id && Auth::user()->rol->id_rol == $rolUsuario->id_rol)
@@ -207,6 +206,14 @@ class UserController extends Controller
                 $nombreArchivo = time() . $file->getClientOriginalName();
                 $file->move(public_path() . '/img/usuarios/', $nombreArchivo);
                 $usuario->avatarImg = $nombreArchivo;
+            }
+            if($request->modoOscuro1)
+            {
+                $usuario->modoOscuro = 1;
+            }
+            else
+            {
+                $usuario->modoOscuro = 0;
             }
             $usuario->save();
 

@@ -246,7 +246,7 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-4">
+        <div class="col-3">
         <label>Contraseña</label>
             @if(!isset($usuario->password))
                 <input type="password" name="contrasena1" class="form-control" placeholder="Contraseña" required >
@@ -254,7 +254,7 @@
                 <input type="password" name="contrasena1" value="{{ $usuario->password }}" class="form-control" placeholder="Contraseña" required >
             @endif 
         </div>
-        <div class="col-4">
+        <div class="col-3">
         <label>Confirme contraseña</label>
             @if(!isset($usuario->password))
                 <input type="password" name="contrasena2" class="form-control" placeholder="Contraseña" required >
@@ -262,7 +262,7 @@
                 <input type="password" name="contrasena2" value="{{ $usuario->password }}" class="form-control" placeholder="Contraseña" required >
             @endif 
         </div>
-        <div class="col-4">
+        <div class="col-3">
             <div class="form-group row">
                 <div class="col-md-12">
                 <label>Rol Usuario</label>
@@ -280,6 +280,20 @@
                     </select>
                 </div>
             </div>
+        </div>
+        <div class="col-3">
+            <label>Modo</label>
+            @if(!isset($usuario->modoOscuro))
+                <div class="custom-control custom-switch mb-2" dir="ltr">
+                    <input name="modoOscuro1" type="checkbox" class="custom-control-input" id="modoOscuro1"  {{ (Input::old("modoOscuro") == 'on' ? "checked":"") }} >
+                    <label class="custom-control-label" for="modoOscuro1">Modo Oscuro</label>
+                </div>
+            @else
+                <div class="custom-control custom-switch mb-2" dir="ltr">
+                    <input name="modoOscuro1" type="checkbox" class="custom-control-input" id="modoOscuro1" {{ ( $usuario->modoOscuro == 1 ? "checked":"") }} >
+                    <label class="custom-control-label" for="modoOscuro1">Modo Oscuro</label>
+                </div>
+            @endif
         </div>
     </div>
     <br>
