@@ -8,6 +8,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Crypt;
 use App\Exports\ContratosExport;
+use App\NumerosEnLetras;
 use App\TiempoPagoGarantia;
 use App\LogTransaccion;
 use App\ParametroGeneral;
@@ -136,7 +137,7 @@ class ContratoArriendoController extends Controller
 
             $fechaVencimientoInicial = Carbon::parse($mesYAnio.'-'.$nuevoContrato->diaPago)->format('Y-m-d');
             $reajuste = ParametroGeneral::where('parametroGeneral', '=', 'PORCENTAJE DE AJUSTE ARRIENDO')->first();
-
+            $subtotal = 0;
             for($i = 1; $i <= $nuevoContrato->tiempoContrato; $i++){
                 $nuevosEstadosPagos = new EstadoPago();
                 $nuevosEstadosPagos->idContrato = $nuevoContrato->idContratoArriendo;
@@ -159,8 +160,28 @@ class ContratoArriendoController extends Controller
                 elseif($i == 1)
                 {
                     $nuevosEstadosPagos->comision = (($nuevoContrato->arriendoMensual / 2) * 1.19);
-                    $nuevosEstadosPagos->arriendoMensual = $nuevoContrato->arriendoMensual;
-                    $subtotal = $nuevoContrato->arriendoMensual + (($nuevoContrato->arriendoMensual / 2) * 1.19);
+                    /////////////////////////////////////dias proporcionales
+                    $fechaDesde = Carbon::parse($nuevoContrato->desde);
+                    $ultimoDiaDelMes = Carbon::parse($nuevoContrato->desde);
+                    $ultimoDiaDelMes->addMonth();
+                    $ultimoDiaDelMes->day = 0;
+                    $diasProporcionales = $fechaDesde->diffInDays($ultimoDiaDelMes);
+
+                    $valorProporcional = 0;
+                    if($fechaDesde->format("d") != "01")
+                    {
+                        $proporcionalMes = ($nuevoContrato->arriendoMensual / 30);
+                        $valorProporcionalParaMes = $proporcionalMes * $diasProporcionales;
+
+                        $nuevosEstadosPagos->arriendoMensual = $valorProporcionalParaMes;
+                        $subtotal = $valorProporcionalParaMes;
+                    }
+                    else
+                    {
+                        $nuevosEstadosPagos->arriendoMensual = $nuevoContrato->arriendoMensual;
+                        $subtotal = $subtotal;
+                    }
+                    ////////////////////////////////////// FIN DIAS PROPORCIONALES
                 }
                 else
                 {
@@ -175,7 +196,7 @@ class ContratoArriendoController extends Controller
                     if($i < $tiempoPagoGarantia->tiempo || $i == $tiempoPagoGarantia->tiempo)
                     {
                         $nuevosEstadosPagos->garantia = ($nuevoContrato->garantia / $tiempoPagoGarantia->tiempo);
-                        $subtotal = $subtotal + ($nuevoContrato->garantia / $tiempoPagoGarantia->tiempo);
+                        $subtotal = $subtotal + ($nuevoContrato->garantia / $tiempoPagoGarantia->tiempo) + $nuevosEstadosPagos->comision;
                     }
                 }
                 else
@@ -183,7 +204,7 @@ class ContratoArriendoController extends Controller
                     if($i == 1)
                     {
                         $nuevosEstadosPagos->garantia = $nuevoContrato->garantia;
-                        $subtotal = $subtotal + $nuevoContrato->garantia;
+                        $subtotal = $subtotal + $nuevoContrato->garantia + $nuevosEstadosPagos->comision;
                     }
                     else
                     {
@@ -426,7 +447,7 @@ class ContratoArriendoController extends Controller
         'user3.name as nombreCodeudor', 'user3.apellido as apellidoCodeudor', 'user3.rut as rutCodeudor','user3.direccion as direccionCodeudor', 
         'user3.numero as numeroCodeudor', 'comuna3.nombre as comunaCodeudor', 'user3.email as correoCodeudor', 'user1.estadoCivil as estadoCivilArrendatario',
         'user1.profesion as profesionArrendatario', 'user2.estadoCivil as estadoCivilPropietario', 'user2.profesion as profesionPropietario',
-        'user3.estadoCivil as estadoCivilCodeudor', 'user3.profesion as profesionCodeudor', 'propiedades.nombreEdificioComunidad')
+        'user3.estadoCivil as estadoCivilCodeudor', 'user3.profesion as profesionCodeudor', 'propiedades.nombreEdificioComunidad', 'propiedades.rolPropiedad')
         ->join('propiedades', 'contratos_arriendos.idPropiedad', '=', 'propiedades.id')
         ->join('region', 'region.id', '=', 'propiedades.idRegion')
         ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
@@ -439,7 +460,10 @@ class ContratoArriendoController extends Controller
         ->leftjoin('comuna as comuna3', 'comuna3.id', '=', 'user3.idComuna')
         ->where('contratos_arriendos.idContratoArriendo', '=', $request->id)
         ->first();
-        $pdf = \PDF::loadView('prints.printContratoArriendo', compact('contratoArriendo'));
+        $arriendoEnLetra = NumerosEnLetras::convertir($contratoArriendo->arriendoMensual,'Pesos',false,'Centavos');
+        $garantiaEnLetra = NumerosEnLetras::convertir($contratoArriendo->garantia,'Pesos',false,'Centavos');
+        $garantiaDosEnLetra = NumerosEnLetras::convertir($contratoArriendo->garantiaDos,'Pesos',false,'Centavos');
+        $pdf = \PDF::loadView('prints.printContratoArriendo', compact('contratoArriendo', 'arriendoEnLetra', 'garantiaEnLetra', 'garantiaDosEnLetra'));
         return $pdf->download('contrato-de-arriendo.pdf');
     }
     public function imprimirSalvoconducto(Request $request)

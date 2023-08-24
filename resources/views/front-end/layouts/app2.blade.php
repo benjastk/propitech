@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         @yield('titulo')
         <!-- Google fonts -->
+        @yield('meta')
         <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap"
         rel="stylesheet">
         <!-- Vendors CSS -->
@@ -68,7 +69,7 @@
             <div class="container">
                 <nav class="navbar navbar-expand-lg bg-transparent px-0">
                 <a class="navbar-brand" href="/">
-                    <img src="/front/01.svg" style="height: 63px" alt="PROPITECH">
+                    <img src="/front/LOGOPROPITECHby.png" style="height: 68px" alt="PROPITECH">
                 </a>
                 <div class="d-flex d-lg-none ml-auto">
                     <button class="navbar-toggler border-0 px-0" type="button" data-toggle="collapse"

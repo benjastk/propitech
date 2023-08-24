@@ -2,6 +2,11 @@
 @section('titulo')
 <title>Propitech - Propiedad en {{ $propiedad->nombreComuna }}, {{ $propiedad->nombreRegion }} </title>
 @endsection
+@section('meta')
+<meta name="description" content="{{ $propiedad->direccion }} {{ $propiedad->nombreComuna }}, {{ $propiedad->nombreRegion }} ">
+<meta name="author" content="benjaminperez.cl">
+<meta name="generator" content="LaravelV7">
+@endsection
 @section('css')
 @endsection
 @section('content')

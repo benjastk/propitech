@@ -2,6 +2,11 @@
 @section('titulo')
 <title>Propitech - Catalogo de propiedades en venta</title>
 @endsection
+@section('meta')
+<meta name="description" content="Propiedades en venta">
+<meta name="author" content="benjaminperez.cl">
+<meta name="generator" content="LaravelV7">
+@endsection
 @section('css')
 <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
 <style>

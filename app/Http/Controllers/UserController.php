@@ -194,11 +194,11 @@ class UserController extends Controller
 
             $usuario = User::where('id', $id)->firstOrFail();
             $rolUsuario = UserRol::where('id_usuario', $id)->first();
-            if($usuario->id != Auth::user()->id && Auth::user()->rol->id_rol == $rolUsuario->id_rol)
+            /*if($usuario->id != Auth::user()->id && Auth::user()->rol->id_rol == $rolUsuario->id_rol)
             {
                 toastr()->error('No puedes cambiar datos de un usuario de tu mismo rol');
                 return redirect('/users');
-            }
+            }*/
             $usuario->fill($request->all());
             $usuario->password = Hash::make($request->contrasena1);
             if($request->hasFile('foto')){

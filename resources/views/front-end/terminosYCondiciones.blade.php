@@ -2,6 +2,11 @@
 @section('titulo')
 <title>Propitech - Terminos y condiciones de nuestra web</title>
 @endsection
+@section('meta')
+<meta name="description" content="Terminos y condiciones">
+<meta name="author" content="benjaminperez.cl">
+<meta name="generator" content="LaravelV7">
+@endsection
 @section('css')
 @endsection
 @section('content')

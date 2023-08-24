@@ -2,6 +2,11 @@
 @section('titulo')
 <title>Propitech - Nosotros</title>
 @endsection
+@section('meta')
+<meta name="description" content="Empresa dedicada al corretaje y a la administración de propiedades">
+<meta name="author" content="benjaminperez.cl">
+<meta name="generator" content="LaravelV7">
+@endsection
 @section('css')
 @endsection
 @section('content')
@@ -90,8 +95,8 @@
             <div class="col-lg-4 col-sm-6 mb-sm-0 mb-7">
                 <div class="card border-0 our-team text-center">
                 <div class="rounded overflow-hidden bg-hover-overlay d-inline-block">
-                    <img class="card-img" src="/front/images/our-team-05.jpg"
-                                alt="Dollie Horton">
+                    <img class="card-img" src="/front/GUSTAVO1.png"
+                                alt="Gustavo Cisternas">
                     <ul class="list-inline text-gray-lighter position-absolute w-100 m-0 p-0 z-index-2">
                         <!--<li class="list-inline-item m-0">
                             <a href="#"
@@ -109,15 +114,14 @@
                                             class="fab fa-instagram"></i></a>
                         </li>-->
                         <li class="list-inline-item mr-0 ml-2">
-                            <a href="#"
-                                        class="w-32px h-32 rounded shadow-xxs-3 bg-hover-primary bg-white hover-white text-body d-flex align-items-center justify-content-center"><i
-                                            class="fab fa-linkedin-in"></i></a>
+                            <a href="#" class="w-32px h-32 rounded shadow-xxs-3 bg-hover-primary bg-white hover-white text-body d-flex align-items-center justify-content-center"><i
+                            class="fab fa-linkedin-in"></i></a>
                         </li>
                     </ul>
                 </div>
                 <div class="card-body pt-5">
                     <h3 class="fs-16 text-heading mb-1 lh-2">
-                    <a href="#" class="text-heading hover-primary">Dollie Horton</a>
+                    <a href="#" class="text-heading hover-primary">Gustavo Cisternas</a>
                     </h3>
                     <p>Lider de rentas</p>
                 </div>
@@ -126,8 +130,8 @@
             <div class="col-lg-4 col-sm-6 mb-sm-0 mb-7">
                 <div class="card border-0 our-team text-center">
                 <div class="rounded overflow-hidden bg-hover-overlay d-inline-block">
-                    <img class="card-img" src="/front/images/our-team-06.jpg"
-                                alt="Dollie Horton">
+                    <img class="card-img" src="/front/TRIANA33.png"
+                                alt="Triana Bustos">
                     <ul class="list-inline text-gray-lighter position-absolute w-100 m-0 p-0 z-index-2">
                         <!--<li class="list-inline-item m-0">
                             <a href="#"
@@ -153,7 +157,7 @@
                 </div>
                 <div class="card-body pt-5">
                     <h3 class="fs-16 text-heading mb-1 lh-2">
-                    <a href="#" class="text-heading hover-primary">Tom Sanders</a>
+                    <a href="#" class="text-heading hover-primary">Triana Bustos</a>
                     </h3>
                     <p>Agente Inmobiliario</p>
                 </div>
@@ -162,8 +166,8 @@
             <div class="col-lg-4 col-sm-6 mb-sm-0 mb-7">
                 <div class="card border-0 our-team text-center">
                 <div class="rounded overflow-hidden bg-hover-overlay d-inline-block">
-                    <img class="card-img" src="/front/images/our-team-07.jpg"
-                                alt="Dollie Horton">
+                    <img class="card-img" src="/front/ISABEL2.jpg" style="border-radius: 290px !important; height: 365px; width: 90% !important"
+                                alt="Isabel Sainz">
                     <ul class="list-inline text-gray-lighter position-absolute w-100 m-0 p-0 z-index-2">
                         <!--<li class="list-inline-item m-0">
                             <a href="#"
@@ -189,7 +193,7 @@
                 </div>
                 <div class="card-body pt-5">
                     <h3 class="fs-16 text-heading mb-1 lh-2">
-                    <a href="#" class="text-heading hover-primary">Dollie Horton</a>
+                    <a href="https://www.linkedin.com/in/isabelmargaritasainz/" class="text-heading hover-primary">Isabel Sainz</a>
                     </h3>
                     <p>Agente Inmobiliario</p>
                 </div>

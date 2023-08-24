@@ -13,6 +13,7 @@ use App\MandatoAdministracion;
 use App\PlanAdministracion;
 use App\ParametroGeneral;
 use App\ContratoArriendo;
+use App\NumerosEnLetras;
 use App\LogTransaccion;
 use App\Propiedad;
 use App\Moneda;
@@ -358,7 +359,7 @@ class MandatoAdministracionController extends Controller
         'propiedades.direccion', 'propiedades.numero', 'propiedades.block', 'region.nombre as nombreRegion', 'comuna.nombre as nombreComuna', 
         'propiedades.usoGoceBodega', 'propiedades.codigoBodega', 'propiedades.usoGoceEstacionamiento', 'propiedades.codigoEstacionamiento',
         'propiedades.habitacion', 'propiedades.bano', 'planes.nombre as nombrePlan', 'usuarios_cuentas_bancarias.numeroCuenta', 'bancos.nombreBanco',
-        'usuarios_cuentas_bancarias.correoAsociado', 'user1.telefono')
+        'usuarios_cuentas_bancarias.correoAsociado', 'user1.telefono', 'planes.comisionCorretaje', 'planes.comisionAdministracion', 'propiedades.rolPropiedad')
         ->join('propiedades', 'mandatos_propiedad.idPropiedad', '=', 'propiedades.id')
         ->join('region', 'region.id', '=', 'propiedades.idRegion')
         ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
@@ -371,24 +372,32 @@ class MandatoAdministracionController extends Controller
         ->leftjoin('bancos', 'bancos.idBanco', '=', 'usuarios_cuentas_bancarias.idBanco')
         ->where('mandatos_propiedad.idMandatoPropiedad', '=', $request->id)
         ->first();
+        //str_replace(',', '.', $mandatoAdministracion->comisionAdministracion);
+        $comisionCorretajePalabras = NumerosEnLetras::convertir($mandatoAdministracion->comisionCorretaje,'',false,'');
+        $porcentajeAdministracionPalabras = NumerosEnLetras::convertir(str_replace(',', '.', $mandatoAdministracion->comisionAdministracion),'coma', true,'');
+        $diasEnPalabras = NumerosEnLetras::convertir($mandatoAdministracion->diaPago,'',false,'');
         if($mandatoAdministracion->idPlan == 1)
         {
-            $pdf = \PDF::loadView('prints.printMandatosAdministracion1', compact('mandatoAdministracion'));
+            $pdf = \PDF::loadView('prints.printMandatosAdministracion1', compact('mandatoAdministracion', 'comisionCorretajePalabras', 'porcentajeAdministracionPalabras',
+            'diasEnPalabras'));
             return $pdf->download('mandato-administracion.pdf');
         }
         elseif($mandatoAdministracion->idPlan == 2)
         {
-            $pdf = \PDF::loadView('prints.printMandatosAdministracion2', compact('mandatoAdministracion'));
+            $pdf = \PDF::loadView('prints.printMandatosAdministracion2', compact('mandatoAdministracion', 'comisionCorretajePalabras', 'porcentajeAdministracionPalabras',
+            'diasEnPalabras'));
             return $pdf->download('mandato-administracion.pdf');
         }
         elseif($mandatoAdministracion->idPlan == 3)
         {
-            $pdf = \PDF::loadView('prints.printMandatosAdministracion3', compact('mandatoAdministracion'));
+            $pdf = \PDF::loadView('prints.printMandatosAdministracion3', compact('mandatoAdministracion', 'comisionCorretajePalabras', 'porcentajeAdministracionPalabras',
+            'diasEnPalabras'));
             return $pdf->download('mandato-administracion.pdf');
         }
         elseif($mandatoAdministracion->idPlan == 4)
         {
-            $pdf = \PDF::loadView('prints.printMandatosAdministracion4', compact('mandatoAdministracion'));
+            $pdf = \PDF::loadView('prints.printMandatosAdministracion4', compact('mandatoAdministracion', 'comisionCorretajePalabras', 'porcentajeAdministracionPalabras',
+            'diasEnPalabras'));
             return $pdf->download('mandato-administracion.pdf');
         }
         else

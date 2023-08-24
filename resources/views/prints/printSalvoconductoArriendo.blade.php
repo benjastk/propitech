@@ -51,17 +51,24 @@
         <p>&nbsp;</p>
         <p>&nbsp;</p>
         <p>&nbsp;</p>
+        @php
+        $rutUsuario1 = explode( "-", $salvoconducto->rutPropietario );
+        $rutUsuario = number_format( $rutUsuario1[0], 0, "", ".") . '-' . $rutUsuario1[1];
+
+        $rutUsuario2 = explode( "-", $salvoconducto->rutArrendatario );
+        $rutUsuarios = number_format( $rutUsuario2[0], 0, "", ".") . '-' . $rutUsuario2[1];
+        @endphp
         @php(setlocale(LC_TIME, 'spanish'))
         <p>Santiago, <strong>{{ strftime("%d de %B de %Y", strtotime($fechaHoy)) }}</strong>.</p>
         <p>&nbsp;</p>
         <p>Yo, <strong>{{ $salvoconducto->nombrePropietario }} {{ $salvoconducto->apellidoPropietario }}</strong>, c&eacute;dula nacional de 
-        identidad n&uacute;mero RUT <strong>{{ $salvoconducto->rutPropietario }}</strong>, propietario/a del inmueble 
+        identidad n&uacute;mero RUT <strong>{{ $rutUsuario }}</strong>, propietario/a del inmueble 
         ubicado en <strong>{{ $salvoconducto->direccionPropiedad }} @if($salvoconducto->block), Dpto. {{ $salvoconducto->block }}@endif</strong>, 
         comuna <strong>{{ $salvoconducto->nombreComuna}}</strong>, región <strong>{{ $salvoconducto->nombreRegion }}</strong>, 
         pa&iacute;s Chile.</p>
         <p>&nbsp;</p>
         <p>Declaro que el arrendatario u ocupante don/do&ntilde;a <strong>{{ $salvoconducto->nombreArrendatario }} {{ $salvoconducto->apellidoArrendatario }}</strong>, 
-        c&eacute;dula nacional de identidad n&uacute;mero RUT <strong>{{ $salvoconducto->rutArrendatario }}</strong>, se encuentra al 
+        c&eacute;dula nacional de identidad n&uacute;mero RUT <strong>{{ $rutUsuarios }}</strong>, se encuentra al 
         d&iacute;a en todos los pagos involucrados a este arrendamiento, incluyendo la renta correspondiente al &uacute;ltimo mes y los 
         servicios con que cuenta el inmueble.</p>
         <p>&nbsp;</p>
@@ -80,7 +87,7 @@
         <p>&nbsp;</p>
         <center><p><strong>{{ $salvoconducto->nombrePropietario }} {{ $salvoconducto->apellidoPropietario }}</strong></p></center>
         <p>&nbsp;</p>
-        <center><p><strong>{{ $salvoconducto->rutPropietario }}</strong></p> </center>
+        <center><p><strong>{{ $rutUsuario }}</strong></p> </center>
         </main>
     </body>
 </html>
