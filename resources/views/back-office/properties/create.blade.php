@@ -160,13 +160,19 @@
             }
         });
     </script>
-    <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzyDN_wIGU_xsKCYm-0L7pF54cuR2sq5I&callback=initMap" async defer></script>
     <script>
-        mapboxgl.accessToken = 'pk.eyJ1IjoiYmVuamFzdGsiLCJhIjoiY2xnZHYwZ2V0MG82MjNscnl6dXQxZWxsaiJ9.wLKdL8bv-Y9DKI8qSW_AZw';
-        var map = new mapboxgl.Map({
-            container: 'map',
-            style: 'mapbox://styles/mapbox/streets-v11'
-        });
+        function initMap() {
+            var map;
+            var latlng = new google.maps.LatLng( -33.4569400, -70.6482700);
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 14,
+                center: latlng,
+                streetViewControl: false,
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                disableDefaultUI: true
+            });
+        }
     </script>
     <script src="{{ asset('js/maps.js') }}"></script>
 @endsection

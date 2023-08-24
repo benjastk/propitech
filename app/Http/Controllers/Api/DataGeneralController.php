@@ -78,7 +78,7 @@ class DataGeneralController extends Controller
     public function maps($request) 
     {
         $nuevadireccion = urlencode($request);
-        $json = "https://api.mapbox.com/geocoding/v5/mapbox.places/".$nuevadireccion.".json?access_token=pk.eyJ1IjoiYmVuamFzdGsiLCJhIjoiY2xnZHYwZ2V0MG82MjNscnl6dXQxZWxsaiJ9.wLKdL8bv-Y9DKI8qSW_AZw";
+        $json = "https://maps.googleapis.com/maps/api/geocode/json?address={$nuevadireccion}&key=AIzaSyAzyDN_wIGU_xsKCYm-0L7pF54cuR2sq5I";
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $json);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
