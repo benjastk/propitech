@@ -15,18 +15,22 @@ $(document).ready(function(){
                 dataType: 'json',
                 success: function (respuesta) {
                     console.log(respuesta);
-                    document.getElementById("latitud").value = respuesta['features']['0']['geometry']['coordinates']['1'];
-                    document.getElementById("longitud").value = respuesta['features']['0']['geometry']['coordinates']['0'];
-                    mapboxgl.accessToken = 'pk.eyJ1IjoiYmVuamFzdGsiLCJhIjoiY2xnZHYwZ2V0MG82MjNscnl6dXQxZWxsaiJ9.wLKdL8bv-Y9DKI8qSW_AZw';
-                    var map = new mapboxgl.Map({
-                        container: 'map',
-                        style: 'mapbox://styles/mapbox/streets-v11',
-                        center: [respuesta['features']['0']['geometry']['coordinates']['0'], respuesta['features']['0']['geometry']['coordinates']['1']],
-                        zoom: 17
+                    document.getElementById("latitud").value = respuesta['results'][0]['geometry']['location']['lat'];
+                    document.getElementById("longitud").value = respuesta['results'][0]['geometry']['location']['lng'];
+                    var map;
+                    var latlng = new google.maps.LatLng( respuesta['results'][0]['geometry']['location']['lat'] , respuesta['results'][0]['geometry']['location']['lng']);
+                    map = new google.maps.Map(document.getElementById('map'), {
+                        zoom: 14,
+                        center: latlng,
+                        streetViewControl: false,
+                        mapTypeId: google.maps.MapTypeId.ROADMAP,
+                        disableDefaultUI: true
                     });
-                    let marker1 = new mapboxgl.Marker()
-                    .setLngLat([respuesta['features']['0']['geometry']['coordinates']['0'], respuesta['features']['0']['geometry']['coordinates']['1']])
-                    marker1.addTo(map);
+                    var myLatlng = new google.maps.LatLng( respuesta['results'][0]['geometry']['location']['lat'], respuesta['results'][0]['geometry']['location']['lng']);
+                    var marker = new google.maps.Marker({
+                        position: myLatlng
+                    });
+                    marker.setMap(map);
                 },
                 error: function(err) {
                     console.log(err);
@@ -49,19 +53,22 @@ $(document).ready(function(){
                 method:'GET',
                 dataType: 'json',
                 success: function (respuesta) {
-                    console.log(respuesta);
-                    document.getElementById("latitud").value = respuesta['features']['0']['geometry']['coordinates']['1'];
-                    document.getElementById("longitud").value = respuesta['features']['0']['geometry']['coordinates']['0'];
-                    mapboxgl.accessToken = 'pk.eyJ1IjoiYmVuamFzdGsiLCJhIjoiY2xnZHYwZ2V0MG82MjNscnl6dXQxZWxsaiJ9.wLKdL8bv-Y9DKI8qSW_AZw';
-                    var map = new mapboxgl.Map({
-                        container: 'map',
-                        style: 'mapbox://styles/mapbox/streets-v11',
-                        center: [respuesta['features']['0']['geometry']['coordinates']['0'], respuesta['features']['0']['geometry']['coordinates']['1']],
-                        zoom: 17
+                    console.log(respuesta['results'][0]['geometry']['location']['lat']);
+                    document.getElementById("latitud").value = respuesta['results'][0]['geometry']['location']['lat'];
+                    document.getElementById("longitud").value = respuesta['results'][0]['geometry']['location']['lng'];
+                    var latlng = new google.maps.LatLng( respuesta['results'][0]['geometry']['location']['lat'] , respuesta['results'][0]['geometry']['location']['lng']);
+                    map = new google.maps.Map(document.getElementById('map'), {
+                        zoom: 14,
+                        center: latlng,
+                        streetViewControl: false,
+                        mapTypeId: google.maps.MapTypeId.ROADMAP,
+                        disableDefaultUI: true
                     });
-                    let marker1 = new mapboxgl.Marker()
-                    .setLngLat([respuesta['features']['0']['geometry']['coordinates']['0'], respuesta['features']['0']['geometry']['coordinates']['1']])
-                    marker1.addTo(map);
+                    var myLatlng = new google.maps.LatLng( respuesta['results'][0]['geometry']['location']['lat'], respuesta['results'][0]['geometry']['location']['lng']);
+                    var marker = new google.maps.Marker({
+                        position: myLatlng
+                    });
+                    marker.setMap(map);
                 },
                 error: function(err) {
                     console.log(err);

@@ -411,7 +411,7 @@
             <div class="form-row">
                 <label>Mapa</label>
                 <div class="col-xs-12 col-lg-12">
-                    <div id="map" style="width: 100%; height: 300px;"/></div>
+                    <div id="map" style="width: 100%; height: 300px;"></div>
                 </div>
             </div>
         </div>

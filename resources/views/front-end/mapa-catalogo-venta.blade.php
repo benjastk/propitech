@@ -25,6 +25,16 @@
     .mapboxgl-popup-content {
         padding: 0px !important;
     }
+    .gm-style-iw
+    {
+        padding: 0px !important;
+    }
+    .gm-style-iw-d
+    {
+        overflow: initial !important;
+        padding: 0px !important;
+        width: 100% !important;
+    }
 </style>
 @endsection
 @section('content')
@@ -163,7 +173,7 @@
         @if($propiedadesEnVenta)
         @foreach($propiedadesEnVenta as $propiedadVenta)
             var contentString = 
-                `<div class="mappopupdiv" style="width: 97%">
+                `<div class="mappopupdiv" style="width: 100%">
                     <div > 
                         <img src="/img/propiedad/{{ $propiedadVenta->fotoPrincipal }}" style="height: 160px; width: 100%;"alt="">
                     </div>
