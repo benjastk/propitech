@@ -25,6 +25,16 @@
     .mapboxgl-popup-content {
         padding: 0px !important;
     }
+    .gm-style-iw
+    {
+        padding: 0px !important;
+    }
+    .gm-style-iw-d
+    {
+        overflow: initial !important;
+        padding: 0px !important;
+        width: 100% !important;
+    }
 </style>
 @endsection
 @section('content')
@@ -145,116 +155,74 @@
     </section>
 @endsection
 @section('jss')
-<script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzyDN_wIGU_xsKCYm-0L7pF54cuR2sq5I&callback=initMap" async defer></script>
 <script>
-    mapboxgl.accessToken = 'pk.eyJ1IjoiYmVuamFzdGsiLCJhIjoiY2xnZHYwZ2V0MG82MjNscnl6dXQxZWxsaiJ9.wLKdL8bv-Y9DKI8qSW_AZw';
-    var map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v11',
-        center: {{ $coordenada }},
-        zoom: 10
-    });
-    $('.mapboxgl-canvas').css('height', '100%');
-    map.resize();
-          
-    @if(count($propiedadesEnVenta))
-    @foreach($propiedadesEnVenta as $propiedadVenta)
-        const popup{{ $propiedadVenta->id }} = new mapboxgl.Popup({ offset: 25 }).setHTML(
-            `<div class="mappopupdiv">
-                <div > 
-                    <img src="/img/propiedad/{{ $propiedadVenta->fotoPrincipal }}" style="height: 160px; width: 100%;"alt="">
-                </div>
-                <div style="padding: 10px 10px 15px !important">
+    var map;
+    var str = String({{ $coordenada }});
+    var str_array = str.split(',');
+    var lat = parseFloat(str_array[1]);
+    var lng = parseFloat(str_array[0]);
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: { lng, lat },
+            zoom: 14,
+            streetViewControl: false,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            disableDefaultUI: true
+        });
+        @if($propiedadesEnVenta)
+        @foreach($propiedadesEnVenta as $propiedadVenta)
+            var contentString = 
+                `<div class="mappopupdiv" style="width: 100%">
                     <div > 
-                        <h6 style="font-family: 'Poppins', sans-serif;">{{ $propiedadVenta->direccion }} {{ $propiedadVenta->numero }}, {{ $propiedadVenta->nombreComuna }}</h6> 
+                        <img src="/img/propiedad/{{ $propiedadVenta->fotoPrincipal }}" style="height: 160px; width: 100%;"alt="">
                     </div>
-                    <div class="row">
-                        <div class="col-4">
-                            <svg class="icon icon-bedroom fs-18 text-primary mr-2">
-                                <use xlink:href="#icon-bedroom"></use>
-                            </svg>
-                            {{ $propiedadVenta->habitacion }}
+                    <div style="padding: 10px 10px 15px !important">
+                        <div > 
+                            <h6 style="font-family: 'Poppins', sans-serif;">{{ $propiedadVenta->direccion }} {{ $propiedadVenta->numero }}, {{ $propiedadVenta->nombreComuna }}</h6> 
                         </div>
-                        <div class="col-4">
-                            <svg class="icon icon-shower fs-18 text-primary mr-2">
-                                <use xlink:href="#icon-shower"></use>
-                            </svg>
-                            {{ $propiedadVenta->bano }}
+                        <div class="row">
+                            <div class="col-4">
+                                <svg class="icon icon-bedroom fs-18 text-primary mr-2">
+                                    <use xlink:href="#icon-bedroom"></use>
+                                </svg>
+                                {{ $propiedadVenta->habitacion }}
+                            </div>
+                            <div class="col-4">
+                                <svg class="icon icon-shower fs-18 text-primary mr-2">
+                                    <use xlink:href="#icon-shower"></use>
+                                </svg>
+                                {{ $propiedadVenta->bano }}
+                            </div>
+                            <div class="col-4">
+                                <svg class="icon icon-square fs-18 text-primary mr-2">
+                                    <use xlink:href="#icon-square"></use>
+                                </svg>
+                                {{ $propiedadVenta->mTotal }}
+                            </div>
                         </div>
-                        <div class="col-4">
-                            <svg class="icon icon-square fs-18 text-primary mr-2">
-                                <use xlink:href="#icon-square"></use>
-                            </svg>
-                            {{ $propiedadVenta->mTotal }}
+                        <div >
+                            <h5 style="margin-bottom: 0px !important; text-align: right; margin-top: 7px; color: #096ba0 !important; font-weight: bolder; font-family: 'Poppins', sans-serif;">UF {{ number_format($propiedadVenta->precio, 0, ",", ".") }}</h5>
                         </div>
                     </div>
-                    <div >
-                        <h5 style="margin-bottom: 0px !important; text-align: right; margin-top: 7px; color: #096ba0 !important; font-weight: bolder; font-family: 'Poppins', sans-serif;">UF {{ number_format($propiedadVenta->precio, 0, ",", ".") }}</h5>
-                    </div>
-                </div>
-            </div>`
-        );
-        var marker{{ $propiedadVenta->id }} = new mapboxgl.Marker({ color: '#2db5ff' })
-        .setLngLat([{{ $propiedadVenta->longitud }}, {{ $propiedadVenta->latitud }}])
-        .addTo(map)
-        .setPopup(popup{{ $propiedadVenta->id }});
-    @endforeach
-    @endif
+                </div>`;
+            var infowindow{{ $propiedadVenta->id }} = new google.maps.InfoWindow({
+                content: contentString,
+                maxWidth: 250
+            });
+            var myLatlng{{ $propiedadVenta->id }} = new google.maps.LatLng( {{ $propiedadVenta->latitud }}, {{ $propiedadVenta->longitud }});
+            var marker{{ $propiedadVenta->id }} = new google.maps.Marker({
+                position: myLatlng{{ $propiedadVenta->id }}
+            });
+            marker{{ $propiedadVenta->id }}.addListener("click", () => {
+                infowindow{{ $propiedadVenta->id }}.open({
+                    anchor: marker{{ $propiedadVenta->id }},
+                    map,
+                });
+            });
+            marker{{ $propiedadVenta->id }}.setMap(map);
+        @endforeach
+        @endif
+    }
 </script>
-<script>
-    mapboxgl.accessToken = 'pk.eyJ1IjoiYmVuamFzdGsiLCJhIjoiY2xnZHYwZ2V0MG82MjNscnl6dXQxZWxsaiJ9.wLKdL8bv-Y9DKI8qSW_AZw';
-    var map = new mapboxgl.Map({
-        container: 'map1',
-        style: 'mapbox://styles/mapbox/streets-v11',
-        center: {{ $coordenada }},
-        zoom: 10
-    });
-    $('.mapboxgl-canvas').css('height', '100%');
-    map.resize();
-          
-    @if(count($propiedadesEnVenta))
-    @foreach($propiedadesEnVenta as $propiedadVenta)
-        const popup{{ $propiedadVenta->id }} = new mapboxgl.Popup({ offset: 25 }).setHTML(
-            `<div class="mappopupdiv">
-                <div > 
-                    <img src="/img/propiedad/{{ $propiedadVenta->fotoPrincipal }}" style="height: 160px; width: 100%;"alt="">
-                </div>
-                <div style="padding: 10px 10px 15px !important">
-                    <div > 
-                        <h6 style="font-family: 'Poppins', sans-serif;">{{ $propiedadVenta->direccion }} {{ $propiedadVenta->numero }}, {{ $propiedadVenta->nombreComuna }}</h6> 
-                    </div>
-                    <div class="row">
-                        <div class="col-4">
-                            <svg class="icon icon-bedroom fs-18 text-primary mr-2">
-                                <use xlink:href="#icon-bedroom"></use>
-                            </svg>
-                            {{ $propiedadVenta->habitacion }}
-                        </div>
-                        <div class="col-4">
-                            <svg class="icon icon-shower fs-18 text-primary mr-2">
-                                <use xlink:href="#icon-shower"></use>
-                            </svg>
-                            {{ $propiedadVenta->bano }}
-                        </div>
-                        <div class="col-4">
-                            <svg class="icon icon-square fs-18 text-primary mr-2">
-                                <use xlink:href="#icon-square"></use>
-                            </svg>
-                            {{ $propiedadVenta->mTotal }}
-                        </div>
-                    </div>
-                    <div >
-                        <h5 style="margin-bottom: 0px !important; text-align: right; margin-top: 7px; color: #096ba0 !important; font-weight: bolder; font-family: 'Poppins', sans-serif;">UF {{ number_format($propiedadVenta->precio, 0, ",", ".") }}</h5>
-                    </div>
-                </div>
-            </div>`
-        );
-        var marker{{ $propiedadVenta->id }} = new mapboxgl.Marker({ color: '#2db5ff' })
-        .setLngLat([{{ $propiedadVenta->longitud }}, {{ $propiedadVenta->latitud }}])
-        .addTo(map)
-        .setPopup(popup{{ $propiedadVenta->id }});
-    @endforeach
-    @endif
-</script>
-<script src="{{ asset('front/js/maps.js') }}"></script>
 @endsection
