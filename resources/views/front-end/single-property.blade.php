@@ -272,12 +272,12 @@
                     <div class="row">
                         <div class="col-sm-6">
                         <div class="form-group mb-4">
-                            <input placeholder="Tu nombre" class="form-control form-control-lg border-0" type="text" name="nombre">
+                            <input placeholder="Tu nombre" class="form-control form-control-lg border-0" type="text" name="nombre" required >
                         </div>
                         </div>
                         <div class="col-sm-6">
                         <div class="form-group mb-4">
-                            <input type="email" placeholder="Correo electronico" name="email" class="form-control form-control-lg border-0">
+                            <input type="text" placeholder="Telefono de contacto" name="telefono" class="form-control form-control-lg border-0" required>
                         </div>
                         </div>
                     </div>
@@ -513,13 +513,13 @@
                     <form action="{{ route('formulario-contacto-propiedades')}}" method="post">
                     @csrf
                         <div class="form-group mb-2">
-                            <input type="text" name="nombre" class="form-control form-control-lg border-0" placeholder="Tu Nombre">
+                            <input type="text" name="nombre" class="form-control form-control-lg border-0" placeholder="Tu Nombre" required>
+                        </div>
+                        <div class="form-group mb-2">
+                            <input type="tel" name="telefono" class="form-control form-control-lg border-0" placeholder="Tu Telefono" required>
                         </div>
                         <div class="form-group mb-2">
                             <input type="email" name="email" class="form-control form-control-lg border-0" placeholder="Tu correo electronico">
-                        </div>
-                        <div class="form-group mb-2">
-                            <input type="tel" name="telefono" class="form-control form-control-lg border-0" placeholder="Tu Telefono">
                         </div>
                         <div class="form-group mb-2">
                             <textarea class="form-control border-0" name="mensaje" rows="4">Hola, estoy interesado en la propiedad {{ $propiedad->direccion }} {{ $propiedad->numero }}, {{ $propiedad->nombreComuna }} - ID:{{ $propiedad->id }}</textarea>
