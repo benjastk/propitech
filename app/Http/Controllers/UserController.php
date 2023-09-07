@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Http\Request;
 use App\UsuarioCuentaBancaria;
 use App\TipoCuentaBancaria;
@@ -199,7 +200,6 @@ class UserController extends Controller
                 return redirect('/users');
             }*/
             $usuario->fill($request->all());
-            $usuario->password = Hash::make($request->contrasena1);
             if($request->hasFile('foto')){
                 $nombreArchivo = "";
                 $file =  $request['foto'];
@@ -214,6 +214,14 @@ class UserController extends Controller
             else
             {
                 $usuario->modoOscuro = 0;
+            }
+            if($usuario->password == $request->contrasena1)
+            {
+
+            }
+            else
+            {
+                $usuario->password = Hash::make($request->contrasena1);
             }
             $usuario->save();
 

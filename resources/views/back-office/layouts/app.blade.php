@@ -5,10 +5,8 @@
         <title>Propitech</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
-        <meta content="Themesbrand" name="author" />
-        <!-- App favicon -->
-        <link rel="shortcut icon" href="/images/favicon.ico">
+        <!-- Favicons -->
+        <link rel="icon" href="/front/favicon.ico">
 
         <!-- Bootstrap Css -->
         @if($user->modoOscuro == 1)
@@ -42,7 +40,7 @@
                         <div class="navbar-brand-box">
                             <a href="/home" class="logo logo-dark">
                                 <span class="logo-sm">
-                                    <img src="/front/LOGOPROPITECHby.png" alt="" style="width: 90%; height: 60px;">
+                                    <img src="/front/sm.png" alt="" style="width: 100%; height: 40px;">
                                 </span>
                                 <span class="logo-lg">
                                     <img src="/front/LOGOPROPITECHby.png" alt="" style="width: 90%; height: 60px;">
@@ -51,7 +49,7 @@
 
                             <a href="/home" class="logo logo-light">
                                 <span class="logo-sm">
-                                    <img src="/front/LOGOPROPITECHby.png" alt="" style="width: 90%; height: 60px;">
+                                    <img src="/front/sm.png" alt="" style="width: 100%; height: 40px;">
                                 </span>
                                 <span class="logo-lg">
                                     <img src="/front/LOGOPROPITECHby.png" alt="" style="width: 90%; height: 60px;" >
