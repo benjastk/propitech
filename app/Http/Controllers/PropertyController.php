@@ -44,6 +44,7 @@ class PropertyController extends Controller
         ->join('region', 'region.id', '=', 'propiedades.idRegion')
         ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
         ->join('estados', 'estados.idEstado', '=', 'propiedades.idEstado')
+        ->where('propiedades.idEstado', '!=', 46)
         ->get();
         return view('back-office.properties.index', compact('user', 'propiedades'));
     }

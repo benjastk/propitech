@@ -3,7 +3,7 @@
 <title>Propitech - Nosotros</title>
 @endsection
 @section('meta')
-<meta name="description" content="Empresa dedicada al corretaje y a la administración de propiedades">
+<meta name="description" content="Empresa dedicada al corretaje y a la administración de propiedades, nuestro equipo esta dispuesto para ayudar y asesorarte en encontrar esa propiedad que tanto buscas.">
 <meta name="author" content="benjaminperez.cl">
 <meta name="generator" content="LaravelV7">
 @endsection
@@ -123,7 +123,7 @@
                     <h3 class="fs-16 text-heading mb-1 lh-2">
                     <a href="#" class="text-heading hover-primary">Gustavo Cisternas</a>
                     </h3>
-                    <p>Lider de rentas</p>
+                    <p>Líder de Ventas Inmobiliarias</p>
                 </div>
                 </div>
             </div>
@@ -159,7 +159,7 @@
                     <h3 class="fs-16 text-heading mb-1 lh-2">
                     <a href="#" class="text-heading hover-primary">Triana Bustos</a>
                     </h3>
-                    <p>Agente Inmobiliario</p>
+                    <p>Líder de Operaciones Inmobiliarias</p>
                 </div>
                 </div>
             </div>
@@ -195,7 +195,7 @@
                     <h3 class="fs-16 text-heading mb-1 lh-2">
                     <a href="https://www.linkedin.com/in/isabelmargaritasainz/" class="text-heading hover-primary">Isabel Sainz</a>
                     </h3>
-                    <p>Agente Inmobiliario</p>
+                    <p>Líder de Administración Inmobiliaria</p>
                 </div>
                 </div>
             </div>
