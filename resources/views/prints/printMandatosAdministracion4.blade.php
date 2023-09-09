@@ -138,7 +138,7 @@
             <p>&nbsp;</p>
             <p style="page-break-after: always;">
             <p>El pago de la remuneraci&oacute;n se efectuar&aacute; al<strong> MANDANTE </strong>dentro de los <strong>{{ $diasEnPalabras }} primeros d&iacute;as 
-            de cada mes</strong>, sin perjuicio de que la parte arrendataria no haya cancelado el arriendo. Para estos efectos del dep&oacute;sito 
+            de cada mes</strong>, en caso de que el día 10 sea inhábil se pagará al día hábil siguiente, sin perjuicio de que la parte arrendataria no haya cancelado el arriendo. Para estos efectos del dep&oacute;sito 
             de sus dineros, el<strong> MANDANTE </strong>declara como cuenta corriente apta para dicho dep&oacute;sito la cuenta N&deg; 
             <strong>{{ $mandatoAdministracion->numeroCuenta}}</strong>, del Banco <strong>{{ $mandatoAdministracion->nombreBanco}}</strong>, mail 
             <a href="mailto:{{ $mandatoAdministracion->correoPropietario }}"><strong>{{ $mandatoAdministracion->correoPropietario }}</strong>,</a> 
