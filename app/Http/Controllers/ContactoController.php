@@ -125,4 +125,43 @@ class ContactoController extends Controller
             return back()->withInput($request->all());
         }
     }
+    public function formularioPublicaTuPropiedad(Request $request)
+    {
+        try{
+            DB::beginTransaction();
+            $formulario = new FormularioCaptador();
+            $formulario->fill($request->all());
+            $formulario->isCaptador = 0;
+            $formulario->save();
+            
+            $formularioDos = FormularioCaptador::select('formulario_captador.*', 'tipos_comerciales.nombreTipoComercial', 'tipos_propiedades.nombreTipoPropiedad')
+            ->leftjoin('tipos_comerciales', 'tipos_comerciales.idTipoComercial', '=', 'formulario_captador.tipoOperacion')
+            ->leftjoin('tipos_propiedades', 'tipos_propiedades.idTipoPropiedad', '=', 'formulario_captador.tipoPropiedad')
+            ->where('formulario_captador.id', $formulario->id)
+            ->first();
+            
+            Mail::to(['beenjaahp@hotmail.com',
+                'beenjaahp@gmail.com'])
+            ->send(new MailFormularioCaptador($formularioDos));
+            DB::commit();
+            toastr()->success('Formulario enviado exitosamente, pronto lo contactaremos.', 'Operación exitosa');
+            return redirect('/publica-tu-propiedad');
+        } catch (ModelNotFoundException $e) {
+            toastr()->warning('No autorizado', 'Advertencia');
+            DB::rollback();
+            return back()->withInput($request->all());
+        } catch (QueryException $e) {
+            toastr()->warning('Ha ocurrido un error, favor intente nuevamente' . $e->getMessage(), 'Advertencia');
+            DB::rollback();
+            return back()->withInput($request->all());
+        } catch (DecryptException $e) {
+            toastr()->info('Ocurrio un error al intentar acceder al recurso solicitado', 'Información');
+            DB::rollback();
+            return back()->withInput($request->all());
+        } catch (\Exception $e) {
+            toastr()->warning($e->getMessage(), 'Error');
+            DB::rollback();
+            return back()->withInput($request->all());
+        }
+    }
 }
