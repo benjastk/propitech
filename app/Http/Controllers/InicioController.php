@@ -11,6 +11,7 @@ use App\Pais;
 use App\Comuna;
 use App\Noticia;
 use App\Provincia;
+use App\EstadoPago;
 use App\TipoPropiedad;
 use App\TipoComercial;
 use App\ParametroGeneral;
@@ -479,5 +480,39 @@ class InicioController extends Controller
         return view('front-end.trabaja-con-nosotros', compact('tiposPropiedades', 'tiposComerciales', 
         'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram',
         'telefonoContacto', 'telefonoContacto2', 'correoContacto', 'horarioSemana', 'horarioFinDeSemana'));
+    }
+    public function pagoOnline(Request $request)
+    {
+        if($request->rut)
+        {
+            $estadoPago = EstadoPago::select('estados_pagos.*', 'users.rut')
+            ->join('contratos_arriendos', 'estados_pagos.idContrato', '=', 'contratos_arriendos.idContratoArriendo')
+            ->join('users', 'users.id', '=', 'contratos_arriendos.idUsuarioArrendatario')
+            ->where('users.rut', $request->rut)
+            ->where('contratos_arriendos.idEstado', 61)
+            ->where('estados_pagos.idEstado', 47)
+            ->orderBy('estados_pagos.fechaVencimiento', 'asc')
+            ->first();
+            $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+            $correoHome = ParametroGeneral::where('parametroGeneral', 'CORREO HOME')->first();
+            $direccionHome = ParametroGeneral::where('parametroGeneral', 'DIRECCION HOME')->first();
+            $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
+            $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
+            $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
+            $rut = $request->rut;
+            return view('front-end.pago-online', compact('estadoPago', 'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'rut'));
+        }
+        else
+        {
+            $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+            $correoHome = ParametroGeneral::where('parametroGeneral', 'CORREO HOME')->first();
+            $direccionHome = ParametroGeneral::where('parametroGeneral', 'DIRECCION HOME')->first();
+            $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
+            $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
+            $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
+            $rut = '';
+            $estadoPago = '';
+        }
+        return view('front-end.pago-online', compact('estadoPago', 'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'rut'));
     }
 }

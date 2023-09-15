@@ -744,4 +744,53 @@ class EstadoPagoController extends Controller
             return $e->getMessage();
         }
     }
+    //consulta deuda
+    public function condeu01req(Request $request)
+    {
+        try{
+            $rutSinGuion = str_replace('-', '', $request->rut);
+            $convenio = getenv("OTROS_PAGOS_COVENIO");
+
+            $usuario = Usuario::where('rutDos', '=', $rutSinGuion)
+            ->join('usuarios_codigo_empresas', 'usuarios_codigo_empresas.idUsuario', '=', 'usuarios.idUsuario')
+            ->where('eliminado', '!=', 1)
+            ->where('usuarios_codigo_empresas.codigoEmpresa', '=', 3)
+            ->firstOrFail();
+            Session::put('idEstadoPago', $request->idEstadoPago);
+            if($usuario)
+            {
+                if($usuario->idTipoRut == 2)
+                {
+                    $tipoRut = '07';
+                }
+                else
+                {
+                    $tipoRut = '01';
+                }
+                //return $rutSinGuion;
+                return redirect()->to('https://otrospagos.com/publico/portal/enlace?id='.$convenio.'&idcli='.$rutSinGuion.'&tiidc='.$tipoRut.'');
+            }
+            else
+            {
+                toastr()->info('Usuario no encontrado');
+                return back();
+            }
+        } catch (ModelNotFoundException $e) {
+            toastr()->error('Usuario no encontrado');
+            DB::rollback();
+            return back();
+        } catch (QueryException $e) {
+            toastr()->warning('Ha ocurrido un error, favor intente nuevamente' . $e->getMessage());
+            DB::rollback();
+            return back();
+        } catch (DecryptException $e) {
+            toastr()->info('Ocurrio un error al intentar acceder al recurso solicitado');
+            DB::rollback();
+            return back();
+        } catch (\Exception $e) {
+            toastr()->warning($e->getMessage());
+            DB::rollback();
+            return back();
+        }
+    }
 }
