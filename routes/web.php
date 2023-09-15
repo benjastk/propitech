@@ -18,7 +18,7 @@ Route::get('/', 'InicioController@index');
 Route::post('/formulario-contacto-propiedades', 'ContactoController@contactoController')->name('formulario-contacto-propiedades');
 Route::post('/formulario-canje-propiedades', 'ContactoController@formularioCanje')->name('formulario-canje-propiedades');
 Route::post('/formulario-captador-propiedades', 'ContactoController@formularioCaptador')->name('formulario-captador-propiedades');
-
+Route::post('/formulario-publica-tu-propiedad', 'ContactoController@formularioPublicaTuPropiedad')->name('formulario-publica-tu-propiedad');
 
 Route::post('/catalogo-propiedades', 'InicioController@list')->name('catalogo-propiedades');
 Route::get('/catalogo-propiedades', 'InicioController@mapaCatalogoPropiedades');
@@ -35,6 +35,8 @@ Route::get('/nosotros', 'InicioController@nosotros');
 Route::get('/trabaja-con-nosotros', 'InicioController@trabajaConNosotros');
 Route::get('/preguntas-frecuentes', 'InicioController@preguntasFrecuentes');
 Route::get('/terminos-condiciones', 'InicioController@terminosYCondiciones');
+
+Route::get('/pago-online', 'InicioController@pagoOnline');
 
 // back-office routes
 Route::get('/login', function () {
