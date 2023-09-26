@@ -46,6 +46,11 @@
                                 </table>
                                 <br>
                                 <br>
+                                <form action="{{ route('ir-a-pagar-online')}}" method="post">
+                                    @csrf
+                                    <input type="hidden" name="rut" id="rut" value="{{ $estadoPago->rut }}">
+                                    <center><button class="btn btn-primary btn-block rounded" style="width: 50%">Pagar</button></center>
+                                </form>
                             </div>
                         </div>
                     </div>
