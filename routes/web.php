@@ -37,6 +37,7 @@ Route::get('/preguntas-frecuentes', 'InicioController@preguntasFrecuentes');
 Route::get('/terminos-condiciones', 'InicioController@terminosYCondiciones');
 
 Route::get('/pago-online', 'InicioController@pagoOnline');
+Route::post('/ir-a-pagar-online', 'InicioController@pagarOnline')->name('ir-a-pagar-online');
 
 // back-office routes
 Route::get('/login', function () {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Foto;
+use Session;
 use App\Propiedad;
 use App\Region;
 use App\Pais;
@@ -514,5 +515,57 @@ class InicioController extends Controller
             $estadoPago = '';
         }
         return view('front-end.pago-online', compact('estadoPago', 'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'rut'));
+    }
+    public function pagarOnline(Request $request)
+    {
+        if($request->rut)
+        {
+            $estadoPago = EstadoPago::select('estados_pagos.*', 'users.rut', 'users.idTipoRut')
+            ->join('contratos_arriendos', 'estados_pagos.idContrato', '=', 'contratos_arriendos.idContratoArriendo')
+            ->join('users', 'users.id', '=', 'contratos_arriendos.idUsuarioArrendatario')
+            ->where('users.rut', $request->rut)
+            ->where('contratos_arriendos.idEstado', 61)
+            ->where('estados_pagos.idEstado', 47)
+            ->orderBy('estados_pagos.fechaVencimiento', 'asc')
+            ->first();
+            $convenio = getenv("OTROS_PAGOS_COVENIO");
+            if($estadoPago)
+            {
+                Session::put('idEstadoPago', $estadoPago->idEstadoPago);
+                if($estadoPago->idTipoRut == 2)
+                {
+                    $tipoRut = '07';
+                }
+                else
+                {
+                    $tipoRut = '01';
+                }
+                return redirect()->to('https://otrospagos.com/publico/portal/enlace?id='.$convenio.'&idcli='.$estadoPago->rut.'&tiidc='.$tipoRut.'');
+            }
+            else
+            {
+                $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+                $correoHome = ParametroGeneral::where('parametroGeneral', 'CORREO HOME')->first();
+                $direccionHome = ParametroGeneral::where('parametroGeneral', 'DIRECCION HOME')->first();
+                $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
+                $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
+                $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
+                $rut = '';
+                $estadoPago = '';
+                return view('front-end.pago-online', compact('estadoPago', 'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'rut'));
+            }
+        }
+        else
+        {
+            $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+            $correoHome = ParametroGeneral::where('parametroGeneral', 'CORREO HOME')->first();
+            $direccionHome = ParametroGeneral::where('parametroGeneral', 'DIRECCION HOME')->first();
+            $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
+            $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
+            $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
+            $rut = '';
+            $estadoPago = '';
+            return view('front-end.pago-online', compact('estadoPago', 'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'rut'));
+        }
     }
 }
