@@ -23,6 +23,8 @@ class FormularioCaptador extends Model
         'nombreCaptador',
         'rutCaptador',
         'telefonoCaptador',
+        'isCaptador',
+        'mensaje',
         'created_at',
         'updated_at'
     ];
