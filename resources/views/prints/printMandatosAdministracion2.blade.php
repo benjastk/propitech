@@ -172,9 +172,8 @@
             <li><strong>MANDANTE</strong>:</li>
             </ol>
             <ul>
-            <li>Domicilio: {{ $mandatoAdministracion->direccionPropietario }} {{ $mandatoAdministracion->numero }}
-                @if($mandatoAdministracion->block) Dpto. {{ $mandatoAdministracion->block }} @endif, Comuna de {{ $mandatoAdministracion->nombreComuna }}, Región  
-                {{ $mandatoAdministracion->nombreRegion }}.</li>
+            <li>Domicilio: {{ $mandatoAdministracion->direccionPropietario }} {{ $mandatoAdministracion->numeroPropietario }}, Comuna de {{ $mandatoAdministracion->comunaPropietario }}, Región
+                {{ $mandatoAdministracion->regionPropietario }}.</li>
             <li>N&uacute;mero de Tel&eacute;fono: +56 {{ $mandatoAdministracion->telefono }}</li>
             <li>Correo Electr&oacute;nico: <a href="mailto:{{ $mandatoAdministracion->correoPropietario }}">{{ $mandatoAdministracion->correoPropietario }}</a></li>
             </ul>

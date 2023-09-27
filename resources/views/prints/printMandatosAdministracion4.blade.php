@@ -172,9 +172,8 @@
             <li><strong>MANDANTE</strong>:</li>
             </ol>
             <ul>
-            <li>Domicilio: {{ $mandatoAdministracion->direccionPropietario }} {{ $mandatoAdministracion->numero }}
-                @if($mandatoAdministracion->block) Dpto. {{ $mandatoAdministracion->block }} @endif, Comuna de {{ $mandatoAdministracion->nombreComuna }}, Región
-                {{ $mandatoAdministracion->nombreRegion }}.</li>
+            <li>Domicilio: {{ $mandatoAdministracion->direccionPropietario }} {{ $mandatoAdministracion->numeroPropietario }}, Comuna de {{ $mandatoAdministracion->comunaPropietario }}, Región
+                {{ $mandatoAdministracion->regionPropietario }}.</li>
             <li>N&uacute;mero de Tel&eacute;fono: +56 {{ $mandatoAdministracion->telefono }}</li>
             <li>Correo Electr&oacute;nico: <a href="mailto:{{ $mandatoAdministracion->correoPropietario }}">{{ $mandatoAdministracion->correoPropietario }}</a></li>
             </ul>
@@ -192,7 +191,6 @@
             En caso contrario, se entender&aacute; como correcta la notificaci&oacute;n y/o comunicaci&oacute;n que se realice, liberando de cualquier 
             responsabilidad que se genere por la incorrecta notificaci&oacute;n.</p>
             <p><strong>&nbsp;</strong></p>
-            <p style="page-break-after: always;">
             <p><strong><u>NOVENO</u></strong><strong>: DECLARACI&Oacute;N.</strong></p>
             <p>El <strong>MANDANTE</strong> declara haber le&iacute;do los T&eacute;rminos y Condiciones y Pol&iacute;ticas de Privacidad contenidas 
             en la p&aacute;gina web <a href="http://www.propitech.cl">www.propitech.cl</a>, y estar de acuerdo con cada una de las cl&aacute;usulas contenidas en ellas.</p>
