@@ -2,7 +2,7 @@
 <listings>
     @foreach($propiedades as $propiedad)
     <listing>
-        <reference_id><![CDATA[123]]></reference_id>
+        <reference_id><![CDATA[{{ $propiedad->id }}]]></reference_id>
             <contact>
                 <phone><![CDATA[956790356]]></phone>
                 <whatsapp><![CDATA[+56927429764]]></whatsapp>
