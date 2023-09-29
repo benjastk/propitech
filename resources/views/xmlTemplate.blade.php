@@ -16,7 +16,7 @@
                 @endif
             </contact>
             <title><![CDATA[{{ $propiedad->nombrePropiedad }}]]></title>
-            <description><![CDATA[{{ $propiedad->descripcion2 }}]]></description>
+            <description><![CDATA[{!! $propiedad->descripcion2 !!}]]></description>
             <prices>
                 @if($propiedad->idTipoComercial == 1)
                 <price currency="CLP" operation="sale">{{ $propiedad->precio }}</price>
