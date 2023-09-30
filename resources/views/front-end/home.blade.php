@@ -1,4 +1,4 @@
-@extends('front-end.layouts.app')
+@extends(($isCyber->valorParametro == 1 ? 'front-end.layouts.appCyber' : 'front-end.layouts.appCyber' ))
 @section('titulo')
 <title>Propitech - Lo mejor en propiedades</title>
 @endsection
@@ -8,8 +8,152 @@
 <meta name="generator" content="LaravelV7">
 @endsection
 @section('css')
+<style>
+    .navbar-light .navbar-nav .nav-link {
+        color: white !important;
+    }
+</style>
 @endsection
 @section('content')
+@if($isCyber->valorParametro == 1)
+<div class="slick-slider mx-0 custom-arrow-center" data-slick-options='{"slidesToShow": 1, "autoplay":false, "arrows": false, "dots": false, "infinite":true, "responsive":[{"breakpoint": 1200,"settings": {"slidesToShow":1,"arrows":false,"dots":false}},{"breakpoint": 992,"settings": {"slidesToShow":1,"arrows":false,"dots":false}},{"breakpoint": 768,"settings": {"slidesToShow": 1,"arrows":false,"dots":false}},{"breakpoint": 576,"settings": {"slidesToShow": 1,"arrows":false,"dots":false}}]}'>
+    <div class="box px-0 d-flex flex-column">
+        <section class="d-flex flex-column">
+            <div class="bg-cover d-flex align-items-center custom-vh-100" style="background-image: url(/front/011111.jpg)">
+                <div class="container">
+                    <div class="row" style="width: 100%">
+                        <div class="col-lg-6 col-md-6 col-sm-12" style="margin-top: 30px !important">
+                            <br>
+                            <br>
+                            <br>
+                            <img src="/front/cyber.png" alt="" style="width: 100%; float: right; position: inherit;">
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <h2 style="width: 90%; text-align: center; text-shadow: 0.1em 0.1em 0.2em black; color:white" >¡Ofertas especiales de hasta <br>el 50%  en el valor<br> de las propiedades!</h2>
+                            <br>
+                            <br>
+                            <br>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <br>
+                            <br>
+                            <br>
+                            <div class="card border-0 mxw-470 mr-md-0 my-lg-3" data-animate="fadeInDown">
+                                <div class="card-body pt-7 pb-6 px-7 shadow-lg-4">
+                                    <center><h2 class="card-title text-heading fs-30 text-center font-weight-600 lh-173 m-0">¡Contactanos!</h2></center>
+                                    <br>
+                                    <p class="card-text text-center">Encuentra tu nuevo hogar a un precio increíble en el Cyber Inmobiliario.</p>
+                                    <form action="{{ route('formulario-contacto-propiedades')}}" method="post" >
+                                    @csrf
+                                        <div class="form-row">
+                                            <div class="col-md-6 mb-2">
+                                                <input type="text" class="form-control form-control-lg border-0 shadow-none" name="nombre" placeholder="Nombre" style="border: 1px solid #ffe7e7cc !important;">
+                                            </div>
+                                            <div class="col-md-6 mb-2">
+                                                <input type="tel" class="form-control form-control-lg border-0 shadow-none" name="telefono" aria-label="Telefono" placeholder="Telefono" style="border: 1px solid #ffe7e7cc !important;">
+                                            </div>
+                                            <div class="col-md-12 mb-2">
+                                                <input type="email" class="form-control form-control-lg border-0 shadow-none" placeholder="Correo Electronico" name="email" style="border: 1px solid #ffe7e7cc !important;">
+                                            </div>
+                                            <!--<div class="col-md-12 mb-4">
+                                                <textarea class="form-control form-control-lg border-0 shadow-none h-140" placeholder="How is your desired property?"></textarea>
+                                            </div>-->
+                                            <input type="hidden" class="" name="mensaje" value="mensaje desde campaña web cyberday - arriendos o ventas">
+                                            <div class="col-md-12 mb-4">
+                                                <button type="submit" class="btn btn-primary btn-lg btn-block shadow-none">Enviar</button>
+                                            </div>
+                                            <!--<div class="col-md-12 ml-6 custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="check10-1" name="features">
+                                                <label class="custom-control-label" for="check10-1">I consent to having this website store
+                                                    my submitted information so they can respond to my inquiry.</label>
+                                            </div>-->
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <br>
+                            <br>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="box px-0 d-flex flex-column">
+        <section class="d-flex flex-column">
+            <div class="bg-cover d-flex align-items-center custom-vh-100" style="background-image: url(/front/022222.jpg)">
+                <div class="container">
+                    <div class="row" style="width: 100%">
+                        <div class="col-lg-6 col-md-6 col-sm-12" style="margin-top: 30px !important">
+                            <br>
+                            <br>
+                            <br>
+                            <img src="/front/cyber.png" alt="" style="width: 100%; float: right; position: inherit; top: 30%">
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <h2 style="width: 90%; text-align: center; text-shadow: 0.1em 0.1em 0.2em black; color:white; top: 18%; position: relative" >
+                            ¡Simplifica tu trabajo con nuestro sistema de administración!</h2>
+                            <br>
+                            <br>
+                            <br>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <br>
+                            <br>
+                            <br>
+                            <div class="card border-0 mxw-470 mr-md-0 my-lg-3" data-animate="fadeInDown">
+                                <div class="card-body pt-7 pb-6 px-7 shadow-lg-4">
+                                    <center><h2 class="card-title text-heading fs-30 text-center font-weight-600 lh-173 m-0">¡Contactanos!</h2></center>
+                                    <br>
+                                    <p class="card-text text-center">¡Contactanos y obten hasta 40% de descuento por Cyber Inmobiliario!</p>
+                                    <form action="{{ route('formulario-contacto-propiedades')}}" method="post" >
+                                    @csrf
+                                        <div class="form-row">
+                                            <div class="col-md-6 mb-2">
+                                                <input type="text" class="form-control form-control-lg border-0 shadow-none" name="nombre" placeholder="Nombre" style="border: 1px solid #ffe7e7cc !important;">
+                                            </div>
+                                            <div class="col-md-6 mb-2">
+                                                <input type="tel" class="form-control form-control-lg border-0 shadow-none" name="telefono" aria-label="Telefono" placeholder="Telefono" style="border: 1px solid #ffe7e7cc !important;">
+                                            </div>
+                                            <div class="col-md-12 mb-2">
+                                                <input type="email" class="form-control form-control-lg border-0 shadow-none" placeholder="Correo Electronico" name="email" style="border: 1px solid #ffe7e7cc !important;">
+                                            </div>
+                                            <!--<div class="col-md-12 mb-4">
+                                                <textarea class="form-control form-control-lg border-0 shadow-none h-140" placeholder="How is your desired property?"></textarea>
+                                            </div>-->
+                                            <input type="hidden" class="" name="mensaje" value="mensaje desde campaña web cyberday - administracion">
+                                            <div class="col-md-12 mb-4">
+                                                <button type="submit" class="btn btn-primary btn-lg btn-block shadow-none">Enviar</button>
+                                            </div>
+                                            <!--<div class="col-md-12 ml-6 custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="check10-1" name="features">
+                                                <label class="custom-control-label" for="check10-1">I consent to having this website store
+                                                    my submitted information so they can respond to my inquiry.</label>
+                                            </div>-->
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <br>
+                            <br>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+@else
 <section>
     <div class="container">
     <form class="property-search position-relative d-none d-lg-block" action="{{ route('catalogo-propiedades')}}" method="post">
@@ -163,6 +307,7 @@
         @endif
     </div>
 </section>
+@endif
 <section class="pt-9 pb-9 pb-lg-11" style="padding-bottom: 0px !important;">
     <div class="container">
     <h2 class="text-center text-dark line-height-base">
