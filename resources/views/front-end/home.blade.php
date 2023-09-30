@@ -1,4 +1,4 @@
-@extends(($isCyber->valorParametro == 1 ? 'front-end.layouts.appCyber' : 'front-end.layouts.appCyber' ))
+@extends(($isCyber->valorParametro == 1 ? 'front-end.layouts.appCyber' : 'front-end.layouts.app' ))
 @section('titulo')
 <title>Propitech - Lo mejor en propiedades</title>
 @endsection
@@ -11,6 +11,36 @@
 <style>
     .navbar-light .navbar-nav .nav-link {
         color: white !important;
+    }
+    .texto-triangulo {
+        fill: white;
+        font-size:20px;
+        font-family:arial;
+        letter-spacing:-1px;
+
+    }
+    .texto-descuento {
+        fill: white;
+        font-size:14px;
+        font-family:arial;
+
+    }
+    /* fondo */
+    .triangulo {
+        fill:#ff0000;
+        opacity:0.9;
+    }
+    /* css oferta */
+    /* triángulo */
+    .oferta-verde {
+        fill:#7ab800;
+        opacity:0.9;
+
+    }
+    /* texto */
+    .texto-oferta-verde {
+        fill: white;
+        font-size:14px;
     }
 </style>
 @endsection
@@ -249,6 +279,7 @@
     <div class="slick-slider mx-0" data-slick-options='{"slidesToShow": 1, "autoplay":true,"dots":false,"arrows":false}'>
         @if(count($propiedadesDestacadas))
         @foreach($propiedadesDestacadas as $destacada)
+        
         <div class="box px-0 d-flex flex-column">
         <div class="bg-cover custom-vh-04 d-flex align-items-center" style="background-image: url('/img/propiedad/{{ $destacada->fotoPrincipal }}')">
                 <div class="container">
@@ -321,7 +352,19 @@
             <div class="box">
                 <div class="card" data-animate="fadeInUp">
                     <div class="hover-change-image bg-hover-overlay rounded-lg card-img-top">
-                    <img src="/img/propiedad/{{ $propiedad2->fotoPrincipal }}" alt="" style="height: 230px; width: 100%">
+                        <!--<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                           height="100px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve" style="position: absolute">
+                            <g>
+                                <path fill-rule="evenodd" clip-rule="evenodd" class="oferta-verde" d="M0,0h41.4L100,58.6V100L0,0z"/>
+                                <text x="20" y="38" transform="rotate(45 48 48)" class="texto-oferta-verde">OFERTA</text>  
+                            </g>
+                            <g>  
+                                <path fill-rule="evenodd" clip-rule="evenodd" class="triangulo" d="M100,0v59L41,0H100z"/>
+                                <text x="30" y="11" transform="rotate(45 48 48)" class="texto-triangulo">-20</text>
+                                <text x="57" y="11" transform="rotate(45 48 48)" class="texto-descuento">%</text>
+                            </g>
+                        </svg>-->
+                        <img src="/img/propiedad/{{ $propiedad2->fotoPrincipal }}" alt="" style="height: 230px; width: 100%">
                     <div class="card-img-overlay p-2 d-flex flex-column">
                         <div class="mt-auto d-flex hover-image">
                         </div>
