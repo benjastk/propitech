@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4bb5a94f0532e7912be7bb48416437be",
+    "content-hash": "dbb094bb97ef0583dc410b13abd1ac5f",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1106,6 +1106,46 @@
                 }
             ],
             "time": "2022-05-21T17:30:32+00:00"
+        },
+        {
+            "name": "jailtonsc/laravel-response-xml",
+            "version": "v3.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jailtonsc/laravel-response-xml.git",
+                "reference": "d7debb3893693fc50b9afd29bf9492f9a43506b3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jailtonsc/laravel-response-xml/zipball/d7debb3893693fc50b9afd29bf9492f9a43506b3",
+                "reference": "d7debb3893693fc50b9afd29bf9492f9a43506b3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "XmlResponse\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Add the method xml integrating the laravel's response, converting eloquent return to XML.",
+            "keywords": [
+                "eloquent",
+                "laravel",
+                "response",
+                "xml"
+            ],
+            "support": {
+                "issues": "https://github.com/jailtonsc/laravel-response-xml/issues",
+                "source": "https://github.com/jailtonsc/laravel-response-xml/tree/v3.0.1"
+            },
+            "time": "2018-06-30T18:37:31+00:00"
         },
         {
             "name": "laravel/framework",

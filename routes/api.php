@@ -28,3 +28,5 @@ Route::post('buscarUsuarioPropietario','Api\DataGeneralController@buscarUsuarioP
 Route::post('/storeCaracteristica', 'Api\CaracteristicaController@storeCaracteristica');
 Route::post('/updateCaracteristica/{propiedad}', 'Api\CaracteristicaController@updateCaracteristica');
 Route::post('/destroyCaracteristica', 'Api\CaracteristicaController@destroyCaracteristica');
+
+Route::get('/all-properties-for-propit','Api\DataGeneralController@allPropertiesForPropit');

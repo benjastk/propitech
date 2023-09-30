@@ -97,9 +97,10 @@ class InicioController extends Controller
         $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
         $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
         $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
+        $isCyber = ParametroGeneral::where('parametroGeneral', 'CYBER')->first();
         return view('front-end.home', compact('propiedadesEnArriendo', 'propiedadesEnVenta', 'propiedadesDestacadas', 'comunas', 'paises', 
         'regiones', 'provincias', 'habitaciones', 'noticias', 'planes', 'caracteristicasPlanes',
-        'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram'));
+        'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'isCyber'));
     }
     public function list(Request $request)
     {
