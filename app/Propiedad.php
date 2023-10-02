@@ -94,6 +94,7 @@ class Propiedad extends Model
         'idExterno',
         'captador',
         'comisionPropiedad',
+        'valorCyber',
         'created_at',
         'updated_at'
     ];

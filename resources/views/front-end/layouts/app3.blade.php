@@ -58,6 +58,41 @@
                 margin-top:13px;
             }
         </style>
+        <style>
+            .navbar-light .navbar-nav .nav-link {
+                color: white !important;
+            }
+            .texto-triangulo {
+                fill: white;
+                font-size:12px;
+                font-family:arial;
+                letter-spacing:-1px;
+
+            }
+            .texto-descuento {
+                fill: white;
+                font-size:14px;
+                font-family:arial;
+
+            }
+            /* fondo */
+            .triangulo {
+                fill: black;
+                opacity:0.9;
+            }
+            /* css oferta */
+            /* triángulo */
+            .oferta-verde {
+                fill:#2db5ff !important;
+                /*opacity:0.9;*/
+
+            }
+            /* texto */
+            .texto-oferta-verde {
+                fill: white;
+                font-size:14px;
+            }
+        </style>
         @yield('css')
     </head>
     <body>

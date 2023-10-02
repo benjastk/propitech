@@ -28,6 +28,14 @@
                         </ul>
                         <h2 class="fs-22 text-heading pt-2">{{ $propiedad->nombrePropiedad }}</h2>
                         <p class="mb-2"><i class="fal fa-map-marker-alt mr-1"></i>{{ $propiedad->direccion }} {{ $propiedad->numero }}, {{ $propiedad->nombreComuna }}, {{ $propiedad->nombreRegion }}</p>
+                        @if($propiedad->valorCyber)
+                            @if($propiedad->idTipoComercial == 2)
+                            <del style="color: grey !important" ><p class="fs-22 text-heading font-weight-bold mb-0 mr-6" style="color:grey !important">$ {{ number_format($propiedad->valorCyber, 0, ",", ".") }}</p></del>
+                            @else
+                            <del style="color: grey !important" ><p class="fs-22 text-heading font-weight-bold mb-0 mr-6" style="color:grey !important">UF {{ number_format($propiedad->valorCyber, 0, ",", ".") }}</p></del>
+                            @endif
+                        @endif
+                        <br>
                         @if($propiedad->idTipoComercial == 2)
                             <h3 class="fs-17 font-weight-bold text-heading mb-0">$ {{ number_format($propiedad->valorArriendo, 0, ",", ".") }}</h3>
                         @else
@@ -308,6 +316,22 @@
                     <div class="box">
                         <div class="card shadow-hover-2 =">
                         <div class="hover-change-image bg-hover-overlay rounded-lg card-img-top">
+                        @if($similar->valorCyber)
+                        <div style="position: absolute; width: 100%">
+                            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                            height="100px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve" style="float: right" >
+                                <g>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" class="oferta-verde" d="M0,0h41.4L100,58.6V100L0,0z"/>
+                                    <text x="20" y="38" transform="rotate(45 48 48)" class="texto-oferta-verde">OFERTA</text>  
+                                </g>
+                                <g>  
+                                    <path fill-rule="evenodd" clip-rule="evenodd" class="triangulo" d="M100,0v59L41,0H100z"/>
+                                    <text x="30" y="11" transform="rotate(45 48 48)" class="texto-triangulo">CYBER</text>
+                                    <!--<text x="57" y="11" transform="rotate(45 48 48)" class="texto-descuento">%</text>-->
+                                </g>
+                            </svg>
+                        </div>
+                        @endif
                             <img src="/img/propiedad/{{ $similar->fotoPrincipal }}" alt="Home in Metric Way" style="height: 200px;width: 100% !important;">
                             <div class="card-img-overlay p-2 d-flex flex-column">
                                 <div>
@@ -341,6 +365,17 @@
                                 </li>-->
                             </ul>
                         </div>
+                        @if($similar->valorCyber)
+                        <div class="card-header bg-transparent d-flex justify-content-between align-items-center py-3" style="padding-bottom: 4px !important; padding-top: 8px !important; border-bottom: 0px" >
+                            <del style="color: grey !important">
+                            @if($similar->idTipoComercial == 2)
+                                <p class="fs-17 font-weight-bold text-heading mb-0">$ {{ number_format($similar->valorCyber, 0, ",", ".") }}</p>
+                            @else
+                                <p class="fs-17 font-weight-bold text-heading mb-0">UF {{ number_format($similar->valorCyber, 0, ",", ".") }}</p>
+                            @endif
+                            </del>
+                        </div>
+                        @endif
                         <div class="card-footer bg-transparent d-flex justify-content-between align-items-center py-3">
                             @if($similar->idTipoComercial == 2)
                                 <p class="fs-17 font-weight-bold text-heading mb-0">$ {{ number_format($similar->valorArriendo, 0, ",", ".") }}</p>
@@ -364,6 +399,22 @@
             <aside class="col-lg-4 pl-xl-4 primary-sidebar sidebar-sticky" id="sidebar" style="top: 15px;">
             <div class="primary-sidebar-inner">
                 <div class="bg-white rounded-lg py-lg-6 pl-lg-6 pr-lg-3 p-4">
+                @if($propiedad->valorCyber)
+                <div>
+                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    height="100px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve" style="float: right" >
+                        <g>
+                            <path fill-rule="evenodd" clip-rule="evenodd" class="oferta-verde" d="M0,0h41.4L100,58.6V100L0,0z"/>
+                            <text x="20" y="38" transform="rotate(45 48 48)" class="texto-oferta-verde">OFERTA</text>  
+                        </g>
+                        <g>  
+                            <path fill-rule="evenodd" clip-rule="evenodd" class="triangulo" d="M100,0v59L41,0H100z"/>
+                            <text x="30" y="11" transform="rotate(45 48 48)" class="texto-triangulo">CYBER</text>
+                            <!--<text x="57" y="11" transform="rotate(45 48 48)" class="texto-descuento">%</text>-->
+                        </g>
+                    </svg>
+                </div>
+                @endif
                 <ul class="list-inline d-sm-flex align-items-sm-center mb-2">
                     @if($propiedad->idDestacado > 0)
                         <li class="list-inline-item badge badge-orange mr-2">Destacada</li>
@@ -376,7 +427,14 @@
                 </ul>
                 <h2 class="fs-22 text-heading pt-2">{{ $propiedad->nombrePropiedad }}</h2>
                 <p class="mb-2"><i class="fal fa-map-marker-alt mr-1"></i>{{ $propiedad->direccion }} {{ $propiedad->numero }}, {{ $propiedad->nombreComuna }}, {{ $propiedad->nombreRegion }}</p>
-                <div class="d-flex align-items-center">
+                <div class="align-items-center">
+                    @if($propiedad->valorCyber)
+                        @if($propiedad->idTipoComercial == 2)
+                            <del><p class="fs-22 text-heading font-weight-bold mb-0 mr-6" style="color:grey !important">$ {{ number_format($propiedad->valorCyber, 0, ",", ".") }}</p></del>
+                        @else
+                            <del><p class="fs-22 text-heading font-weight-bold mb-0 mr-6" style="color:grey !important">UF {{ number_format($propiedad->valorCyber, 0, ",", ".") }}</p></del>
+                        @endif
+                    @endif
                     @if($propiedad->idTipoComercial == 2)
                         <p class="fs-22 text-heading font-weight-bold mb-0 mr-6">$ {{ number_format($propiedad->valorArriendo, 0, ",", ".") }}</p>
                     @else

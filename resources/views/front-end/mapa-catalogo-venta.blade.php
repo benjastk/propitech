@@ -104,6 +104,22 @@
                 <div class="col-lg-4 col-sm-6 pb-6 px-lg-2" >
                     <div class="card border-0 hover-change-image" style="border: 2px solid #2db5ff !important; border-radius: 6px; padding: 0px !important; height: 100%;">
                         <div class="bg-overlay-gradient-1 bg-hover-overlay-gradient-3 rounded-lg card-img">
+                            @if($propiedadVenta->valorCyber)
+                            <div style="position: absolute; width: 100%">
+                                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                height="100px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve" style="float: right" >
+                                    <g>
+                                        <path fill-rule="evenodd" clip-rule="evenodd" class="oferta-verde" d="M0,0h41.4L100,58.6V100L0,0z"/>
+                                        <text x="20" y="38" transform="rotate(45 48 48)" class="texto-oferta-verde">OFERTA</text>  
+                                    </g>
+                                    <g>  
+                                        <path fill-rule="evenodd" clip-rule="evenodd" class="triangulo" d="M100,0v59L41,0H100z"/>
+                                        <text x="30" y="11" transform="rotate(45 48 48)" class="texto-triangulo">CYBER</text>
+                                        <!--<text x="57" y="11" transform="rotate(45 48 48)" class="texto-descuento">%</text>-->
+                                    </g>
+                                </svg>
+                            </div>
+                            @endif
                             <img src="/img/propiedad/{{ $propiedadVenta->fotoPrincipal }}" style="height: 160px; width: 100%;"alt="Villa on Hollywood Boulevard">
                             <div class="card-img-overlay d-flex flex-column justify-content-between h-100">
                             <div>
@@ -140,6 +156,11 @@
                             <h2 class="my-0 mt-1"><a href="/propiedad-venta/{{ $propiedadVenta->id }}" class="fs-16 text-dark hover-primary lh-2">{{ $propiedadVenta->nombrePropiedad }}</a>
                             </h2>
                             <p class="text-gray-light font-weight-500 mb-1">{{ $propiedadVenta->direccion }} {{ $propiedadVenta->numero }}, {{ $propiedadVenta->nombreComuna }} </p>
+                            @if($propiedadVenta->valorCyber)
+                            <del style="color: grey !important" ><p class="fs-17 font-weight-bold text-heading mb-0 lh-1" style="color: grey !important" >
+                                UF {{ number_format($propiedadVenta->valorCyber, 0, ",", ".") }}
+                            </p></del>
+                            @endif
                             <p class="fs-17 font-weight-bold text-heading mb-0">
                             UF {{ number_format($propiedadVenta->precio, 0, ",", ".") }}
                             </p>
