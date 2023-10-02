@@ -46,7 +46,7 @@
 @endsection
 @section('content')
 @if($isCyber->valorParametro == 1)
-<div class="slick-slider mx-0 custom-arrow-center" data-slick-options='{"slidesToShow": 1, "autoplay":false, "arrows": false, "dots": false, "infinite":true, "responsive":[{"breakpoint": 1200,"settings": {"slidesToShow":1,"arrows":false,"dots":false}},{"breakpoint": 992,"settings": {"slidesToShow":1,"arrows":false,"dots":false}},{"breakpoint": 768,"settings": {"slidesToShow": 1,"arrows":false,"dots":false}},{"breakpoint": 576,"settings": {"slidesToShow": 1,"arrows":false,"dots":false}}]}'>
+<div class="slick-slider mx-0 custom-arrow-center" data-slick-options='{"slidesToShow": 1, "autoplay":true, "arrows": false, "dots": false, "infinite":true, "responsive":[{"breakpoint": 1200,"settings": {"slidesToShow":1,"arrows":false,"dots":false}},{"breakpoint": 992,"settings": {"slidesToShow":1,"arrows":false,"dots":false}},{"breakpoint": 768,"settings": {"slidesToShow": 1,"arrows":false,"dots":false}},{"breakpoint": 576,"settings": {"slidesToShow": 1,"arrows":false,"dots":false}}]}'>
     <div class="box px-0 d-flex flex-column">
         <section class="d-flex flex-column">
             <div class="bg-cover d-flex align-items-center custom-vh-100" style="background-image: url(/front/011111.jpg)">
