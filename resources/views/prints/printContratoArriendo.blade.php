@@ -215,7 +215,7 @@
                         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp; Correo:</p>
                     </td> 
                     <td width="225">
-                        <p>Administracion@cirobu.cl</p>
+                        <p>administracion@propitech.cl</p>
                     </td>
                 </tr>
                 <tr>
@@ -503,7 +503,7 @@
                         <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; para notificar.</strong></p>
                     </td>
                     <td width="225">
-                        <p><a href="mailto:administracion@cirobu.cl">administracion@cirobu.cl</a></p>
+                        <p><a href="mailto:administracion@propitech.cl">administracion@propitech.cl</a></p>
                     </td>
                 </tr>
             </tbody>
@@ -677,7 +677,7 @@
             ocasionados por dicha contravenci&oacute;n. &ndash;</p>
             <p>&nbsp;</p>
             <p><strong><u>SEPTIMO</u></strong><strong>: VISITAS AL INMUEBLE</strong>: La arrendataria se obliga a otorgar las facilidades necesarias para que 
-            el arrendador sea personalmente o a trav&eacute;s de mandatarios designados Cirobu Propiedades a visitar el inmueble cuando lo desee. Asimismo, 
+            el arrendador sea personalmente o a trav&eacute;s de mandatarios designados PROPITECH a visitar el inmueble cuando lo desee. Asimismo, 
             en caso de que su propietario desee vender el inmueble, se obliga a permitir sus visitas, a lo menos tres d&iacute;as en cada mes, durante dos 
             horas, en horario comprendido entre las diecis&eacute;is: cero cero y las dieciocho: cero cero horas, a su elecci&oacute;n.</p>
             <p>&nbsp;</p>
@@ -718,7 +718,7 @@
             <p><strong><u>DECIMO PRIMERO</u></strong><strong>: ROBOS Y PERJUICIOS</strong>: El arrendador no responder&aacute; en caso alguno por robos que 
             puedan ocurrir en la propiedad o por perjuicios que puedan producirse por incendios, inundaciones, filtraciones, rotura de ca&ntilde;er&iacute;as, 
             efectos de humedad y calor, y otros hechos de fuerza mayor o caso fortuito, lo cual se hace extensivo al Corredor de Propiedades a cargo de la 
-            administraci&oacute;n de la propiedad arrendada. Queda estipulado, que tanto el arrendador como su mandatario, esto es, CIROBU Propiedades, no 
+            administraci&oacute;n de la propiedad arrendada. Queda estipulado, que tanto el arrendador como su mandatario, esto es, PROPITECH, no 
             responder&aacute;n en caso alguno por los eventuales litigios o dificultades de cualquier naturaleza, que puedan haber afectado al anterior 
             arrendatario del inmueble arrendado.</p>
             <p>&nbsp;</p>
