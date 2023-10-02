@@ -14,7 +14,7 @@
     }
     .texto-triangulo {
         fill: white;
-        font-size:20px;
+        font-size:12px;
         font-family:arial;
         letter-spacing:-1px;
 
@@ -27,14 +27,14 @@
     }
     /* fondo */
     .triangulo {
-        fill:#ff0000;
+        fill: black;
         opacity:0.9;
     }
     /* css oferta */
     /* triángulo */
     .oferta-verde {
-        fill:#7ab800;
-        opacity:0.9;
+        fill:#2db5ff !important;
+        /*opacity:0.9;*/
 
     }
     /* texto */
@@ -352,26 +352,35 @@
             <div class="box">
                 <div class="card" data-animate="fadeInUp">
                     <div class="hover-change-image bg-hover-overlay rounded-lg card-img-top">
-                        <!--<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                           height="100px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve" style="position: absolute">
-                            <g>
-                                <path fill-rule="evenodd" clip-rule="evenodd" class="oferta-verde" d="M0,0h41.4L100,58.6V100L0,0z"/>
-                                <text x="20" y="38" transform="rotate(45 48 48)" class="texto-oferta-verde">OFERTA</text>  
-                            </g>
-                            <g>  
-                                <path fill-rule="evenodd" clip-rule="evenodd" class="triangulo" d="M100,0v59L41,0H100z"/>
-                                <text x="30" y="11" transform="rotate(45 48 48)" class="texto-triangulo">-20</text>
-                                <text x="57" y="11" transform="rotate(45 48 48)" class="texto-descuento">%</text>
-                            </g>
-                        </svg>-->
+                        @if($propiedad2->valorCyber)
+                        <div style="position: absolute; width: 100%">
+                            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                            height="100px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve" style="float: right" >
+                                <g>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" class="oferta-verde" d="M0,0h41.4L100,58.6V100L0,0z"/>
+                                    <text x="20" y="38" transform="rotate(45 48 48)" class="texto-oferta-verde">OFERTA</text>  
+                                </g>
+                                <g>  
+                                    <path fill-rule="evenodd" clip-rule="evenodd" class="triangulo" d="M100,0v59L41,0H100z"/>
+                                    <text x="30" y="11" transform="rotate(45 48 48)" class="texto-triangulo">CYBER</text>
+                                    <!--<text x="57" y="11" transform="rotate(45 48 48)" class="texto-descuento">%</text>-->
+                                </g>
+                            </svg>
+                        </div>
+                        @endif
                         <img src="/img/propiedad/{{ $propiedad2->fotoPrincipal }}" alt="" style="height: 230px; width: 100%">
                     <div class="card-img-overlay p-2 d-flex flex-column">
                         <div class="mt-auto d-flex hover-image">
                         </div>
                     </div>
                     </div>
+                    @if($propiedad2->valorCyber)
+                    <div class="card-header bg-transparent d-flex justify-content-between align-items-center py-3" style="padding-bottom: 4px !important; padding-top: 8px !important; border-bottom: 0px" >
+                        <del style="color: grey !important" ><p class="fs-17 font-weight-bold text-heading mb-0 lh-1" style="color: grey !important" >UF {{ number_format($propiedad2->valorCyber, 0, ",", ".") }}</p></del>
+                    </div>
+                    @endif
                     <div class="card-header bg-transparent d-flex justify-content-between align-items-center py-3">
-                    <p class="fs-17 font-weight-bold text-heading mb-0 lh-1">UF {{ number_format($propiedad2->precio, 0, ",", ".") }}</p>
+                        <p class="fs-17 font-weight-bold text-heading mb-0 lh-1">UF {{ number_format($propiedad2->precio, 0, ",", ".") }}</p>
                         <span class="badge badge-primary">Venta</span>
                     </div>
                     <div class="card-body py-2">
@@ -443,12 +452,33 @@
             <div class="box">
                 <div class="card" data-animate="fadeInUp">
                     <div class="hover-change-image bg-hover-overlay rounded-lg card-img-top">
-                    <img src="/img/propiedad/{{ $propiedad1->fotoPrincipal }}" alt="" style="height: 230px; width: 100%">
+                        @if($propiedad1->valorCyber)
+                        <div style="position: absolute; width: 100%">
+                            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                            height="100px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve" style="float: right" >
+                                <g>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" class="oferta-verde" d="M0,0h41.4L100,58.6V100L0,0z"/>
+                                    <text x="20" y="38" transform="rotate(45 48 48)" class="texto-oferta-verde">OFERTA</text>  
+                                </g>
+                                <g>  
+                                    <path fill-rule="evenodd" clip-rule="evenodd" class="triangulo" d="M100,0v59L41,0H100z"/>
+                                    <text x="30" y="11" transform="rotate(45 48 48)" class="texto-triangulo">CYBER</text>
+                                    <!--<text x="57" y="11" transform="rotate(45 48 48)" class="texto-descuento">%</text>-->
+                                </g>
+                            </svg>
+                        </div>
+                        @endif
+                        <img src="/img/propiedad/{{ $propiedad1->fotoPrincipal }}" alt="" style="height: 230px; width: 100%">
                     <div class="card-img-overlay p-2 d-flex flex-column">
                         <div class="mt-auto d-flex hover-image">
                         </div>
                     </div>
                     </div>
+                    @if($propiedad1->valorCyber)
+                    <div class="card-header bg-transparent d-flex justify-content-between align-items-center py-3" style="padding-bottom: 4px !important; padding-top: 8px !important; border-bottom: 0px" >
+                        <del style="color: grey !important" ><p class="fs-17 font-weight-bold text-heading mb-0 lh-1" style="color: grey !important" >$ {{ number_format($propiedad1->valorCyber, 0, ",", ".") }}</p></del>
+                    </div>
+                    @endif
                     <div class="card-header bg-transparent d-flex justify-content-between align-items-center py-3">
                     <p class="fs-17 font-weight-bold text-heading mb-0 lh-1">$ {{ number_format($propiedad1->valorArriendo, 0, ",", ".") }}</p>
                         <span class="badge badge-primary">Arriendo</span>
