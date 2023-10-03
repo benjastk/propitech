@@ -13,6 +13,8 @@ use App\Provincia;
 use App\Propiedad;
 use App\CaracteristicasPorPropiedades;
 use App\UsuarioCuentaBancaria;
+use App\Mail\AlertaApi as MailFormulario;
+use Illuminate\Support\Facades\Mail;
 class DataGeneralController extends Controller
 {
     public function getRegion(Request $request)
@@ -97,48 +99,66 @@ class DataGeneralController extends Controller
     }
     public function allPropertiesForPropit()
     {
-        $propiedades = Propiedad::select('propiedades.*', 'comuna.nombre as nombreComuna', 'provincia.nombre as nombreProvincia',
-        'region.nombre as nombreRegion', 'tipos_propiedades.nombreTipoPropiedad', 'niveles_uso_propiedad.nombreNivelUsoPropiedad', 'users.name',
-        'users.email', 'users.telefono')
-        ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
-        ->join('provincia', 'provincia.id', '=', 'propiedades.idProvincia')
-        ->join('region', 'region.id', '=', 'propiedades.idRegion')
-        ->join('tipos_propiedades', 'propiedades.idTipoPropiedad', '=', 'tipos_propiedades.idTipoPropiedad')
-        ->join('niveles_uso_propiedad', 'propiedades.idNivelUsoPropiedad', '=', 'niveles_uso_propiedad.idNivelUsoPropiedad')
-        ->leftjoin('users', 'users.id', '=', 'propiedades.idUsuarioExpertoVendedor')
-        ->where('propiedades.idEstado', 42)
-        ->get();
-        if($propiedades)
+        try
         {
-            foreach ($propiedades as $propiedad) 
+            $propiedades = Propiedad::select('propiedades.*', 'comuna.nombre as nombreComuna', 'provincia.nombre as nombreProvincia',
+            'region.nombre as nombreRegion', 'tipos_propiedades.nombreTipoPropiedad', 'niveles_uso_propiedad.nombreNivelUsoPropiedad', 'users.name',
+            'users.email', 'users.telefono')
+            ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
+            ->join('provincia', 'provincia.id', '=', 'propiedades.idProvincia')
+            ->join('region', 'region.id', '=', 'propiedades.idRegion')
+            ->join('tipos_propiedades', 'propiedades.idTipoPropiedad', '=', 'tipos_propiedades.idTipoPropiedad')
+            ->join('niveles_uso_propiedad', 'propiedades.idNivelUsoPropiedad', '=', 'niveles_uso_propiedad.idNivelUsoPropiedad')
+            ->leftjoin('users', 'users.id', '=', 'propiedades.idUsuarioExpertoVendedor')
+            ->where('propiedades.idEstado', 42)
+            ->get();
+            if($propiedades)
             {
-                $fotos = Foto::where('idPropiedad', $propiedad->id)->get();
-                if($fotos)
+                foreach ($propiedades as $propiedad) 
                 {
-                    $propiedad->fotos = $fotos;
+                    $fotos = Foto::where('idPropiedad', $propiedad->id)->get();
+                    if($fotos)
+                    {
+                        $propiedad->fotos = $fotos;
+                    }
+                    else
+                    {
+                        $propiedad->fotos = [];
+                    }
                 }
-                else
+                foreach ($propiedades as $propiedad2) 
                 {
-                    $propiedad->fotos = [];
+                    $amenidades = CaracteristicasPorPropiedades::select('caracteristicas_propiedades.*')
+                    ->join('propiedades', 'propiedades.id', '=', 'caracteristicas_por_propiedades.idPropiedad')
+                    ->join('caracteristicas_propiedades', 'caracteristicas_propiedades.idCaracteristicaPropiedad', '=', 'caracteristicas_por_propiedades.idCaracteristicaPropiedad')
+                    ->where('caracteristicas_por_propiedades.idPropiedad', $propiedad2->id)
+                    ->get();
+                    if($amenidades)
+                    {
+                        $propiedad->amenidades = $amenidades;
+                    }
+                    else
+                    {
+                        $propiedad->amenidades = [];
+                    }
                 }
             }
-            foreach ($propiedades as $propiedad2) 
-            {
-                $amenidades = CaracteristicasPorPropiedades::select('caracteristicas_propiedades.*')
-                ->join('propiedades', 'propiedades.id', '=', 'caracteristicas_por_propiedades.idPropiedad')
-                ->join('caracteristicas_propiedades', 'caracteristicas_propiedades.idCaracteristicaPropiedad', '=', 'caracteristicas_por_propiedades.idCaracteristicaPropiedad')
-                ->where('caracteristicas_por_propiedades.idPropiedad', $propiedad2->id)
-                ->get();
-                if($amenidades)
-                {
-                    $propiedad->amenidades = $amenidades;
-                }
-                else
-                {
-                    $propiedad->amenidades = [];
-                }
-            }
+            return response()->view('xmlTemplate', compact('propiedades'))->header('Content-Type', 'text/xml');
+        } catch (QueryException $e) {
+            Mail::to(['beenjaahp@hotmail.com',
+                'beenjaahp@gmail.com'])
+            ->send(new MailAlertaApi());
+            return false;
+        } catch (ModelNotFoundException $e) {
+            Mail::to(['beenjaahp@hotmail.com',
+                'beenjaahp@gmail.com'])
+            ->send(new MailAlertaApi());
+            return false;
+        } catch (Exception $e) {
+            /*Mail::to(['beenjaahp@hotmail.com',
+                'beenjaahp@gmail.com'])
+            ->send(new MailAlertaApi());*/
+            return false;
         }
-        return response()->view('xmlTemplate', compact('propiedades'))->header('Content-Type', 'text/xml');;
     }
 }

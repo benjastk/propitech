@@ -19,7 +19,7 @@
             <description><![CDATA[{!! $propiedad->descripcion2 !!}]]></description>
             <prices>
                 @if($propiedad->idTipoComercial == 1)
-                <price currency="CLP" operation="sale">{{ $propiedad->precio }}</price>
+                <price currency="CLF" operation="sale">{{ $propiedad->precio }}</price>
                 @else
                 <price currency="CLP" operation="rent">{{ $propiedad->valorArriendo }}</price>
                 @endif
