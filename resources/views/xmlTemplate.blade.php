@@ -50,7 +50,7 @@
             <bedrooms><![CDATA[{{ $propiedad->habitacion }}]]></bedrooms>
             <bathrooms><![CDATA[{{ $propiedad->bano }}]]></bathrooms>
             <furnished><![CDATA[UNFURNISHED]]></furnished>
-            <floorArea unit="sqm">{{ $propiedad->mContruido }}</floorArea>
+            <floorArea unit="sqm">{{ $propiedad->mConstruido }}</floorArea>
             <plotArea unit="sqm">{{ $propiedad->mTotal }}</plotArea>
             <pictures>
                 <url><![CDATA[https://propitech.cl/img/propiedad/{{ $propiedad->fotoPrincipal }}
