@@ -68,14 +68,14 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="table-responsive">
-                                <table id="tabla-ingresos" class="table table-centered table-nowrap table-hover">
+                                <table id="tabla-ingresos" class="table table-centered table-hover">
                                         <thead class="thead-light">
                                             <tr>
                                                 <th scope="col" >Fecha de Inicio</th>
                                                 <th scope="col" >Fecha de Termino</th>
-                                                <th scope="col" >Propietario</th>
-                                                <th scope="col" >Arrendatario</th>
-                                                <th scope="col" >Propiedad</th>
+                                                <th scope="col" style="width: 100px; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;" >Propietario</th>
+                                                <th scope="col" style="width: 100px; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;" >Arrendatario</th>
+                                                <th scope="col" style="width: 100px; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;" >Propiedad</th>
                                                 <th scope="col" >Estado</th>
                                                 <th scope="col" >Comision <br>Administracion</th>
                                                 <th scope="col" >Acciones</th>
@@ -87,8 +87,9 @@
                                             <tr>
                                                 <td>{{ strftime("%d de %B de %Y", strtotime($mandato->desde)) }}</td>
                                                 <td>{{ strftime("%d de %B de %Y", strtotime($mandato->hasta)) }}</td>
-                                                <td>{{ $mandato->nombrePropietario}} {{ $mandato->apellidoPropietario }}</td>
-                                                <td>{{ $mandato->nombreArrendatario }} {{ $mandato->apellidoArrendatario }}</td>
+                                                <td style="width: 100px; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;" >{{ $mandato->nombrePropietario}} {{ $mandato->apellidoPropietario }}</td>
+                                                <td style="width: 100px; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;">{{ $mandato->nombreArrendatario }} {{ $mandato->apellidoArrendatario }}</td>
+                                                <td style="width: 100px; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;" >{{ $mandato->direccionPropiedad }} {{ $mandato->block }}</td>
                                                 <td>
                                                     <div>
                                                         @if($mandato->idEstadoMandato == 61)
@@ -100,7 +101,6 @@
                                                         @endif
                                                     </div>
                                                 </td>
-                                                <td>{{ $mandato->direccionPropiedad }} {{ $mandato->block }}</td>
                                                 <td>{{ $mandato->comisionAdministracion }}%</td>
                                                 <td>
                                                     <ul class="list-inline font-size-20 contact-links mb-0">
@@ -114,7 +114,7 @@
                                                             <form id="form1" action="{{ url('/mandatos/reimpresionMandatoAdministracion') }}" method="post">
                                                                 {{ csrf_field() }}
                                                                 <input type="hidden" name="id" value="{{ $mandato->idMandatoPropiedad }}"/>
-                                                                <button style="border: 0px; background-color: white;" type="submit"><i class="bx bxs-printer"></i></button>
+                                                                <button style="border: 0px; background-color: transparent;" type="submit"><i class="bx bxs-printer"></i></button>
                                                             </form>
                                                         </li>
                                                         <li class="list-inline-item">
@@ -124,7 +124,7 @@
                                                             <form id="form1" action="{{ url('/mandatos/destroy') }}" method="post">
                                                                 {{ csrf_field() }}
                                                                 <input type="hidden" name="id" value="{{ $mandato->idMandatoPropiedad }}"/>
-                                                                <button style="border: 0px; background-color: white;" type="submit"><i class="bx bxs-trash-alt"></i></button>
+                                                                <button style="border: 0px; background-color: transparent;" type="submit"><i class="bx bxs-trash-alt"></i></button>
                                                             </form>
                                                             <!--<a href="/mandatos/edit/{{ $mandato->idMandatoPropiedad }}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bx bxs-trash-alt"></i></a>-->
                                                         </li>

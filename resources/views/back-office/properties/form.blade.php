@@ -1,6 +1,6 @@
 <div class="card-body">
     <div class="row">
-        <div class="col-5">
+        <div class="col-lg-5 col-md-5 col-sm-12">
             <label>Nombre de la Propiedad</label>
             @if(!isset($propiedad->nombrePropiedad))
                 <input type="text" name="nombrePropiedad" value="{{old('nombrePropiedad')}}" class="form-control" placeholder="Nombre propiedad" required>
@@ -8,7 +8,7 @@
                 <input type="text" name="nombrePropiedad" value="{{ $propiedad->nombrePropiedad }}" class="form-control" placeholder="Nombre propiedad" required>
             @endif
         </div>
-        <div class="col-2">
+        <div class="col-lg-2 col-md-2 col-sm-12">
             <label>Rol propiedad</label>
             @if(!isset($propiedad->rolPropiedad))
                 <input type="text" name="rolPropiedad" value="{{old('rolPropiedad')}}" class="form-control" placeholder="Rol" >
@@ -16,7 +16,7 @@
                 <input type="text" name="rolPropiedad" value="{{ $propiedad->rolPropiedad }}" class="form-control" placeholder="Rol" >
             @endif
         </div>
-        <div class="col-2">
+        <div class="col-lg-2 col-md-2 col-sm-12">
             <label>ID Externo</label>
             @if(!isset($propiedad->idExterno))
                 <input type="text" name="idExterno" value="{{old('idExterno')}}" class="form-control" placeholder="ID Externo" >
@@ -24,7 +24,7 @@
                 <input type="text" name="idExterno" value="{{ $propiedad->idExterno }}" class="form-control" placeholder="ID Externo" >
             @endif
         </div>
-        <div class="col-3">
+        <div class="col-lg-3 col-md-3 col-sm-12">
             <label>Estado</label>
             <select name="idEstado" id="idEstado" class="form-control" required >
                 @if(!isset($propiedad->idEstado))
@@ -43,7 +43,7 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-3">
+        <div class="col-lg-3 col-md-3 col-sm-12">
             <label>Tipo Propiedad</label>
             <select name="idTipoPropiedad" id="idTipoPropiedad" class="form-control" required >
                 @if(!isset($propiedad->idTipoPropiedad))
@@ -59,7 +59,7 @@
                 @endif
             </select>
         </div>
-        <div class="col-3">
+        <div class="col-lg-3 col-md-3 col-sm-12">
             <label>Nivel de uso</label>
             <select name="idNivelUsoPropiedad" id="idNivelUsoPropiedad" class="form-control" required >
                 @if(!isset($propiedad->idNivelUsoPropiedad))
@@ -75,7 +75,7 @@
                 @endif
             </select>
         </div>
-        <div class="col-3">
+        <div class="col-lg-3 col-md-3 col-sm-12">
             <label>Tipo Operacion</label>
             <select name="idTipoComercial" id="idTipoComercial" class="form-control" required >
                 @if(!isset($propiedad->idTipoComercial))
@@ -94,10 +94,10 @@
             </select>
             
         </div>
-        <div class="col-3" id="tipoOperacionAfter">
+        <div class="col-lg-3 col-md-3 col-sm-12" id="tipoOperacionAfter">
             <label>Seleccione el tipo de operacion</label>
         </div>
-        <div class="col-3" id="tipoOperacionVenta" style="display:none">
+        <div class="col-lg-3 col-md-3 col-sm-12" id="tipoOperacionVenta" style="display:none">
             <label>Precio venta</label>
             @if(!isset($propiedad->precio))
                 <input type="number" name="precio" value="{{old('precio')}}" class="form-control" placeholder="Precio venta">
@@ -105,7 +105,7 @@
                 <input type="number" name="precio" value="{{ $propiedad->precio }}" class="form-control" placeholder="Precio venta">
             @endif
         </div>
-        <div class="col-3" id="tipoOperacionArriendo" style="display:none">
+        <div class="col-lg-3 col-md-3 col-sm-12" id="tipoOperacionArriendo" style="display:none">
             <label>Precio Arriendo</label>
             @if(!isset($propiedad->valorArriendo))
                 <input type="number" name="valorArriendo" value="{{old('valorArriendo')}}" class="form-control" placeholder="Precio Arriendo" >
@@ -116,7 +116,7 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-3">
+        <div class="col-lg-3 col-md-3 col-sm-12">
             <label>N° Cliente Agua</label>
             @if(!isset($propiedad->numeroClienteAgua))
                 <input type="text" name="numeroClienteAgua" value="{{old('numeroClienteAgua')}}" class="form-control" placeholder="N° Cliente Agua">
@@ -124,7 +124,7 @@
                 <input type="text" name="numeroClienteAgua" value="{{ $propiedad->numeroClienteAgua }}" class="form-control" placeholder="N° Cliente Agua">
             @endif
         </div>
-        <div class="col-3">
+        <div class="col-lg-3 col-md-3 col-sm-12">
             <label>N° Cliente Luz</label>
             @if(!isset($propiedad->numeroClienteLuz))
                 <input type="text" name="numeroClienteLuz" value="{{old('numeroClienteLuz')}}" class="form-control" placeholder="N° Cliente Luz">
@@ -132,7 +132,7 @@
                 <input type="text" name="numeroClienteLuz" value="{{ $propiedad->numeroClienteLuz }}" class="form-control" placeholder="N° Cliente Luz">
             @endif
         </div>
-        <div class="col-3">
+        <div class="col-lg-3 col-md-3 col-sm-12">
             <label>N° Cliente Gas</label>
             @if(!isset($propiedad->numeroClienteGas))
                 <input type="text" name="numeroClienteGas" value="{{old('numeroClienteGas')}}" class="form-control" placeholder="N° Cliente Gas">
@@ -140,7 +140,7 @@
                 <input type="text" name="numeroClienteGas" value="{{ $propiedad->numeroClienteGas }}" class="form-control" placeholder="N° Cliente Gas">
             @endif
         </div>
-        <div class="col-3">
+        <div class="col-lg-3 col-md-3 col-sm-12">
             <label>Gasto Comun</label>
             @if(!isset($propiedad->gastosComunes))
                 <input type="text" name="gastosComunes" value="{{old('gastosComunes')}}" class="form-control" placeholder="Gasto Comun" required>
@@ -151,7 +151,7 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-2">
+        <div class="col-lg-2 col-md-2 col-sm-12">
             <label>M Total</label>
             @if(!isset($propiedad->mTotal))
                 <input type="number" name="mTotal" value="{{old('mTotal')}}" class="form-control" placeholder="M Total" required >
@@ -159,7 +159,7 @@
                 <input type="number" name="mTotal" value="{{ $propiedad->mTotal }}" class="form-control" placeholder="M Total" required >
             @endif
         </div>
-        <div class="col-2">
+        <div class="col-lg-2 col-md-2 col-sm-12">
             <label>M Constuido</label>
             @if(!isset($propiedad->mConstruido))
                 <input type="number" name="mConstruido" value="{{old('mConstruido')}}" class="form-control" placeholder="M Constuido" required >
@@ -167,7 +167,7 @@
                 <input type="number" name="mConstruido" value="{{ $propiedad->mConstruido }}" class="form-control" placeholder="M Constuido" required >
             @endif
         </div>
-        <div class="col-2">
+        <div class="col-lg-2 col-md-2 col-sm-12">
             <label>M Terraza</label>
             @if(!isset($propiedad->mTerraza))
                 <input type="number" name="mTerraza" value="{{old('mTerraza')}}" class="form-control" placeholder="M Terraza" >
@@ -175,7 +175,7 @@
                 <input type="number" name="mTerraza" value="{{ $propiedad->mTerraza }}" class="form-control" placeholder="M Terraza" >
             @endif
         </div>
-        <div class="col-2">
+        <div class="col-lg-2 col-md-2 col-sm-12">
             <label>Baño</label>
             @if(!isset($propiedad->bano))
                 <input type="number" name="bano" value="{{old('bano')}}" class="form-control" placeholder="Baño" >
@@ -183,7 +183,7 @@
                 <input type="number" name="bano" value="{{ $propiedad->bano }}" class="form-control" placeholder="Baño" >
             @endif
         </div>
-        <div class="col-2">
+        <div class="col-lg-2 col-md-2 col-sm-12">
             <label>Habitaciones</label>
             @if(!isset($propiedad->habitacion))
                 <input type="number" name="habitacion" value="{{old('habitacion')}}" class="form-control" placeholder="Habitaciones" >
@@ -191,7 +191,7 @@
                 <input type="number" name="habitacion" value="{{ $propiedad->habitacion }}" class="form-control" placeholder="Habitaciones" >
             @endif
         </div>
-        <div class="col-2"> 
+        <div class="col-lg-2 col-md-2 col-sm-12"> 
             <label>Piso</label>
             @if(!isset($propiedad->numeroPisos))
                 <input type="number" name="numeroPisos" value="{{old('numeroPisos')}}" class="form-control" placeholder="Piso" >
@@ -202,24 +202,24 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-2">
+        <div class="col-lg-2 col-md-2 col-sm-12">
         </div>
-        <div class="col-2">
+        <div class="col-lg-2 col-md-2 col-sm-12">
             <label>Cod. Estacionamiento</label>
         </div>
-        <div class="col-2">
+        <div class="col-lg-2 col-md-2 col-sm-12">
         </div>
-        <div class="col-2">
+        <div class="col-lg-2 col-md-2 col-sm-12">
             <label>Cod. Bodega</label>
         </div>
-        <div class="col-2">
+        <div class="col-lg-2 col-md-2 col-sm-12">
         </div>
-        <div class="col-2">
+        <div class="col-lg-2 col-md-2 col-sm-12">
             <label>Años antiguedad</label>
         </div>
     </div>
     <div class="row">
-        <div class="col-2">
+        <div class="col-lg-2 col-md-2 col-sm-12">
             @if(!isset($propiedad->usoGoceEstacionamiento))
                 <div class="custom-control custom-switch mb-2" dir="ltr">
                     <input name="usoGoceEstacionamiento1" type="checkbox" class="custom-control-input" id="customSwitch1"  {{ (Input::old("usoGoceEstacionamiento1") == 'on' ? "checked":"") }} >
@@ -232,14 +232,14 @@
                 </div>
             @endif
         </div>
-        <div class="col-2">
+        <div class="col-lg-2 col-md-2 col-sm-12">
             @if(!isset($propiedad->codigoEstacionamiento))
                 <input type="number" name="codigoEstacionamiento" value="{{old('codigoEstacionamiento')}}" class="form-control" placeholder="Cod. Estacionamiento" >
             @else
                 <input type="number" name="codigoEstacionamiento" value="{{ $propiedad->codigoEstacionamiento }}" class="form-control" placeholder="Cod. Estacionamiento" >
             @endif
         </div>
-        <div class="col-2">
+        <div class="col-lg-2 col-md-2 col-sm-12">
             @if(!isset($propiedad->bodega))
                 <div class="custom-control custom-switch mb-2" dir="ltr">
                     <input name="usoGoceBodega1" type="checkbox" class="custom-control-input" id="customSwitch2" {{ (Input::old("usoGoceBodega1") == 'on' ? "checked":"") }} >
@@ -252,14 +252,14 @@
                 </div>
             @endif
         </div>
-        <div class="col-2">
+        <div class="col-lg-2 col-md-2 col-sm-12">
             @if(!isset($propiedad->codigoBodega))
                 <input type="number" name="codigoBodega" value="{{old('codigoBodega')}}" class="form-control" placeholder="Cod. Bodega" >
             @else
                 <input type="number" name="codigoBodega" value="{{ $propiedad->codigoBodega }}" class="form-control" placeholder="Cod. Bodega" >
             @endif
         </div>
-        <div class="col-2">
+        <div class="col-lg-2 col-md-2 col-sm-12">
             @if(!isset($propiedad->mascotas))
                 <div class="custom-control custom-switch mb-2" dir="ltr">
                     <input name="mascotas1" type="checkbox" class="custom-control-input" id="customSwitch3" {{ (Input::old("mascotas1") == 'on' ? "checked":"") }} >
@@ -272,7 +272,7 @@
                 </div>
             @endif
         </div>
-        <div class="col-2">
+        <div class="col-lg-2 col-md-2 col-sm-12">
             @if(!isset($propiedad->antiguedad))
                 <input type="number" name="antiguedad" value="{{old('antiguedad')}}" class="form-control" placeholder="Antiguedad" >
             @else
@@ -282,7 +282,7 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-7">
+        <div class="col-lg-7 col-md-7 col-sm-12">
             <label>Direccion</label>
             @if(!isset($propiedad->direccion))
                 <input type="text" name="direccion" id="direccion" value="{{old('direccion')}}" class="form-control" placeholder="Direccion" required >
@@ -290,7 +290,7 @@
                 <input type="text" name="direccion" id="direccion" value="{{ $propiedad->direccion }}" class="form-control" placeholder="Direccion" required >
             @endif
         </div>
-        <div class="col-3">
+        <div class="col-lg-3 col-md-3 col-sm-12">
             <label>Numero</label>
             @if(!isset($propiedad->numero))
                 <input type="text" name="numero" id="numero" value="{{old('numero')}}" class="form-control" placeholder="Numero" required >
@@ -298,7 +298,7 @@
                 <input type="text" name="numero" id="numero" value="{{ $propiedad->numero }}" class="form-control" placeholder="Numero" required >
             @endif
         </div>
-        <div class="col-2">
+        <div class="col-lg-2 col-md-2 col-sm-12">
             <label>Block O Torre</label>
             @if(!isset($propiedad->block))
                 <input type="text" name="block" id="block" value="{{old('block')}}" class="form-control" placeholder="Block/Dpto" >
@@ -309,7 +309,7 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-3">
+        <div class="col-lg-3 col-md-3 col-sm-12">
             <div class="form-group row">
                 <div class="col-md-12">
                     <label>Pais</label>
@@ -329,7 +329,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-3">
+        <div class="col-lg-3 col-md-3 col-sm-12">
             <div class="form-group row">
                 <div class="col-md-12">
                     <label>Region</label>
@@ -345,7 +345,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-3">
+        <div class="col-lg-3 col-md-3 col-sm-12">
             <div class="form-group row">
                 <div class="col-md-12">
                     <label>Provincia</label>
@@ -361,7 +361,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-3">
+        <div class="col-lg-3 col-md-3 col-sm-12">
             <div class="form-group row">
                 <div class="col-md-12">
                     <label>Comuna</label>
@@ -380,7 +380,7 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-6">
+        <div class="col-lg-6 col-md-6 col-sm-12">
             <label>Propietario</label>
             <select name="idUsuarioPropietario" id="idUsuarioPropietario" class="form-control" >
                 @if(!isset($usuarioPropietario))
@@ -396,7 +396,7 @@
                 @endif
             </select>
         </div>
-        <div class="col-6">
+        <div class="col-lg-6 col-md-6 col-sm-12">
             <label>Rut Propietario</label>
             @if(!isset($propiedad->rut))
                 <input type="text" name="rut" value="{{old('rut')}}" class="form-control" placeholder="Rut propietario">
@@ -418,18 +418,18 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-6">
+        <div class="col-lg-6 col-md-6 col-sm-12">
             <label>Latitud</label>
             <input type="text" name="latitud" id="latitud" class="form-control" >
         </div>
-        <div class="col-6">
+        <div class="col-lg-6 col-md-6 col-sm-12">
             <label>Longitud</label>
             <input type="text" name="longitud" id="longitud" class="form-control" >
         </div>
     </div>
     <br>
     <div class="row">
-        <div class="col-6">
+        <div class="col-lg-6 col-md-6 col-sm-12">
             <div class="row">
                 @if(!isset($propiedad->fotoPrincipal))
                 <div class="col-12">
@@ -438,11 +438,11 @@
                     <input type="hidden" class="form-control" name="imagenActual" id="imagenActual">
                 </div>
                 @else
-                <div class="col-6">
+                <div class="col-lg-6 col-md-6 col-sm-12">
                     <label>Subir foto principal</label>
                     <input type="file" class="form-control-file" id="foto" name="foto" id="fotoPrincipal" accept="image/*">
                 </div>
-                <div class="col-6">
+                <div class="col-lg-6 col-md-6 col-sm-12">
                 <label>Foto principal</label>
                     <div class="form-group" >
                         <img src="/img/propiedad/{{ $propiedad->fotoPrincipal}}" width="150px" height="120px">
@@ -451,7 +451,7 @@
                 @endif
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-lg-6 col-md-6 col-sm-12">
             <label>Comodidades</label>
             <select class="form-control js-example-basic-multiple" name="comodidades[]" multiple='multiple' required>
             @if(!isset($propiedad->direccion))
@@ -497,21 +497,21 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-3">
+        <div class="col-lg-3 col-md-3 col-sm-12">
             
         </div>
-        <div class="col-3">
+        <div class="col-lg-3 col-md-3 col-sm-12">
             <label>Experto</label>
         </div>
-        <div class="col-3">
+        <div class="col-lg-3 col-md-3 col-sm-12">
             <label>Captador</label>
         </div>
-        <div class="col-3">
+        <div class="col-lg-3 col-md-3 col-sm-12">
             <label>Comisión Propiedad</label>
         </div>
     </div>
     <div class="row">
-        <div class="col-3" style="text-align:center">
+        <div class="col-lg-3 col-md-3 col-sm-12" style="text-align:center">
             @if(!isset($propiedad->idDestacado))
                 <div class="custom-control custom-switch mb-2" dir="ltr">
                     <input name="idDestacado1" type="checkbox" class="custom-control-input" id="customSwitch4" {{ (Input::old("idDestacado") == 'on' ? "checked":"") }} >
@@ -524,7 +524,7 @@
                 </div>
             @endif
         </div>
-        <div class="col-3">
+        <div class="col-lg-3 col-md-3 col-sm-12">
             <select name="idUsuarioExpertoVendedor" id="idUsuarioExpertoVendedor" class="form-control" required>
                 @if(!isset($propiedad->idUsuarioExpertoVendedor))
                     <option value="" >Seleccione experto</option>
@@ -539,14 +539,14 @@
                 @endif
             </select>
         </div>
-        <div class="col-3">
+        <div class="col-lg-3 col-md-3 col-sm-12">
             @if(!isset($propiedad->captador))
                 <input type="text" name="captador" value="{{old('captador')}}" class="form-control" placeholder="Captador">
             @else
                 <input type="text" name="captador" value="{{ $propiedad->captador }}" class="form-control" placeholder="Captador">
             @endif
         </div>
-        <div class="col-3">
+        <div class="col-lg-3 col-md-3 col-sm-12">
             @if(!isset($propiedad->comisionPropiedad))
                 <input type="text" name="comisionPropiedad" value="{{old('comisionPropiedad')}}" class="form-control" placeholder="Comisión Propiedad">
             @else
@@ -556,32 +556,32 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-4">
+        <div class="col-lg-4 col-md-4 col-sm-12">
             <label>Edificio o Comunidad</label>
         </div>
-        <div class="col-4">
+        <div class="col-lg-4 col-md-4 col-sm-12">
             <label>URL Portal Inmobiliario</label>
         </div>
-        <div class="col-4">
+        <div class="col-lg-4 col-md-4 col-sm-12">
             <label>URL Yapo</label>
         </div>
     </div>
     <div class="row">
-        <div class="col-4">
+        <div class="col-lg-4 col-md-4 col-sm-12">
             @if(!isset($propiedad->nombreEdificioComunidad))
                 <input type="text" name="nombreEdificioComunidad" value="{{old('nombreEdificioComunidad')}}" class="form-control" placeholder="Edificio o comunidad">
             @else
                 <input type="text" name="nombreEdificioComunidad" value="{{ $propiedad->nombreEdificioComunidad }}" class="form-control" placeholder="Edificio o comunidad">
             @endif
         </div>
-        <div class="col-4">
+        <div class="col-lg-4 col-md-4 col-sm-12">
             @if(!isset($propiedad->urlPortalInmobiliario))
                 <input type="text" name="urlPortalInmobiliario" value="{{old('urlPortalInmobiliario')}}" class="form-control" placeholder="URL Portal Inmobiliario">
             @else
                 <input type="text" name="urlPortalInmobiliario" value="{{ $propiedad->urlPortalInmobiliario }}" class="form-control" placeholder="URL Portal Inmobiliario">
             @endif
         </div>
-        <div class="col-4">
+        <div class="col-lg-4 col-md-4 col-sm-12">
             @if(!isset($propiedad->urlYapo))
                 <input type="text" name="urlYapo" value="{{old('urlYapo')}}" class="form-control" placeholder="URL Yapo">
             @else
@@ -591,7 +591,7 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-4">
+        <div class="col-lg-4 col-md-4 col-sm-12">
             <label>Numero de candado</label>
             @if(!isset($propiedad->numeroCandado))
                 <input type="text" name="numeroCandado" value="{{old('numeroCandado')}}" class="form-control" placeholder="Numero Candado" >
@@ -599,7 +599,7 @@
                 <input type="text" name="numeroCandado" value="{{ $propiedad->numeroCandado }}" class="form-control" placeholder="Numero Candado" >
             @endif
         </div>
-        <div class="col-4">
+        <div class="col-lg-4 col-md-4 col-sm-12">
             <label>Clave de candado</label>
             @if(!isset($propiedad->claveCandado))
                 <input type="text" name="claveCandado" value="{{old('claveCandado')}}" class="form-control" placeholder="Clave Candado" >
@@ -607,7 +607,7 @@
                 <input type="text" name="claveCandado" value="{{ $propiedad->claveCandado }}" class="form-control" placeholder="Clave Candado" >
             @endif
         </div>
-        <div class="col-4">
+        <div class="col-lg-4 col-md-4 col-sm-12">
             <label>Orientacion</label>
             @if(!isset($propiedad->orientacion))
                 <input type="text" name="orientacion" value="{{old('orientacion')}}" class="form-control" placeholder="Orientacion" >

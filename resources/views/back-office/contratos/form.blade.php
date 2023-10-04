@@ -1,7 +1,7 @@
 <div class="card-body">
     <legend  class="w-auto">Datos del Contrato</legend>
     <div class="row">
-        <div class="form-group col-md-3">
+        <div class="form-group col-lg-3 col-md-3 col-sm-12">
             <label>Desde</label>
             @if(!isset($contrato->desde))
                 <input type="date" name="desde" id="desde" value="{{ old('desde') }}" class="form-control" required >
@@ -9,7 +9,7 @@
                 <input type="date" name="desde" id="desde"class="form-control" value="{{$contrato->desde}}" required>
             @endif
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group col-lg-3 col-md-3 col-sm-12">
             <label>Hasta</label>
             @if(!isset($contrato->hasta))
                 <input type="date" name="hasta" id="hasta" value="{{ old('hasta') }}" class="form-control" required >
@@ -17,7 +17,7 @@
                 <input type="date" name="hasta" id="hasta"class="form-control" value="{{$contrato->hasta}}" required>
             @endif
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group col-lg-3 col-md-3 col-sm-12">
             <label>Tipo contrato</label>
             @if( !isset($contrato->idTipoContrato))
                 <select name="idTipoContrato" class="form-control">
@@ -33,7 +33,7 @@
                 </select>
             @endif
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group col-lg-3 col-md-3 col-sm-12">
             <label>Estado</label>
             @if( !isset($contrato->idEstado))
                 <select name="idEstado" class="form-control">
@@ -51,7 +51,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="form-group col-md-4">
+        <div class="form-group col-lg-4 col-md-4 col-sm-12">
             <label>Nombre contrato</label>
             @if(!isset($contrato->nombreContrato))
                 <input type="text" name="nombreContrato" id="nombreContrato" value="{{ old('nombreContrato') }}" class="form-control" required >
@@ -59,7 +59,7 @@
                 <input type="text" name="nombreContrato" id="nombreContrato"class="form-control" value="{{$contrato->nombreContrato}}" required>
             @endif
         </div>
-        <div class="form-group col-md-2">
+        <div class="form-group col-lg-2 col-md-2 col-sm-12">
             <label>Maximo Habitantes</label>
             @if(!isset( $contrato->maximoHabitantes))
                 <input type="number" id="maximoHabitantes" name="maximoHabitantes" class="form-control  " required>
@@ -67,11 +67,11 @@
                 <input type="number" id="maximoHabitantes" name="maximoHabitantes" class="form-control  " value="{{ $contrato->maximoHabitantes }}" required>
             @endif
         </div>
-        <div class="form-group col-md-2">
+        <div class="form-group col-lg-2 col-md-2 col-sm-12">
             <label>Dia de pago</label>
             <input type="number" name="diaPago" id="diaPago" value="{{ $diaPago->valorParametro }}" class="form-control" readonly >
         </div>
-        <div class="form-group col-md-2">
+        <div class="form-group col-lg-2 col-md-2 col-sm-12">
             <label>Tiempo contrato (Meses)</label>
             @if(!isset($contrato->hasta))
                 <input type="number" name="tiempoContrato" id="tiempoContrato" value="{{ old('tiempoContrato') }}" class="form-control" required >
@@ -79,7 +79,7 @@
                 <input type="number" name="tiempoContrato" id="tiempoContrato"class="form-control" value="{{$contrato->tiempoContrato}}" required>
             @endif
         </div>
-        <div class="form-group col-md-2">
+        <div class="form-group col-lg-2 col-md-2 col-sm-12">
             <label>Notificar fin de contrato</label>
             @if(!isset($contrato->diaNotificacionFinContrato))
                 <input type="number" name="diaNotificacionFinContrato" id="diaNotificacionFinContrato" value="{{ old('diaNotificacionFinContrato') }}" class="form-control" required >
@@ -90,7 +90,7 @@
     </div>
     <legend  class="w-auto">Datos del Arrendatario</legend>
     <div class="row">
-        <div class="form-group col-md-4">
+        <div class="form-group col-lg-4 col-md-4 col-sm-12">
             <label>Rut arrendatario</label>
             @if(!isset($contrato->rutArrendatario))
                 <input type="text" name="rutArrendatario" id="rutArrendatario" value="{{ old('rut') }}" class="form-control" required>
@@ -98,7 +98,7 @@
                 <input type="text" name="rutArrendatario" id="rutArrendatario" class="form-control" value="{{$contrato->rutArrendatario}}" required>
             @endif
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-lg-4 col-md-4 col-sm-12">
             <label>Nombre</label>
             @if(!isset($contrato->nombreArrendatario))
                 <input type="text" name="nombreArrendatario" id="nombreArrendatario" value="{{ old('nombre') }}" class="form-control" readonly >
@@ -106,7 +106,7 @@
                 <input type="text" name="nombreArrendatario" id="nombreArrendatario" class="form-control" value="{{$contrato->nombreArrendatario}}" readonly >
             @endif
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-lg-4 col-md-4 col-sm-12">
             <label>Apellido</label>
             @if(!isset($contrato->apellidoArrendatario))
                 <input type="text" name="apellidoArrendatario" id="apellidoArrendatario" value="{{ old('apellido') }}" class="form-control" readonly>
@@ -114,7 +114,7 @@
                 <input type="text" name="apellidoArrendatario" id="apellidoArrendatario" class="form-control" value="{{$contrato->apellidoArrendatario}}" readonly >
             @endif
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group col-lg-3 col-md-3 col-sm-12">
             <label>Correo Electronico</label>
             @if(!isset($contrato->correoArrendatario))
                 <input type="text" name="correoArrendatario" id="correoArrendatario" value="{{ old('correo') }}" class="form-control" required readonly>
@@ -122,7 +122,7 @@
                 <input type="text" name="correArrendatario" id="correoArrendatario" class="form-control" value="{{$contrato->correoArrendatario}}" required readonly >
             @endif
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group col-lg-3 col-md-3 col-sm-12">
             <label>Telefono</label>
             @if(!isset( $contrato->numeroTelefonoArrendatario))
                 <input type="text" id="numeroTelefonoArrendatario" name="numeroTelefonoArrendatario" class="form-control" readonly >
@@ -130,7 +130,7 @@
                 <input type="text" id="numeroTelefonoArrendatario" name="numeroTelefonoArrendatario" class="form-control" value="{{ $contrato->numeroTelefonoArrendatario }}" readonly >
             @endif
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group col-lg-3 col-md-3 col-sm-12">
             <label>Nacionalidad</label>
             @if(!isset( $contrato->nacionalidadArrendatario))
                 <input type="text" id="nacionalidadArrendatario" name="nacionalidadArrendatario" class="form-control" readonly>
@@ -138,7 +138,7 @@
                 <input type="text" id="nacionalidadArrendatario" name="nacionalidadArrendatario" class="form-control" value="{{ $contrato->nacionalidadArrendatario }}" readonly>
             @endif
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group col-lg-3 col-md-3 col-sm-12">
             <label>Estado Civil</label>
             @if(!isset( $contrato->estadoCivilArrendatario))
                 <input type="text" id="estadoCivilArrendatario" name="estadoCivilArrendatario" class="form-control" readonly>
@@ -146,7 +146,7 @@
                 <input type="text" id="estadoCivilArrendatario" name="estadoCivilArrendatario" class="form-control" value="{{ $contrato->estadoCivilArrendatario }}" readonly>
             @endif
         </div>
-        <div class="form-group col-md-6" style="display:none">
+        <div class="form-group col-lg-6 col-md-6 col-sm-12" style="display:none">
             <label>Propiedad</label>
             @if(!isset( $contrato->idPropiedad))
                 <input type="text" id="idPropiedad" name="idPropiedad" class="form-control" value="{{ $propiedad->id }}" readonly>
@@ -154,7 +154,7 @@
                 <input type="text" id="idPropiedad" name="idPropiedad" class="form-control" value="{{ $contrato->idPropiedad }}" readonly>
             @endif
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-lg-4 col-md-4 col-sm-12">
             <label>Direccion Usuario</label>
             @if(!isset( $contrato->direccionArrendatario))
                 <input type="text" id="direccionArrendatario" name="direccionArrendatario" class="form-control  " readonly>
@@ -162,7 +162,7 @@
                 <input type="text" id="direccionArrendatario" name="direccionArrendatario" class="form-control  " value="{{ $contrato->direccionArrendatario }}" readonly>
             @endif
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-lg-4 col-md-4 col-sm-12">
             <label>Comuna</label>
             @if(!isset( $contrato->nombreComunaArrendatario))
                 <input type="text" id="nombreComunaArrendatario" name="nombreComunaArrendatario" class="form-control  " readonly>
@@ -170,7 +170,7 @@
                 <input type="text" id="nombreComunaArrendatario" name="nombreComunaArrendatario" class="form-control  " value="{{ $contrato->nombreComunaArrendatario }}" readonly>
             @endif
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-lg-4 col-md-4 col-sm-12">
             <label>Region</label>
             @if(!isset( $contrato->nombreRegionArrendatario))
                 <input type="text" id="nombreRegionArrendatario" name="nombreRegionArrendatario" class="form-control  " readonly>
@@ -181,7 +181,7 @@
     </div>
     <legend  class="w-auto">Datos del Propietario</legend>
     <div class="row">
-        <div class="form-group col-md-4">
+        <div class="form-group col-lg-4 col-md-4 col-sm-12">
             <label>Rut</label>
             @if(!isset($contrato->rutPropietario))
                 <input type="text" name="rutPropietario" id="rutPropietario" value="{{ old('rut') }}" class="form-control" required>
@@ -189,7 +189,7 @@
                 <input type="text" name="rutPropietario" id="rutPropietario" class="form-control" value="{{$contrato->rutPropietario}}" required>
             @endif
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-lg-4 col-md-4 col-sm-12">
             <label>Nombre</label>
             @if(!isset($contrato->nombrePropietario))
                 <input type="text" name="nombrePropietario" id="nombrePropietario" value="{{ old('nombre') }}" class="form-control" readonly >
@@ -197,7 +197,7 @@
                 <input type="text" name="nombrePropietario" id="nombrePropietario" class="form-control" value="{{$contrato->nombrePropietario}}" readonly >
             @endif
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-lg-4 col-md-4 col-sm-12">
             <label>Apellido</label>
             @if(!isset($contrato->apellidoPropietario))
                 <input type="text" name="apellidoPropietario" id="apellidoPropietario" value="{{ old('apellido') }}" class="form-control" readonly>
@@ -205,7 +205,7 @@
                 <input type="text" name="apellidoPropietario" id="apellidoPropietario" class="form-control" value="{{$contrato->apellidoPropietario}}" readonly >
             @endif
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-lg-4 col-md-4 col-sm-12">
             <label>Correo Electronico</label>
             @if(!isset($contrato->correoPropietario))
                 <input type="text" name="correoPropietario" id="correoPropietario" value="{{ old('correo') }}" class="form-control" required readonly>
@@ -213,7 +213,7 @@
                 <input type="text" name="correoPropietario" id="correoPropietario" class="form-control" value="{{$contrato->correoPropietario}}" required readonly >
             @endif
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-lg-4 col-md-4 col-sm-12">
             <label>Direccion Usuario</label>
             @if(!isset( $contrato->direccionPropietario))
                 <input type="text" id="direccionPropietario" name="direccionPropietario" class="form-control  " readonly>
@@ -221,7 +221,7 @@
                 <input type="text" id="direccionPropietario" name="direccionPropietario" class="form-control  " value="{{ $contrato->direccionPropietario }}" readonly>
             @endif
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-lg-4 col-md-4 col-sm-12">
             <label>Telefono</label>
             @if(!isset( $contrato->numeroPropietario))
                 <input type="text" id="numeroPropietario" name="numeroPropietario" class="form-control  " readonly >
@@ -239,7 +239,7 @@
     <div id="formularioCodeudor" style="display: none" >
         <legend  class="w-auto">Datos del Codeudor</legend>
         <div class="row">
-            <div class="form-group col-md-4">
+            <div class="form-group col-lg-4 col-md-4 col-sm-12">
                 <label>Rut</label>
                 @if(!isset($contrato->rutCodeudor))
                     <input type="text" name="rutCodeudor" id="rutCodeudor" value="{{ old('rut') }}" class="form-control" >
@@ -247,7 +247,7 @@
                     <input type="text" name="rutCodeudor" id="rutCodeudor" class="form-control" value="{{$contrato->rutCodeudor}}" >
                 @endif
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-lg-4 col-md-4 col-sm-12">
                 <label>Nombre</label>
                 @if(!isset($contrato->nombreCodeudor))
                     <input type="text" name="nombreCodeudor" id="nombreCodeudor" value="{{ old('nombre') }}" class="form-control" readonly >
@@ -255,7 +255,7 @@
                     <input type="text" name="nombreCodeudor" id="nombreCodeudor" class="form-control" value="{{$contrato->nombreCodeudor}}" readonly >
                 @endif
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-lg-4 col-md-4 col-sm-12">
                 <label>Apellido</label>
                 @if(!isset($contrato->apellidoCodeudor))
                     <input type="text" name="apellidoCodeudor" id="apellidoCodeudor" value="{{ old('apellido') }}" class="form-control" readonly >
@@ -263,7 +263,7 @@
                     <input type="text" name="apellidoCodeudor" id="apellidoCodeudor" class="form-control" value="{{$contrato->apellidoCodeudor}}" readonly >
                 @endif
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-lg-4 col-md-4 col-sm-12">
                 <label>Direccion</label>
                 @if(!isset( $contrato->direccionCodeudor))
                     <input type="text" id="direccionCodeudor" name="direccionCodeudor" class="form-control  " readonly >
@@ -271,7 +271,7 @@
                     <input type="text" id="direccionCodeudor" name="direccionCodeudor" class="form-control  " value="{{ $contrato->direccionCodeudor }}" readonly >
                 @endif
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-lg-4 col-md-4 col-sm-12">
                 <label>Correo Electronico</label>
                 @if(!isset($contrato->correoCodeudor))
                     <input type="text" name="correoCodeudor" id="correoCodeudor" value="{{ old('correo') }}" class="form-control" readonly  >
@@ -279,7 +279,7 @@
                     <input type="text" name="correoCodeudor" id="correoCodeudor" class="form-control" value="{{$contrato->correoCodeudor}}" readonly  >
                 @endif
             </div>
-            <div class="form-group col-md-2">
+            <div class="form-group col-lg-2 col-md-2 col-sm-12">
                 <label>Nacionalidad</label>
                 @if(!isset( $contrato->nacionalidadCodeudor))
                     <input type="text" id="nacionalidadCodeudor" name="nacionalidadCodeudor" class="form-control  " readonly >
@@ -287,7 +287,7 @@
                     <input type="text" id="nacionalidadCodeudor" name="nacionalidadCodeudor" class="form-control  " value="{{ $contrato->nacionalidadCodeudor }}"  >
                 @endif
             </div>
-            <div class="form-group col-md-2">
+            <div class="form-group col-lg-2 col-md-2 col-sm-12">
                 <label>Telefono</label>
                 @if(!isset( $contrato->telefonoCodeudor))
                     <input type="text" id="telefonoCodeudor" name="telefonoCodeudor" class="form-control  " readonly >
@@ -299,7 +299,7 @@
     </div>
     <legend  class="w-auto">Datos de la propiedad</legend>
     <div class="row">
-        <div class="form-group col-md-10">
+        <div class="form-group col-lg-10 col-md-10 col-sm-12">
             <label>Direccion Propiedad</label>
             @if(!isset( $contrato->direccionPropiedad))
                 <input type="text" id="direccionPropiedad" name="direccionPropiedad" class="form-control  " value="{{ $propiedad->direccion }} {{ $propiedad->numero }}" readonly>
@@ -307,7 +307,7 @@
                 <input type="text" id="direccionPropiedad" name="direccionPropiedad" class="form-control  " value="{{ $contrato->direccionPropiedad }}" readonly>
             @endif
         </div>
-        <div class="form-group col-md-2">
+        <div class="form-group col-lg-2 col-md-2 col-sm-12">
             <label>Departamento/Block</label>
             @if(!isset( $contrato->block))
                 <input type="text" id="block" name="block" class="form-control" value="{{ $propiedad->block }}" readonly>
@@ -315,7 +315,7 @@
                 <input type="text" id="block" name="block" class="form-control" value="{{ $contrato->block }}" readonly>
             @endif
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group col-lg-3 col-md-3 col-sm-12">
             <label>Comuna</label>
             @if(!isset( $contrato->nombreComunaPropiedad))
                 <input type="text" id="nombreComunaPropiedad" name="nombreComunaPropiedad" class="form-control  " value="{{ $propiedad->nombreComuna}}" readonly>
@@ -323,7 +323,7 @@
                 <input type="text" id="nombreComunaPropiedad" name="nombreComunaPropiedad" class="form-control  " value="{{ $contrato->nombreComunaPropiedad }}" readonly>
             @endif
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group col-lg-3 col-md-3 col-sm-12">
             <label>Region</label>
             @if(!isset( $contrato->nombreRegionPropiedad))
                 <input type="text" id="nombreRegionPropiedad" name="nombreRegionPropiedad" class="form-control  " value="{{ $propiedad->nombreRegion}}" readonly>
@@ -331,7 +331,7 @@
                 <input type="text" id="nombreRegionPropiedad" name="nombreRegionPropiedad" class="form-control  " value="{{ $contrato->nombreRegionPropiedad }}" readonly>
             @endif
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group col-lg-3 col-md-3 col-sm-12">
             <label>Rol</label>
             @if(!isset( $contrato->rolPropiedad))
                 <input type="text" id="rolPropiedad" name="rolPropiedad" class="form-control  " value="{{ $propiedad->rolPropiedad}}" readonly >
@@ -339,7 +339,7 @@
                 <input type="text" id="rolPropiedad" name="rolPropiedad" class="form-control  " value="{{ $contrato->rolPropiedad }}" readonly >
             @endif
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group col-lg-3 col-md-3 col-sm-12">
             <label>Moneda</label>
             @if( !isset($contrato->idMoneda))
                 <select name="idMoneda" class="form-control">
@@ -355,7 +355,7 @@
                 </select>
             @endif
         </div>
-        <div class="form-group col-md-2">
+        <div class="form-group col-lg-2 col-md-2 col-sm-12">
             <label>Precio mensual</label>
             @if(!isset( $contrato->arriendoMensual))
                 <input type="number" id="arriendoMensual" name="arriendoMensual" class="form-control" value="{{$propiedad->valorArriendo}}" readonly>
@@ -363,7 +363,7 @@
                 <input type="number" id="arriendoMensual" name="arriendoMensual" class="form-control  " value="{{ $contrato->arriendoMensual }}" required>
             @endif
         </div>
-        <div class="form-group col-md-2">
+        <div class="form-group col-lg-2 col-md-2 col-sm-12">
             <label>Cant. Garantias</label>
             @if(!isset( $contrato->cantidadGarantias))
                 <input type="number" id="cantidadGarantias" name="cantidadGarantias" class="form-control" step="0.01">
@@ -371,7 +371,7 @@
                 <input type="number" id="cantidadGarantias" name="cantidadGarantias" class="form-control " step="0.01" value="{{ $contrato->cantidadGarantias }}" required>
             @endif
         </div>
-        <div class="form-group col-md-2">
+        <div class="form-group col-lg-2 col-md-2 col-sm-12">
             <label>Garantia</label>
             @if(!isset( $contrato->garantia))
                 <input type="number" id="garantia" name="garantia" class="form-control  " required>
@@ -379,7 +379,7 @@
                 <input type="number" id="garantia" name="garantia" class="form-control  " value="{{ $contrato->garantia }}" required>
             @endif
         </div>
-        <div class="form-group col-md-2">
+        <div class="form-group col-lg-2 col-md-2 col-sm-12">
             <label>Cuotas</label>
             @if( !isset($contrato->idTiempoPagoGarantia))
                 <select name="idTiempoPagoGarantia" class="form-control">
@@ -395,7 +395,7 @@
                 </select>
             @endif
         </div>
-        <div class="form-group col-md-2">
+        <div class="form-group col-lg-2 col-md-2 col-sm-12">
             <label>Tipo de Reajuste</label>
             <select name="idTipoReajuste" id="elegirReajuste" class="form-control" required>
                 <option value="">Seleccione</option>
@@ -403,11 +403,11 @@
                 <option value="2">Pesos</option>
             </select>
         </div>
-        <div id="antesDeReajuste" class="form-group col-md-2">
+        <div id="antesDeReajuste" class="form-group col-lg-2 col-md-2 col-sm-12">
             <label>Elegir reajuste</label>
             <input type="number" id="antesDeReajuste" name="antesDeReajuste" class="form-control" readonly>
         </div>
-        <div id="reajustePesos" class="form-group col-md-2" style="display:none">
+        <div id="reajustePesos" class="form-group col-lg-2 col-md-2 col-sm-12" style="display:none">
             <label>Reajuste en pesos</label>
             @if(!isset( $contrato->reajuste))
                 <input type="number" id="reajuste" name="reajustePesos" class="form-control" >
@@ -415,7 +415,7 @@
                 <input type="number" id="reajuste" name="reajustePesos" class="form-control" value="{{ $contrato->reajustePesos }}">
             @endif
         </div>
-        <div id="reajustePorcentaje" class="form-group col-md-2" style="display:none">
+        <div id="reajustePorcentaje" class="form-group col-lg-2 col-md-2 col-sm-12" style="display:none">
             <label>Reajuste en porcentaje</label>
             @if(!isset( $contrato->reajuste))
                 <input type="number" id="reajuste" name="reajuste" class="form-control" value="{{ $reajuste->valorParametro }}" readonly>
@@ -443,7 +443,7 @@
     </div>
     <br>
     <div class="row">
-        <div class="form-group col-md-4">
+        <div class="form-group col-lg-4 col-md-4 col-sm-12">
             <label>Corredor</label>
             @if( !isset($contrato->idCorredor))
                 <select name="idCorredor" class="form-control">
@@ -459,7 +459,7 @@
                 </select>
             @endif
         </div>
-        <div class="form-group col-md-4" >
+        <div class="form-group col-lg-4 col-md-4 col-sm-12" >
             <label>Estado Propiedad</label>
             @if(!isset( $contrato->idPropiedad))
             <select name="idEstadoPropiedad" class="form-control" readonly>

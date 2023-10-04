@@ -69,7 +69,7 @@
                                         <thead class="thead-light">
                                             <tr>
                                                 <th scope="col" style="width: 70px;">#</th>
-                                                <th scope="col">Nombre</th>
+                                                <th scope="col" style="width: 150px; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;" >Nombre</th>
                                                 <th scope="col">Correo Electronico</th>
                                                 <!--<th scope="col">Status</th>-->
                                                 <th scope="col">Rol</th>
@@ -91,7 +91,7 @@
                                                         </span>
                                                     </div>
                                                 </td>
-                                                <td>
+                                                <td style="width: 150px; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;">
                                                     <h5 class="font-size-14 mb-1"><a href="#" class="text-dark">{{ $user1->name }} {{ $user1->apellido }}</a></h5>
                                                     <p class="text-muted mb-0">{{ $user1->cargo }}</p>
                                                 </td>
@@ -126,7 +126,7 @@
                                                             <form id="form1" action="{{ url('/users/reimpresionDeclaracionJurada') }}" method="post">
                                                                 {{ csrf_field() }}
                                                                 <input type="hidden" name="id" value="{{ $user1->id }}"/>
-                                                                <button style="border: 0px; background-color: white;" type="submit"><i class="bx bxs-printer"></i></button>
+                                                                <button style="border: 0px; background-color: transparent;" type="submit"><i class="bx bxs-printer"></i></button>
                                                             </form>
                                                         </li>
                                                         <li class="list-inline-item">
@@ -139,7 +139,7 @@
                                                             <form id="form1" action="{{ url('/users/destroy') }}" method="post">
                                                                 {{ csrf_field() }}
                                                                 <input type="hidden" name="id" value="{{ $user1->id }}"/>
-                                                                <button style="border: 0px; background-color: white;" type="submit"><i class="bx bxs-trash-alt"></i></button>
+                                                                <button style="border: 0px; background-color: transparent;" type="submit"><i class="bx bxs-trash-alt"></i></button>
                                                             </form>
                                                             <!--<a href="/users/edit/{{ $user1->id }}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bx bxs-trash-alt"></i></a>-->
                                                         </li>
@@ -148,7 +148,7 @@
                                                             <form id="form1" action="{{ url('/users/reimpresionDeclaracionJurada') }}" method="post">
                                                                 {{ csrf_field() }}
                                                                 <input type="hidden" name="id" value="{{ $user1->id }}"/>
-                                                                <button style="border: 0px; background-color: white;" type="submit"><i class="bx bxs-printer"></i></button>
+                                                                <button style="border: 0px; background-color: transparent;" type="submit"><i class="bx bxs-printer"></i></button>
                                                             </form>
                                                         </li>
                                                         <li class="list-inline-item">
@@ -161,7 +161,7 @@
                                                             <form id="form1" action="{{ url('/users/destroy') }}" method="post">
                                                                 {{ csrf_field() }}
                                                                 <input type="hidden" name="id" value="{{ $user1->id }}"/>
-                                                                <button style="border: 0px; background-color: white;" type="submit"><i class="bx bxs-trash-alt"></i></button>
+                                                                <button style="border: 0px; background-color: transparent;" type="submit"><i class="bx bxs-trash-alt"></i></button>
                                                             </form>
                                                             <!--<a href="/users/edit/{{ $user1->id }}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bx bxs-trash-alt"></i></a>-->
                                                         </li>

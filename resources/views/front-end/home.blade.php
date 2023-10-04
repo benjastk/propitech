@@ -1,6 +1,6 @@
 @extends(($isCyber->valorParametro == 1 ? 'front-end.layouts.appCyber' : 'front-end.layouts.app' ))
 @section('titulo')
-<title>Propitech - Lo mejor en propiedades</title>
+<title>Propitech - Hacemos tu sueño realidad</title>
 @endsection
 @section('meta')
 <meta name="description" content="Propitech, es una empresa dedicada al corretaje y a la administración de propiedades. Nuestra misión es ofrecerte la propiedad que buscas al momento de arrendar o vendar. También nos encargamos de administrar tu propiedad para que siempre esté segura.">

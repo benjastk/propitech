@@ -70,9 +70,9 @@
                                             <tr>
                                             <th scope="col" >Fecha de Inicio</th>
                                                 <th scope="col" >Fecha de Termino</th>
-                                                <th scope="col" >Propietario</th>
-                                                <th scope="col" >Arrendatario</th>
-                                                <th scope="col" >Propiedad</th>
+                                                <th scope="col" style="width: 100px; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;" >Propietario</th>
+                                                <th scope="col" style="width: 100px; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;" >Arrendatario</th>
+                                                <th scope="col" style="width: 100px; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;" >Propiedad</th>
                                                 <th scope="col" >Estado</th>
                                                 <th scope="col" >Comision <br>Administracion</th>
                                                 <th scope="col" >Acciones</th>
@@ -84,8 +84,9 @@
                                             <tr>
                                                 <td>{{ strftime("%d de %B de %Y", strtotime($mandato->desde)) }}</td>
                                                 <td>{{ strftime("%d de %B de %Y", strtotime($mandato->hasta)) }}</td>
-                                                <td>{{ $mandato->nombrePropietario}} {{ $mandato->apellidoPropietario }}</td>
-                                                <td>{{ $mandato->nombreArrendatario }} {{ $mandato->apellidoArrendatario }}</td>
+                                                <td style="width: 100px; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;" >{{ $mandato->nombrePropietario}} {{ $mandato->apellidoPropietario }}</td>
+                                                <td style="width: 100px; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;" >{{ $mandato->nombreArrendatario }} {{ $mandato->apellidoArrendatario }}</td>
+                                                <td style="width: 100px; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;" >{{ $mandato->direccionPropiedad }} {{ $mandato->block }}</td>
                                                 <td>
                                                     <div>
                                                         @if($mandato->idEstado == 61)
@@ -97,7 +98,6 @@
                                                         @endif
                                                     </div>
                                                 </td>
-                                                <td>{{ $mandato->direccionPropiedad }} {{ $mandato->block }}</td>
                                                 <td>{{ $mandato->comisionAdministracion }}%</td>
                                                 <td>
                                                     <ul class="list-inline font-size-20 contact-links mb-0">
