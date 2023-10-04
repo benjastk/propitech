@@ -1,6 +1,6 @@
 <div class="card-body">
     <div class="row">
-        <div class="col-6">
+        <div class="col-lg-6 col-md-6 col-sm-12">
             <label>Plan Activado</label>
             @if(!isset($plan->activo))
                 <div class="custom-control custom-switch mb-2" dir="ltr">
@@ -27,7 +27,7 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-6">
+        <div class="col-lg-6 col-md-6 col-sm-12">
             <label>Comision Corretaje</label>
             @if(!isset($plan->comisionCorretaje))
                 <input type="text" name="comisionCorretaje" value="{{old('comisionCorretaje')}}" class="form-control" placeholder="Comision Corretaje" required >
@@ -35,7 +35,7 @@
                 <input type="text" name="comisionCorretaje" value="{{ $plan->comisionCorretaje }}" class="form-control" placeholder="Comision Corretaje" required >
             @endif
         </div>
-        <div class="col-6">
+        <div class="col-lg-6 col-md-6 col-sm-12">
             <label>IVA Corretaje</label>
             @if(!isset($plan->ivaCorretaje))
                 <div class="custom-control custom-switch mb-2" dir="ltr">
@@ -52,7 +52,7 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-6">
+        <div class="col-lg-6 col-md-6 col-sm-12">
             <label>Comision de administración</label>
             @if(!isset($plan->comisionAdministracion))
                 <input type="text" name="comisionAdministracion" value="{{old('comisionAdministracion')}}" class="form-control" placeholder="Comision Administracion" required >
@@ -60,7 +60,7 @@
                 <input type="text" name="comisionAdministracion" value="{{ $plan->comisionAdministracion }}" class="form-control" placeholder="Comision Administracion" required >
             @endif
         </div>
-        <div class="col-6">
+        <div class="col-lg-6 col-md-6 col-sm-12">
             <label>IVA administración</label>
             @if(!isset($plan->ivaAdministracion))
                 <div class="custom-control custom-switch mb-2" dir="ltr">
@@ -111,7 +111,7 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-6">
+        <div class="col-lg-6 col-md-6 col-sm-12">
             <label>Destacado</label>
             @if(!isset($plan->destacado))
                 <div class="custom-control custom-switch mb-2" dir="ltr">
@@ -125,7 +125,7 @@
                 </div>
             @endif
         </div>
-        <div class="col-6">
+        <div class="col-lg-6 col-md-6 col-sm-12">
             
         </div>
     </div>

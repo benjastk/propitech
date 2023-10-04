@@ -1,7 +1,7 @@
 <div class="card-body">
     <legend  class="w-auto">Datos del Contrato</legend>
     <div class="row">
-        <div class="form-group col-md-3">
+        <div class="form-group col-lg-3 col-md-3 col-sm-12">
             <label>Desde</label>
             @if(!isset($mandato->desde))
                 <input type="date" name="desde" id="desde" value="{{ old('desde') }}" class="form-control" required >
@@ -9,7 +9,7 @@
                 <input type="date" name="desde" id="desde"class="form-control" value="{{ $mandato->desde }}" readonly disabled>
             @endif
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group col-lg-3 col-md-3 col-sm-12">
             <label>Hasta</label>
             @if(!isset($mandato->hasta))
                 <input type="date" name="hasta" id="hasta" value="{{ old('hasta') }}" class="form-control" required >
@@ -17,7 +17,7 @@
                 <input type="date" name="hasta" id="hasta"class="form-control" value="{{$mandato->hasta}}" readonly disabled>
             @endif
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group col-lg-3 col-md-3 col-sm-12">
             <label>Duracion (meses)</label>
             @if(!isset($mandato->duracion))
                 <input type="number" name="duracion" id="duracion" class="form-control" value="{{ old('duracion') }}" required>
@@ -25,7 +25,7 @@
                 <input type="number" name="duracion" id="duracion"class="form-control" value="{{$mandato->duracion}}" readonly disabled>
             @endif
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group col-lg-3 col-md-3 col-sm-12">
             <label>Dia de Pago</label>
             <select class="form-control" id="diaPago" name="diaPago" required>
             @if(isset($mandato->diaPago))
@@ -45,7 +45,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="form-group col-md-4">
+        <div class="form-group col-lg-4 col-md-4 col-sm-12">
             <label>Estado Mandato</label>
             @if( !isset($mandato->idEstadoMandato))
                 <select name="idEstadoMandato" class="form-control" required>
@@ -63,7 +63,7 @@
                 </select>
             @endif
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-lg-4 col-md-4 col-sm-12">
             <label>Plan de Administracion</label>
             @if( !isset($mandato->idPlan))
                 <select name="idPlan" class="form-control" required>
@@ -81,7 +81,7 @@
                 </select>
             @endif
         </div>
-        <div class="form-group col-md-4" style="text-align:center; margin-top: 10px;">
+        <div class="form-group col-lg-4 col-md-4 col-sm-12" style="text-align:center; margin-top: 10px;">
             <label></label>
             <label></label>
             @if(!isset($mandato->seguroDeArriendo))
@@ -99,7 +99,7 @@
     </div>
     <legend  class="w-auto">Datos del Propietario</legend>
     <div class="row">
-        <div class="form-group col-md-4">
+        <div class="form-group col-lg-4 col-md-4 col-sm-12">
             <label>Rut</label>
             @if(!isset($mandato->rutPropietario))
                 <input type="text" name="rutPropietario" id="rutPropietario" value="{{ old('rutPropietario') }}" class="form-control" required oninput="checkRut(this)" >
@@ -107,7 +107,7 @@
                 <input type="text" name="rutPropietario" id="rutPropietario" class="form-control" value="{{$mandato->rutPropietario}}" required oninput="checkRut(this)">
             @endif
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-lg-4 col-md-4 col-sm-12">
             <label>Nombre</label>
             @if(!isset($mandato->nombrePropietario))
                 <input type="text" name="nombrePropietario" id="nombrePropietario" value="{{ old('nombrePropietario') }}" class="form-control" readonly>
@@ -115,7 +115,7 @@
                 <input type="text" name="nombrePropietario" id="nombrePropietario" class="form-control" value="{{$mandato->nombrePropietario}}" readonly>
             @endif
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-lg-4 col-md-4 col-sm-12">
             <label>Apellido</label>
             @if(!isset($mandato->apellidoPropietario))
                 <input type="text" name="apellidoPropietario" id="apellidoPropietario" value="{{ old('apellidoPropietario') }}" class="form-control" readonly>
@@ -123,7 +123,7 @@
                 <input type="text" name="apellidoPropietario" id="apellidoPropietario" class="form-control" value="{{$mandato->apellidoPropietario}}" readonly >
             @endif
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group col-lg-3 col-md-3 col-sm-12">
             <label>Correo Electronico</label>
             @if(!isset($mandato->correoPropietario))
                 <input type="text" name="correoPropietario" id="correoPropietario" value="{{ old('correoPropietario') }}" class="form-control" required readonly>
@@ -131,7 +131,7 @@
                 <input type="text" name="correoPropietario" id="correoPropietario" class="form-control" value="{{$mandato->correoPropietario}}" required readonly >
             @endif
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group col-lg-3 col-md-3 col-sm-12">
             <label>Estado Civil</label>
             @if(!isset( $mandato->estadoCivilPropietario))
                 <input type="text" id="estadoCivilPropietario" name="estadoCivilPropietario" class="form-control  " value="{{ old('estadoCivilPropietario') }}" readonly >
@@ -139,7 +139,7 @@
                 <input type="text" id="estadoCivilPropietario" name="estadoCivilPropietario" class="form-control  " value="{{ $mandato->estadoCivilPropietario }}" readonly >
             @endif
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group col-lg-3 col-md-3 col-sm-12">
             <label>Nacionalidad</label>
             @if(!isset( $mandato->nacionalidadPropietario))
                 <input type="text" id="nacionalidadPropietario" name="nacionalidadPropietario" class="form-control  " value="{{ old('nacionalidadPropietario') }}" readonly >
@@ -147,7 +147,7 @@
                 <input type="text" id="nacionalidadPropietario" name="nacionalidadPropietario" class="form-control  " value="{{ $mandato->nacionalidadPropietario }}" readonly >
             @endif
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group col-lg-3 col-md-3 col-sm-12">
             <label>Profesion</label>
             @if(!isset( $mandato->profesionPropietario))
                 <input type="text" id="profesionPropietario" name="profesionPropietario" class="form-control" value="{{ old('profesionPropietario') }}" readonly>
@@ -155,7 +155,7 @@
                 <input type="text" id="profesionPropietario" name="profesionPropietario" class="form-control" value="{{ $mandato->profesionPropietario }}" readonly >
             @endif
         </div>
-        <div class="form-group col-md-6">
+        <div class="form-group col-lg-6 col-md-6 col-sm-12">
             <label>Direccion</label>
             @if(!isset( $mandato->direccionPropietario))
                 <input type="text" id="direccionPropietario" name="direccionPropietario" class="form-control" value="{{ old('direccionPropietario') }}" readonly >
@@ -163,7 +163,7 @@
                 <input type="text" id="direccionPropietario" name="direccionPropietario" class="form-control" value="{{ $mandato->direccionPropietario }}" readonly>
             @endif
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group col-lg-3 col-md-3 col-sm-12">
             <label>Comuna</label>
             @if(!isset( $mandato->comunaPropietario))
                 <input type="text" id="comunaPropietario" name="comunaPropietario" class="form-control  " value="{{ old('comunaPropietario') }}" readonly >
@@ -171,7 +171,7 @@
                 <input type="text" id="comunaPropietario" name="comunaPropietario" class="form-control  " value="{{ $mandato->comunaPropietario }}" readonly >
             @endif
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group col-lg-3 col-md-3 col-sm-12">
             <label>Region</label>
             @if(!isset( $mandato->regionPropietario))
                 <input type="text" id="regionPropietario" name="regionPropietario" class="form-control  " value="{{ old('regionPropietario') }}" readonly >
@@ -196,7 +196,7 @@
     </div>
     <legend  class="w-auto">Datos de la Propiedad</legend>
     <div class="row">
-        <div class="form-group col-md-10">
+        <div class="form-group col-lg-10 col-md-10 col-sm-12">
             <label>Direccion Propiedad</label>
             @if(!isset( $mandato->direccionPropiedad))
                 <input type="text" id="direccionPropiedad" name="direccionPropiedad" class="form-control  " value="{{ $propiedad->direccion }} {{ $propiedad->numero }}" readonly>
@@ -204,7 +204,7 @@
                 <input type="text" id="direccionPropiedad" name="direccionPropiedad" class="form-control  " value="{{ $mandato->direccionPropiedad }}" readonly>
             @endif
         </div>
-        <div class="form-group col-md-2">
+        <div class="form-group col-lg-2 col-md-2 col-sm-12">
             <label>Departamento</label>
             @if(!isset( $mandato->departamentoPropiedad))
                 <input type="text" id="departamentoPropiedad" name="departamentoPropiedad" class="form-control  " value="{{ $propiedad->block }}" readonly>
@@ -212,7 +212,7 @@
                 <input type="text" id="departamentoPropiedad" name="departamentoPropiedad" class="form-control  " value="{{ $mandato->departamentoPropiedad }}" readonly>
             @endif
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group col-lg-3 col-md-3 col-sm-12">
             <label>Comuna</label>
             @if(!isset( $mandato->comunaPropiedad))
                 <input type="text" id="comunaPropiedad" name="comunaPropiedad" class="form-control  " value="{{ $propiedad->nombreComuna}}" readonly>
@@ -220,7 +220,7 @@
                 <input type="text" id="comunaPropiedad" name="ComunaPropiedad" class="form-control  " value="{{ $mandato->comunaPropiedad }}" readonly>
             @endif
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group col-lg-3 col-md-3 col-sm-12">
             <label>Region</label>
             @if(!isset( $mandato->regionPropiedad))
                 <input type="text" id="regionPropiedad" name="regionPropiedad" class="form-control  " value="{{ $propiedad->nombreRegion}}" readonly>
@@ -228,7 +228,7 @@
                 <input type="text" id="regionPropiedad" name="regionPropiedad" class="form-control  " value="{{ $mandato->regionPropiedad }}" readonly>
             @endif
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group col-lg-3 col-md-3 col-sm-12">
             <label>Rol</label>
             @if(!isset( $mandato->rolPropiedad))
                 <input type="text" id="rolPropiedad" name="rolPropiedad" class="form-control  " value="{{ $propiedad->rolPropiedad}}" readonly >
@@ -237,7 +237,7 @@
             @endif
             <input type="text" id="idPropiedad" name="idPropiedad" class="form-control" value="{{ $propiedad->id }}" readonly style="display:none">
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group col-lg-3 col-md-3 col-sm-12">
             <label>Estado Propiedad</label>
             @if(!isset( $mandato->idPropiedad))
             <select name="idEstado" class="form-control" readonly>
@@ -249,7 +249,7 @@
             </select>
             @endif
         </div>
-        <div class="form-group col-md-6">
+        <div class="form-group col-lg-6 col-md-6 col-sm-12">
             <label>Corredor</label>
             @if( !isset($mandato->idCorredor))
                 <select name="idCorredor" class="form-control">
@@ -265,7 +265,7 @@
                 </select>
             @endif
         </div>
-        <div class="form-group col-md-6" >
+        <div class="form-group col-lg-6 col-md-6 col-sm-12" >
             <label>Fecha compromiso</label>
             @if(!isset($mandato->fechaCompromisoMandato))
                 <input type="datetime-local" name="fechaCompromisoMandato" id="fechaCompromisoMandato" value="{{ old('fechaCompromisoMandato') }}" class="form-control" >

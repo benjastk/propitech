@@ -70,12 +70,12 @@
                     <div class="col-lg-12">
                         <div class="">
                             <div class="table-responsive">
-                                <table id="tabla-ingresos" class="table project-list-table table-nowrap table-centered table-borderless">
+                                <table id="tabla-ingresos" class="table project-list-table table-centered table-borderless">
                                     <thead>
                                         <tr>
                                             <th scope="col" >ID</th>
                                             <th scope="col" style="width: 100px">Foto</th>
-                                            <th scope="col">Propiedad</th>
+                                            <th scope="col" style="width: 80px; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;">Propiedad</th>
                                             <th scope="col" style="text-align:center" >Distribucion</th>
                                             <th scope="col" style="text-align:center" >Estado</th>
                                             <th scope="col" style="text-align:center" >Valor</th>
@@ -91,7 +91,7 @@
                                             <td>
                                                 <img src="/img/propiedad/{{ $propiedad->fotoPrincipal}}" width="120px" height="100px">
                                             </td>
-                                            <td >
+                                            <td style="width: 80px; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;">
                                                 <h5 class="text-truncate font-size-14"><a href="#" class="text-dark">{{ $propiedad->nombrePropiedad }}</a> 
                                                     <span class="badge badge-soft-primary">{{ $propiedad->nombreTipoPropiedad}}</span>
                                                     

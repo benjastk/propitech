@@ -68,13 +68,13 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table id="tabla-ingresos" class="table table-centered table-nowrap table-hover">
+                                    <table id="tabla-ingresos" class="table table-centered table-hover">
                                         <thead class="thead-light">
                                             <tr>
                                                 <th scope="col">Fecha de contrato</th>
                                                 <th scope="col">Fecha de Termino</th>
-                                                <th scope="col">Arrendatario</th>
-                                                <th scope="col">Propiedad</th>
+                                                <th scope="col" style="width: 100px; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;">Arrendatario</th>
+                                                <th scope="col" style="width: 100px; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;">Propiedad</th>
                                                 <th scope="col">Valor Mensual</th>
                                                 <th scope="col">Estado</th>
                                                 <!--<th scope="col">Nota</th>-->
@@ -91,8 +91,8 @@
                                                 <td>
                                                     {{ strftime("%d de %B de %Y", strtotime($contrato->hasta)) }}
                                                 </td>
-                                                <td>{{ $contrato->nombreArrendatario }} {{ $contrato->apellidoArrendatario }}</td>
-                                                <td>{{ $contrato->direccion }} {{ $contrato->numero }}
+                                                <td style="width: 100px; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;">{{ $contrato->nombreArrendatario }} {{ $contrato->apellidoArrendatario }}</td>
+                                                <td style="width: 100px; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;" >{{ $contrato->direccion }} {{ $contrato->numero }}
                                                      @if($contrato->block) , Dpto. {{ $contrato->block }} @endif
                                                 </td>
                                                 <td>${{ number_format($contrato->arriendoMensual, 0, '', '.')}}</td>
@@ -120,14 +120,14 @@
                                                             <form id="form1" action="{{ url('/contratos/reimpresionSalvoconductoArriendo') }}" method="post">
                                                                 {{ csrf_field() }}
                                                                 <input type="hidden" name="id" value="{{ $contrato->idContratoArriendo }}"/>
-                                                                <button style="border: 0px; background-color: white;" type="submit"><i class="bx bxs-file-doc" title="Imprimir Salvoconducto" ></i></button>
+                                                                <button style="border: 0px; background-color: transparent;" type="submit"><i class="bx bxs-file-doc" title="Imprimir Salvoconducto" ></i></button>
                                                             </form>
                                                         </li>
                                                         <li class="list-inline-item">
                                                             <form id="form2" action="{{ url('/contratos/reimpresionContratoArriendo') }}" method="post">
                                                                 {{ csrf_field() }}
                                                                 <input type="hidden" name="id" value="{{ $contrato->idContratoArriendo }}"/>
-                                                                <button style="border: 0px; background-color: white;" type="submit"><i class="bx bxs-printer" title="Imprimir Contrato de Arriendo"></i></button>
+                                                                <button style="border: 0px; background-color: transparent;" type="submit"><i class="bx bxs-printer" title="Imprimir Contrato de Arriendo"></i></button>
                                                             </form>
                                                         </li>
                                                         <li class="list-inline-item">
@@ -140,7 +140,7 @@
                                                             <form id="form3" action="{{ url('/contratos/destroy') }}" method="post">
                                                                 {{ csrf_field() }}
                                                                 <input type="hidden" name="id" value="{{ $contrato->idContratoArriendo }}"/>
-                                                                <button style="border: 0px; background-color: white;" type="submit"><i class="bx bxs-trash-alt"></i></button>
+                                                                <button style="border: 0px; background-color: transparent;" type="submit"><i class="bx bxs-trash-alt"></i></button>
                                                             </form>
                                                             <!--<a href="/contratos/edit/{{ $contrato->idContratoArriendo }}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bx bxs-trash-alt"></i></a>-->
                                                         </li>

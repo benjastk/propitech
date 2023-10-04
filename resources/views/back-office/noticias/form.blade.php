@@ -4,22 +4,22 @@
             <div class="p-2">
                 <div class="row">
                     @if(!isset($noticia->titulo))
-                    <div class="col-6">
+                    <div class="col-lg-6 col-md-6 col-sm-12">
                         <div class="user-thumb">
                             <label>Subir foto</label>
                             <input type="file" class="form-control-file" id="foto" name="foto" id="fotoPrincipal" accept="image/*">
                             <input type="hidden" class="form-control" name="imagenActual" id="imagenActual">
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-lg-6 col-md-6 col-sm-12">
                     </div>
                     @else
-                    <div class="col-6">                     
+                    <div class="col-lg-6 col-md-6 col-sm-12">                     
                         @if($noticia->imagenNoticia)
                             <img src="/img/noticias/{{ $noticia->imagenNoticia}}" alt="thumbnail" style="heigth: 200px; width: 200px">
                         @endif
                     </div>
-                    <div class="col-6">
+                    <div class="col-lg-6 col-md-6 col-sm-12">
                         <div class="user-thumb">
                             <label>Cambiar foto</label>
                             <input type="file" class="form-control-file" id="foto" name="foto" id="fotoPrincipal" accept="image/*">
@@ -64,7 +64,7 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-6">
+        <div class="col-lg-6 col-md-6 col-sm-12">
             <label>Usuario</label>
             <select name="idUsuario" id="idUsuario" class="form-control" required>
                 @if(!isset($noticia->idUsuario))

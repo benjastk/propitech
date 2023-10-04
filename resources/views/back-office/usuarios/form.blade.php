@@ -4,7 +4,7 @@
             <div class="p-2">
                 <div class="row">
                     @if(!isset($usuario->name))
-                    <div class="col-6">
+                    <div class="col-lg-6 col-md-6 col-sm-12">
                         <div class="user-thumb">
                             <label>Subir foto</label>
                             <input type="file" class="form-control-file" id="foto" name="foto" id="fotoPrincipal" accept="image/*">
@@ -14,7 +14,7 @@
                     <div class="col-6">
                     </div>
                     @else
-                    <div class="col-6">
+                    <div class="col-lg-6 col-md-6 col-sm-12">
                         <div class="user-thumb text-center">                        
                             @if($usuario->avatarImg)
                                 <img src="/img/usuarios/{{ $usuario->avatarImg}}" class="rounded-circle img-thumbnail avatar-md" alt="thumbnail">
@@ -22,7 +22,7 @@
                             <h5 class="font-size-15 mt-3">{{ $usuario->name }} {{ $usuario->apellido }} </h5>
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-lg-6 col-md-6 col-sm-12">
                         <div class="user-thumb">
                             <label>Cambiar foto</label>
                             <input type="file" class="form-control-file" id="foto" name="foto" id="fotoPrincipal" accept="image/*">
@@ -35,7 +35,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-6">
+        <div class="col-lg-6 col-md-6 col-sm-12">
         <label>Nombres</label>
             @if(!isset($usuario->name))
                 <input type="text" name="name" value="{{old('name')}}" class="form-control" placeholder="Nombre" required>
@@ -43,7 +43,7 @@
                 <input type="text" name="name" value="{{ $usuario->name }}" class="form-control" placeholder="Nombre" required>
             @endif
         </div>
-        <div class="col-6">
+        <div class="col-lg-6 col-md-6 col-sm-12">
         <label>Apellidos</label>
             @if(!isset($usuario->apellido))
                 <input type="text" name="apellido" value="{{old('apellido')}}" class="form-control" placeholder="Apellido" required >
@@ -54,7 +54,7 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-4">
+        <div class="col-lg-4 col-md-4 col-sm-12">
         <label>Rut</label>
             @if(!isset($usuario->rut))
                 <input type="text" name="rut" value="{{old('rut')}}" class="form-control" placeholder="Rut" required>
@@ -63,7 +63,7 @@
             @endif
             
         </div>
-        <div class="col-4">
+        <div class="col-lg-4 col-md-4 col-sm-12">
         <label>Numero de Serie</label>
             @if(!isset($usuario->numeroSerie))
                 <input type="text" name="numeroSerie" value="{{old('numeroSerie')}}" class="form-control" placeholder="Numero de Serie">
@@ -71,7 +71,7 @@
                 <input type="text" name="numeroSerie" value="{{ $usuario->numeroSerie }}" class="form-control" placeholder="Numero de Serie">
             @endif
         </div>
-        <div class="col-4">
+        <div class="col-lg-4 col-md-4 col-sm-12">
         <label>Correo electronico</label>
             @if(!isset($usuario->email))
                 <input type="email" name="email" value="{{old('email')}}" class="form-control" placeholder="Correo" required>
@@ -82,7 +82,7 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-6">
+        <div class="col-lg-6 col-md-6 col-sm-12">
         <label>Telefono</label>
             @if(!isset($usuario->telefono))
                 <input type="text" name="telefono" value="{{old('telefono')}}" class="form-control" placeholder="Telefono" required>
@@ -90,7 +90,7 @@
                 <input type="text" name="telefono" value="{{ $usuario->telefono }}" class="form-control" placeholder="Telefono" required>
             @endif
         </div>
-        <div class="col-6">
+        <div class="col-lg-6 col-md-6 col-sm-12">
         <label>Profesion</label>
             @if(!isset($usuario->profesion))
                 <input type="text" name="profesion" value="{{old('profesion')}}" class="form-control" placeholder="Profesion" >
@@ -101,7 +101,7 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-3">
+        <div class="col-lg-3 col-md-3 col-sm-12">
             <div class="form-group row">
                 <div class="col-md-12">
                 <label>Pais</label>
@@ -121,7 +121,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-3">
+        <div class="col-lg-3 col-md-3 col-sm-12">
             <div class="form-group row">
                 <div class="col-md-12">
                 <label>Region</label>
@@ -137,7 +137,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-3">
+        <div class="col-lg-3 col-md-3 col-sm-12">
             <div class="form-group row">
                 <div class="col-md-12">
                 <label>Provincia</label>
@@ -153,7 +153,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-3">
+        <div class="col-lg-3 col-md-3 col-sm-12">
             <div class="form-group row">
                 <div class="col-md-12">
                 <label>Comuna</label>
@@ -172,7 +172,7 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-8">
+        <div class="col-lg-8 col-md-8 col-sm-12">
         <label>Direccion</label>
             @if(!isset($usuario->direccion))
                 <input type="text" name="direccion" value="{{old('direccion')}}" class="form-control" placeholder="Direccion" required >
@@ -180,7 +180,7 @@
                 <input type="text" name="direccion" value="{{ $usuario->direccion }}" class="form-control" placeholder="Direccion" required >
             @endif
         </div>
-        <div class="col-4">
+        <div class="col-lg-4 col-md-4 col-sm-12">
         <label>Numero</label>
             @if(!isset($usuario->numero))
                 <input type="text" name="numero" value="{{old('numero')}}" class="form-control" placeholder="numero" required >
@@ -191,7 +191,7 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-3">
+        <div class="col-lg-3 col-md-3 col-sm-12">
             <div class="form-group row">
                 <div class="col-md-12">
                 <label>Genero</label>
@@ -209,7 +209,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-3">
+        <div class="col-lg-3 col-md-3 col-sm-12">
         <label>Nacionalidad</label>
             @if(!isset($usuario->nacionalidad))
                 <input type="text" name="nacionalidad" value="{{old('nacionalidad')}}" class="form-control" placeholder="nacionalidad" required >
@@ -217,7 +217,7 @@
                 <input type="text" name="nacionalidad" value="{{ $usuario->nacionalidad }}" class="form-control" placeholder="nacionalidad" required >
             @endif
         </div>
-        <div class="col-3">
+        <div class="col-lg-3 col-md-3 col-sm-12">
         <label>Estado Civil</label>
             @if(!isset($usuario->estadoCivil))
                 <input type="text" name="estadoCivil" value="{{old('estadoCivil')}}" class="form-control" placeholder="Estado Civil">
@@ -225,7 +225,7 @@
                 <input type="text" name="estadoCivil" value="{{ $usuario->estadoCivil }}" class="form-control" placeholder="Estado Civil">
             @endif
         </div>
-        <div class="col-3">
+        <div class="col-lg-3 col-md-3 col-sm-12">
             <div class="form-group row">
                 <div class="col-md-12">
                 <label>Tipo Usuario Comercial</label>
@@ -246,7 +246,7 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-3">
+        <div class="col-lg-3 col-md-3 col-sm-12">
         <label>Contraseña</label>
             @if(!isset($usuario->password))
                 <input type="password" name="contrasena1" class="form-control" placeholder="Contraseña" required >
@@ -254,7 +254,7 @@
                 <input type="password" name="contrasena1" value="{{ $usuario->password }}" class="form-control" placeholder="Contraseña" required >
             @endif 
         </div>
-        <div class="col-3">
+        <div class="col-lg-3 col-md-3 col-sm-12">
         <label>Confirme contraseña</label>
             @if(!isset($usuario->password))
                 <input type="password" name="contrasena2" class="form-control" placeholder="Contraseña" required >
@@ -262,7 +262,7 @@
                 <input type="password" name="contrasena2" value="{{ $usuario->password }}" class="form-control" placeholder="Contraseña" required >
             @endif 
         </div>
-        <div class="col-3">
+        <div class="col-lg-3 col-md-3 col-sm-12">
             <div class="form-group row">
                 <div class="col-md-12">
                 <label>Rol Usuario</label>
@@ -281,7 +281,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-3">
+        <div class="col-lg-3 col-md-3 col-sm-12">
             <label>Modo</label>
             @if(!isset($usuario->modoOscuro))
                 <div class="custom-control custom-switch mb-2" dir="ltr">
