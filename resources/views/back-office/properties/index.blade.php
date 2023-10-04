@@ -93,6 +93,7 @@
                                             </td>
                                             <td style="width: 50px; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;">
                                                 <h5 class="text-truncate font-size-14"><a href="#" class="text-dark">{{ $propiedad->nombrePropiedad }}</a> 
+                                                    <br>
                                                     <span class="badge badge-soft-primary">{{ $propiedad->nombreTipoPropiedad}}</span>
                                                     
                                                 </h5>
