@@ -126,15 +126,54 @@
                         Propiedades
                         <span class="caret"></span>
                     </a>
-                    <div class="dropdown-menu px-0 pt-3 dropdown-menu-docs" aria-labelledby="navbar-item-property">
+                    <div class="dropdown-menu dropdown-menu-xxl px-0 py-3 dropdown-menu-listing" aria-labelledby="navbar-item-property">
                         <div class="row no-gutters">
-                            <div class="col-lg-12">
-                                <a class="dropdown-item" href="/catalogo-propiedades-venta">
-                                    Propiedades en Venta
+                            <div class="col-lg-6">
+                                <a href="/catalogo-propiedades-venta">
+                                    <h4 class="dropdown-header text-dark fs-16 mb-2"  >
+                                        Propiedades en Venta
+                                    </h4>
                                 </a>
-                                <a class="dropdown-item" href="/catalogo-propiedades">
-                                    Propiedades en Arriendo
+                                <a class="dropdown-item" href="/catalogo-propiedades-venta?tipoPropiedad=1">
+                                    Casas en Venta
                                 </a>
+                                <a class="dropdown-item" href="/catalogo-propiedades-venta?tipoPropiedad=2">
+                                    Departamentos en Venta
+                                </a>
+                                <a class="dropdown-item" href="/catalogo-propiedades-venta?tipoPropiedad=5">
+                                    Parcelas en Venta
+                                </a>
+                                <a class="dropdown-item" href="/catalogo-propiedades-venta?tipoPropiedad=8">
+                                    Oficinas en Venta
+                                </a>
+                                <!--<a class="dropdown-item" href="listing-with-left-sidebar.html">
+                                    
+                                </a>
+                                <a class="dropdown-item" href="listing-with-right-sidebar.html">
+                                List with right sidebar
+                                </a>-->
+                            </div>
+                            <div class="col-lg-6">
+                                <a href="/catalogo-propiedades">
+                                    <h4 class="dropdown-header text-dark fs-16 mb-2"  >
+                                        Propiedades en Arriendo
+                                    </h4>
+                                </a>
+                                <a class="dropdown-item" href="/catalogo-propiedades?tipoPropiedad=1">
+                                    Casas en Arriendo
+                                </a>
+                                <a class="dropdown-item" href="/catalogo-propiedades?tipoPropiedad=2">
+                                    Departamentos en Arriendo
+                                </a>
+                                <!--<a class="dropdown-item" href="/catalogo-propiedades?tipoPropiedad=8">
+                                    Oficinas en Arriendo
+                                </a>
+                                <a class="dropdown-item" href="listing-with-left-sidebar.html">
+                                    
+                                </a>
+                                <a class="dropdown-item" href="listing-with-right-sidebar.html">
+                                List with right sidebar
+                                </a>-->
                             </div>
                         </div>
                     </div>

@@ -81,6 +81,21 @@ class DataGeneralController extends Controller
             return response()->json(['status' => false, 'message' => 'Sin permiso de acceso'], 401);
         }
     }
+    public function getPropiedad(Request $request)
+    {
+        if($request->ajax()){
+            $propiedad = Propiedad::select('propiedades.id', 'rut', 'rolPropiedad', 'nombrePropiedad', 'propiedades.nombrePropiedad', 'propiedades.direccion', 'propiedades.numero', 'region.nombre as nombreRegion', 
+            'comuna.nombre as nombreComuna', 'propiedades.idNivelUsoPropiedad', 'niveles_uso_propiedad.nombreNivelUsoPropiedad', 'propiedades.valorArriendo', 'propiedades.block')
+            ->join('region', 'region.id', '=', 'propiedades.idRegion')
+            ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
+            ->join('niveles_uso_propiedad', 'propiedades.idNivelUsoPropiedad', '=', 'niveles_uso_propiedad.idNivelUsoPropiedad')
+            ->where('propiedades.id', '=', $request->id)
+            ->first();
+            return $propiedad;
+        }else{
+            return response()->json(['status' => false, 'message' => 'Sin permiso de acceso'], 401);
+        }
+    }
     public function maps($request) 
     {
         $nuevadireccion = urlencode($request);
