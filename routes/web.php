@@ -39,6 +39,9 @@ Route::get('/terminos-condiciones', 'InicioController@terminosYCondiciones');
 Route::get('/pago-online', 'InicioController@pagoOnline');
 Route::post('/ir-a-pagar-online', 'InicioController@pagarOnline')->name('ir-a-pagar-online');
 
+Route::get('/pago-reserva-online', 'InicioController@pagoReservaOnline');
+Route::post('/ir-a-pagar-reserva-online', 'InicioController@pagarReservaOnline')->name('ir-a-pagar-reserva-online');
+
 // back-office routes
 Route::get('/login', function () {
     return view('auth.login');
@@ -101,6 +104,14 @@ Route::prefix('contratos')->group(function () {
     Route::post('/reimpresionContratoArriendo', 'ContratoArriendoController@imprimirContratoArriendo');
     Route::post('/reimpresionSalvoconductoArriendo', 'ContratoArriendoController@imprimirSalvoconducto');
     Route::get('/export', 'ContratoArriendoController@exportExcel')->name('export-contratos');
+});
+Route::prefix('reservas')->group(function () {
+    Route::get('/', 'ReservaPropiedadController@index');
+    Route::get('/create', 'ReservaPropiedadController@create');
+    Route::post('/store', 'ReservaPropiedadController@store');
+    Route::get('/edit/{reserva}', 'ReservaPropiedadController@edit');
+    Route::post('/update/{reserva}', 'ReservaPropiedadController@update');
+    Route::post('/destroy', 'ReservaPropiedadController@destroy');
 });
 Route::prefix('mandatos')->group(function () {
     Route::get('/', 'MandatoAdministracionController@index');
