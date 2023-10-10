@@ -346,7 +346,7 @@
     </h2>
     <span class="heading-divider mx-auto mb-7"></span>
         <div class="slick-slider custom-arrow-spacing-30"
-            data-slick-options='{"slidesToShow": 3, "infinite":true, "autoplay":true,"dots":true,"responsive":[{"breakpoint": 992,"settings": {"slidesToShow":2,"arrows":false}},{"breakpoint": 768,"settings": {"slidesToShow": 1,"arrows":false,"dots":true,"autoplay":true}},{"breakpoint": 576,"settings": {"slidesToShow": 1,"arrows":false,"dots":true,"autoplay":true}}]}'>
+            data-slick-options='{"slidesToShow": 3, "infinite":true, "autoplay":true,"dots":false,"responsive":[{"breakpoint": 992,"settings": {"slidesToShow":2,"arrows":false}},{"breakpoint": 768,"settings": {"slidesToShow": 1,"arrows":false,"dots":false,"autoplay":true}},{"breakpoint": 576,"settings": {"slidesToShow": 1,"arrows":false,"dots":false,"autoplay":true}}]}'>
             @if(count($propiedadesEnVenta))
             @foreach($propiedadesEnVenta as $propiedad2)
             <div class="box">
@@ -446,7 +446,7 @@
         </h2>
         <span class="heading-divider mx-auto mb-7"></span>
         <div class="slick-slider custom-arrow-spacing-30"
-            data-slick-options='{"slidesToShow": 3, "infinite":true, "autoplay":true,"dots":true,"responsive":[{"breakpoint": 992,"settings": {"slidesToShow":2,"arrows":false}},{"breakpoint": 768,"settings": {"slidesToShow": 1,"arrows":false,"dots":true,"autoplay":true}},{"breakpoint": 576,"settings": {"slidesToShow": 1,"arrows":false,"dots":true,"autoplay":true}}]}'>
+            data-slick-options='{"slidesToShow": 3, "infinite":true, "autoplay":true,"dots":false,"responsive":[{"breakpoint": 992,"settings": {"slidesToShow":2,"arrows":false}},{"breakpoint": 768,"settings": {"slidesToShow": 1,"arrows":false,"dots":false,"autoplay":true}},{"breakpoint": 576,"settings": {"slidesToShow": 1,"arrows":false,"dots":false,"autoplay":true}}]}'>
             @if(count($propiedadesEnArriendo))
             @foreach($propiedadesEnArriendo as $propiedad1)
             <div class="box">
