@@ -24,6 +24,12 @@
                     </a>
                 </li>
                 <li>
+                    <a href="/reservas" class="waves-effect">
+                        <i class="bx bx-food-menu"></i>
+                        <span>Reservas de Propiedades</span>
+                    </a>
+                </li>
+                <li>
                     <a href="/contratos" class="waves-effect">
                         <i class="bx bxs-file"></i>
                         <span>Contratos de arriendo</span>

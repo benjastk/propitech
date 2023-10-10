@@ -30,3 +30,5 @@ Route::post('/updateCaracteristica/{propiedad}', 'Api\CaracteristicaController@u
 Route::post('/destroyCaracteristica', 'Api\CaracteristicaController@destroyCaracteristica');
 
 Route::get('/all-properties-for-propit','Api\DataGeneralController@allPropertiesForPropit');
+
+Route::get('getPropiedad','Api\DataGeneralController@getPropiedad');
