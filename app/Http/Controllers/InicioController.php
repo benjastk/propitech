@@ -16,6 +16,7 @@ use App\EstadoPago;
 use App\TipoPropiedad;
 use App\TipoComercial;
 use App\ParametroGeneral;
+use App\ReservaPropiedad;
 use App\PlanAdministracion;
 use App\CaracteristicaPlan;
 use App\CaracteristicaPlanAsignada;
@@ -133,16 +134,21 @@ class InicioController extends Controller
             {
                 $propiedadesEnVenta1->where('propiedades.idComuna', $request->comuna);
             }
+            
             //coordenada central
             if($request->region)
             {
-                $region = Region::where('id', $request->region)->first();
-                $coordenada = '['. $region->longitudRegion.', '. $region->latitudRegion.']';
+                $region1 = Region::where('id', $request->region)->first();
+                $coordenada = '['. $region1->longitudRegion.', '. $region1->latitudRegion.']';
             }
-            else if($request->comuna)
+            else
             {
-                $comuna = Comuna::where('id', $request->comuna)->first();
-                $coordenada = '['. $comuna->longitudComuna.', '. $comuna->latitudComuna.']';
+                $coordenada = '[-70.64827, -33.45694]';
+            }   
+            if($request->comuna)
+            {
+                $comuna1 = Comuna::where('id', $request->comuna)->first();
+                $coordenada = '['. $comuna1->longitudComuna.', '. $comuna1->latitudComuna.']';
             }
             else
             {
@@ -173,13 +179,17 @@ class InicioController extends Controller
             //coordenada central
             if($request->region)
             {
-                $region = Region::where('id', $request->region)->first();
-                $coordenada = '['. $region->longitudRegion.', '. $region->latitudRegion.']';
+                $region1 = Region::where('id', $request->region)->first();
+                $coordenada = '['. $region1->longitudRegion.', '. $region1->latitudRegion.']';
             }
-            else if($request->comuna)
+            else
             {
-                $comuna = Comuna::where('id', $request->comuna)->first();
-                $coordenada = '['. $comuna->longitudComuna.', '. $comuna->latitudComuna.']';
+                $coordenada = '[-70.64827, -33.45694]';
+            }  
+            if($request->comuna)
+            {
+                $comuna1 = Comuna::where('id', $request->comuna)->first();
+                $coordenada = '['. $comuna1->longitudComuna.', '. $comuna1->latitudComuna.']';
             }
             else
             {
@@ -208,18 +218,22 @@ class InicioController extends Controller
             //coordenada central
             if($request->region)
             {
-                $region = Region::where('id', $request->region)->first();
-                $coordenada = '['. $region->longitudRegion.', '. $region->latitudRegion.']';
-            }
-            else if($request->comuna)
-            {
-                $comuna = Comuna::where('id', $request->comuna)->first();
-                $coordenada = '['. $comuna->longitudComuna.', '. $comuna->latitudComuna.']';
+                $region1 = Region::where('id', $request->region)->first();
+                $coordenada = '['. $region1->longitudRegion.', '. $region1->latitudRegion.']';
             }
             else
             {
                 $coordenada = '[-70.64827, -33.45694]';
-            }   
+            }
+            if($request->comuna)
+            {
+                $comuna1 = Comuna::where('id', $request->comuna)->first();
+                $coordenada = '['. $comuna1->longitudComuna.', '. $comuna1->latitudComuna.']';
+            }
+            else
+            {
+                $coordenada = '[-70.64827, -33.45694]';
+            }
             $propiedadesEnArriendo = $propiedadesEnArriendo1->get();
             return view('front-end.mapa-catalogo-arriendo', compact('propiedadesEnArriendo','comunas', 'paises', 'regiones', 'provincias', 
                 'habitaciones', 'telefonoWhatsapp', 'coordenada'));
@@ -244,8 +258,32 @@ class InicioController extends Controller
         ->join('provincia', 'provincia.id', '=', 'propiedades.idProvincia')
         ->join('region', 'region.id', '=', 'propiedades.idRegion')
         ->where('propiedades.idEstado', 42)
-        ->where('propiedades.idTipoComercial', 2) //Arriendo
-        ->get();
+        ->where('propiedades.idTipoComercial', 2)
+        ->get(); //Arriendo
+
+        if($request->tipoPropiedad)
+        {
+            $propiedadesEnArriendo = Propiedad::select('propiedades.*', 'comuna.nombre as nombreComuna', 'provincia.nombre as nombreProvincia',
+            'region.nombre as nombreRegion')
+            ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
+            ->join('provincia', 'provincia.id', '=', 'propiedades.idProvincia')
+            ->join('region', 'region.id', '=', 'propiedades.idRegion')
+            ->where('propiedades.idEstado', 42)
+            ->where('propiedades.idTipoComercial', 2)
+            ->where('idTipoPropiedad', $request->tipoPropiedad)
+            ->get();
+        }
+        else
+        {
+            $propiedadesEnArriendo = Propiedad::select('propiedades.*', 'comuna.nombre as nombreComuna', 'provincia.nombre as nombreProvincia',
+            'region.nombre as nombreRegion')
+            ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
+            ->join('provincia', 'provincia.id', '=', 'propiedades.idProvincia')
+            ->join('region', 'region.id', '=', 'propiedades.idRegion')
+            ->where('propiedades.idEstado', 42)
+            ->where('propiedades.idTipoComercial', 2)
+            ->get();
+        }
         //coordenada central
         if($request->region)
         {
@@ -278,14 +316,29 @@ class InicioController extends Controller
         $paises = Pais::get();
         $regiones = Region::get();
         $provincias = Provincia::get();
-        $propiedadesEnVenta = Propiedad::select('propiedades.*', 'comuna.nombre as nombreComuna', 'provincia.nombre as nombreProvincia',
-        'region.nombre as nombreRegion')
-        ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
-        ->join('provincia', 'provincia.id', '=', 'propiedades.idProvincia')
-        ->join('region', 'region.id', '=', 'propiedades.idRegion')
-        ->where('propiedades.idEstado', 42)
-        ->where('propiedades.idTipoComercial', 1) //venta
-        ->get();
+        if($request->tipoPropiedad)
+        {
+            $propiedadesEnVenta = Propiedad::select('propiedades.*', 'comuna.nombre as nombreComuna', 'provincia.nombre as nombreProvincia',
+            'region.nombre as nombreRegion')
+            ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
+            ->join('provincia', 'provincia.id', '=', 'propiedades.idProvincia')
+            ->join('region', 'region.id', '=', 'propiedades.idRegion')
+            ->where('propiedades.idEstado', 42)
+            ->where('propiedades.idTipoComercial', 1)
+            ->where('idTipoPropiedad', $request->tipoPropiedad)
+            ->get(); //venta
+        }
+        else
+        {
+            $propiedadesEnVenta = Propiedad::select('propiedades.*', 'comuna.nombre as nombreComuna', 'provincia.nombre as nombreProvincia',
+            'region.nombre as nombreRegion')
+            ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
+            ->join('provincia', 'provincia.id', '=', 'propiedades.idProvincia')
+            ->join('region', 'region.id', '=', 'propiedades.idRegion')
+            ->where('propiedades.idEstado', 42)
+            ->where('propiedades.idTipoComercial', 1)
+            ->get(); //venta
+        }
         //coordenada central
         if($request->region)
         {
@@ -567,6 +620,76 @@ class InicioController extends Controller
             $rut = '';
             $estadoPago = '';
             return view('front-end.pago-online', compact('estadoPago', 'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'rut'));
+        }
+    }
+    public function pagoReservaOnline(Request $request)
+    {
+        if($request->rut)
+        {
+            $reserva = ReservaPropiedad::where('reservas_propiedades.rut', $request->rut)
+            ->where('eliminado', 0)
+            ->where('idEstado', 47)
+            ->first();
+            $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+            $correoHome = ParametroGeneral::where('parametroGeneral', 'CORREO HOME')->first();
+            $direccionHome = ParametroGeneral::where('parametroGeneral', 'DIRECCION HOME')->first();
+            $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
+            $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
+            $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
+            $rut = $request->rut;
+            return view('front-end.pago-online-reserva', compact('reserva', 'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'rut'));
+        }
+        else
+        {
+            $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+            $correoHome = ParametroGeneral::where('parametroGeneral', 'CORREO HOME')->first();
+            $direccionHome = ParametroGeneral::where('parametroGeneral', 'DIRECCION HOME')->first();
+            $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
+            $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
+            $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
+            $rut = '';
+            $reserva = '';
+        }
+        return view('front-end.pago-online-reserva', compact('reserva', 'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'rut'));
+    }
+    public function pagarReservaOnline(Request $request)
+    {
+        if($request->rut)
+        {
+            $reserva = ReservaPropiedad::where('reservas_propiedades.rut', $request->rut)
+            ->where('eliminado', 0)
+            ->where('idEstado', 47)
+            ->first();
+            $convenio = getenv("OTROS_PAGOS_COVENIO");
+            if($reserva)
+            {
+                $tipoRut = '01';
+                return redirect()->to('https://otrospagos.com/publico/portal/enlace?id='.$convenio.'&idcli='.$reserva->rut.'&tiidc='.$tipoRut.'');
+            }
+            else
+            {
+                $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+                $correoHome = ParametroGeneral::where('parametroGeneral', 'CORREO HOME')->first();
+                $direccionHome = ParametroGeneral::where('parametroGeneral', 'DIRECCION HOME')->first();
+                $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
+                $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
+                $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
+                $rut = '';
+                $reserva = '';
+                return view('front-end.pago-online-reserva', compact('reserva', 'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'rut'));
+            }
+        }
+        else
+        {
+            $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+            $correoHome = ParametroGeneral::where('parametroGeneral', 'CORREO HOME')->first();
+            $direccionHome = ParametroGeneral::where('parametroGeneral', 'DIRECCION HOME')->first();
+            $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
+            $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
+            $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
+            $rut = '';
+            $estadoPago = '';
+            return view('front-end.pago-online-reserva', compact('reserva', 'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'rut'));
         }
     }
 }
