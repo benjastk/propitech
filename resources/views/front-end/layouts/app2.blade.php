@@ -165,10 +165,10 @@
                                 <a class="dropdown-item" href="/catalogo-propiedades?tipoPropiedad=2">
                                     Departamentos en Arriendo
                                 </a>
-                                <!--<a class="dropdown-item" href="/catalogo-propiedades?tipoPropiedad=8">
+                                <a class="dropdown-item" href="/catalogo-propiedades?tipoPropiedad=8">
                                     Oficinas en Arriendo
                                 </a>
-                                <a class="dropdown-item" href="listing-with-left-sidebar.html">
+                                <!--<a class="dropdown-item" href="listing-with-left-sidebar.html">
                                     
                                 </a>
                                 <a class="dropdown-item" href="listing-with-right-sidebar.html">
