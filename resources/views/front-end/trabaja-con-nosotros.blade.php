@@ -77,7 +77,7 @@
                         <div class="city-widget mb-4">
                             <div class="">
                                 <div class="text-center pt-7 pb-6 px-0">
-                                    <img src="front/images/contact-widget.jpg" alt="Want to become an Estate Agent ?">
+                                    <img src="front/images/contact-widget.jpg" alt="">
                                         <div class="text-dark mb-6 mt-n2 font-weight-500">
                                             <p class="mb-0 fs-18">¿Quieres ser corredor Propitech?</p>
                                         </div>
@@ -177,7 +177,7 @@
                         <div class="city-widget mb-4">
                             <div class="">
                                 <div class="text-center pt-7 pb-6 px-0">
-                                    <img src="front/images/profile-img.png" alt="Want to become an Estate Agent ?">
+                                    <img src="front/images/profile-img.png" alt="">
                                         <div class="text-dark mb-6 mt-n2 font-weight-500">
                                             <br>
                                             <p class="mb-0 fs-18">¡Sé un captador de propiedad!</p>

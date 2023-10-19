@@ -1,0 +1,12 @@
+@font-face {
+    font-family: 'Felt That';
+    src: url('FeltThat.eot');
+    src: local('Felt That'), local('FeltThat'),
+        url('FeltThat.eot?#iefix') format('embedded-opentype'),
+        url('FeltThat.woff2') format('woff2'),
+        url('FeltThat.woff') format('woff'),
+        url('FeltThat.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
