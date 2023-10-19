@@ -8,6 +8,7 @@
 <meta name="generator" content="LaravelV7">
 @endsection
 @section('css')
+
 <style>
     .navbar-light .navbar-nav .nav-link {
         color: white !important;
@@ -74,7 +75,7 @@
                             <br>
                             <div class="card border-0 mxw-470 mr-md-0 my-lg-3" data-animate="fadeInDown">
                                 <div class="card-body pt-7 pb-6 px-7 shadow-lg-4">
-                                    <center><h2 class="card-title text-heading fs-30 text-center font-weight-600 lh-173 m-0">¡Contactanos!</h2></center>
+                                    <center><h2 class="card-title text-heading fs-30 text-center font-weight-600 lh-173 m-0">¡Contáctanos!</h2></center>
                                     <br>
                                     <p class="card-text text-center">Encuentra tu nuevo hogar a un precio increíble en el Cyber Inmobiliario.</p>
                                     <form action="{{ route('formulario-contacto-propiedades')}}" method="post" >
@@ -142,9 +143,9 @@
                             <br>
                             <div class="card border-0 mxw-470 mr-md-0 my-lg-3" data-animate="fadeInDown">
                                 <div class="card-body pt-7 pb-6 px-7 shadow-lg-4">
-                                    <center><h2 class="card-title text-heading fs-30 text-center font-weight-600 lh-173 m-0">¡Contactanos!</h2></center>
+                                    <center><h2 class="card-title text-heading fs-30 text-center font-weight-600 lh-173 m-0">¡Contáctanos!</h2></center>
                                     <br>
-                                    <p class="card-text text-center">¡Contactanos y obten hasta 40% de descuento por Cyber Inmobiliario!</p>
+                                    <p class="card-text text-center">¡Contáctanos y obten hasta 40% de descuento por Cyber Inmobiliario!</p>
                                     <form action="{{ route('formulario-contacto-propiedades')}}" method="post" >
                                     @csrf
                                         <div class="form-row">
@@ -303,9 +304,9 @@
                                 <!--<p class="fs-14 font-weight-500 letter-spacing-087 text-primary text-uppercase lh-15 mb-1">
                                     For Sale</p>-->
                                 @if($destacada->idTipoComercial == 2)
-                                <p class="fs-22 font-weight-bold text-heading">$ {{ number_format($destacada->valorArriendo, 0, ",", ".") }}</p>
+                                <p class="fs-22 font-weight-bold text-heading"s style="font-family: 'Gordita'; font-size: 30px ! important; color:grey !important;">$ {{ number_format($destacada->valorArriendo, 0, ",", ".") }}</p>
                                 @elseif($destacada->idTipoComercial == 1)
-                                <p class="fs-22 font-weight-bold text-heading">UF {{ number_format($destacada->precio, 0, ",", ".") }}</p>
+                                <p class="fs-22 font-weight-bold text-heading" style="font-family: 'Gordita'; font-size: 30px ! important; color:grey !important;">UF {{ number_format($destacada->precio, 0, ",", ".") }}</p>
                                 @else
                                 @endif
                                 <ul class="list-inline d-flex mb-0 flex-wrap border-top justify-content-between pt-4 mr-n2">
@@ -350,7 +351,7 @@
             @if(count($propiedadesEnVenta))
             @foreach($propiedadesEnVenta as $propiedad2)
             <div class="box">
-                <div class="card" data-animate="fadeInUp">
+                <div class="card cardPropiedades" data-animate="fadeInUp">
                     <div class="hover-change-image bg-hover-overlay rounded-lg card-img-top">
                         @if($propiedad2->valorCyber)
                         <div style="position: absolute; width: 100%">
@@ -380,7 +381,7 @@
                     </div>
                     @endif
                     <div class="card-header bg-transparent d-flex justify-content-between align-items-center py-3">
-                        <p class="fs-17 font-weight-bold text-heading mb-0 lh-1">UF {{ number_format($propiedad2->precio, 0, ",", ".") }}</p>
+                        <p class="fs-17 font-weight-bold text-heading mb-0 lh-1" style="font-family: 'Gordita'; font-size: 22px ! important; color:grey !important;" >UF {{ number_format($propiedad2->precio, 0, ",", ".") }}</p>
                         <span class="badge badge-primary">Venta</span>
                     </div>
                     <div class="card-body py-2">
@@ -450,7 +451,7 @@
             @if(count($propiedadesEnArriendo))
             @foreach($propiedadesEnArriendo as $propiedad1)
             <div class="box">
-                <div class="card" data-animate="fadeInUp">
+                <div class="card cardPropiedades" data-animate="fadeInUp">
                     <div class="hover-change-image bg-hover-overlay rounded-lg card-img-top">
                         @if($propiedad1->valorCyber)
                         <div style="position: absolute; width: 100%">
@@ -480,7 +481,7 @@
                     </div>
                     @endif
                     <div class="card-header bg-transparent d-flex justify-content-between align-items-center py-3">
-                    <p class="fs-17 font-weight-bold text-heading mb-0 lh-1">$ {{ number_format($propiedad1->valorArriendo, 0, ",", ".") }}</p>
+                    <p class="fs-17 font-weight-bold text-heading mb-0 lh-1" style="font-family: 'Gordita'; font-size: 22px ! important; color:grey !important;" >$ {{ number_format($propiedad1->valorArriendo, 0, ",", ".") }}</p>
                         <span class="badge badge-primary">Arriendo</span>
                     </div>
                     <div class="card-body py-2">
@@ -548,9 +549,9 @@
                 <a href="/catalogo-propiedades-venta">
                     <div class="media rounded-lg bg-white border border-hover shadow-xs-2 shadow-hover-lg-1 px-7 py-8 hover-change-image flex-column flex-sm-row h-100"
                             data-animate="fadeInUp">
-                        <img src="front/images/group-16.png" alt="Buy a new home" class="mb-6 mb-sm-0 mr-sm-6">
+                        <img src="front/images/group-16.png" class="mb-6 mb-sm-0 mr-sm-6">
                         <div class="media-body">
-                            <h4 class="fs-20 lh-1625 text-secondary mb-1">Comprar una propiedad</h4>
+                            <h4 class="fs-20 lh-1625 text-secondary mb-1" style="font-family: FeltThat,sans-serif; font-size: 38px !important">Comprar una propiedad</h4>
                             <div class="position-relative d-flex align-items-center ml-2">
                             <span class="image text-primary position-absolute pos-fixed-left-center fs-16"><i class="fal fa-long-arrow-right"></i></span>
                             <span class="text-primary fs-42 lh-1 hover-image d-flex align-items-center"><svg class="icon icon-long-arrow"><use xlink:href="#icon-long-arrow"></use></svg></span>
@@ -566,9 +567,9 @@
                 <a href="/catalogo-propiedades">
                 <div class="media rounded-lg bg-white border border-hover shadow-xs-2 shadow-hover-lg-1 px-7 py-8 hover-change-image flex-column flex-sm-row h-100"
                         data-animate="fadeInUp">
-                    <img src="front/images/group-17.png" alt="Sell a home" class="mb-6 mb-sm-0 mr-sm-6">
+                    <img src="front/images/group-17.png" class="mb-6 mb-sm-0 mr-sm-6">
                     <div class="media-body">
-                        <h4 class="fs-20 lh-1625 text-secondary mb-1">Arrendar una propiedad</h4>
+                        <h4 class="fs-20 lh-1625 text-secondary mb-1" style="font-family: FeltThat,sans-serif; font-size: 38px !important" >Arrendar una propiedad</h4>
                         <div class="position-relative d-flex align-items-center ml-2">
                         <span class="image text-primary position-absolute pos-fixed-left-center fs-16"><i class="fal fa-long-arrow-right"></i></span>
                         <span class="text-primary fs-42 lh-1 hover-image d-flex align-items-center"><svg class="icon icon-long-arrow"><use xlink:href="#icon-long-arrow"></use></svg></span>
@@ -654,10 +655,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6 col-sm-12 pb-7 pb-lg-0">
-                    <img src="front/images/customer-support.png" alt="Sell a home" class="mb-6 mb-sm-0 mr-sm-6">
+                    <img src="front/images/customer-support.png" class="mb-6 mb-sm-0 mr-sm-6">
                 </div>
                 <div class="col-md-6 col-sm-12 pb-7 pb-lg-0">
-                    <h2 class="text-heading mb-4 fs-22 lh-15 pr-6" style="color: white !important; font-weight: bolder; text-align: center">¿Necesitas asesoría? ¡Contactanos!</h2>
+                    <h2 class="text-heading mb-4 fs-22 lh-15 pr-6" style="color: white !important; font-weight: bolder; text-align: center">¿Necesitas asesoría? ¡Contáctanos!</h2>
                     <form action="{{ route('formulario-contacto-propiedades')}}" method="post" >
                         @csrf
                         <div class="row">

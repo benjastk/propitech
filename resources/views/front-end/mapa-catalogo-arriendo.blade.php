@@ -102,7 +102,7 @@
                 @if($propiedadesEnArriendo)
                 @foreach($propiedadesEnArriendo as $propiedadArriendo)
                 <div class="col-lg-4 col-sm-6 pb-6 px-lg-2" >
-                    <div class="card border-0 hover-change-image" style="border: 2px solid #2db5ff !important; border-radius: 6px; padding: 0px !important; height: 100%;">
+                    <div class="card border-0 hover-change-image cardPropiedades" style="border: 2px solid #2db5ff !important; border-radius: 6px; padding: 0px !important; height: 100%;">
                         <div class="bg-overlay-gradient-1 bg-hover-overlay-gradient-3 rounded-lg card-img">
                             @if($propiedadArriendo->valorCyber)
                             <div style="position: absolute; width: 100%">
@@ -120,7 +120,7 @@
                                 </svg>
                             </div>
                             @endif
-                            <img src="/img/propiedad/{{ $propiedadArriendo->fotoPrincipal }}" style="height: 160px; width: 100%;"alt="Villa on Hollywood Boulevard">
+                            <img src="/img/propiedad/{{ $propiedadArriendo->fotoPrincipal }}" style="height: 160px; width: 100%;"alt="">
                             <div class="card-img-overlay d-flex flex-column justify-content-between h-100">
                             <div>
                                 <span class="badge badge-orange mr-2">Arriendo</span>
@@ -129,21 +129,21 @@
                             </ul>
                             <ul class="list-inline d-flex mb-0 flex-wrap px-2 mr-n5">
                                 <li class="list-inline-item text-white font-weight-500 fs-13 d-flex align-items-center mr-5"
-                                                data-toggle="tooltip" title="{{ $propiedadArriendo->habitacion }} Bedroom">
+                                                data-toggle="tooltip" title="{{ $propiedadArriendo->habitacion }} Habitacion">
                                 <svg class="icon icon-bedroom fs-18 text-primary mr-1">
                                     <use xlink:href="#icon-bedroom"></use>
                                 </svg>
                                 {{ $propiedadArriendo->habitacion }} Habitaciones
                                 </li>
                                 <li class="list-inline-item text-white font-weight-500 fs-13 d-flex align-items-center mr-5"
-                                                data-toggle="tooltip" title="{{ $propiedadArriendo->bano }} Bathrooms">
+                                                data-toggle="tooltip" title="{{ $propiedadArriendo->bano }} Baños">
                                 <svg class="icon icon-shower fs-18 text-primary mr-1">
                                     <use xlink:href="#icon-shower"></use>
                                 </svg>
                                 {{ $propiedadArriendo->bano }} Baños
                                 </li>
                                 <li class="list-inline-item text-white font-weight-500 fs-13 d-flex align-items-center mr-5"
-                                                data-toggle="tooltip" title="Size">
+                                                data-toggle="tooltip" title="Tamaño">
                                 <svg class="icon icon-square fs-18 text-primary mr-1">
                                     <use xlink:href="#icon-square"></use>
                                 </svg>
@@ -161,7 +161,7 @@
                                 $ {{ number_format($propiedadArriendo->valorCyber, 0, ",", ".") }}
                             </p></del>
                             @endif
-                            <p class="fs-17 font-weight-bold text-heading mb-0">
+                            <p class="fs-17 font-weight-bold text-heading mb-0" style="font-family: 'Gordita'; font-size: 22px ! important; color:grey !important;">
                             $ {{ number_format($propiedadArriendo->valorArriendo, 0, ",", ".") }}
                             </p>
                         </div>
@@ -223,7 +223,7 @@
                             </div>
                         </div>
                         <div >
-                            <h5 style="margin-bottom: 0px !important; text-align: right; margin-top: 7px; color: #096ba0 !important; font-weight: bolder; font-family: 'Poppins', sans-serif;">$ {{ number_format($propiedadArriendo->valorArriendo, 0, ",", ".") }}</h5>
+                            <h5 style="margin-bottom: 0px !important; text-align: right; margin-top: 7px; color: #096ba0 !important; font-weight: bolder; font-family: 'Gordita', sans-serif;">$ {{ number_format($propiedadArriendo->valorArriendo, 0, ",", ".") }}</h5>
                         </div>
                     </div>
                 </div>`;
@@ -233,7 +233,8 @@
             });
             var myLatlng{{ $propiedadArriendo->id }} = new google.maps.LatLng( {{ $propiedadArriendo->latitud }}, {{ $propiedadArriendo->longitud }});
             var marker{{ $propiedadArriendo->id }} = new google.maps.Marker({
-                position: myLatlng{{ $propiedadArriendo->id }}
+                position: myLatlng{{ $propiedadArriendo->id }},
+                icon: {url:'/front/marker.png', scaledSize: new google.maps.Size(50, 70)}
             });
             marker{{ $propiedadArriendo->id }}.addListener("click", () => {
                 infowindow{{ $propiedadArriendo->id }}.open({

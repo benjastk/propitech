@@ -92,6 +92,21 @@
                 fill: white;
                 font-size:14px;
             }
+            .cardPropiedades:hover {
+                box-shadow: 0 0 20px rgba(33,33,33,.5); 
+            }
+        </style>
+        <style>
+            @font-face {
+                font-family: 'Gordita';
+                src: url('{{ asset("/front/fonts/gordita/Gordita-Medium.ttf") }}');
+            }
+        </style>
+        <style>
+            @font-face {
+                font-family: 'FeltThat';
+                src: url('{{ asset("/front/fonts/FeltThat.ttf") }}');
+            }
         </style>
         @yield('css')
     </head>
