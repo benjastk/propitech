@@ -188,7 +188,7 @@
         </div>
         <hr class="mb-11" id="formularioPlanes">
         <h2 class="text-heading mb-2 fs-22 fs-md-32 text-center lh-16 mxw-571 px-lg-8">
-        ¿Estás interesado en alguno de nuestros servicios? ¡Contactanos!
+        ¿Estás interesado en alguno de nuestros servicios? ¡Contáctanos!
         </h2>
         <!--<p class="text-center mxw-670 mb-8">
             Lorem ipsum dolor sit amet, consec tetur cing elit. Suspe ndisse suscorem ipsum dolor sit ametcipsum

@@ -37,9 +37,9 @@
                         @endif
                         <br>
                         @if($propiedad->idTipoComercial == 2)
-                            <h3 class="fs-17 font-weight-bold text-heading mb-0">$ {{ number_format($propiedad->valorArriendo, 0, ",", ".") }}</h3>
+                            <h3 class="fs-17 font-weight-bold text-heading mb-0" style="font-family: 'Gordita'; font-size: 22px ! important; color:grey !important;" >$ {{ number_format($propiedad->valorArriendo, 0, ",", ".") }}</h3>
                         @else
-                            <h3 class="fs-17 font-weight-bold text-heading mb-0">UF {{ number_format($propiedad->precio, 0, ",", ".") }}</h3>
+                            <h3 class="fs-17 font-weight-bold text-heading mb-0" style="font-family: 'Gordita'; font-size: 22px ! important; color:grey !important;" >UF {{ number_format($propiedad->precio, 0, ",", ".") }}</h3>
                         @endif
                     </article>
                 </div>
@@ -80,14 +80,14 @@
                     <div class="slick-slider slider-nav-01 mt-4 mx-n1 arrow-haft-inner" data-slick-options='{"slidesToShow": 4, "infinite":true, "autoplay":false,"dots":false,"arrows":true,"asNavFor": ".slider-for-01","focusOnSelect": true,"responsive":[{"breakpoint": 768,"settings": {"slidesToShow": 4}},{"breakpoint": 576,"settings": {"slidesToShow": 2}}]}'>
                         <div class="box pb-6 px-0">
                             <div class="bg-hover-white p-1 shadow-hover-xs-3 h-100 rounded-lg">
-                                <img src="/img/propiedad/{{ $propiedad->fotoPrincipal }}" alt="Gallery 01" class="h-100 w-100 rounded-lg">
+                                <img src="/img/propiedad/{{ $propiedad->fotoPrincipal }}" alt="" class="h-100 w-100 rounded-lg">
                             </div>
                         </div>
                         @if($propiedad->fotos)
                         @foreach($propiedad->fotos as $foto)
                             <div class="box pb-6 px-0">
                                 <div class="bg-hover-white p-1 shadow-hover-xs-3 h-100 rounded-lg">
-                                    <img src="/img/propiedad/{{ $foto->nombreArchivo }}" alt="Gallery 01" class="h-100 w-100 rounded-lg">
+                                    <img src="/img/propiedad/{{ $foto->nombreArchivo }}" alt="" class="h-100 w-100 rounded-lg">
                                 </div>
                             </div>
                         @endforeach
@@ -96,11 +96,11 @@
                 </div>
             </section>
             <section class="pb-8 px-6 pt-5 bg-white rounded-lg">
-                <h4 class="fs-22 text-heading mb-3">Descripcion</h4>
+                <h4 class="fs-22 text-heading mb-3" style="font-family: FeltThat,sans-serif !important; font-size: 38px !important; color: #2db5ff !important;" >Descripción</h4>
                 <p class="mb-0 lh-214">{!! $propiedad->descripcion !!}</p>
             </section>
             <section class="mt-2 pb-3 px-6 pt-5 bg-white rounded-lg">
-                <h4 class="fs-22 text-heading mb-6">Características de la propiedad</h4>
+                <h4 class="fs-22 text-heading mb-6" style="font-family: FeltThat,sans-serif !important; font-size: 38px !important; color: #2db5ff !important;">Características de la propiedad</h4>
                 <div class="row">
                 <div class="col-lg-3 col-sm-4 mb-6">
                     <div class="media">
@@ -207,7 +207,7 @@
                 </div>
             </section>
             <section class="mt-2 pb-6 px-6 pt-5 bg-white rounded-lg">
-                <h4 class="fs-22 text-heading mb-4">Detalles de la propiedad</h4>
+                <h4 class="fs-22 text-heading mb-4" style="font-family: FeltThat,sans-serif !important; font-size: 38px !important; color: #2db5ff !important;">Detalles de la propiedad</h4>
                 <div class="row">
                     <dl class="col-sm-6 mb-0 d-flex">
                         <dt class="w-110px fs-14 font-weight-500 text-heading pr-2">ID</dt>
@@ -262,7 +262,7 @@
                 </div>
             </section>
             <section class="mt-2 pb-7 px-6 pt-5 bg-white rounded-lg">
-                <h4 class="fs-22 text-heading mb-4">Amenidades</h4>
+                <h4 class="fs-22 text-heading mb-4" style="font-family: FeltThat,sans-serif !important; font-size: 38px !important; color: #2db5ff !important;" >Amenidades</h4>
                 <ul class="list-unstyled mb-0 row no-gutters">
                     @if($amenidades)
                     @foreach($amenidades as $amenidad)
@@ -274,7 +274,7 @@
             <section class="mt-2 pb-7 px-6 pt-6 bg-white rounded-lg">
                 <div class="card border-0">
                 <div class="card-body p-0">
-                    <h3 class="fs-16 lh-2 text-heading mb-4">Escribenos por esta propiedad</h3>
+                    <h4 class="fs-22 text-heading mb-4" style="font-family: FeltThat,sans-serif !important; font-size: 38px !important; color: #2db5ff !important;" >Contáctanos</h4>
                     <form action="{{ route('formulario-contacto-propiedades')}}" method="post">
                     @csrf
                     <div class="row">
@@ -300,7 +300,7 @@
                 </div>
             </section>
             <section class="mt-2 pb-6 px-6 pt-6 bg-white rounded-lg" >
-                <h4 class="fs-22 text-heading mb-6">Ubicación</h4>
+                <h4 class="fs-22 text-heading mb-6" style="font-family: FeltThat,sans-serif !important; font-size: 38px !important; color: #2db5ff !important;" >Ubicación</h4>
                 <div class="position-relative">
                 <div class="position-relative">
                     <div id="map" style="height: 300px; !important">
@@ -309,7 +309,7 @@
                 </div>
             </section>
             <section class="mt-2 pb-7 px-6 pt-6 bg-white rounded-lg">
-                <h4 class="fs-22 text-heading mb-6">Propiedades similares</h4>
+                <h4 class="fs-22 text-heading mb-6" style="font-family: FeltThat,sans-serif !important; font-size: 38px !important; color: #2db5ff !important;" >Propiedades similares</h4>
                 <div class="slick-slider" data-slick-options='{"slidesToShow": 2, "autoplay":true, "infinite":true, "dots":false,"responsive":[{"breakpoint": 1200,"settings": {"slidesToShow":2,"arrows":false}},{"breakpoint": 992,"settings": {"slidesToShow":2}},{"breakpoint": 768,"settings": {"slidesToShow": 1}},{"breakpoint": 576,"settings": {"slidesToShow": 1}}]}'>
                     @if($propiedadesDestacadas1)
                     @foreach($propiedadesDestacadas1 as $similar)
@@ -332,7 +332,7 @@
                             </svg>
                         </div>
                         @endif
-                            <img src="/img/propiedad/{{ $similar->fotoPrincipal }}" alt="Home in Metric Way" style="height: 200px;width: 100% !important;">
+                            <img src="/img/propiedad/{{ $similar->fotoPrincipal }}" alt="" style="height: 200px;width: 100% !important;">
                             <div class="card-img-overlay p-2 d-flex flex-column">
                                 <div>
                                     @if($similar->idTipoComercial == 2)
@@ -351,13 +351,13 @@
                             @endif
                             <p class="card-text font-weight-500 text-gray-light mb-2">{{ $similar->direccion }} {{ $similar->numero }}, {{ $similar->nombreComuna }}</p>
                             <ul class="list-inline d-flex mb-0 flex-wrap mr-n4">
-                                <li class="list-inline-item text-gray font-weight-500 fs-13 d-flex align-items-center mr-4" data-toggle="tooltip" title="3 Bedroom">
+                                <li class="list-inline-item text-gray font-weight-500 fs-13 d-flex align-items-center mr-4" data-toggle="tooltip" title="{{ $similar->habitacion }} Habitacion">
                                     <svg class="icon icon-bedroom fs-18 text-primary mr-1"><use xlink:href="#icon-bedroom"></use></svg>{{ $similar->habitacion }}
                                 </li>
-                                <li class="list-inline-item text-gray font-weight-500 fs-13 d-flex align-items-center mr-4" data-toggle="tooltip" title="3 Bathrooms">
+                                <li class="list-inline-item text-gray font-weight-500 fs-13 d-flex align-items-center mr-4" data-toggle="tooltip" title=" {{ $similar->bano }} Baños">
                                     <svg class="icon icon-shower fs-18 text-primary mr-1"><use xlink:href="#icon-shower"></use></svg>{{ $similar->bano }}
                                 </li>
-                                <li class="list-inline-item text-gray font-weight-500 fs-13 d-flex align-items-center mr-4" data-toggle="tooltip" title="Size">
+                                <li class="list-inline-item text-gray font-weight-500 fs-13 d-flex align-items-center mr-4" data-toggle="tooltip" title="Tamaño">
                                     <svg class="icon icon-square fs-18 text-primary mr-1"><use xlink:href="#icon-square"></use></svg>{{ $similar->mTotal }}
                                 </li>
                                 <!--<li class="list-inline-item text-gray font-weight-500 fs-13 d-flex align-items-center mr-4" data-toggle="tooltip" title="1 Garage">
@@ -378,9 +378,9 @@
                         @endif
                         <div class="card-footer bg-transparent d-flex justify-content-between align-items-center py-3">
                             @if($similar->idTipoComercial == 2)
-                                <p class="fs-17 font-weight-bold text-heading mb-0">$ {{ number_format($similar->valorArriendo, 0, ",", ".") }}</p>
+                                <p class="fs-17 font-weight-bold text-heading mb-0" style="font-family: 'Gordita'; font-size: 22px ! important; color:grey !important;" >$ {{ number_format($similar->valorArriendo, 0, ",", ".") }}</p>
                             @else
-                                <p class="fs-17 font-weight-bold text-heading mb-0">UF {{ number_format($similar->precio, 0, ",", ".") }}</p>
+                                <p class="fs-17 font-weight-bold text-heading mb-0" style="font-family: 'Gordita'; font-size: 22px ! important; color:grey !important;" >UF {{ number_format($similar->precio, 0, ",", ".") }}</p>
                             @endif
                             <ul class="list-inline mb-0">
                             <li class="list-inline-item">
@@ -436,9 +436,9 @@
                         @endif
                     @endif
                     @if($propiedad->idTipoComercial == 2)
-                        <p class="fs-22 text-heading font-weight-bold mb-0 mr-6">$ {{ number_format($propiedad->valorArriendo, 0, ",", ".") }}</p>
+                        <p class="fs-22 text-heading font-weight-bold mb-0 mr-6" style="font-family: 'Gordita'; font-size: 22px ! important; color:grey !important;">$ {{ number_format($propiedad->valorArriendo, 0, ",", ".") }}</p>
                     @else
-                        <p class="fs-22 text-heading font-weight-bold mb-0 mr-6">UF {{ number_format($propiedad->precio, 0, ",", ".") }}</p>
+                        <p class="fs-22 text-heading font-weight-bold mb-0 mr-6" style="font-family: 'Gordita'; font-size: 22px ! important; color:grey !important;" >UF {{ number_format($propiedad->precio, 0, ",", ".") }}</p>
                     @endif
                 </div>
                 <div class="row mt-5">
@@ -533,7 +533,7 @@
         <div class="d-flex bottom-bar-action bottom-bar-action-01 py-2 px-4 bg-gray-01 align-items-center position-fixed fixed-bottom d-sm-none">
             @if($propiedad->idUsuarioExpertoVendedor)
                 <div class="media align-items-center">
-                        <img src="/front/images/my-profile.png" alt="Irene Wallace" class="mr-4 rounded-circle">
+                        <img src="/front/images/my-profile.png" alt="" class="mr-4 rounded-circle">
                     <div class="media-body">
                         <a href="#" class="d-block text-dark fs-15 font-weight-500 lh-15">{{ $propiedad->name }} {{ $propiedad->apellido }}</a>
                         <span class="fs-13 lh-2">Agente Inmobiliario</span>
@@ -545,7 +545,7 @@
                 </div>
             @else
                 <div class="media align-items-center">
-                        <img src="/front/images/my-profile.png" alt="Irene Wallace" class="mr-4 rounded-circle">
+                        <img src="/front/images/my-profile.png" alt="" class="mr-4 rounded-circle">
                     <div class="media-body">
                         <a href="#" class="d-block text-dark fs-15 font-weight-500 lh-15">Ejecutivo virtual</a>
                         <span class="fs-13 lh-2">Agente Inmobiliario</span>
@@ -580,7 +580,7 @@
                             <input type="email" name="email" class="form-control form-control-lg border-0" placeholder="Tu correo electronico">
                         </div>
                         <div class="form-group mb-2">
-                            <textarea class="form-control border-0" name="mensaje" rows="4">Hola, estoy interesado en la propiedad {{ $propiedad->direccion }} {{ $propiedad->numero }}, {{ $propiedad->nombreComuna }} - ID:{{ $propiedad->id }}</textarea>
+                            <textarea class="form-control border-0" name="mensaje" rows="2">Hola, estoy interesado en la propiedad {{ $propiedad->direccion }} {{ $propiedad->numero }}, {{ $propiedad->nombreComuna }} - ID:{{ $propiedad->id }}</textarea>
                         </div>
                         <div class="form-group form-check mb-4">
                             <input type="checkbox" class="form-check-input" id="exampleCheck3">
@@ -626,7 +626,8 @@
         });
         var myLatlng = new google.maps.LatLng(lat, lng);
         var marker = new google.maps.Marker({
-            position: myLatlng
+            position: myLatlng,
+            icon: {url:'/front/marker.png', scaledSize: new google.maps.Size(50, 70)}
         });
         marker.setMap(map);
     }
