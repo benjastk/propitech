@@ -55,8 +55,8 @@ class EnvioPagoArriendo implements ShouldQueue
             ->join('users', 'contratos_arriendos.idUsuarioArrendatario', '=', 'users.id')
             ->join('paises', 'paises.idPais', '=', 'users.idPais')
             ->join('tipos_monedas', 'contratos_arriendos.idMoneda', '=', 'tipos_monedas.idMoneda')
-            ->join('pagos', 'pagos.idEstadoPago', '=', 'estados_pagos.idEstadoPago')
-            ->join('metodos_pagos', 'metodos_pagos.idMetodosPagos', '=', 'pagos.idMetodoPago')
+            ->join('pagos', 'pagos.tokenEstadoPago', '=', 'estados_pagos.token')
+            ->leftjoin('metodos_pagos', 'metodos_pagos.idMetodosPagos', '=', 'pagos.idMetodoPago')
             ->where('pagos.idPago', '=', $this->idPago)->first();
             //return dd($this->estadosDePago);
             $pdf = \PDF::loadView('emails.comprobantePagoArrendatario', [ 'estadosDePago' => $estadosDePago, 'cargos' => $this->cargos, 

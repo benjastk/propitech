@@ -74,6 +74,7 @@ class ReservaPropiedadController extends Controller
             $nuevaReserva->identificadorUnico = uniqid();
             $nuevaReserva->creadoPor = Auth::user()->name. ' '. Auth::user()->apellido;
             $nuevaReserva->eliminado = 0;
+            $nuevaReserva->token = uniqid();
             $nuevaReserva->save();
 
             $logTransaccion = new LogTransaccion();

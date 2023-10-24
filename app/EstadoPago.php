@@ -10,6 +10,7 @@ class EstadoPago extends Model
     protected $primaryKey = 'idEstadoPago';
     protected $fillable = [
         'idContrato',
+        'token',
         'fechaVencimiento',
         'arriendoMensual',
         'numeroCuota',
