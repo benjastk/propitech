@@ -21,7 +21,7 @@ class PagoController extends Controller
         $rutUsuario = $rutSinDigito.'-'.$digitoVerificador;
 
         $reserva = ReservaPropiedad::where('rut', $rutUsuario)
-        ->where('idEstado', 50) // cambiar
+        ->where('idEstado', 47) // cambiar
         ->first();
         $pagoReserva = false;
         $pagoMes = false;
