@@ -300,7 +300,7 @@ class PagoController extends Controller
                                 'r_cau' => $request->p_doc], 200);
                 }
             }
-            $estadoDePago = EstadoPago::where('token', '=', $request->p_doc)
+            return $estadoDePago = EstadoPago::where('token', '=', $request->p_doc)
             ->where('idEstado', 47)
             ->first();
             if($pagoReserva == false)
