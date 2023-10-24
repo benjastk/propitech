@@ -32,3 +32,7 @@ Route::post('/destroyCaracteristica', 'Api\CaracteristicaController@destroyCarac
 Route::get('/all-properties-for-propit','Api\DataGeneralController@allPropertiesForPropit');
 
 Route::get('getPropiedad','Api\DataGeneralController@getPropiedad');
+
+Route::post('/otrospagos/condeu', 'PagoController@condeures');
+Route::post('/otrospagos/notpag', 'PagoController@notpagres');
+Route::post('/otrospagos/revpag', 'PagoController@revpag');

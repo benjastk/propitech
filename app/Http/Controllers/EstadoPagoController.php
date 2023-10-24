@@ -793,4 +793,35 @@ class EstadoPagoController extends Controller
             return back();
         }
     }
+    public function tokenizarEstadosPagos(Request $request)
+    {
+        try{
+            $estadosPagos = EstadoPago::where('token', null)->get();
+            if($estadosPagos)
+            {
+                foreach ($estadosPagos as $estadoPago) 
+                {
+                    $estadoPago->token = uniqid();
+                    $estadoPago->save();
+                }
+            }
+            return "ok";
+        } catch (ModelNotFoundException $e) {
+            toastr()->error('Usuario no encontrado');
+            DB::rollback();
+            return back();
+        } catch (QueryException $e) {
+            toastr()->warning('Ha ocurrido un error, favor intente nuevamente' . $e->getMessage());
+            DB::rollback();
+            return back();
+        } catch (DecryptException $e) {
+            toastr()->info('Ocurrio un error al intentar acceder al recurso solicitado');
+            DB::rollback();
+            return back();
+        } catch (\Exception $e) {
+            toastr()->warning($e->getMessage());
+            DB::rollback();
+            return back();
+        }
+    }
 }

@@ -11,6 +11,7 @@ class ReservaPropiedad extends Model
     protected $fillable = [
         'idPropiedad',
         'idEstado',
+        'token',
         'numeroTransaccion',
         'fechaDePago',
         'nombre',
