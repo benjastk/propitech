@@ -103,7 +103,7 @@ class PagoController extends Controller
             ->orderBy('estados_pagos.fechaVencimiento', 'ASC')
             ->first();
     
-            if($estadoDePago->token != null)
+            if($estadoDePago)
             {
                 $convenio = getenv("OTROS_PAGOS_COVENIO");
                 $key = $request->p_fectr.$request->p_tid.$convenio;
@@ -305,7 +305,7 @@ class PagoController extends Controller
             ->first();
             if($pagoReserva == false)
             {
-                if($estadoDePago->token != null)
+                if($estadoDePago && $request->p_doc)
                 {
                     $convenio = getenv("OTROS_PAGOS_COVENIO");
                     $key = $request->p_fectr.$request->p_tid.$convenio;
@@ -337,7 +337,7 @@ class PagoController extends Controller
                     if($firmaOk == true)
                     {
                         $estadoDePago = EstadoPago::where('token', '=', $request->p_doc)->first();
-                        if($estadoDePago->token != null)
+                        if($estadoDePago && $request->p_doc)
                         {
                             if($estadoDePago->saldo > 0)
                             {
