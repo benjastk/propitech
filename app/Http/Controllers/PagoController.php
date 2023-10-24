@@ -103,7 +103,7 @@ class PagoController extends Controller
             ->orderBy('estados_pagos.fechaVencimiento', 'ASC')
             ->first();
     
-            if($estadoDePago)
+            if($estadoDePago->token != null)
             {
                 $convenio = getenv("OTROS_PAGOS_COVENIO");
                 $key = $request->p_fectr.$request->p_tid.$convenio;
@@ -300,21 +300,21 @@ class PagoController extends Controller
                                 'r_cau' => $request->p_doc], 200);
                 }
             }
-            return $estadoDePago = EstadoPago::where('token', '=', $request->p_doc)
+            $estadoDePago = EstadoPago::where('token', '=', $request->p_doc)
             ->where('idEstado', 47)
             ->first();
             if($pagoReserva == false)
             {
-                if($estadoDePago)
+                if($estadoDePago->token != null)
                 {
                     $convenio = getenv("OTROS_PAGOS_COVENIO");
                     $key = $request->p_fectr.$request->p_tid.$convenio;
                     $llave = str_pad($key, 16);
-                    //$encriptacion = openssl_encrypt($llave, "AES-256-CBC", getenv("OTROS_PAGOS_KEY"), 1, getenv("OTROS_PAGOS_IV"));
-                    //$h_firma = base64_encode($encriptacion);
+                    $encriptacion = openssl_encrypt($llave, "AES-256-CBC", getenv("OTROS_PAGOS_KEY"), 1, getenv("OTROS_PAGOS_IV"));
+                    $h_firma = base64_encode($encriptacion);
                     //cambiar a false
-                    $firmaOk = true;
-                    /*$headers = apache_request_headers();
+                    $firmaOk = false;
+                    $headers = apache_request_headers();
                     foreach ($headers as $header => $value) 
                     {
                         if($header == "H-Firma")
@@ -333,11 +333,11 @@ class PagoController extends Controller
                                 $firmaOk = true;
                             }
                         }
-                    }*/
+                    }
                     if($firmaOk == true)
                     {
                         $estadoDePago = EstadoPago::where('token', '=', $request->p_doc)->first();
-                        if($estadoDePago)
+                        if($estadoDePago->token != null)
                         {
                             if($estadoDePago->saldo > 0)
                             {
