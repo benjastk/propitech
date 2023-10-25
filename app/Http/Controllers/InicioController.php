@@ -594,7 +594,7 @@ class InicioController extends Controller
                 {
                     $tipoRut = '01';
                 }
-                return redirect()->to('https://otrospagos.com/publico/portal/enlace?id='.$convenio.'&idcli='.$estadoPago->rut.'&tiidc='.$tipoRut.'');
+                return redirect()->to('https://pre.otrospagos.com/publico/portal/enlace?id='.$convenio.'&idcli='.$estadoPago->rut.'&tiidc='.$tipoRut.'');
             }
             else
             {
