@@ -62,7 +62,8 @@ class EnvioPagoArriendo implements ShouldQueue
             $pdf = \PDF::loadView('emails.comprobantePagoArrendatario', [ 'estadosDePago' => $estadosDePago, 'cargos' => $this->cargos, 
             'descuentos' => $this->descuentos, 'totalDescuento' => $this->totalDescuento, 'totalCargo' => $this->totalCargo]);
 
-            Mail::to($estadosDePago->email)
+            //Mail::to($estadosDePago->email)
+            Mail::to(['beenjaahp@hotmail.com', 'beenjaahp@gmail.com'])
             ->send(new ComprobantePagoArriendo($estadosDePago, $pdf));
         }
         catch(\Exception $e)
