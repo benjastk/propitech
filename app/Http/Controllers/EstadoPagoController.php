@@ -768,7 +768,7 @@ class EstadoPagoController extends Controller
                     $tipoRut = '01';
                 }
                 //return $rutSinGuion;
-                return redirect()->to('https://otrospagos.com/publico/portal/enlace?id='.$convenio.'&idcli='.$rutSinGuion.'&tiidc='.$tipoRut.'');
+                return redirect()->to('https://pre.otrospagos.com/publico/portal/enlace?id='.$convenio.'&idcli='.$rutSinGuion.'&tiidc='.$tipoRut.'');
             }
             else
             {
