@@ -373,7 +373,7 @@ class EstadoPagoController extends Controller
         $pagos = Pago::select('pagos.*', 'metodos_pagos.nombreMetodoPago', 'documentos_pagos.idTipoDocumento', 'documentos_pagos.rutaDocumento')
         ->join('metodos_pagos', 'metodos_pagos.idMetodosPagos', '=', 'pagos.idMetodoPago')
         ->leftjoin('documentos_pagos', 'documentos_pagos.idPago', '=', 'pagos.idPago')
-        ->where('pagos.idEstadoPago', $id)
+        ->where('pagos.tokenEstadoPago', $estadoPago->token)
         ->get();
         $metodosPagos = MetodoPago::get();
         return view ('back-office.estadoPago.pagos', compact('user', 'estadoPago', 'pagos', 'metodosPagos'));
