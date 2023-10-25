@@ -453,7 +453,7 @@ class EstadoPagoController extends Controller
                     ->join('propiedades', 'contratos_arriendos.idPropiedad', '=', 'propiedades.id')
                     ->join('users', 'contratos_arriendos.idUsuarioArrendatario', '=', 'users.id')
                     ->join('tipos_monedas', 'contratos_arriendos.idMoneda', '=', 'tipos_monedas.idMoneda')
-                    ->join('pagos', 'pagos.idEstadoPago', '=', 'estados_pagos.idEstadoPago')
+                    ->join('pagos', 'pagos.tokenEstadoPago', '=', 'estados_pagos.token')
                     ->join('metodos_pagos', 'metodos_pagos.idMetodosPagos', '=', 'pagos.idMetodoPago')
                     ->where('pagos.idPago', '=', $nuevoPago->idPago)->first();
 
@@ -604,7 +604,7 @@ class EstadoPagoController extends Controller
                     ->join('propiedades', 'contratos_arriendos.idPropiedad', '=', 'propiedades.id')
                     ->join('users', 'contratos_arriendos.idUsuarioArrendatario', '=', 'users.id')
                     ->join('tipos_monedas', 'contratos_arriendos.idMoneda', '=', 'tipos_monedas.idMoneda')
-                    ->join('pagos', 'pagos.idEstadoPago', '=', 'estados_pagos.idEstadoPago')
+                    ->join('pagos', 'pagos.tokenEstadoPago', '=', 'estados_pagos.token')
                     ->join('metodos_pagos', 'metodos_pagos.idMetodosPagos', '=', 'pagos.idMetodoPago')
                     ->where('pagos.idPago', '=', $nuevoPago->idPago)->first();
 
