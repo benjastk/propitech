@@ -243,6 +243,7 @@ class PagoController extends Controller
                             $nuevoPago->comentarios = "Pago de reserva realizado desde OtrosPagos.com";
                             $nuevoPago->metodoPagoOtrosPagos = $request->p_idmp;
                             $nuevoPago->tipoPago = $request->p_mpti;
+                            $nuevoPago->idMetodoPago = 6;
                             $nuevoPago->tokenPago = uniqid();
                             $nuevoPago->creadoPor = "Otros Pagos";
                             $nuevoPago->save();
@@ -377,6 +378,7 @@ class PagoController extends Controller
                             $nuevoPago->comentarios = "Pago de arriendo realizado desde OtrosPagos.com";
                             $nuevoPago->metodoPagoOtrosPagos = $request->p_idmp;
                             $nuevoPago->tipoPago = $request->p_mpti;
+                            $nuevoPago->idMetodoPago = 6;
                             $nuevoPago->tokenPago = uniqid();
                             $nuevoPago->creadoPor = "Otros Pagos";
                             $nuevoPago->save();
