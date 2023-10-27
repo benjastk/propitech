@@ -12,6 +12,7 @@ use App\Cargo;
 use App\Descuento;
 use App\Jobs\EnvioPagoArriendo;
 use App\ParametroGeneral;
+use Log;
 class PagoController extends Controller
 {
     public function condeures(Request $request)
@@ -190,6 +191,7 @@ class PagoController extends Controller
         $idTransaccion = (int)$request->p_tid;
         if($idTransaccion)
         {
+            Log::info('Info', array('client' => $request));
             $reserva = ReservaPropiedad::where('token', $request->p_doc)
             ->where('idEstado', 47)
             ->first();
@@ -240,6 +242,7 @@ class PagoController extends Controller
                             $nuevoPago->tokenReserva = $reserva->token;
                             $nuevoPago->montoPago = substr($request->p_mnt, 0, -2);
                             $nuevoPago->numeroTransaccion = $request->p_tid;
+                            $nuevoPago->secuenciaTransaccion = $request->p_sectr;
                             $nuevoPago->comentarios = "Pago de reserva realizado desde OtrosPagos.com";
                             $nuevoPago->metodoPagoOtrosPagos = $request->p_idmp;
                             $nuevoPago->tipoPago = $request->p_mpti;
@@ -375,6 +378,7 @@ class PagoController extends Controller
                             $nuevoPago->tokenEstadoPago = $estadoDePago->token;
                             $nuevoPago->montoPago = substr($request->p_mnt, 0, -2);
                             $nuevoPago->numeroTransaccion = $request->p_tid;
+                            $nuevoPago->secuenciaTransaccion = $request->p_sectr;
                             $nuevoPago->comentarios = "Pago de arriendo realizado desde OtrosPagos.com";
                             $nuevoPago->metodoPagoOtrosPagos = $request->p_idmp;
                             $nuevoPago->tipoPago = $request->p_mpti;
@@ -556,6 +560,26 @@ class PagoController extends Controller
             $nuevoLogTransaccion->save();
             return response()->json(['r_tid' => $idTransaccion,
                                     'r_retcod' => "13"], 200);
+        }
+    }
+    public function pagoArriendoExitoso(Request $request)
+    {
+        $estadosDePago = EstadoPago::select('estados_pagos.*', 'pagos.montoPago', 'pagos.numeroTransaccion', 'pagos.tokenPago', 'pagos.secuenciaTransaccion')
+        ->join('pagos', 'pagos.tokenEstadoPago', '=', 'estados_pagos.token')
+        ->where('estados_pagos.token', '=', $request->tokenEstadoPago)
+        ->first();
+        if($estadosDePago)
+        {
+            if($estadosDePago->saldo == 0)
+            {
+                return response()->json(['estado' => 1,
+                                    'pago' => $estadosDePago], 200);
+            }
+        }
+        else
+        {
+            return response()->json(['estado' => 0,
+            'pago' => ''], 200);
         }
     }
 }

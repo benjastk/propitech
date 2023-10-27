@@ -36,7 +36,7 @@
                                         <tr>
                                             <th scope="row">{{ strftime("%d de %B de %Y", strtotime($reserva->fechaDePago)) }}</th>
                                             <td>{{ $reserva->rut }}</td>
-                                            <td>{{ $reserva->identificadorUnico }}</td>
+                                            <td>{{ $reserva->token }}</td>
                                             <th scope="row">${{ number_format($reserva->valorReserva, 0, '', '.')}}</th>
                                         </tr>               
                                     </tbody>

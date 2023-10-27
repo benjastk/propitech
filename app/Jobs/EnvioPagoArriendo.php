@@ -48,7 +48,8 @@ class EnvioPagoArriendo implements ShouldQueue
              'contratos_arriendos.direccionPropiedad', 'contratos_arriendos.nombreComunaPropiedad', 'contratos_arriendos.nombreRegionPropiedad', 
              'metodos_pagos.nombreMetodoPago', 'propiedades.direccion', 'propiedades.numero', 'tipos_monedas.nombreMoneda', 
              'contratos_arriendos.idTiempoPagoGarantia', 'pagos.montoPago', 'pagos.idPago', 'pagos.created_at as fechaPagado', 
-             'users.numero as numeroTelefonoUsuario', 'paises.codigoPais', 'pagos.tokenPago', 'pagos.idMetodoPago')
+             'users.numero as numeroTelefonoUsuario', 'paises.codigoPais', 'pagos.tokenPago', 'pagos.idMetodoPago', 'users.name', 'users.apellido',
+             'comuna.nombre as nombreComuna', 'region.nombre as nombreRegion')
             ->join('estados', 'estados_pagos.idEstado', '=', 'estados.idEstado')
             ->join('contratos_arriendos', 'estados_pagos.idContrato', '=', 'contratos_arriendos.idContratoArriendo')
             ->join('propiedades', 'contratos_arriendos.idPropiedad', '=', 'propiedades.id')
@@ -56,15 +57,19 @@ class EnvioPagoArriendo implements ShouldQueue
             ->join('paises', 'paises.idPais', '=', 'users.idPais')
             ->join('tipos_monedas', 'contratos_arriendos.idMoneda', '=', 'tipos_monedas.idMoneda')
             ->join('pagos', 'pagos.tokenEstadoPago', '=', 'estados_pagos.token')
+            ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
+            ->join('region', 'region.id', '=', 'propiedades.idRegion')
             ->leftjoin('metodos_pagos', 'metodos_pagos.idMetodosPagos', '=', 'pagos.idMetodoPago')
             ->where('pagos.idPago', '=', $this->idPago)->first();
             //return dd($this->estadosDePago);
             $pdf = \PDF::loadView('emails.comprobantePagoArrendatario', [ 'estadosDePago' => $estadosDePago, 'cargos' => $this->cargos, 
             'descuentos' => $this->descuentos, 'totalDescuento' => $this->totalDescuento, 'totalCargo' => $this->totalCargo]);
 
+            $descuentos = $this->totalDescuento;
+            $cargos = $this->totalCargo;
             //Mail::to($estadosDePago->email)
             Mail::to(['beenjaahp@hotmail.com', 'beenjaahp@gmail.com'])
-            ->send(new ComprobantePagoArriendo($estadosDePago, $pdf));
+            ->send(new ComprobantePagoArriendo($estadosDePago, $descuentos, $cargos, $pdf));
         }
         catch(\Exception $e)
         {
