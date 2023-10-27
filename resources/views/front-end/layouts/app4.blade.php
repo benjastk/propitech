@@ -19,6 +19,7 @@
         <link rel="stylesheet" href="/front/vendors/animate.css">
         <link rel="stylesheet" href="/front/vendors/timepicker/bootstrap-timepicker.min.css">
         <link rel="stylesheet" href="/front/vendors/mapbox-gl/mapbox-gl.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <!-- Themes core CSS -->
         <link rel="stylesheet" href="/front/css/themes.css">
         <!-- Favicons -->

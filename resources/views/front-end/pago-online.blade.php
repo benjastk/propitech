@@ -10,6 +10,12 @@
 @section('css')
 @endsection
 @section('content')
+@if(session()->has('url'))
+    <script>
+        var redirectWindow = window.open('/', "_blank");
+        redirectWindow.location;
+    </script>
+@endif
     @if($rut)
         @if($estadoPago)
             <section class="d-flex flex-column">
@@ -35,7 +41,7 @@
                                         <tr>
                                             <th scope="row">{{ strftime("%d de %B de %Y", strtotime($estadoPago->fechaVencimiento)) }}</th>
                                             <td>{{ $estadoPago->rut }}</td>
-                                            <td>{{ $estadoPago->idEstadoPago }}</td>
+                                            <td>{{ $estadoPago->token }}</td>
                                             <th scope="row">@if($estadoPago->saldo > 0) 
                                                 ${{ number_format($estadoPago->saldo, 0, '', '.')}} 
                                                 @else 
@@ -46,7 +52,7 @@
                                 </table>
                                 <br>
                                 <br>
-                                <form action="{{ route('ir-a-pagar-online')}}" method="post">
+                                <form action="{{ route('ir-a-pagar-online')}}" method="post" target="_blank">
                                     @csrf
                                     <input type="hidden" name="rut" id="rut" value="{{ $estadoPago->rut }}">
                                     <center><button class="btn btn-primary btn-block rounded" style="width: 50%">Pagar</button></center>
@@ -108,5 +114,88 @@
     @endif
 @endsection
 @section('jss')
-
+@if($estadoPago)
+<script>
+    $(function() 
+    {
+        let pagoValidado = false;
+        let infoDelPago;
+        function cron() {
+            $.ajax({
+                method: "POST",
+                url: "/api/pago-arriendo-exitoso",
+                data: {
+                    'tokenEstadoPago': '{{ $estadoPago->token }}',
+                    'idEstadoPago': '{{ $estadoPago->idEstadoPago }}'
+                }
+            }).done(function(msg) {
+                console.log(msg.estado);
+                if(msg.estado == 1)
+                {
+                    pagoValidado = true;
+                    infoDelPago = msg.pago;
+                    console.log(infoDelPago.numeroTransaccion);
+                }
+            });
+        }
+        function formatearNumero(numero){
+            return new Intl.NumberFormat("es-CL").format(numero);
+        }
+        var intervalo = setInterval(function() 
+        {
+            if(pagoValidado == false)
+            {
+                cron();
+            }
+            else
+            {
+                clearInterval(intervalo);
+                Swal.fire({
+                    title: '<strong>Pago realizado exitosamente</strong>',
+                    icon: 'success',
+                    html:
+                        '<table class="table">'+
+                            '<tbody>'+
+                                '<tr>'+
+                                    '<th style="text-align: left;font-size: 14px;" scope="row">Identificador:</th>'+
+                                    '<td style="text-align: left;font-size: 14px;">{{ $estadoPago->rut }}</td>'+
+                                '</tr>'+
+                                '<tr>'+
+                                    '<th style="text-align: left;font-size: 14px;" scope="row">Documento:</th>'+
+                                    '<td style="text-align: left;font-size: 14px;" >{{ $estadoPago->token }}</td>'+
+                                '</tr>'+
+                                '<tr>'+
+                                    '<th style="text-align: left;font-size: 14px;" scope="row">Fecha de Vencimiento:</th>'+
+                                    '<td style="text-align: left;font-size: 14px;" >{{ strftime("%d-%m-%Y", strtotime($estadoPago->fechaVencimiento)) }}</td>'+
+                                '</tr>'+
+                                '<tr>'+
+                                    '<th style="text-align: left;font-size: 14px;" scope="row">Comprobante Nro°:</th>'+
+                                    '<td style="text-align: left;font-size: 14px;" >' + infoDelPago.secuenciaTransaccion +'</td>'+
+                                '</tr>'+
+                                '<tr>'+
+                                    '<th style="text-align: left;font-size: 14px;" scope="row">Numero Transaccion:</th>'+
+                                    '<td style="text-align: left;font-size: 14px;" >' + infoDelPago.numeroTransaccion +'</td>'+
+                                '</tr>'+
+                                '<tr>'+
+                                    '<th style="text-align: left;font-size: 14px;" scope="row">Monto Pagado:</th>'+
+                                    '<td style="text-align: left;font-size: 14px;" >$' + formatearNumero(infoDelPago.montoPago) +'</td>'+
+                                '</tr>'+
+                            '</tbody>'+
+                        '</table>',
+                    showCloseButton: true,
+                    showCancelButton: false,
+                    focusConfirm: false,
+                    showCloseButton: false,
+                    confirmButtonText:
+                        '<i href="/" class="fa fa-thumbs-up"></i> Perfecto!'
+                }).then((result) => {
+                    if (result.value) {
+                        window.location.href = `/`
+                    }
+                });
+            }
+        }, 5000);
+    });
+</script>
+@endif
 @endsection

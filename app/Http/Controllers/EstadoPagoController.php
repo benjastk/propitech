@@ -409,7 +409,7 @@ class EstadoPagoController extends Controller
                             ->first();
 
             $nuevoPago = new Pago();
-            $nuevoPago->idEstadoPago = $idEstadoDelPago;
+            $nuevoPago->tokenEstadoPago = $estadoDePago->token;
             if($estadoDePagoAntes->saldo > 0)
             {
                 $nuevoPago->montoPago = $estadoDePagoAntes->saldo;
@@ -567,7 +567,7 @@ class EstadoPagoController extends Controller
                             ->first();
 
             $nuevoPago = new Pago();
-            $nuevoPago->idEstadoPago = $idEstadoDelPago;
+            $nuevoPago->tokenEstadoPago = $estadoDePago->token;
             $nuevoPago->montoPago = $request->montoAPagar;
             $nuevoPago->numeroTransaccion = $request->numeroTransaccion;
             $nuevoPago->comentarios = $request->comentarios;
@@ -768,7 +768,10 @@ class EstadoPagoController extends Controller
                     $tipoRut = '01';
                 }
                 //return $rutSinGuion;
-                return redirect()->to('https://pre.otrospagos.com/publico/portal/enlace?id='.$convenio.'&idcli='.$rutSinGuion.'&tiidc='.$tipoRut.'');
+                //return redirect()->to('https://pre.otrospagos.com/publico/portal/enlace?id='.$convenio.'&idcli='.$rutSinGuion.'&tiidc='.$tipoRut.'');
+                $url = 'https://pre.otrospagos.com/publico/portal/enlace?id='.$convenio.'&idcli='.$rutSinGuion.'&tiidc='.$tipoRut.'';
+                session()->flash('url', $url);
+                return redirect()->back();
             }
             else
             {

@@ -572,6 +572,8 @@ class InicioController extends Controller
     }
     public function pagarOnline(Request $request)
     {
+        Session::put('idEstadoPagoOtrosPagos', '');
+        Session::put('tokenOtrosPagos', '');
         if($request->rut)
         {
             $estadoPago = EstadoPago::select('estados_pagos.*', 'users.rut', 'users.idTipoRut')
@@ -585,7 +587,8 @@ class InicioController extends Controller
             $convenio = getenv("OTROS_PAGOS_COVENIO");
             if($estadoPago)
             {
-                Session::put('idEstadoPago', $estadoPago->idEstadoPago);
+                Session::put('idEstadoPagoOtrosPagos', $estadoPago->idEstadoPago);
+                Session::put('tokenOtrosPagos', $estadoPago->token);
                 if($estadoPago->idTipoRut == 2)
                 {
                     $tipoRut = '07';
