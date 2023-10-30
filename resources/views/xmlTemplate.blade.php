@@ -42,6 +42,8 @@
             <propertyType><![CDATA[office]]></propertyType>
             @elseif($propiedad->idTipoPropiedad == 9)
             <propertyType><![CDATA[apartment]]></propertyType>
+            @elseif($propiedad->idTipoPropiedad == 10)
+            <propertyType><![CDATA[commercial]]></propertyType>
             @endif
             <coordinates>
                 <latitude><![CDATA[{{ $propiedad->latitud }}]]></latitude>
