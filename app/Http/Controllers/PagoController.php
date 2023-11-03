@@ -26,6 +26,7 @@ class PagoController extends Controller
         ->first();
         $pagoReserva = false;
         $pagoMes = false;
+        Log::info('Info', array('client' => $request));
         if($reserva)
         {
             if($reserva)
