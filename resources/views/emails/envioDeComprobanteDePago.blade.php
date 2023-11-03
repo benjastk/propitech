@@ -27,7 +27,7 @@
         <p style="text-indent: 0pt;text-align: left;">
             <br/>
         </p>
-        <table style="border-collapse:collapse;margin: auto !important; width: 95%" cellspacing="0">
+        <table style="border-collapse:collapse;margin: auto !important; width: 70%" cellspacing="0">
             <tr style="height:32pt">
                 <td colspan="2">
                     <p class="s1" style="padding-left: 22pt;text-indent: 0pt;line-height: 17pt;text-align: left;">Hola {{ $informacion->name }} {{ $informacion->apellido }}</p>
