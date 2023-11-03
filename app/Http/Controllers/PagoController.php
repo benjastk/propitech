@@ -34,12 +34,12 @@ class PagoController extends Controller
                 $convenio = getenv("OTROS_PAGOS_COVENIO");
                 $key = $request->p_fectr.$request->p_tid.$convenio;
                 $llave = str_pad($key, 16);
-                //$encriptacion = openssl_encrypt($llave, "AES-256-CBC", getenv("OTROS_PAGOS_KEY"), 1, getenv("OTROS_PAGOS_IV"));
-                //$h_firma = base64_encode($encriptacion);
+                $encriptacion = openssl_encrypt($llave, "AES-256-CBC", getenv("OTROS_PAGOS_KEY"), 1, getenv("OTROS_PAGOS_IV"));
+                $h_firma = base64_encode($encriptacion);
                 
                 //CAMBIAR A FALSE
-                $firmaOk = true;
-                /*$headers = apache_request_headers();
+                $firmaOk = false;
+                $headers = apache_request_headers();
                 foreach ($headers as $header => $value) 
                 {
                     if($header == "H-Firma")
@@ -58,7 +58,7 @@ class PagoController extends Controller
                             $firmaOk = true;
                         }
                     }
-                }*/
+                }
                 if($firmaOk == true)
                 {
                     $pagoReserva = true;
@@ -110,11 +110,11 @@ class PagoController extends Controller
                 $convenio = getenv("OTROS_PAGOS_COVENIO");
                 $key = $request->p_fectr.$request->p_tid.$convenio;
                 $llave = str_pad($key, 16);
-                //$encriptacion = openssl_encrypt($llave, "AES-256-CBC", getenv("OTROS_PAGOS_KEY"), 1, getenv("OTROS_PAGOS_IV"));
-                //$h_firma = base64_encode($encriptacion);
+                $encriptacion = openssl_encrypt($llave, "AES-256-CBC", getenv("OTROS_PAGOS_KEY"), 1, getenv("OTROS_PAGOS_IV"));
+                $h_firma = base64_encode($encriptacion);
                 //cambiar a false
-                $firmaOk = true;
-                /*$headers = apache_request_headers();
+                $firmaOk = false;
+                $headers = apache_request_headers();
                 foreach ($headers as $header => $value) 
                 {
                     if($header == "H-Firma")
@@ -133,7 +133,7 @@ class PagoController extends Controller
                             $firmaOk = true;
                         }
                     }
-                }*/
+                }
                 if($firmaOk == true)
                 {
                     if($estadoDePago->saldo > 0)
