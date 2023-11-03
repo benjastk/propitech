@@ -96,7 +96,7 @@ class PagoController extends Controller
         }
         if($pagoReserva == false)
         {
-            $estadoDePago = EstadoPago::select('estados_pagos.*')
+            $estadoDePago = EstadoPago::select('estados_pagos.*', 'users.rut', 'contratos_arriendos.idEstado')
             ->join('contratos_arriendos', 'estados_pagos.idContrato', '=', 'contratos_arriendos.idContratoArriendo')
             ->join('users', 'users.id', '=', 'contratos_arriendos.idUsuarioArrendatario')
             ->where('users.rut', '=', $rutUsuario)
