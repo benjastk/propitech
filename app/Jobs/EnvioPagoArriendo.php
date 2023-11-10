@@ -49,7 +49,8 @@ class EnvioPagoArriendo implements ShouldQueue
              'metodos_pagos.nombreMetodoPago', 'propiedades.direccion', 'propiedades.numero', 'tipos_monedas.nombreMoneda', 
              'contratos_arriendos.idTiempoPagoGarantia', 'pagos.montoPago', 'pagos.idPago', 'pagos.created_at as fechaPagado', 
              'users.numero as numeroTelefonoUsuario', 'paises.codigoPais', 'pagos.tokenPago', 'pagos.idMetodoPago', 'users.name', 'users.apellido',
-             'comuna.nombre as nombreComuna', 'region.nombre as nombreRegion')
+             'comuna.nombre as nombreComuna', 'region.nombre as nombreRegion', 'users.email', 'contratos_arriendos.idContratoArriendo', 'propiedades.block', 
+             'pagos.numeroTransaccion')
             ->join('estados', 'estados_pagos.idEstado', '=', 'estados.idEstado')
             ->join('contratos_arriendos', 'estados_pagos.idContrato', '=', 'contratos_arriendos.idContratoArriendo')
             ->join('propiedades', 'contratos_arriendos.idPropiedad', '=', 'propiedades.id')
@@ -62,7 +63,7 @@ class EnvioPagoArriendo implements ShouldQueue
             ->leftjoin('metodos_pagos', 'metodos_pagos.idMetodosPagos', '=', 'pagos.idMetodoPago')
             ->where('pagos.idPago', '=', $this->idPago)->first();
             //return dd($this->estadosDePago);
-            $pdf = \PDF::loadView('emails.comprobantePagoArrendatario', [ 'estadosDePago' => $estadosDePago, 'cargos' => $this->cargos, 
+            $pdf = \PDF::loadView('emails.adjuntoPagoArrendatario', [ 'estadosDePago' => $estadosDePago, 'cargos' => $this->cargos, 
             'descuentos' => $this->descuentos, 'totalDescuento' => $this->totalDescuento, 'totalCargo' => $this->totalCargo]);
 
             $descuentos = $this->totalDescuento;

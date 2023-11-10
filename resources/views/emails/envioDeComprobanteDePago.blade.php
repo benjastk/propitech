@@ -2,7 +2,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-        <title>file_1698248267839</title>
         <style type="text/css"> * {margin:0; padding:0; text-indent:0; }
             .s1 { color: #3B4757; font-family:"Lucida Sans Unicode", sans-serif; font-style: normal; font-weight: bold; text-decoration: none; font-size: 13.5pt; }
             .s2 { color: #3A3E44; font-family:"Lucida Sans Unicode", sans-serif; font-style: normal; text-decoration: none; font-size: 11.5pt; }
@@ -21,6 +20,9 @@
         </style>
     </head>
     <body>
+        <div style="width: 100%; position: absolute">
+            <img src="{{ base_path() }}/public/front/fondo.png" alt="" width="100%" >
+        </div>
         <p style="text-indent: 0pt;text-align: left;">
             <br/>
         </p>
