@@ -42,6 +42,7 @@ Route::post('/ir-a-pagar-online', 'InicioController@pagarOnline')->name('ir-a-pa
 Route::get('/pago-reserva-online', 'InicioController@pagoReservaOnline');
 Route::post('/ir-a-pagar-reserva-online', 'InicioController@pagarReservaOnline')->name('ir-a-pagar-reserva-online');
 
+Route::get('/pruebaCorreo', 'PagoController@pruebaCorreo');
 // back-office routes
 Route::get('/login', function () {
     return view('auth.login');

@@ -583,4 +583,28 @@ class PagoController extends Controller
             'pago' => ''], 200);
         }
     }
+    public function pruebaCorreo(Request $request)
+    {
+        $nuevoPago = Pago::where('idPago', 31)->first();
+        $estadosDePago = EstadoPago::where('token', $nuevoPago->tokenEstadoPago)->first(); 
+        $descuentos = Descuento::where('idEstadoPago', '=', $estadosDePago->idEstadoPago)->get();
+        $cargos = Cargo::where('idEstadoPago', '=', $estadosDePago->idEstadoPago)->get();
+        $totalDescuento = 0;
+        $totalCargo = 0;
+        if(isset($descuentos))
+        {
+            foreach($descuentos as $descuento)
+            {
+                $totalDescuento = $totalDescuento + $descuento->montoDescuento;
+            }
+        }
+        if(isset($cargos))
+        {
+            foreach($cargos as $cargo)
+            {
+                $totalCargo = $totalCargo + $cargo->montoCargo;
+            }
+        }
+        EnvioPagoArriendo::dispatch( $nuevoPago->idPago, $cargos, $descuentos, $totalCargo, $totalDescuento);
+    }
 }
