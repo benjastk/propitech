@@ -668,7 +668,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6 px-2" style="padding-left: 0px !important">
+                                <div class="col-md-6 px-2" style="padding-left: 15px !important">
                                     <div class="form-group mb-4">
                                         <input type="text" placeholder="Telefono" name="telefono" class="form-control form-control border-0" required>
                                     </div>
