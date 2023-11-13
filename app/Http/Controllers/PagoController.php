@@ -34,7 +34,19 @@ class PagoController extends Controller
                 $convenio = getenv("OTROS_PAGOS_COVENIO");
                 $key = $request->p_fectr.$request->p_tid.$convenio;
                 $llave = str_pad($key, 16);
-                $encriptacion = openssl_encrypt($llave, "AES-256-CBC", getenv("OTROS_PAGOS_KEY"), 1, getenv("OTROS_PAGOS_IV"));
+                try 
+                {
+                    $encriptacion = openssl_encrypt($llave, "AES-256-CBC", getenv("OTROS_PAGOS_KEY"), 1, getenv("OTROS_PAGOS_IV"));
+                } 
+                catch (\Throwable $th) 
+                {
+                    $logPago = new LogTransaccionPagos();
+                    $logPago->nombreTransaccion = 'FIRMA DE OTROSPAGOS.COM NO COINCIDE EN TRANSACCION - CODIGO 65';
+                    $logPago->numeroTransaccion = $request->p_tid;
+                    $logPago->webClient = 'OtrosPagos.com - CONDEU - RESERVA';
+                    $logPago->save();
+                    return response()->json(['r_retcod' => "65"], 200);
+                }
                 $h_firma = base64_encode($encriptacion);
                 
                 //CAMBIAR A FALSE
@@ -110,9 +122,12 @@ class PagoController extends Controller
                 $convenio = getenv("OTROS_PAGOS_COVENIO");
                 $key = $request->p_fectr.$request->p_tid.$convenio;
                 $llave = str_pad($key, 16);
-                try {
+                try 
+                {
                     $encriptacion = openssl_encrypt($llave, "AES-256-CBC", getenv("OTROS_PAGOS_KEY"), 1, getenv("OTROS_PAGOS_IV"));
-                } catch (\Throwable $th) {
+                } 
+                catch (\Throwable $th) 
+                {
                     $logPago = new LogTransaccionPagos();
                     $logPago->nombreTransaccion = 'FIRMA DE OTROSPAGOS.COM NO COINCIDE EN TRANSACCION - CODIGO 65';
                     $logPago->numeroTransaccion = $request->p_tid;
@@ -215,7 +230,20 @@ class PagoController extends Controller
                     $convenio = getenv("OTROS_PAGOS_COVENIO");
                     $key = $request->p_fectr.$request->p_tid.$convenio;
                     $llave = str_pad($key, 16);
-                    $encriptacion = openssl_encrypt($llave, "AES-256-CBC", getenv("OTROS_PAGOS_KEY"), 1, getenv("OTROS_PAGOS_IV"));
+                    try 
+                    {
+                        $encriptacion = openssl_encrypt($llave, "AES-256-CBC", getenv("OTROS_PAGOS_KEY"), 1, getenv("OTROS_PAGOS_IV"));
+                    } 
+                    catch (\Throwable $th) 
+                    {
+                        $logPago = new LogTransaccionPagos();
+                        $logPago->nombreTransaccion = 'FIRMA DE OTROSPAGOS.COM NO COINCIDE EN TRANSACCION - CODIGO 65';
+                        $logPago->numeroTransaccion = $request->p_tid;
+                        $logPago->webClient = 'OtrosPagos.com - NOTPAG - RESERVA';
+                        $logPago->save();
+                        return response()->json(['r_retcod' => "65"], 200);
+                    }
+                    
                     $h_firma = base64_encode($encriptacion);
                     //cambiar a false
                     $firmaOk = false;
@@ -339,7 +367,20 @@ class PagoController extends Controller
                     $convenio = getenv("OTROS_PAGOS_COVENIO");
                     $key = $request->p_fectr.$request->p_tid.$convenio;
                     $llave = str_pad($key, 16);
-                    $encriptacion = openssl_encrypt($llave, "AES-256-CBC", getenv("OTROS_PAGOS_KEY"), 1, getenv("OTROS_PAGOS_IV"));
+                    try 
+                    {
+                        $encriptacion = openssl_encrypt($llave, "AES-256-CBC", getenv("OTROS_PAGOS_KEY"), 1, getenv("OTROS_PAGOS_IV"));
+                    } 
+                    catch (\Throwable $th) 
+                    {
+                        $logPago = new LogTransaccionPagos();
+                        $logPago->nombreTransaccion = 'FIRMA DE OTROSPAGOS.COM NO COINCIDE EN TRANSACCION - CODIGO 65';
+                        $logPago->numeroTransaccion = $request->p_tid;
+                        $logPago->webClient = 'OtrosPagos.com - NOTPAG';
+                        $logPago->save();
+                        return response()->json(['r_retcod' => "65"], 200);
+                    }
+                    
                     $h_firma = base64_encode($encriptacion);
                     //cambiar a false
                     $firmaOk = false;
@@ -507,52 +548,111 @@ class PagoController extends Controller
     }
     //REVERSA DE PAGO
     public function revpag(Request $request)
-    {   
-        $pago = Pago::where('numeroTransaccion', '=', $request->p_tid)->first();
+    {
+        Log::info('revpag', array('client' => $request));
         $idTransaccion = (int)$request->p_tid;
-        if($pago)
+        $convenio = getenv("OTROS_PAGOS_COVENIO");
+        $key = $request->p_fectr.$request->p_tid.$convenio;
+        $llave = str_pad($key, 16);
+        try 
         {
-            $estadoPago = EstadoPago::where('token', '=', $request->p_doc)
-            ->where('idEstado', 48)
-            ->first();
-            if($estadoPago)
+            $encriptacion = openssl_encrypt($llave, "AES-256-CBC", getenv("OTROS_PAGOS_KEY"), 1, getenv("OTROS_PAGOS_IV"));
+        } 
+        catch (\Throwable $th) 
+        {
+            $logPago = new LogTransaccionPagos();
+            $logPago->nombreTransaccion = 'FIRMA DE OTROSPAGOS.COM NO COINCIDE EN TRANSACCION - CODIGO 65';
+            $logPago->numeroTransaccion = $request->p_tid;
+            $logPago->webClient = 'OtrosPagos.com - NOTPAG';
+            $logPago->save();
+            return response()->json(['r_retcod' => "65"], 200);
+        }
+        
+        $h_firma = base64_encode($encriptacion);
+        //cambiar a false
+        $firmaOk = false;
+        $headers = apache_request_headers();
+        foreach ($headers as $header => $value) 
+        {
+            if($header == "H-Firma")
             {
-                $nuevoLogTransaccion = new LogTransaccion();
-                $nuevoLogTransaccion->tipoTransaccion = 'REVERSA PAGO OTROSPAGOS: '.$request->p_tid.' - '.$estadoPago->idEstadoPago;
-                $nuevoLogTransaccion->webclient = "OTROSPAGOS.COM";
-                $nuevoLogTransaccion->save();
-
-                $estadoPago->saldo = $estadoPago->saldo + substr($request->p_mnt, 0, -2);
-                $estadoPago->totalPagado = $estadoPago->totalPagado - substr($request->p_mnt, 0, -2);
-                if($estadoPago->totalPagado == 0 || $estadoPago->totalPagado < $estadoPago->subtotal)
+                if($value != $h_firma)
                 {
-                    $fechaActual = date('Y-m-d');
-                    $dias = ParametroGeneral::where('parametroGeneral', '=', 'DIAS PARA PASAR PAGO A VENCIDO')->first();
-                    if(date("Y-m-d",strtotime($estadoPago->fechaVencimiento."+ ".$dias->valorParametro." days")) < $fechaActual)
-                    {
-                        $estadoPago->idEstado = 50;
-                    }
-                    elseif($estadoPago->fechaVencimiento < $fechaActual)
-                    {
-                        $estadoPago->idEstado = 49;
-                    }
-                    else
-                    {
-                        $estadoPago->idEstado = 47;
-                    }
+                    $logPago = new LogTransaccionPagos();
+                    $logPago->nombreTransaccion = 'FIRMA NO COINCIDE EN TRANSACCION - CODIGO 65 - NOTIFICACION DE PAGO';
+                    $logPago->numeroTransaccion = $idTransaccion;
+                    $logPago->webClient = 'OtrosPagos.com - NOTPAG';
+                    $logPago->save();
+                    return response()->json(['r_retcod' => "65"], 200);
                 }
-                $estadoPago->save();
+                else
+                {
+                    $firmaOk = true;
+                }
+            }
+        }
+        if($firmaOk == true)
+        {
+            $pago = Pago::where('numeroTransaccion', '=', $request->p_tid)->first();
+            if($pago)
+            {
+                $estadoPago = EstadoPago::where('token', '=', $request->p_doc)
+                ->where('idEstado', 48)
+                ->first();
+                if($estadoPago)
+                {
+                    $nuevoLogTransaccion = new LogTransaccion();
+                    $nuevoLogTransaccion->tipoTransaccion = 'REVERSA PAGO OTROSPAGOS: '.$request->p_tid.' - '.$estadoPago->idEstadoPago;
+                    $nuevoLogTransaccion->webclient = "OTROSPAGOS.COM";
+                    $nuevoLogTransaccion->save();
 
-                $logPago = new LogTransaccionPagos();
-                $logPago->nombreTransaccion = 'REVERSA CORRECTA OTROSPAGOS ESTADO PAGO: '.$request->p_doc;
-                $logPago->numeroTransaccion = $request->p_tid;
-                $logPago->montoTransaccion = substr($request->p_mnt, 0, -2);
-                $logPago->webClient = 'OtrosPago.com - REVPAG';
-                $logPago->save();
+                    $estadoPago->saldo = $estadoPago->saldo + substr($request->p_mnt, 0, -2);
+                    $estadoPago->totalPagado = $estadoPago->totalPagado - substr($request->p_mnt, 0, -2);
+                    if($estadoPago->totalPagado == 0 || $estadoPago->totalPagado < $estadoPago->subtotal)
+                    {
+                        $fechaActual = date('Y-m-d');
+                        $dias = ParametroGeneral::where('parametroGeneral', '=', 'DIAS PARA PASAR PAGO A VENCIDO')->first();
+                        if(date("Y-m-d",strtotime($estadoPago->fechaVencimiento."+ ".$dias->valorParametro." days")) < $fechaActual)
+                        {
+                            $estadoPago->idEstado = 50;
+                        }
+                        elseif($estadoPago->fechaVencimiento < $fechaActual)
+                        {
+                            $estadoPago->idEstado = 49;
+                        }
+                        else
+                        {
+                            $estadoPago->idEstado = 47;
+                        }
+                    }
+                    $estadoPago->save();
 
-                $pago->delete();
-                return response()->json(['r_tid' => $idTransaccion,
-                                        'r_retcod' => "00"], 200);
+                    $logPago = new LogTransaccionPagos();
+                    $logPago->nombreTransaccion = 'REVERSA CORRECTA OTROSPAGOS ESTADO PAGO: '.$request->p_doc;
+                    $logPago->numeroTransaccion = $request->p_tid;
+                    $logPago->montoTransaccion = substr($request->p_mnt, 0, -2);
+                    $logPago->webClient = 'OtrosPago.com - REVPAG';
+                    $logPago->save();
+
+                    $pago->delete();
+                    return response()->json(['r_tid' => $idTransaccion,
+                                            'r_retcod' => "00"], 200);
+                }
+                else
+                {
+                    $logPago = new LogTransaccionPagos();
+                    $logPago->nombreTransaccion = 'REVERSA PAGO OTROSPAGOS NO SE ENCUENTRA ESTADO PAGO: '.$request->p_tid;
+                    $logPago->numeroTransaccion = $request->p_tid;
+                    $logPago->webClient = 'OtrosPago.com - REVPAG';
+                    $logPago->save();
+
+                    $nuevoLogTransaccion = new LogTransaccion();
+                    $nuevoLogTransaccion->tipoTransaccion = 'REVERSA PAGO OTROSPAGOS NO SE ENCUENTRA ESTADO PAGO: '.$request->p_tid;
+                    $nuevoLogTransaccion->webclient = "OTROSPAGOS.COM";
+                    $nuevoLogTransaccion->save();
+                    return response()->json(['r_tid' => $idTransaccion,
+                                            'r_retcod' => "13"], 200);
+                }
             }
             else
             {
@@ -563,7 +663,7 @@ class PagoController extends Controller
                 $logPago->save();
 
                 $nuevoLogTransaccion = new LogTransaccion();
-                $nuevoLogTransaccion->tipoTransaccion = 'REVERSA PAGO OTROSPAGOS NO SE ENCUENTRA ESTADO PAGO: '.$request->p_tid;
+                $nuevoLogTransaccion->tipoTransaccion = 'REVERSA PAGO OTROSPAGOS: '.$request->p_tid;
                 $nuevoLogTransaccion->webclient = "OTROSPAGOS.COM";
                 $nuevoLogTransaccion->save();
                 return response()->json(['r_tid' => $idTransaccion,
@@ -573,17 +673,11 @@ class PagoController extends Controller
         else
         {
             $logPago = new LogTransaccionPagos();
-            $logPago->nombreTransaccion = 'REVERSA PAGO OTROSPAGOS NO SE ENCUENTRA ESTADO PAGO: '.$request->p_tid;
-            $logPago->numeroTransaccion = $request->p_tid;
-            $logPago->webClient = 'OtrosPago.com - REVPAG';
+            $logPago->nombreTransaccion = 'FIRMA DE OTROSPAGOS.COM NO COINCIDE EN TRANSACCION - CODIGO 65';
+            $logPago->numeroTransaccion = $idTransaccion;
+            $logPago->webClient = 'OtrosPago.com - NOTPAG';
             $logPago->save();
-
-            $nuevoLogTransaccion = new LogTransaccion();
-            $nuevoLogTransaccion->tipoTransaccion = 'REVERSA PAGO OTROSPAGOS: '.$request->p_tid;
-            $nuevoLogTransaccion->webclient = "OTROSPAGOS.COM";
-            $nuevoLogTransaccion->save();
-            return response()->json(['r_tid' => $idTransaccion,
-                                    'r_retcod' => "13"], 200);
+            return response()->json(['r_retcod' => "65"], 200);
         }
     }
     public function pagoArriendoExitoso(Request $request)
