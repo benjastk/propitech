@@ -651,41 +651,44 @@
             </div>
         </div>
     </section>
-    <section class="pt-11 pb-13" style="background-color:#311998">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 col-sm-12 pb-7 pb-lg-0">
-                    <img src="front/images/customer-support.png" class="mb-6 mb-sm-0 mr-sm-6">
-                </div>
-                <div class="col-md-6 col-sm-12 pb-7 pb-lg-0">
-                    <h2 class="text-heading mb-4 fs-22 lh-15 pr-6" style="color: white !important; font-weight: bolder; text-align: center">¿Necesitas asesoría? ¡Contáctanos!</h2>
-                    <form action="{{ route('formulario-contacto-propiedades')}}" method="post" >
-                        @csrf
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group mb-4">
-                                    <input type="text" placeholder="Nombre" class="form-control form-control border-0" name="nombre">
+    <section class="pt-11 pb-13">
+        <div class="bg-cover d-flex align-items-center custom-vh-100 contactanos" style="background-image: url(/front/5555.png); background-size: contain">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-5 col-sm-12 pb-7 pb-lg-0">
+                        <h2 class="text-heading mb-4 fs-22 lh-15 pr-6" style="color: white !important; font-weight: bolder; text-align: center; font-style: italic;font-family: 'Gordita';font-size: 33px !important;">INGRESA TUS DATOS Y ACCEDE A 3 MESES DE ADMINISTRACIÓN GRATIS</h2>
+                        <br>
+                        <form action="{{ route('formulario-contacto-propiedades')}}" method="post" >
+                            @csrf
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group mb-4">
+                                        <input type="text" placeholder="Nombre" class="form-control form-control border-0" name="nombre">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group mb-4">
-                                    <input placeholder="Correo electronico" class="form-control form-control border-0" type="email" name="email">
+                            <div class="row">
+                                <div class="col-md-6 px-2" style="padding-left: 0px !important">
+                                    <div class="form-group mb-4">
+                                        <input type="text" placeholder="Telefono" name="telefono" class="form-control form-control border-0" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-4">
+                                        <input placeholder="Correo electronico" class="form-control form-control border-0" type="email" name="email">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 px-2">
-                                <div class="form-group mb-4">
-                                    <input type="text" placeholder="Telefono" name="telefono" class="form-control form-control border-0">
-                                </div>
+                            <div class="form-group mb-6">
+                                <textarea class="form-control border-0" placeholder="Mensaje" name="mensaje" rows="3"></textarea>
+                                <input type="hidden" name="id_formulario" value="6">
                             </div>
-                        </div>
-                        <div class="form-group mb-6">
-                            <textarea class="form-control border-0" placeholder="Mensaje" name="mensaje" rows="3"></textarea>
-                            <input type="hidden" name="id_formulario" value="6">
-                        </div>
-                        <button type="submit" style="float: right;" class="btn btn btn-primary px-9">Enviar</button>
-                    </form>
+                            <button type="submit" style="width: 100%; background-color: white; color: #0ec6d5; font-weight: 800;" class="btn btn btn-primary px-9">Enviar</button>
+                        </form>
+                    </div>
+                    <div class="col-md-6 col-sm-12 pb-7 pb-lg-0">
+                        
+                    </div>
                 </div>
             </div>
         </div>
