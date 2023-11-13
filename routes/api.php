@@ -38,3 +38,4 @@ Route::post('/otrospagos/notpag', 'PagoController@notpagres');
 Route::post('/otrospagos/revpag', 'PagoController@revpag');
 
 Route::post('/pago-arriendo-exitoso', 'PagoController@pagoArriendoExitoso');
+Route::post('/pago-reserva-exitosa', 'PagoController@pagoReservaExitosa');
