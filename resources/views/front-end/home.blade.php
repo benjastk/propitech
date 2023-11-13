@@ -652,7 +652,7 @@
         </div>
     </section>
     <section class="pt-11 pb-13">
-        <div class="bg-cover d-flex align-items-center custom-vh-100 contactanos" style="background-image: url(/front/5555.png); background-size: contain">
+        <div class="bg-cover d-flex align-items-center custom-vh-100 contactanos" id="contactanos" style="background-image: url(/front/5555.png); background-size: contain">
             <div class="container">
                 <div class="row">
                     <div class="col-md-5 col-sm-12 pb-7 pb-lg-0">
