@@ -426,7 +426,7 @@ class PagoController extends Controller
                                 }
                             }
                             EnvioPagoArriendo::dispatch( $nuevoPago->idPago, $cargos, $descuentos, $totalCargo, $totalDescuento);
-
+                            Log::info('Infoss', array('id' => $idTransaccion));
                             return response()->json(['r_tid' => $idTransaccion,
                                                 'r_retcod' => "00",
                                                 'r_cau' => $request->p_doc], 200);
