@@ -110,12 +110,21 @@ class PagoController extends Controller
                 $convenio = getenv("OTROS_PAGOS_COVENIO");
                 $key = $request->p_fectr.$request->p_tid.$convenio;
                 $llave = str_pad($key, 16);
-                $encriptacion = openssl_encrypt($llave, "AES-256-CBC", getenv("OTROS_PAGOS_KEY"), 1, getenv("OTROS_PAGOS_IV"));
+                try {
+                    $encriptacion = openssl_encrypt($llave, "AES-256-CBC", getenv("OTROS_PAGOS_KEY"), 1, getenv("OTROS_PAGOS_IV"));
+                } catch (\Throwable $th) {
+                    $logPago = new LogTransaccionPagos();
+                    $logPago->nombreTransaccion = 'FIRMA DE OTROSPAGOS.COM NO COINCIDE EN TRANSACCION - CODIGO 65';
+                    $logPago->numeroTransaccion = $request->p_tid;
+                    $logPago->webClient = 'OtrosPagos.com - CONDEU';
+                    $logPago->save();
+                    return response()->json(['r_retcod' => "65"], 200);
+                }
+                
                 $h_firma = base64_encode($encriptacion);
                 //cambiar a false
                 $firmaOk = false;
                 $headers = apache_request_headers();
-                Log::info('Info', array('headersss' => $headers));
                 foreach ($headers as $header => $value) 
                 {
                     if($header == "H-Firma")
