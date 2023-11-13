@@ -308,6 +308,20 @@ class PagoController extends Controller
             $estadoDePago = EstadoPago::where('token', '=', $request->p_doc)
             ->where('idEstado', 47)
             ->first();
+            $estadoDePagoPagado = EstadoPago::where('token', '=', $request->p_doc)
+            ->where('idEstado', 48)
+            ->first();
+            if($estadoDePagoPagado)
+            {
+                $logPago = new LogTransaccionPagos();
+                $logPago->nombreTransaccion = 'PAGO YA SE ENCUENTRA REALIZADO - 01';
+                $logPago->numeroTransaccion = $idTransaccion;
+                $logPago->webClient = 'OtrosPago.com - NOTPAG';
+                $logPago->save();
+                return response()->json(['r_tid' => $idTransaccion,
+                                    'r_retcod' => "01",
+                                    'r_cau' => $request->p_doc], 200);
+            }
             if($pagoReserva == false)
             {
                 if($estadoDePago && $request->p_doc)
