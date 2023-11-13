@@ -174,7 +174,7 @@ class PagoController extends Controller
                 $logPago->numeroTransaccion = $request->p_tid;
                 $logPago->webClient = 'OtrosPagos.com - CONDEU';
                 $logPago->save();
-                return response()->json(['r_retcod' => "02"], 200);
+                return response()->json(['r_retcod' => "03"], 200);
             }
         }
         if($pagoReserva == false && $pagoMes == false)
@@ -192,7 +192,7 @@ class PagoController extends Controller
         $idTransaccion = (int)$request->p_tid;
         if($idTransaccion)
         {
-            Log::info('Info', array('client' => $request));
+            //Log::info('Info', array('client' => $request));
             $reserva = ReservaPropiedad::where('token', $request->p_doc)
             ->where('idEstado', 47)
             ->first();
@@ -575,6 +575,26 @@ class PagoController extends Controller
             {
                 return response()->json(['estado' => 1,
                                     'pago' => $estadosDePago], 200);
+            }
+        }
+        else
+        {
+            return response()->json(['estado' => 0,
+            'pago' => ''], 200);
+        }
+    }
+    public function pagoReservaExitosa(Request $request)
+    {
+        $reserva = ReservaPropiedad::select('reservas_propiedades.*', 'pagos.montoPago', 'pagos.numeroTransaccion', 'pagos.tokenPago', 'pagos.secuenciaTransaccion')
+        ->join('pagos', 'pagos.tokenReserva', '=', 'reservas_propiedades.token')
+        ->where('reservas_propiedades.token', '=', $request->tokenEstadoPago)
+        ->first();
+        if($reserva)
+        {
+            if($reserva->idEstado == 48)
+            {
+                return response()->json(['estado' => 1,
+                                    'pago' => $reserva], 200);
             }
         }
         else
