@@ -115,6 +115,7 @@ class PagoController extends Controller
                 //cambiar a false
                 $firmaOk = false;
                 $headers = apache_request_headers();
+                Log::info('Info', array('headersss' => $headers));
                 foreach ($headers as $header => $value) 
                 {
                     if($header == "H-Firma")
