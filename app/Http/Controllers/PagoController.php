@@ -407,7 +407,7 @@ class PagoController extends Controller
                             $logPago->idMetodoPago = 3;
                             $logPago->save();
 
-                            $descuentos = Descuento::where('idEstadoPago', '=', $estadosDePago->idEstadoPago)->get();
+                            /*$descuentos = Descuento::where('idEstadoPago', '=', $estadosDePago->idEstadoPago)->get();
                             $cargos = Cargo::where('idEstadoPago', '=', $estadosDePago->idEstadoPago)->get();
                             $totalDescuento = 0;
                             $totalCargo = 0;
@@ -426,7 +426,7 @@ class PagoController extends Controller
                                 }
                             }
                             EnvioPagoArriendo::dispatch( $nuevoPago->idPago, $cargos, $descuentos, $totalCargo, $totalDescuento);
-                            Log::info('Infoss', array('id' => $idTransaccion));
+                            Log::info('Infoss', array('id' => $idTransaccion));*/
                             return response()->json(['r_tid' => $idTransaccion,
                                                 'r_retcod' => "00",
                                                 'r_cau' => $request->p_doc], 200);
