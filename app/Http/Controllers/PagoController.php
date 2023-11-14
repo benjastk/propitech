@@ -11,6 +11,7 @@ use App\Pago;
 use App\Cargo;
 use App\Descuento;
 use App\Jobs\EnvioPagoArriendo;
+use App\Jobs\EnviarPagoReserva;
 use App\ParametroGeneral;
 use Log;
 class PagoController extends Controller
@@ -304,7 +305,7 @@ class PagoController extends Controller
                             $logPago->idMetodoPago = 3;
                             $logPago->save();
                             $pagoReserva = true;
-                            //EnviarPagoArriendo::dispatch( $nuevoPago->idPago);
+                            EnviarPagoReserva::dispatch( $nuevoPago->idPago);
                             return response()->json(['r_tid' => $idTransaccion,
                                                 'r_retcod' => "00",
                                                 'r_cau' => $request->p_doc], 200);
@@ -591,6 +592,8 @@ class PagoController extends Controller
                 }
             }
         }
+        $pagoArriendo = false;
+        $pagoReserva = false;
         if($firmaOk == true)
         {
             $pago = Pago::where('numeroTransaccion', '=', $request->p_tid)->first();
@@ -605,14 +608,14 @@ class PagoController extends Controller
                     $nuevoLogTransaccion->tipoTransaccion = 'REVERSA PAGO OTROSPAGOS: '.$request->p_tid.' - '.$estadoPago->idEstadoPago;
                     $nuevoLogTransaccion->webclient = "OTROSPAGOS.COM";
                     $nuevoLogTransaccion->save();
-
+                    $pagoArriendo = true;
                     $estadoPago->saldo = $estadoPago->saldo + substr($request->p_mnt, 0, -2);
                     $estadoPago->totalPagado = $estadoPago->totalPagado - substr($request->p_mnt, 0, -2);
                     if($estadoPago->totalPagado == 0 || $estadoPago->totalPagado < $estadoPago->subtotal)
                     {
                         $fechaActual = date('Y-m-d');
                         $dias = ParametroGeneral::where('parametroGeneral', '=', 'DIAS PARA PASAR PAGO A VENCIDO')->first();
-                        if(date("Y-m-d",strtotime($estadoPago->fechaVencimiento."+ ".$dias->valorParametro." days")) < $fechaActual)
+                        /*if(date("Y-m-d",strtotime($estadoPago->fechaVencimiento."+ ".$dias->valorParametro." days")) < $fechaActual)
                         {
                             $estadoPago->idEstado = 50;
                         }
@@ -623,7 +626,8 @@ class PagoController extends Controller
                         else
                         {
                             $estadoPago->idEstado = 47;
-                        }
+                        }*/
+                        $estadoPago->idEstado = 47;
                     }
                     $estadoPago->save();
 
@@ -638,20 +642,38 @@ class PagoController extends Controller
                     return response()->json(['r_tid' => $idTransaccion,
                                             'r_retcod' => "00"], 200);
                 }
-                else
+                $reservaPropiedad = ReservaPropiedad::where('token', '=', $request->p_doc)
+                ->where('idEstado', 48)
+                ->first();
+                if($reservaPropiedad)
+                {
+                    $reservaPropiedad->idEstado = 47;
+                    $reservaPropiedad->save(); 
+
+                    $pagoReserva = true;
+                    $logPago = new LogTransaccionPagos();
+                    $logPago->nombreTransaccion = 'REVERSA CORRECTA OTROSPAGOS RESERVA: '.$request->p_doc;
+                    $logPago->numeroTransaccion = $request->p_tid;
+                    $logPago->montoTransaccion = substr($request->p_mnt, 0, -2);
+                    $logPago->webClient = 'OtrosPago.com - REVPAG - RESERVA';
+                    $logPago->save();
+
+                    $pago->delete();
+                }
+                if($pagoReserva == false && $pagoArriendo == false)
                 {
                     $logPago = new LogTransaccionPagos();
-                    $logPago->nombreTransaccion = 'REVERSA PAGO OTROSPAGOS NO SE ENCUENTRA ESTADO PAGO: '.$request->p_tid;
+                    $logPago->nombreTransaccion = 'REVERSA PAGO OTROSPAGOS NO SE ENCUENTRA DOCUMENTO: '.$request->p_tid;
                     $logPago->numeroTransaccion = $request->p_tid;
                     $logPago->webClient = 'OtrosPago.com - REVPAG';
                     $logPago->save();
 
                     $nuevoLogTransaccion = new LogTransaccion();
-                    $nuevoLogTransaccion->tipoTransaccion = 'REVERSA PAGO OTROSPAGOS NO SE ENCUENTRA ESTADO PAGO: '.$request->p_tid;
+                    $nuevoLogTransaccion->tipoTransaccion = 'REVERSA PAGO OTROSPAGOS NO SE ENCUENTRA DOCUMENTO: '.$request->p_tid;
                     $nuevoLogTransaccion->webclient = "OTROSPAGOS.COM";
                     $nuevoLogTransaccion->save();
                     return response()->json(['r_tid' => $idTransaccion,
-                                            'r_retcod' => "13"], 200);
+                                            'r_retcod' => "14"], 200);
                 }
             }
             else
@@ -667,7 +689,7 @@ class PagoController extends Controller
                 $nuevoLogTransaccion->webclient = "OTROSPAGOS.COM";
                 $nuevoLogTransaccion->save();
                 return response()->json(['r_tid' => $idTransaccion,
-                                        'r_retcod' => "13"], 200);
+                                        'r_retcod' => "14"], 200);
             }
         }
         else
@@ -722,7 +744,7 @@ class PagoController extends Controller
     }
     public function pruebaCorreo(Request $request)
     {
-        $nuevoPago = Pago::where('idPago', 31)->first();
+        /*$nuevoPago = Pago::where('idPago', 31)->first();
         $estadosDePago = EstadoPago::where('token', $nuevoPago->tokenEstadoPago)->first(); 
         $descuentos = Descuento::where('idEstadoPago', '=', $estadosDePago->idEstadoPago)->get();
         $cargos = Cargo::where('idEstadoPago', '=', $estadosDePago->idEstadoPago)->get();
@@ -742,6 +764,8 @@ class PagoController extends Controller
                 $totalCargo = $totalCargo + $cargo->montoCargo;
             }
         }
-        EnvioPagoArriendo::dispatch( $nuevoPago->idPago, $cargos, $descuentos, $totalCargo, $totalDescuento);
+        EnvioPagoArriendo::dispatch( $nuevoPago->idPago, $cargos, $descuentos, $totalCargo, $totalDescuento);*/
+        $nuevoPago = Pago::where('idPago', 47)->first();
+        EnviarPagoReserva::dispatch( $nuevoPago->idPago);
     }
 }
