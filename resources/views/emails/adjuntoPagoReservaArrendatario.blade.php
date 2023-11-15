@@ -78,13 +78,13 @@
       </tr>
       <tr style="height: 3px;">
       <td style="width: 175px; height: 3px;">COMUNA</td>
-      <td style="width: 175px; height: 3px;"><!--{{ $estadosDePago->nombreComunaPropiedad }}--></td>
+      <td style="width: 175px; height: 3px;">{{ $estadosDePago->nombreComuna }}</td>
       <td style="width: 175px; height: 3px;">EMAIL</td>
       <td style="width: 175px; text-align: left; height: 3px;">{{ $estadosDePago->email }}</td>
       </tr>
       <tr style="height: 3px;">
       <td style="width: 175px; height: 3px;">CIUDAD</td>
-      <td style="width: 175px; height: 3px;"><!--{{ $estadosDePago->nombreComunaPropiedad }}--></td>
+      <td style="width: 175px; height: 3px;">{{ $estadosDePago->nombreComuna }}</td>
       <td style="width: 175px; height: 3px;">&nbsp;</td>
       <td style="width: 175px; text-align: left; height: 3px;">&nbsp;</td>
       </tr>

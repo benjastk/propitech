@@ -744,7 +744,7 @@ class PagoController extends Controller
     }
     public function pruebaCorreo(Request $request)
     {
-        /*$nuevoPago = Pago::where('idPago', 31)->first();
+        $nuevoPago = Pago::where('idPago', 31)->first();
         $estadosDePago = EstadoPago::where('token', $nuevoPago->tokenEstadoPago)->first(); 
         $descuentos = Descuento::where('idEstadoPago', '=', $estadosDePago->idEstadoPago)->get();
         $cargos = Cargo::where('idEstadoPago', '=', $estadosDePago->idEstadoPago)->get();
@@ -764,8 +764,8 @@ class PagoController extends Controller
                 $totalCargo = $totalCargo + $cargo->montoCargo;
             }
         }
-        EnvioPagoArriendo::dispatch( $nuevoPago->idPago, $cargos, $descuentos, $totalCargo, $totalDescuento);*/
-        $nuevoPago = Pago::where('idPago', 47)->first();
-        EnviarPagoReserva::dispatch( $nuevoPago->idPago);
+        EnvioPagoArriendo::dispatch( $nuevoPago->idPago, $cargos, $descuentos, $totalCargo, $totalDescuento);
+        /*$nuevoPago = Pago::where('idPago', 47)->first();
+        EnviarPagoReserva::dispatch( $nuevoPago->idPago);*/
     }
 }

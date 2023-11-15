@@ -34,8 +34,12 @@ class EnviarPagoReserva implements ShouldQueue
     {
         try{
             $estadosDePago = ReservaPropiedad::select('reservas_propiedades.*', 'pagos.montoPago', 'pagos.numeroTransaccion', 'pagos.secuenciaTransaccion',
-            'pagos.idMetodoPago', 'pagos.tokenPago', 'pagos.metodoPagoOtrosPagos', 'pagos.tipoPago', 'pagos.idPago')
+            'pagos.idMetodoPago', 'pagos.tokenPago', 'pagos.metodoPagoOtrosPagos', 'pagos.tipoPago', 'pagos.idPago', 'paises.nombrePais', 'comuna.nombre as nombreComuna',
+            'region.nombre as nombreRegion')
             ->join('pagos', 'pagos.tokenReserva', '=', 'reservas_propiedades.token')
+            ->join('paises', 'paises.idPais', '=', 'reservas_propiedades.idPais')
+            ->join('comuna', 'comuna.id', '=', 'reservas_propiedades.idComuna')
+            ->join('region', 'region.id', '=', 'reservas_propiedades.idRegion')
             ->leftjoin('metodos_pagos', 'metodos_pagos.idMetodosPagos', '=', 'pagos.idMetodoPago')
             ->where('pagos.idPago', '=', $this->idPago)
             ->first();

@@ -80,11 +80,18 @@
                 <div class="bg-cover d-flex align-items-center custom-vh-100" style="background-image: url(front/pay3.jpg)">
                 <!--<div class="bg-cover d-flex align-items-center custom-vh-100" style="background-color: #2db5ff !important">-->
                     <div class="container py-8 py-lg-12">
-                        <div class="card border-0 mx-auto mr-md-0 my-lg-3" data-animate="fadeInDown" style="margin-left: 0px !important; box-shadow: 10px 10px 12px -1px rgba(0,0,0,0.54) !important">
-                            <div class="card-body pt-7 pb-6 px-7 shadow-lg-4">
-                                <h2 class="card-title text-heading fs-30 text-center font-weight-600 lh-173 m-0">No existe reserva a pagar</h2>
-                                <!--<p class="card-text text-center">Digita tu rut y paga tu arriendo fácil y rápido</p>-->
-                                <p>Cliente no registra deuda.</p>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <!--<img src="/front/images/profile-img.png" alt="" style="width: 100%; float: right; position: inherit;">-->
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="card border-0 mx-auto mr-md-0 my-lg-3" data-animate="fadeInDown" style="margin-left: 0px !important; box-shadow: 10px 10px 12px -1px rgba(0,0,0,0.54) !important">
+                                    <div class="card-body pt-7 pb-6 px-7 shadow-lg-4">
+                                        <h2 class="card-title text-heading fs-30 text-center font-weight-600 lh-173 m-0">No existe reserva a pagar</h2>
+                                        <!--<p class="card-text text-center">Digita tu rut y paga tu arriendo fácil y rápido</p>-->
+                                        <p>Cliente no registra deuda.</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
