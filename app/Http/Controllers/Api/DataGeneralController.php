@@ -114,7 +114,6 @@ class DataGeneralController extends Controller
     }
     public function spam() 
     {
-        $nuevadireccion = urlencode($request);
         $json = "http://www.usenix.org.uk/content/rblremove";
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $json);
