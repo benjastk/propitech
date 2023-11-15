@@ -124,7 +124,7 @@ class DataGeneralController extends Controller
         curl_close($ch);
         $jsonfile = file_get_contents($json);
         $spam = json_decode($jsonfile);
-        return response()->json($spam);
+        return response()->json($response);
     }
     public function allPropertiesForPropit()
     {
