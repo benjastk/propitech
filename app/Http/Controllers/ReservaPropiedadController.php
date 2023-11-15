@@ -13,6 +13,10 @@ use App\NumerosEnLetras;
 use App\LogTransaccion;
 use App\Propiedad;
 use Carbon\Carbon;
+use App\Pais;
+use App\Region;
+use App\Provincia;
+use App\Comuna;
 use App\Estado;
 use App\User;
 use Session;
@@ -55,8 +59,12 @@ class ReservaPropiedadController extends Controller
         ->where('propiedades.idEstado', '=', 42)
         ->get();
         $user = Auth::user();
+        $paises = Pais::get();
+        $regiones = Region::get();
+        $provincias = Provincia::get();
+        $comunas = Comuna::get();
         $estados = Estado::whereIn('idEstado', [47, 48])->get();
-        return view ('back-office.reservas.create', compact('propiedades', 'estados', 'user'));
+        return view ('back-office.reservas.create', compact('propiedades', 'estados', 'user', 'paises', 'regiones', 'comunas', 'provincias'));
     }
 
     /**
@@ -142,9 +150,13 @@ class ReservaPropiedadController extends Controller
         ->whereIn('propiedades.idEstado', [42, 43, 45])
         ->get();
         $user = Auth::user();
+        $paises = Pais::get();
+        $regiones = Region::get();
+        $provincias = Provincia::get();
+        $comunas = Comuna::get();
         $estados = Estado::whereIn('idEstado', [47, 48])->get();
         $reserva = ReservaPropiedad::where('idReserva', $id)->first();
-        return view ('back-office.reservas.edit', compact('reserva', 'estados', 'propiedades', 'user'));
+        return view ('back-office.reservas.edit', compact('reserva', 'estados', 'propiedades', 'user', 'paises', 'regiones', 'comunas', 'provincias'));
     }
 
     /**
