@@ -112,6 +112,21 @@ class DataGeneralController extends Controller
         $google_maps = json_decode($jsonfile);
         return response()->json($google_maps);
     }
+    public function spam() 
+    {
+        $nuevadireccion = urlencode($request);
+        $json = "http://www.usenix.org.uk/content/rblremove";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $json);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        $jsonfile = file_get_contents($json);
+        $spam = json_decode($jsonfile);
+        return response()->json($spam);
+    }
     public function allPropertiesForPropit()
     {
         try
