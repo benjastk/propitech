@@ -400,6 +400,18 @@ class MandatoAdministracionController extends Controller
             'diasEnPalabras'));
             return $pdf->download('mandato-administracion.pdf');
         }
+        elseif($mandatoAdministracion->idPlan == 5)
+        {
+            $pdf = \PDF::loadView('prints.printMandatosAdministracion4', compact('mandatoAdministracion', 'comisionCorretajePalabras', 'porcentajeAdministracionPalabras',
+            'diasEnPalabras'));
+            return $pdf->download('mandato-administracion.pdf');
+        }
+        elseif($mandatoAdministracion->idPlan == 6)
+        {
+            $pdf = \PDF::loadView('prints.printMandatosAdministracion4', compact('mandatoAdministracion', 'comisionCorretajePalabras', 'porcentajeAdministracionPalabras',
+            'diasEnPalabras'));
+            return $pdf->download('mandato-administracion.pdf');
+        }
         else
         {
             toastr()->error('No existe documento para imprimir Mandato, Favor contacte a Administrador');
