@@ -241,20 +241,20 @@
                 </ul>
                 <div class="d-block d-lg-none">
                     <ul class="navbar-nav flex-row ml-auto align-items-center justify-content-lg-end flex-wrap py-2">
-                        <!--<li class="divider"></li>
+                        <!--<li class="divider"></li>-->
                         <li class="nav-item">
-                            <a class="nav-link pl-3 px-2" data-toggle="modal" href="#login-register-modal">Iniciar sesion</a>
-                        </li>-->
+                            <a class="btn btn-primary btn-lg" href="/pago-online">Paga Aquí</a>
+                        </li>
                     </ul>
                 </div>
                 </div>
                 <div class="d-none d-lg-block">
                 <ul class="navbar-nav flex-row ml-auto align-items-center justify-content-lg-end flex-wrap py-2">
-                    <!--<li class="divider"></li>
+                    <!--<li class="divider"></li>-->
                     <li class="nav-item">
-                        <a class="nav-link pl-3 px-2" data-toggle="modal" href="#login-register-modal">Iniciar sesion</a>
+                        <a class="btn btn-outline-light btn-lg text-white rounded-lg bg-hover-primary border-hover-primary hover-white d-none d-lg-block" href="/pago-online">Paga Aquí</a>
                     </li>
-                    <li class="nav-item">
+                    <!--<li class="nav-item">
                     <a class="nav-link px-2 position-relative" href="#">
                         <i class="fal fa-heart fs-large-4"></i>
                         <span class="badge badge-primary badge-circle badge-absolute">1</span>
