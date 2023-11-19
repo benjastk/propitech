@@ -277,7 +277,7 @@
     </div>
 </section>
 <section>
-    <div class="slick-slider mx-0" data-slick-options='{"slidesToShow": 1, "autoplay":true,"dots":false,"arrows":false}'>
+    <!--<div class="slick-slider mx-0" data-slick-options='{"slidesToShow": 1, "autoplay":true,"dots":false,"arrows":false}'>
         @if(count($propiedadesDestacadas))
         @foreach($propiedadesDestacadas as $destacada)
         
@@ -301,8 +301,8 @@
                                 <h2 class="my-0"><a href="/propiedad-venta/{{ $destacada->id }}" class="fs-30 lh-12 text-dark hover-primary">{{ $destacada->nombrePropiedad }}</a></h2>
                                 @endif
                                 <p class="my-3 font-weight-500 text-gray-light lh-15">{{ $destacada->direccion }} {{ $destacada->numero }}, {{ $destacada->nombreComuna }}, {{ $destacada->nombreRegion }}</p>
-                                <!--<p class="fs-14 font-weight-500 letter-spacing-087 text-primary text-uppercase lh-15 mb-1">
-                                    For Sale</p>-->
+                                <p class="fs-14 font-weight-500 letter-spacing-087 text-primary text-uppercase lh-15 mb-1">
+                                    For Sale</p>
                                 @if($destacada->idTipoComercial == 2)
                                 <p class="fs-22 font-weight-bold text-heading"s style="font-family: 'Gordita'; font-size: 30px ! important; color:grey !important;">$ {{ number_format($destacada->valorArriendo, 0, ",", ".") }}</p>
                                 @elseif($destacada->idTipoComercial == 1)
@@ -337,7 +337,8 @@
         </div>
         @endforeach
         @endif
-    </div>
+    </div>-->
+    <img src="/front/frontNuevo.png">
 </section>
 @endif
 <section class="pt-9 pb-9 pb-lg-11" style="padding-bottom: 0px !important;">

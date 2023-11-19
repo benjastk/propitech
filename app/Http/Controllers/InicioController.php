@@ -362,7 +362,7 @@ class InicioController extends Controller
     {
         $propiedad = Propiedad::select('propiedades.*', 'comuna.nombre as nombreComuna', 'provincia.nombre as nombreProvincia',
         'region.nombre as nombreRegion', 'tipos_propiedades.nombreTipoPropiedad', 'niveles_uso_propiedad.nombreNivelUsoPropiedad', 'users.name',
-        'users.email', 'users.telefono')
+        'users.email', 'users.telefono', 'users.avatarImg')
         ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
         ->join('provincia', 'provincia.id', '=', 'propiedades.idProvincia')
         ->join('region', 'region.id', '=', 'propiedades.idRegion')
