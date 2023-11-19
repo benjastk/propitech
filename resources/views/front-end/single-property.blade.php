@@ -55,7 +55,7 @@
                         </li>
                         </ul>
                     </div>
-                    <div class="slick-slider slider-for-01 arrow-haft-inner mx-0" data-slick-options='{"slidesToShow": 1, "autoplay":false, "dots":false,"arrows":false,"asNavFor": ".slider-nav-01"}'>
+                    <div class="slick-slider slider-for-01 arrow-haft-inner mx-0" data-slick-options='{"slidesToShow": 1, "autoplay":true, "dots":false,"arrows":false,"asNavFor": ".slider-nav-01"}'>
                         <div class="box px-0">
                             <div class="item item-size-3-2">
                                 <div class="card p-0 hover-change-image">
@@ -77,7 +77,7 @@
                         @endforeach
                         @endif
                     </div>
-                    <div class="slick-slider slider-nav-01 mt-4 mx-n1 arrow-haft-inner" data-slick-options='{"slidesToShow": 4, "infinite":true, "autoplay":false,"dots":false,"arrows":true,"asNavFor": ".slider-for-01","focusOnSelect": true,"responsive":[{"breakpoint": 768,"settings": {"slidesToShow": 4}},{"breakpoint": 576,"settings": {"slidesToShow": 2}}]}'>
+                    <div class="slick-slider slider-nav-01 mt-4 mx-n1 arrow-haft-inner" data-slick-options='{"slidesToShow": 4, "infinite":true, "autoplay":true,"dots":false,"arrows":false,"asNavFor": ".slider-for-01","focusOnSelect": true,"responsive":[{"breakpoint": 768,"settings": {"slidesToShow": 4}},{"breakpoint": 576,"settings": {"slidesToShow": 2}}]}'>
                         <div class="box pb-6 px-0">
                             <div class="bg-hover-white p-1 shadow-hover-xs-3 h-100 rounded-lg">
                                 <img src="/img/propiedad/{{ $propiedad->fotoPrincipal }}" alt="" class="h-100 w-100 rounded-lg">
@@ -533,7 +533,11 @@
         <div class="d-flex bottom-bar-action bottom-bar-action-01 py-2 px-4 bg-gray-01 align-items-center position-fixed fixed-bottom d-sm-none">
             @if($propiedad->idUsuarioExpertoVendedor)
                 <div class="media align-items-center">
-                        <img src="/front/images/my-profile.png" alt="" class="mr-4 rounded-circle">
+                    @if($propiedad->avatarImg)
+                    <img src="/img/usuarios/{{ $propiedad->avatarImg }}" alt="" class="mr-4 rounded-circle">
+                    @else
+                    <img src="/front/images/my-profile.png" alt="" class="mr-4 rounded-circle">
+                    @endif
                     <div class="media-body">
                         <a href="#" class="d-block text-dark fs-15 font-weight-500 lh-15">{{ $propiedad->name }} {{ $propiedad->apellido }}</a>
                         <span class="fs-13 lh-2">Agente Inmobiliario</span>
