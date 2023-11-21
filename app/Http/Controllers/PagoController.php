@@ -256,253 +256,256 @@ class PagoController extends Controller
                         $firmaOk = true;
                     }
                 }
-                else
-                {
-                    $logPago = new LogTransaccionPagos();
-                    $logPago->nombreTransaccion = 'FIRMA NO COINCIDE EN TRANSACCION - CODIGO 65 - NOTIFICACION DE PAGO';
-                    $logPago->numeroTransaccion = $idTransaccion;
-                    $logPago->webClient = 'OtrosPagos.com - NOTPAG';
-                    $logPago->save();
-                    return response()->json(['r_retcod' => "65"], 200);
-                }
             }
-            //Log::info('Info', array('client' => $request));
-            $reserva = ReservaPropiedad::where('token', $request->p_doc)
-            ->where('idEstado', 47)
-            ->first();
-            $pagoReserva = false;
-            $pagoMes = false;
-            if($reserva)
+            if($firmaOk == true)
             {
+                //Log::info('Info', array('client' => $request));
+                $reserva = ReservaPropiedad::where('token', $request->p_doc)
+                ->where('idEstado', 47)
+                ->first();
+                $pagoReserva = false;
+                $pagoMes = false;
                 if($reserva)
-                {                  
-                    if($firmaOk == true)
-                    {
-                        $reserva = ReservaPropiedad::where('token', '=', $request->p_doc)
-                        ->where('idEstado', 47)
-                        ->first();
-                        if($reserva)
+                {
+                    if($reserva)
+                    {                  
+                        if($firmaOk == true)
                         {
-                            $reserva->idEstado = 48;
-                            $reserva->save();
+                            $reserva = ReservaPropiedad::where('token', '=', $request->p_doc)
+                            ->where('idEstado', 47)
+                            ->first();
+                            if($reserva)
+                            {
+                                $reserva->idEstado = 48;
+                                $reserva->save();
 
-                            $nuevoPago = new Pago();
-                            $nuevoPago->tokenReserva = $reserva->token;
-                            $nuevoPago->montoPago = substr($request->p_mnt, 0, -2);
-                            $nuevoPago->numeroTransaccion = $request->p_tid;
-                            $nuevoPago->secuenciaTransaccion = $request->p_sectr;
-                            $nuevoPago->comentarios = "Pago de reserva realizado desde OtrosPagos.com";
-                            $nuevoPago->metodoPagoOtrosPagos = $request->p_idmp;
-                            $nuevoPago->tipoPago = $request->p_mpti;
-                            $nuevoPago->idMetodoPago = 6;
-                            $nuevoPago->tokenPago = uniqid();
-                            $nuevoPago->creadoPor = "Otros Pagos";
-                            $nuevoPago->save();
+                                $nuevoPago = new Pago();
+                                $nuevoPago->tokenReserva = $reserva->token;
+                                $nuevoPago->montoPago = substr($request->p_mnt, 0, -2);
+                                $nuevoPago->numeroTransaccion = $request->p_tid;
+                                $nuevoPago->secuenciaTransaccion = $request->p_sectr;
+                                $nuevoPago->comentarios = "Pago de reserva realizado desde OtrosPagos.com";
+                                $nuevoPago->metodoPagoOtrosPagos = $request->p_idmp;
+                                $nuevoPago->tipoPago = $request->p_mpti;
+                                $nuevoPago->idMetodoPago = 6;
+                                $nuevoPago->tokenPago = uniqid();
+                                $nuevoPago->creadoPor = "Otros Pagos";
+                                $nuevoPago->save();
 
-                            $nuevoLogTransaccion = new LogTransaccion();
-                            $nuevoLogTransaccion->tipoTransaccion = 'PAGO RESERVA OTROSPAGOS: '.$reserva->idReserva;
-                            $nuevoLogTransaccion->webClient = "OTROSPAGOS.COM - NOTPAG";
-                            $nuevoLogTransaccion->descripcionTransaccion = 'PAGO ARRIENDO OTROSPAGOS: '.$reserva->idReserva;
-                            $nuevoLogTransaccion->save();
-                            
-                            $logPago = new LogTransaccionPagos();
-                            $logPago->idPago = $nuevoPago->idPago;
-                            $logPago->nombreTransaccion = 'PAGO RESERVA OTROSPAGOS DESDE OTROSPAGOS.COM - NOTIFICACION DE PAGO';
-                            $logPago->numeroTransaccion = $request->p_tid;
-                            $logPago->montoTransaccion = substr($request->p_mnt, 0, -2);
-                            $logPago->idMetodoPago = 3;
-                            $logPago->save();
-                            $pagoReserva = true;
-                            EnviarPagoReserva::dispatch( $nuevoPago->idPago);
-                            return response()->json(['r_tid' => $idTransaccion,
-                                                'r_retcod' => "00",
-                                                'r_cau' => $request->p_doc], 200);
+                                $nuevoLogTransaccion = new LogTransaccion();
+                                $nuevoLogTransaccion->tipoTransaccion = 'PAGO RESERVA OTROSPAGOS: '.$reserva->idReserva;
+                                $nuevoLogTransaccion->webClient = "OTROSPAGOS.COM - NOTPAG";
+                                $nuevoLogTransaccion->descripcionTransaccion = 'PAGO ARRIENDO OTROSPAGOS: '.$reserva->idReserva;
+                                $nuevoLogTransaccion->save();
+                                
+                                $logPago = new LogTransaccionPagos();
+                                $logPago->idPago = $nuevoPago->idPago;
+                                $logPago->nombreTransaccion = 'PAGO RESERVA OTROSPAGOS DESDE OTROSPAGOS.COM - NOTIFICACION DE PAGO';
+                                $logPago->numeroTransaccion = $request->p_tid;
+                                $logPago->montoTransaccion = substr($request->p_mnt, 0, -2);
+                                $logPago->idMetodoPago = 3;
+                                $logPago->save();
+                                $pagoReserva = true;
+                                EnviarPagoReserva::dispatch( $nuevoPago->idPago);
+                                return response()->json(['r_tid' => $idTransaccion,
+                                                    'r_retcod' => "00",
+                                                    'r_cau' => $request->p_doc], 200);
+                            }
+                            else
+                            {
+                                $logPago = new LogTransaccionPagos();
+                                $logPago->nombreTransaccion = 'DOCUMENTO DESCONOCIDO - CODIGO 10 - NOTIFICACION DE PAGO';
+                                $logPago->numeroTransaccion = $idTransaccion;
+                                $logPago->webClient = 'OtrosPagos.com - NOTPAG';
+                                $logPago->save();
+                                return response()->json(['r_tid' => $idTransaccion,
+                                    'r_retcod' => "10",
+                                    'r_cau' => $request->p_doc], 200);
+                            }
                         }
                         else
                         {
                             $logPago = new LogTransaccionPagos();
-                            $logPago->nombreTransaccion = 'DOCUMENTO DESCONOCIDO - CODIGO 10 - NOTIFICACION DE PAGO';
+                            $logPago->nombreTransaccion = 'FIRMA DE OTROSPAGOS.COM NO COINCIDE EN TRANSACCION - CODIGO 65';
                             $logPago->numeroTransaccion = $idTransaccion;
-                            $logPago->webClient = 'OtrosPagos.com - NOTPAG';
+                            $logPago->webClient = 'OtrosPago.com - NOTPAG';
                             $logPago->save();
-                            return response()->json(['r_tid' => $idTransaccion,
-                                'r_retcod' => "10",
-                                'r_cau' => $request->p_doc], 200);
+                            return response()->json(['r_retcod' => "65"], 200);
                         }
                     }
                     else
                     {
                         $logPago = new LogTransaccionPagos();
-                        $logPago->nombreTransaccion = 'FIRMA DE OTROSPAGOS.COM NO COINCIDE EN TRANSACCION - CODIGO 65';
+                        $logPago->nombreTransaccion = 'DOCUMENTO DESCONOCIDO - CODIGO 10 - NOTIFICACION DE PAGO';
                         $logPago->numeroTransaccion = $idTransaccion;
-                        $logPago->webClient = 'OtrosPago.com - NOTPAG';
+                        $logPago->webClient = 'OtrosPagos.com - NOTPAG';
                         $logPago->save();
-                        return response()->json(['r_retcod' => "65"], 200);
+                        return response()->json(['r_tid' => $idTransaccion,
+                                    'r_retcod' => "10",
+                                    'r_cau' => $request->p_doc], 200);
                     }
                 }
-                else
+                $estadoDePago = EstadoPago::where('token', '=', $request->p_doc)
+                ->where('idEstado', 47)
+                ->first();
+                if($pagoReserva == false)
                 {
-                    $logPago = new LogTransaccionPagos();
-                    $logPago->nombreTransaccion = 'DOCUMENTO DESCONOCIDO - CODIGO 10 - NOTIFICACION DE PAGO';
-                    $logPago->numeroTransaccion = $idTransaccion;
-                    $logPago->webClient = 'OtrosPagos.com - NOTPAG';
-                    $logPago->save();
-                    return response()->json(['r_tid' => $idTransaccion,
-                                'r_retcod' => "10",
-                                'r_cau' => $request->p_doc], 200);
-                }
-            }
-            $estadoDePago = EstadoPago::where('token', '=', $request->p_doc)
-            ->where('idEstado', 47)
-            ->first();
-            if($pagoReserva == false)
-            {
-                if($estadoDePago && $request->p_doc)
-                {
-                    $estadoDePagoPagado = EstadoPago::where('token', '=', $request->p_doc)
-                    ->where('idEstado', 48)
-                    ->first();
-                    if($estadoDePagoPagado)
+                    if($estadoDePago && $request->p_doc)
+                    {
+                        $estadoDePagoPagado = EstadoPago::where('token', '=', $request->p_doc)
+                        ->where('idEstado', 48)
+                        ->first();
+                        if($estadoDePagoPagado)
+                        {
+                            $logPago = new LogTransaccionPagos();
+                            $logPago->nombreTransaccion = 'PAGO YA SE ENCUENTRA REALIZADO - 01';
+                            $logPago->numeroTransaccion = $idTransaccion;
+                            $logPago->webClient = 'OtrosPago.com - NOTPAG';
+                            $logPago->save();
+                            return response()->json(['r_tid' => $idTransaccion,
+                                                'r_retcod' => "01",
+                                                'r_cau' => $request->p_doc], 200);
+                        }
+                        if($firmaOk == true)
+                        {
+                            $estadoDePago = EstadoPago::where('token', '=', $request->p_doc)->first();
+                            if($estadoDePago && $request->p_doc)
+                            {
+                                if($estadoDePago->saldo > 0)
+                                {
+                                    if(($estadoDePago->saldo - substr($request->p_mnt, 0, -2)) == 0)
+                                    {
+                                        $estadoDePago->idEstado = 48;
+                                        $estadoDePago->saldo = 0;
+                                    }
+                                    else
+                                    {
+                                        $estadoDePago->idEstado = 47;
+                                        $estadoDePago->saldo = $estadoDePago->saldo - substr($request->p_mnt, 0, -2);
+                                    }
+                                }
+                                else
+                                {
+                                    if(($estadoDePago->subtotal - substr($request->p_mnt, 0, -2)) == 0)
+                                    {
+                                        $estadoDePago->idEstado = 48;
+                                        $estadoDePago->saldo = 0;
+                                    }
+                                    else
+                                    {
+                                        $estadoDePago->idEstado = 47;
+                                        $estadoDePago->saldo = $estadoDePago->subtotal - substr($request->p_mnt, 0, -2);
+                                    }
+                                }
+                            
+                                $estadoDePago->totalPagado = $estadoDePago->totalPagado + substr($request->p_mnt, 0, -2);
+                                $estadoDePago->save();
+                                $pagoMes = true;
+
+                                $nuevoPago = new Pago();
+                                $nuevoPago->tokenEstadoPago = $estadoDePago->token;
+                                $nuevoPago->montoPago = substr($request->p_mnt, 0, -2);
+                                $nuevoPago->numeroTransaccion = $request->p_tid;
+                                $nuevoPago->secuenciaTransaccion = $request->p_sectr;
+                                $nuevoPago->comentarios = "Pago de arriendo realizado desde OtrosPagos.com";
+                                $nuevoPago->metodoPagoOtrosPagos = $request->p_idmp;
+                                $nuevoPago->tipoPago = $request->p_mpti;
+                                $nuevoPago->idMetodoPago = 6;
+                                $nuevoPago->tokenPago = uniqid();
+                                $nuevoPago->creadoPor = "Otros Pagos";
+                                $nuevoPago->save();
+
+                                $estadosDePago = EstadoPago::join('pagos', 'pagos.tokenEstadoPago', '=', 'estados_pagos.token')
+                                ->where('pagos.idPago', '=', $nuevoPago->idPago)
+                                ->first();
+
+                                $nuevoLogTransaccion = new LogTransaccion();
+                                $nuevoLogTransaccion->tipoTransaccion = 'PAGO ARRIENDO OTROSPAGOS: '.$estadosDePago->idEstadoPago;
+                                $nuevoLogTransaccion->webclient = "OTROSPAGOS.COM";
+                                $nuevoLogTransaccion->descripcionTransaccion = 'PAGO ARRIENDO OTROSPAGOS: '.$estadosDePago->idEstadoPago;
+                                $nuevoLogTransaccion->save();
+
+                                $logPago = new LogTransaccionPagos();
+                                $logPago->idPago = $nuevoPago->idPago;
+                                $logPago->nombreTransaccion = 'PAGO ARRIENDO OTROSPAGOS DESDE OTROSPAGOS.COM';
+                                $logPago->numeroTransaccion = $request->p_tid;
+                                $logPago->montoTransaccion = substr($request->p_mnt, 0, -2);
+                                $logPago->webClient = 'OtrosPago.com - NOTPAG';
+                                $logPago->idMetodoPago = 3;
+                                $logPago->save();
+
+                                $descuentos = Descuento::where('idEstadoPago', '=', $estadosDePago->idEstadoPago)->get();
+                                $cargos = Cargo::where('idEstadoPago', '=', $estadosDePago->idEstadoPago)->get();
+                                $totalDescuento = 0;
+                                $totalCargo = 0;
+                                if(isset($descuentos))
+                                {
+                                    foreach($descuentos as $descuento)
+                                    {
+                                        $totalDescuento = $totalDescuento + $descuento->montoDescuento;
+                                    }
+                                }
+                                if(isset($cargos))
+                                {
+                                    foreach($cargos as $cargo)
+                                    {
+                                        $totalCargo = $totalCargo + $cargo->montoCargo;
+                                    }
+                                }
+                                EnvioPagoArriendo::dispatch( $nuevoPago->idPago, $cargos, $descuentos, $totalCargo, $totalDescuento);
+                                return response()->json(['r_tid' => $idTransaccion,
+                                                    'r_retcod' => "00",
+                                                    'r_cau' => $request->p_doc], 200);
+                            }
+                            else
+                            {
+                                return response()->json(['r_tid' => $idTransaccion,
+                                            'r_retcod' => "10",
+                                            'r_cau' => $request->p_doc], 200);
+                            }
+                        }
+                        else
+                        {
+                            $logPago = new LogTransaccionPagos();
+                            $logPago->nombreTransaccion = 'FIRMA DE OTROSPAGOS.COM NO COINCIDE EN TRANSACCION - CODIGO 65';
+                            $logPago->numeroTransaccion = $idTransaccion;
+                            $logPago->webClient = 'OtrosPago.com - NOTPAG';
+                            $logPago->save();
+                            return response()->json(['r_retcod' => "65"], 200);
+                        }
+                    }
+                    else
                     {
                         $logPago = new LogTransaccionPagos();
-                        $logPago->nombreTransaccion = 'PAGO YA SE ENCUENTRA REALIZADO - 01';
+                        $logPago->nombreTransaccion = 'DOCUMENTO SIN DEUDA - CODIGO 07 - NOTIFICACION DE PAGO';
                         $logPago->numeroTransaccion = $idTransaccion;
                         $logPago->webClient = 'OtrosPago.com - NOTPAG';
                         $logPago->save();
                         return response()->json(['r_tid' => $idTransaccion,
-                                            'r_retcod' => "01",
-                                            'r_cau' => $request->p_doc], 200);
-                    }
-                    if($firmaOk == true)
-                    {
-                        $estadoDePago = EstadoPago::where('token', '=', $request->p_doc)->first();
-                        if($estadoDePago && $request->p_doc)
-                        {
-                            if($estadoDePago->saldo > 0)
-                            {
-                                if(($estadoDePago->saldo - substr($request->p_mnt, 0, -2)) == 0)
-                                {
-                                    $estadoDePago->idEstado = 48;
-                                    $estadoDePago->saldo = 0;
-                                }
-                                else
-                                {
-                                    $estadoDePago->idEstado = 47;
-                                    $estadoDePago->saldo = $estadoDePago->saldo - substr($request->p_mnt, 0, -2);
-                                }
-                            }
-                            else
-                            {
-                                if(($estadoDePago->subtotal - substr($request->p_mnt, 0, -2)) == 0)
-                                {
-                                    $estadoDePago->idEstado = 48;
-                                    $estadoDePago->saldo = 0;
-                                }
-                                else
-                                {
-                                    $estadoDePago->idEstado = 47;
-                                    $estadoDePago->saldo = $estadoDePago->subtotal - substr($request->p_mnt, 0, -2);
-                                }
-                            }
-                           
-                            $estadoDePago->totalPagado = $estadoDePago->totalPagado + substr($request->p_mnt, 0, -2);
-                            $estadoDePago->save();
-                            $pagoMes = true;
-
-                            $nuevoPago = new Pago();
-                            $nuevoPago->tokenEstadoPago = $estadoDePago->token;
-                            $nuevoPago->montoPago = substr($request->p_mnt, 0, -2);
-                            $nuevoPago->numeroTransaccion = $request->p_tid;
-                            $nuevoPago->secuenciaTransaccion = $request->p_sectr;
-                            $nuevoPago->comentarios = "Pago de arriendo realizado desde OtrosPagos.com";
-                            $nuevoPago->metodoPagoOtrosPagos = $request->p_idmp;
-                            $nuevoPago->tipoPago = $request->p_mpti;
-                            $nuevoPago->idMetodoPago = 6;
-                            $nuevoPago->tokenPago = uniqid();
-                            $nuevoPago->creadoPor = "Otros Pagos";
-                            $nuevoPago->save();
-
-                            $estadosDePago = EstadoPago::join('pagos', 'pagos.tokenEstadoPago', '=', 'estados_pagos.token')
-                            ->where('pagos.idPago', '=', $nuevoPago->idPago)
-                            ->first();
-
-                            $nuevoLogTransaccion = new LogTransaccion();
-                            $nuevoLogTransaccion->tipoTransaccion = 'PAGO ARRIENDO OTROSPAGOS: '.$estadosDePago->idEstadoPago;
-                            $nuevoLogTransaccion->webclient = "OTROSPAGOS.COM";
-                            $nuevoLogTransaccion->descripcionTransaccion = 'PAGO ARRIENDO OTROSPAGOS: '.$estadosDePago->idEstadoPago;
-                            $nuevoLogTransaccion->save();
-
-                            $logPago = new LogTransaccionPagos();
-                            $logPago->idPago = $nuevoPago->idPago;
-                            $logPago->nombreTransaccion = 'PAGO ARRIENDO OTROSPAGOS DESDE OTROSPAGOS.COM';
-                            $logPago->numeroTransaccion = $request->p_tid;
-                            $logPago->montoTransaccion = substr($request->p_mnt, 0, -2);
-                            $logPago->webClient = 'OtrosPago.com - NOTPAG';
-                            $logPago->idMetodoPago = 3;
-                            $logPago->save();
-
-                            $descuentos = Descuento::where('idEstadoPago', '=', $estadosDePago->idEstadoPago)->get();
-                            $cargos = Cargo::where('idEstadoPago', '=', $estadosDePago->idEstadoPago)->get();
-                            $totalDescuento = 0;
-                            $totalCargo = 0;
-                            if(isset($descuentos))
-                            {
-                                foreach($descuentos as $descuento)
-                                {
-                                    $totalDescuento = $totalDescuento + $descuento->montoDescuento;
-                                }
-                            }
-                            if(isset($cargos))
-                            {
-                                foreach($cargos as $cargo)
-                                {
-                                    $totalCargo = $totalCargo + $cargo->montoCargo;
-                                }
-                            }
-                            EnvioPagoArriendo::dispatch( $nuevoPago->idPago, $cargos, $descuentos, $totalCargo, $totalDescuento);
-                            return response()->json(['r_tid' => $idTransaccion,
-                                                'r_retcod' => "00",
-                                                'r_cau' => $request->p_doc], 200);
-                        }
-                        else
-                        {
-                            return response()->json(['r_tid' => $idTransaccion,
-                                        'r_retcod' => "10",
-                                        'r_cau' => $request->p_doc], 200);
-                        }
-                    }
-                    else
-                    {
-                        $logPago = new LogTransaccionPagos();
-                        $logPago->nombreTransaccion = 'FIRMA DE OTROSPAGOS.COM NO COINCIDE EN TRANSACCION - CODIGO 65';
-                        $logPago->numeroTransaccion = $idTransaccion;
-                        $logPago->webClient = 'OtrosPago.com - NOTPAG';
-                        $logPago->save();
-                        return response()->json(['r_retcod' => "65"], 200);
+                                    'r_retcod' => "07",
+                                    'r_cau' => $request->p_doc], 200);
                     }
                 }
-                else
+                if($pagoReserva == false && $pagoMes == false)
                 {
                     $logPago = new LogTransaccionPagos();
-                    $logPago->nombreTransaccion = 'DOCUMENTO SIN DEUDA - CODIGO 07 - NOTIFICACION DE PAGO';
+                    $logPago->nombreTransaccion = 'NO EXISTE ID PARA TRANSACCION DESDE OTROSPAGOS.COM - CODIGO 12';
                     $logPago->numeroTransaccion = $idTransaccion;
                     $logPago->webClient = 'OtrosPago.com - NOTPAG';
                     $logPago->save();
                     return response()->json(['r_tid' => $idTransaccion,
-                                'r_retcod' => "07",
-                                'r_cau' => $request->p_doc], 200);
+                                        'r_retcod' => "12",
+                                        'r_cau' => $request->p_doc], 200);
                 }
             }
-            if($pagoReserva == false && $pagoMes == false)
+            else
             {
                 $logPago = new LogTransaccionPagos();
-                $logPago->nombreTransaccion = 'NO EXISTE ID PARA TRANSACCION DESDE OTROSPAGOS.COM - CODIGO 12';
+                $logPago->nombreTransaccion = 'FIRMA NO COINCIDE EN TRANSACCION - CODIGO 65 - NOTIFICACION DE PAGO';
                 $logPago->numeroTransaccion = $idTransaccion;
-                $logPago->webClient = 'OtrosPago.com - NOTPAG';
+                $logPago->webClient = 'OtrosPagos.com - NOTPAG';
                 $logPago->save();
-                return response()->json(['r_tid' => $idTransaccion,
-                                    'r_retcod' => "12",
-                                    'r_cau' => $request->p_doc], 200);
+                return response()->json(['r_retcod' => "65"], 200);
             }
         }
         else
