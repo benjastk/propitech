@@ -218,6 +218,54 @@ class PagoController extends Controller
         $idTransaccion = (int)$request->p_tid;
         if($idTransaccion)
         {
+            $convenio = getenv("OTROS_PAGOS_COVENIO");
+            $key = $request->p_fectr.$request->p_tid.$convenio;
+            $llave = str_pad($key, 16);
+            try 
+            {
+                $encriptacion = openssl_encrypt($llave, "AES-256-CBC", getenv("OTROS_PAGOS_KEY"), 1, getenv("OTROS_PAGOS_IV"));
+            } 
+            catch (\Throwable $th) 
+            {
+                $logPago = new LogTransaccionPagos();
+                $logPago->nombreTransaccion = 'FIRMA DE OTROSPAGOS.COM NO COINCIDE EN TRANSACCION - CODIGO 65';
+                $logPago->numeroTransaccion = $request->p_tid;
+                $logPago->webClient = 'OtrosPagos.com - NOTPAG';
+                $logPago->save();
+                return response()->json(['r_retcod' => "65"], 200);
+            }
+            $h_firma = base64_encode($encriptacion);
+            //cambiar a false
+            $firmaOk = false;
+            $headers = apache_request_headers();
+            foreach ($headers as $header => $value) 
+            {
+                if($header == "H-Firma")
+                {
+                    if($value != $h_firma)
+                    {
+                        $logPago = new LogTransaccionPagos();
+                        $logPago->nombreTransaccion = 'FIRMA NO COINCIDE EN TRANSACCION - CODIGO 65 - NOTIFICACION DE PAGO';
+                        $logPago->numeroTransaccion = $idTransaccion;
+                        $logPago->webClient = 'OtrosPagos.com - NOTPAG';
+                        $logPago->save();
+                        return response()->json(['r_retcod' => "65"], 200);
+                    }
+                    else
+                    {
+                        $firmaOk = true;
+                    }
+                }
+                else
+                {
+                    $logPago = new LogTransaccionPagos();
+                    $logPago->nombreTransaccion = 'FIRMA NO COINCIDE EN TRANSACCION - CODIGO 65 - NOTIFICACION DE PAGO';
+                    $logPago->numeroTransaccion = $idTransaccion;
+                    $logPago->webClient = 'OtrosPagos.com - NOTPAG';
+                    $logPago->save();
+                    return response()->json(['r_retcod' => "65"], 200);
+                }
+            }
             //Log::info('Info', array('client' => $request));
             $reserva = ReservaPropiedad::where('token', $request->p_doc)
             ->where('idEstado', 47)
@@ -227,47 +275,7 @@ class PagoController extends Controller
             if($reserva)
             {
                 if($reserva)
-                {
-                    $convenio = getenv("OTROS_PAGOS_COVENIO");
-                    $key = $request->p_fectr.$request->p_tid.$convenio;
-                    $llave = str_pad($key, 16);
-                    try 
-                    {
-                        $encriptacion = openssl_encrypt($llave, "AES-256-CBC", getenv("OTROS_PAGOS_KEY"), 1, getenv("OTROS_PAGOS_IV"));
-                    } 
-                    catch (\Throwable $th) 
-                    {
-                        $logPago = new LogTransaccionPagos();
-                        $logPago->nombreTransaccion = 'FIRMA DE OTROSPAGOS.COM NO COINCIDE EN TRANSACCION - CODIGO 65';
-                        $logPago->numeroTransaccion = $request->p_tid;
-                        $logPago->webClient = 'OtrosPagos.com - NOTPAG - RESERVA';
-                        $logPago->save();
-                        return response()->json(['r_retcod' => "65"], 200);
-                    }
-                    
-                    $h_firma = base64_encode($encriptacion);
-                    //cambiar a false
-                    $firmaOk = false;
-                    $headers = apache_request_headers();
-                    foreach ($headers as $header => $value) 
-                    {
-                        if($header == "H-Firma")
-                        {
-                            if($value != $h_firma)
-                            {
-                                $logPago = new LogTransaccionPagos();
-                                $logPago->nombreTransaccion = 'FIRMA NO COINCIDE EN TRANSACCION - CODIGO 65 - NOTIFICACION DE PAGO';
-                                $logPago->numeroTransaccion = $idTransaccion;
-                                $logPago->webClient = 'OtrosPagos.com - NOTPAG';
-                                $logPago->save();
-                                return response()->json(['r_retcod' => "65"], 200);
-                            }
-                            else
-                            {
-                                $firmaOk = true;
-                            }
-                        }
-                    }
+                {                  
                     if($firmaOk == true)
                     {
                         $reserva = ReservaPropiedad::where('token', '=', $request->p_doc)
@@ -347,63 +355,23 @@ class PagoController extends Controller
             $estadoDePago = EstadoPago::where('token', '=', $request->p_doc)
             ->where('idEstado', 47)
             ->first();
-            $estadoDePagoPagado = EstadoPago::where('token', '=', $request->p_doc)
-            ->where('idEstado', 48)
-            ->first();
-            if($estadoDePagoPagado)
-            {
-                $logPago = new LogTransaccionPagos();
-                $logPago->nombreTransaccion = 'PAGO YA SE ENCUENTRA REALIZADO - 01';
-                $logPago->numeroTransaccion = $idTransaccion;
-                $logPago->webClient = 'OtrosPago.com - NOTPAG';
-                $logPago->save();
-                return response()->json(['r_tid' => $idTransaccion,
-                                    'r_retcod' => "01",
-                                    'r_cau' => $request->p_doc], 200);
-            }
             if($pagoReserva == false)
             {
                 if($estadoDePago && $request->p_doc)
                 {
-                    $convenio = getenv("OTROS_PAGOS_COVENIO");
-                    $key = $request->p_fectr.$request->p_tid.$convenio;
-                    $llave = str_pad($key, 16);
-                    try 
-                    {
-                        $encriptacion = openssl_encrypt($llave, "AES-256-CBC", getenv("OTROS_PAGOS_KEY"), 1, getenv("OTROS_PAGOS_IV"));
-                    } 
-                    catch (\Throwable $th) 
+                    $estadoDePagoPagado = EstadoPago::where('token', '=', $request->p_doc)
+                    ->where('idEstado', 48)
+                    ->first();
+                    if($estadoDePagoPagado)
                     {
                         $logPago = new LogTransaccionPagos();
-                        $logPago->nombreTransaccion = 'FIRMA DE OTROSPAGOS.COM NO COINCIDE EN TRANSACCION - CODIGO 65';
-                        $logPago->numeroTransaccion = $request->p_tid;
-                        $logPago->webClient = 'OtrosPagos.com - NOTPAG';
+                        $logPago->nombreTransaccion = 'PAGO YA SE ENCUENTRA REALIZADO - 01';
+                        $logPago->numeroTransaccion = $idTransaccion;
+                        $logPago->webClient = 'OtrosPago.com - NOTPAG';
                         $logPago->save();
-                        return response()->json(['r_retcod' => "65"], 200);
-                    }
-                    
-                    $h_firma = base64_encode($encriptacion);
-                    //cambiar a false
-                    $firmaOk = false;
-                    $headers = apache_request_headers();
-                    foreach ($headers as $header => $value) 
-                    {
-                        if($header == "H-Firma")
-                        {
-                            if($value != $h_firma)
-                            {
-                                $logPago = new LogTransaccionPagos();
-                                $logPago->nombreTransaccion = 'FIRMA NO COINCIDE EN TRANSACCION - CODIGO 65 - NOTIFICACION DE PAGO';
-                                $logPago->numeroTransaccion = $idTransaccion;
-                                $logPago->webClient = 'OtrosPagos.com - NOTPAG';
-                                $logPago->save();
-                                return response()->json(['r_retcod' => "65"], 200);
-                            }
-                            else
-                            {
-                                $firmaOk = true;
-                            }
-                        }
+                        return response()->json(['r_tid' => $idTransaccion,
+                                            'r_retcod' => "01",
+                                            'r_cau' => $request->p_doc], 200);
                     }
                     if($firmaOk == true)
                     {
