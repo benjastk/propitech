@@ -35,6 +35,26 @@
         padding: 0px !important;
         width: 100% !important;
     }
+    @media (min-width: 1301) {
+        .fotoPropiedad {
+            height: 160px !important;
+        }
+    }
+    @media (max-width: 1024px) {
+        .fotoPropiedad {
+            height: 98px !important;
+        }
+    }
+    @media (max-width: 600px) {
+        .fotoPropiedad {
+            height: 95px !important;
+        }
+    }
+    @media (max-width: 450px) {
+        .fotoPropiedad {
+            height: 95px !important;
+        }
+    }
 </style>
 @endsection
 @section('content')
@@ -196,11 +216,11 @@
             var contentString = 
                 `<div class="mappopupdiv" style="width: 100%">
                     <div > 
-                        <img src="/img/propiedad/{{ $propiedadArriendo->fotoPrincipal }}" style="height: 160px; width: 100%;"alt="">
+                        <img class="fotoPropiedad" src="/img/propiedad/{{ $propiedadArriendo->fotoPrincipal }}" style="height: 160px; width: 100%;"alt="">
                     </div>
                     <div style="padding: 10px 10px 15px !important">
                         <div > 
-                            <h6 style="font-family: 'Poppins', sans-serif;">{{ $propiedadArriendo->direccion }} {{ $propiedadArriendo->numero }}, {{ $propiedadArriendo->nombreComuna }}</h6> 
+                            <a href="/propiedad-arriendo/{{ $propiedadArriendo->id }}"><h6 style="font-family: 'Poppins', sans-serif;">{{ $propiedadArriendo->direccion }} {{ $propiedadArriendo->numero }}, {{ $propiedadArriendo->nombreComuna }}</h6></a> 
                         </div>
                         <div class="row">
                             <div class="col-4">
