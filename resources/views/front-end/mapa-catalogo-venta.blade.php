@@ -43,11 +43,11 @@
         <div class="row no-gutters" style="height: 100%;">
             <div class="col-xl-5 order-1 order-xl-1" id="map-sticky">
                 <div class="map_box_container">
-                    <div clas="d-none d-lg-block d-md-block">
+                    <div clas="d-block d-sm-none">
                         <div id="map" style="height: 100% !important">
                         </div>
                     </div>
-                    <div class="d-none d-sm-block" >
+                    <div class="d-block" >
                         <div id="map1" style="height: 300px; position: relative: !important">
                         </div>
                     </div>

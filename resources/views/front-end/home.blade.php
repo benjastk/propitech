@@ -338,7 +338,8 @@
         @endforeach
         @endif
     </div>-->
-    <img src="/front/frontNuevo.png">
+    <img class="d-none d-xl-block d-md-block" src="/front/frontNuevo.png">
+    <img class="d-sm-block d-xl-none d-md-none d-lg-none" src="/front/frontNuevoMobile.png">
 </section>
 @endif
 <section class="pt-9 pb-9 pb-lg-11" style="padding-bottom: 0px !important;">
@@ -653,7 +654,7 @@
         </div>
     </section>
     <section class="pt-11 pb-13">
-        <div class="bg-cover d-flex align-items-center custom-vh-100 contactanos" id="contactanos" style="background-image: url(/front/5555.png); background-size: contain">
+        <div class="bg-cover d-flex align-items-center custom-vh-100 contactanos" id="contactanos" style="background-image: url(/front/5555.png);">
             <div class="container">
                 <div class="row">
                     <div class="col-md-5 col-sm-12 pb-7 pb-lg-0">
