@@ -71,10 +71,13 @@ Route::prefix('properties')->group(function () {
     Route::get('/edit/{propiedad}', 'PropertyController@edit');
     Route::post('/update/{propiedad}', 'PropertyController@update');
     Route::post('/destroy', 'PropertyController@destroy');
-
+    
     Route::post('/img/subir/{id}', 'PropertyController@subirImagen');
     Route::post('/img/eliminar/{fileName}', 'PropertyController@eliminarImagen');
     Route::get('/export', 'PropertyController@exportExcel')->name('export-properties');
+
+    Route::get('/suspendidas', 'PropertyController@suspendidas');
+    Route::post('/suspender/{propiedad}', 'PropertyController@suspender');
 });
 Route::prefix('noticias')->group(function () {
     Route::get('/', 'NoticiaController@index')->name('noticias');
