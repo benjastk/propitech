@@ -49,23 +49,20 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="page-title-box d-flex align-items-center justify-content-between">
-                            <h4 class="mb-0 font-size-18">Listado de propiedades</h4>
+                            <h4 class="mb-0 font-size-18">Propiedades Suspendidas</h4>
 
-                            <div class="page-title-right">
-                                <!--<ol class="breadcrumb m-0">
+                            <!--<div class="page-title-right">
+                                <ol class="breadcrumb m-0">
                                     <li class="breadcrumb-item"><a href="javascript: void(0);">Contactos</a></li>
                                     <li class="breadcrumb-item active">Lista de usuarios</li>
-                                </ol>-->
-                                <a href="/properties/suspendidas" class="btn btn-danger waves-effect waves-light" style="margin-right: 10px">
-                                    <i class="fa fa-minus"></i> Propiedades Supendidas
-                                </a>
+                                </ol>
                                 <a href="/properties/export" class="btn btn-success waves-effect waves-light" style="margin-right: 10px">
-                                    <i class="far fa-file-excel"></i> Descargar Excel
+                                <i class="far fa-file-excel"></i> Descargar Excel
                                 </a>
                                 <a href="/properties/create" class="btn btn-info waves-effect waves-light" style="margin-right: 10px">
                                     <i class="bx bx-plus font-size-16 align-middle mr-2"></i> Crear Propiedad
                                 </a>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                 </div>
@@ -155,29 +152,17 @@
                                             </td>
                                             <td>
                                                 <ul class="list-inline font-size-20 contact-links mb-0">
-                                                    <!--<li class="list-inline-item px-2">
-                                                        <a href="" data-toggle="tooltip" data-placement="top" title="Message"><i class="bx bx-message-square-dots"></i></a>
-                                                    </li>
-                                                    <li class="list-inline-item px-2">
-                                                        <a href="" data-toggle="tooltip" data-placement="top" title="Profile"><i class="bx bx-user-circle"></i></a>
-                                                    </li>-->
-                                                    <li class="list-inline-item">
-                                                        <a href="/contratos/contratos-propiedad/{{ $propiedad->id }}" data-toggle="tooltip" data-placement="top" title="Contratos"><i class="bx bxs-file"></i></a>
-                                                    </li>
-                                                    <li class="list-inline-item">
-                                                        <a href="/mandatos/mandatos-propiedad/{{ $propiedad->id }}" data-toggle="tooltip" data-placement="top" title="Mandatos"><i class="bx bxs-spreadsheet"></i></a>
-                                                    </li>
                                                     <li class="list-inline-item">
                                                         <a href="/properties/edit/{{ $propiedad->id }}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bx bxs-edit-alt"></i></a>
                                                     </li>
-                                                    <li class="list-inline-item">
+                                                    <!--<li class="list-inline-item">
                                                         <form id="form1" action="{{ url('/properties/destroy') }}" method="post">
                                                             {{ csrf_field() }}
                                                             <input type="hidden" name="id" value="{{ $propiedad->id }}"/>
                                                             <button style="border: 0px; background-color: white;" type="submit"><i class="bx bxs-trash-alt"></i></button>
                                                         </form>
-                                                        <!--<a href="/users/edit/{{ $user->id }}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bx bxs-trash-alt"></i></a>-->
-                                                    </li>
+                                                        <a href="/users/edit/{{ $user->id }}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bx bxs-trash-alt"></i></a>
+                                                    </li>-->
                                                 </ul>
                                             </td>
                                         </tr>
