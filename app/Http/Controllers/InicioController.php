@@ -572,6 +572,8 @@ class InicioController extends Controller
     }
     public function pagarOnline(Request $request)
     {
+        Session::put('idEstadoPagoOtrosPagos', '');
+        Session::put('tokenOtrosPagos', '');
         if($request->rut)
         {
             $estadoPago = EstadoPago::select('estados_pagos.*', 'users.rut', 'users.idTipoRut')
@@ -585,7 +587,8 @@ class InicioController extends Controller
             $convenio = getenv("OTROS_PAGOS_COVENIO");
             if($estadoPago)
             {
-                Session::put('idEstadoPago', $estadoPago->idEstadoPago);
+                Session::put('idEstadoPagoOtrosPagos', $estadoPago->idEstadoPago);
+                Session::put('tokenOtrosPagos', $estadoPago->token);
                 if($estadoPago->idTipoRut == 2)
                 {
                     $tipoRut = '07';
@@ -594,7 +597,7 @@ class InicioController extends Controller
                 {
                     $tipoRut = '01';
                 }
-                return redirect()->to('https://otrospagos.com/publico/portal/enlace?id='.$convenio.'&idcli='.$estadoPago->rut.'&tiidc='.$tipoRut.'');
+                return redirect()->to('https://pre.otrospagos.com/publico/portal/enlace?id='.$convenio.'&idcli='.$estadoPago->rut.'&tiidc='.$tipoRut.'');
             }
             else
             {
@@ -664,7 +667,7 @@ class InicioController extends Controller
             if($reserva)
             {
                 $tipoRut = '01';
-                return redirect()->to('https://otrospagos.com/publico/portal/enlace?id='.$convenio.'&idcli='.$reserva->rut.'&tiidc='.$tipoRut.'');
+                return redirect()->to('https://pre.otrospagos.com/publico/portal/enlace?id='.$convenio.'&idcli='.$reserva->rut.'&tiidc='.$tipoRut.'');
             }
             else
             {
