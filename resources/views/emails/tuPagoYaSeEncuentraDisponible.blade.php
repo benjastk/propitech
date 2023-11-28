@@ -4,7 +4,7 @@
         <tbody>
             <tr>
                 <td valign="top" style="text-align: center;">
-                    <p class="v1MsoNormal"><strong>&iexcl;Hola&nbsp;Benjam&iacute;n P&eacute;rez</strong><strong>👋!</strong></p>
+                    <p class="v1MsoNormal"><strong>&iexcl;Hola&nbsp;{{ $estadoPago->name }} {{ $estadoPago->apellido }}</strong><strong>👋!</strong></p>
                 </td>
             </tr>
         </tbody>
@@ -13,33 +13,34 @@
         <tbody>
             <tr>
                 <td valign="top">
-                    <p class="v1MsoNormal" style="text-align: center;">Ya se encuentra disponible el pago para julio.</p>
+                    <p class="v1MsoNormal" style="text-align: center;">Ya se encuentra disponible el pago de tu arriendo del mes de {{ strftime("%B de %Y", strtotime($estadoPago->fechaVencimiento)) }}.</p>
                 </td>
             </tr>
         </tbody>
     </table>
     <br>
+    
     <table style="width: 100%;">
         <tbody>
-            <tr>
+            <tr>@php(setlocale(LC_TIME, 'spanish'))
                 <td style="width: 50%;"><strong>Valor arriendo</strong></td>
-                <td style="width: 50%; text-align: right;">$000.000</td>
+                <td style="width: 50%; text-align: right;">$ {{ number_format($estadoPago->arriendoMensual, 0, ",", ".") }}</td>
             </tr>
-            <tr>
+            <!--<tr>
                 <td style="width: 50%;"><strong>Reajuste mensualidad</strong></td>
                 <td style="width: 50%; text-align: right;">$0</td>
             </tr>
             <tr>
                 <td style="width: 50%;"><strong>Multa</strong></td>
                 <td style="width: 50%; text-align: right;">$0</td>
-            </tr>
+            </tr>-->
             <tr>
                 <td style="width: 50%;"><strong>Abonos</strong></td>
-                <td style="width: 50%; text-align: right;">$0</td>
+                <td style="width: 50%; text-align: right;">${{ number_format($totalCargo, 0, ",", ".") }}</td>
             </tr>
             <tr>
                 <td style="width: 50%;"><strong>Descuentos</strong></td>
-                <td style="width: 50%; text-align: right;">$0</td>
+                <td style="width: 50%; text-align: right;">${{ number_format($totalDescuento, 0, ",", ".") }}</td>
             </tr>
             <!--<tr>
                 <td style="width: 50%;">&nbsp;</td>
@@ -52,7 +53,7 @@
         <tbody>
             <tr>
                 <td style="width: 50%;"><strong>Total</strong></td>
-                <td style="width: 50%; text-align: right;"><strong><span style="color: #3366ff;">$000.000</span></strong></td>
+                <td style="width: 50%; text-align: right;"><strong><span style="color: #3366ff;">$ {{ number_format($estadoPago->subtotal, 0, ",", ".") }}</span></strong></td>
             </tr>
         </tbody>
     </table>
@@ -71,7 +72,7 @@
         <tbody>
             <tr>
                 <td style="width: 100; text-align: center;">
-                    <a href="https://otrospagos.com/publico/portal/enlace?convenio=cirobu%20propiedades%20-%20arriendos" target="_blank" rel="noreferrer" style="padding: 10px; background-color: red; color: white; font-weight: bolder; font-size: 16px; border-radius: 5px;">
+                    <a href="https://pre.otrospagos.com/publico/portal/enlace?convenio=propitech" target="_blank" rel="noreferrer" style="padding: 10px; background-color: red; color: white; font-weight: bolder; font-size: 16px; border-radius: 5px;">
                         Pagar Arriendo
                     </a>
                 </td>
@@ -83,7 +84,7 @@
         <tbody>
             <tr>
                 <td valign="top">
-                    <p class="v1MsoNormal">Si el enlace del bot&oacute;n no funciona, ingresa a&nbsp;<a href="https://otrospagos.com/publico/portal/enlace?convenio=cirobu%20propiedades%20-%20arriendos" target="_blank" rel="noreferrer">https://otrospagos.com/publico/portal/enlace?convenio=cirobu%20propiedades%20-%20arriendos</a>&nbsp;&nbsp;y sigue los pasos</p>
+                    <p class="v1MsoNormal">Si el enlace del bot&oacute;n no funciona, ingresa a&nbsp;<a href="https://otrospagos.com/publico/portal/enlace?convenio=propitech" target="_blank" rel="noreferrer">https://otrospagos.com/publico/portal/enlace?convenio=propitech</a>&nbsp;&nbsp;y sigue los pasos</p>
                     <p class="v1MsoNormal" align="center">&nbsp;</p>
                     <p class="v1MsoNormal" align="center">👀 Si ya realizaste el pago, por favor omite este mensaje 😁.</p>
                 </td>

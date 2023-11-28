@@ -51,6 +51,9 @@ Route::get('/login', function () {
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/leads', 'HomeController@leads')->name('leads');
+Route::get('/recordarPagoArrendatariosMensual', 'AlertaController@recordarPagoArrendatariosMensual');
+Route::get('/morosos', 'EstadoPagoController@cambiarAMoroso');
+Route::get('/vencidos', 'EstadoPagoController@cambiarAVencido');
 Route::get('/tokenizarEstadosPagos', 'EstadoPagoController@tokenizarEstadosPagos');
 Route::prefix('users')->group(function () {
     Route::get('/', 'UserController@index')->name('users');
@@ -152,5 +155,4 @@ Route::prefix('parametros')->group(function () {
     Route::get('/edit/{parametro}', 'ParametrosGeneralesController@edit');
     Route::post('/update/{parametro}', 'ParametrosGeneralesController@update');
 
-    Route::get('/recordarPago', 'EstadoPagoController@recordarPago');
 });
