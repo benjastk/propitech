@@ -141,7 +141,7 @@ class ContratoArriendoController extends Controller
             for($i = 1; $i <= $nuevoContrato->tiempoContrato; $i++){
                 $nuevosEstadosPagos = new EstadoPago();
                 $nuevosEstadosPagos->idContrato = $nuevoContrato->idContratoArriendo;
-
+                $nuevosEstadosPagos->token = uniqid();
                 if($i > 1)
                 {
                     $fechaVencimientoInicial = Carbon::parse($fechaVencimientoInicial)->addMonths(1)->format('Y-m-d');

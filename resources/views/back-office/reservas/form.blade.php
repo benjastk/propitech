@@ -139,6 +139,77 @@
     </div>
     <br>
     <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-12">
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label>Pais</label>
+                    <select name="idPais" id="idPais" class="form-control" required >
+                        @if(!isset($reserva->idPais))
+                            <option value="" >Pais</option>
+                            @foreach($paises as $pais)
+                            <option value="{{ $pais->idPais }}" {{ (Input::old("idPais") == $pais->idPais ? "selected":"") }} >{{ $pais->nombrePais }}</option>
+                            @endforeach
+                        @else
+                            <option>Pais</option>
+                            @foreach ($paises as $pais)
+                                <option value="{{ $pais->idPais }}" {{ ($pais->idPais == $reserva->idPais) ? 'selected' : ''}}>{{ $pais->nombrePais}}</option>
+                            @endforeach
+                        @endif
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-12">
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label>Region</label>
+                    <select name="idRegion" id="idRegion" class="form-control" required >
+                    @if(!isset($reserva->idRegion))
+                        <option value="" >Region</option>
+                    @else
+                        @foreach ($regiones as $region)
+                            <option value="{{ $region->id }}" {{ ($region->id == $reserva->idRegion) ? 'selected' : ''}}>{{ $region->nombre}}</option>
+                        @endforeach
+                    @endif
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-12">
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label>Provincia</label>
+                    <select name="idProvincia" id="idProvincia" class="form-control" required>
+                        @if(!isset($reserva->idProvincia))
+                            <option value="" >Provincia</option>
+                        @else
+                            @foreach ($provincias as $provincia)
+                                <option value="{{ $provincia->id }}" {{ ($provincia->id == $reserva->idProvincia) ? 'selected' : ''}}>{{ $provincia->nombre}}</option>
+                            @endforeach
+                        @endif
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-12">
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label>Comuna</label>
+                    <select name="idComuna" id="idComuna" class="form-control" required>
+                        @if(!isset($reserva->idComuna))
+                            <option value="" >Comuna</option>
+                        @else
+                            @foreach ($comunas as $comuna)
+                                <option value="{{ $comuna->id }}" {{ ($comuna->id == $reserva->idComuna) ? 'selected' : ''}}>{{ $comuna->nombre}}</option>
+                            @endforeach
+                        @endif
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
         <div class="col-12" style="text-align:center">
             <a href="/reservas" class="btn btn-danger waves-effect waves-light" style="margin-right: 10px">
                 <i class="bx bx-arrow-back font-size-16 align-middle mr-2"></i> Volver

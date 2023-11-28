@@ -373,7 +373,7 @@ class EstadoPagoController extends Controller
         $pagos = Pago::select('pagos.*', 'metodos_pagos.nombreMetodoPago', 'documentos_pagos.idTipoDocumento', 'documentos_pagos.rutaDocumento')
         ->join('metodos_pagos', 'metodos_pagos.idMetodosPagos', '=', 'pagos.idMetodoPago')
         ->leftjoin('documentos_pagos', 'documentos_pagos.idPago', '=', 'pagos.idPago')
-        ->where('pagos.idEstadoPago', $id)
+        ->where('pagos.tokenEstadoPago', $estadoPago->token)
         ->get();
         $metodosPagos = MetodoPago::get();
         return view ('back-office.estadoPago.pagos', compact('user', 'estadoPago', 'pagos', 'metodosPagos'));
@@ -409,7 +409,7 @@ class EstadoPagoController extends Controller
                             ->first();
 
             $nuevoPago = new Pago();
-            $nuevoPago->idEstadoPago = $idEstadoDelPago;
+            $nuevoPago->tokenEstadoPago = $estadoDePago->token;
             if($estadoDePagoAntes->saldo > 0)
             {
                 $nuevoPago->montoPago = $estadoDePagoAntes->saldo;
@@ -453,7 +453,7 @@ class EstadoPagoController extends Controller
                     ->join('propiedades', 'contratos_arriendos.idPropiedad', '=', 'propiedades.id')
                     ->join('users', 'contratos_arriendos.idUsuarioArrendatario', '=', 'users.id')
                     ->join('tipos_monedas', 'contratos_arriendos.idMoneda', '=', 'tipos_monedas.idMoneda')
-                    ->join('pagos', 'pagos.idEstadoPago', '=', 'estados_pagos.idEstadoPago')
+                    ->join('pagos', 'pagos.tokenEstadoPago', '=', 'estados_pagos.token')
                     ->join('metodos_pagos', 'metodos_pagos.idMetodosPagos', '=', 'pagos.idMetodoPago')
                     ->where('pagos.idPago', '=', $nuevoPago->idPago)->first();
 
@@ -567,7 +567,7 @@ class EstadoPagoController extends Controller
                             ->first();
 
             $nuevoPago = new Pago();
-            $nuevoPago->idEstadoPago = $idEstadoDelPago;
+            $nuevoPago->tokenEstadoPago = $estadoDePago->token;
             $nuevoPago->montoPago = $request->montoAPagar;
             $nuevoPago->numeroTransaccion = $request->numeroTransaccion;
             $nuevoPago->comentarios = $request->comentarios;
@@ -604,7 +604,7 @@ class EstadoPagoController extends Controller
                     ->join('propiedades', 'contratos_arriendos.idPropiedad', '=', 'propiedades.id')
                     ->join('users', 'contratos_arriendos.idUsuarioArrendatario', '=', 'users.id')
                     ->join('tipos_monedas', 'contratos_arriendos.idMoneda', '=', 'tipos_monedas.idMoneda')
-                    ->join('pagos', 'pagos.idEstadoPago', '=', 'estados_pagos.idEstadoPago')
+                    ->join('pagos', 'pagos.tokenEstadoPago', '=', 'estados_pagos.token')
                     ->join('metodos_pagos', 'metodos_pagos.idMetodosPagos', '=', 'pagos.idMetodoPago')
                     ->where('pagos.idPago', '=', $nuevoPago->idPago)->first();
 
@@ -768,7 +768,10 @@ class EstadoPagoController extends Controller
                     $tipoRut = '01';
                 }
                 //return $rutSinGuion;
-                return redirect()->to('https://otrospagos.com/publico/portal/enlace?id='.$convenio.'&idcli='.$rutSinGuion.'&tiidc='.$tipoRut.'');
+                //return redirect()->to('https://pre.otrospagos.com/publico/portal/enlace?id='.$convenio.'&idcli='.$rutSinGuion.'&tiidc='.$tipoRut.'');
+                $url = 'https://pre.otrospagos.com/publico/portal/enlace?id='.$convenio.'&idcli='.$rutSinGuion.'&tiidc='.$tipoRut.'';
+                session()->flash('url', $url);
+                return redirect()->back();
             }
             else
             {
@@ -827,5 +830,36 @@ class EstadoPagoController extends Controller
             }
         }
         return 'finalizo';
+    }
+    public function tokenizarEstadosPagos(Request $request)
+    {
+        try{
+            $estadosPagos = EstadoPago::where('token', null)->get();
+            if($estadosPagos)
+            {
+                foreach ($estadosPagos as $estadoPago) 
+                {
+                    $estadoPago->token = uniqid();
+                    $estadoPago->save();
+                }
+            }
+            return "ok";
+        } catch (ModelNotFoundException $e) {
+            toastr()->error('Usuario no encontrado');
+            DB::rollback();
+            return back();
+        } catch (QueryException $e) {
+            toastr()->warning('Ha ocurrido un error, favor intente nuevamente' . $e->getMessage());
+            DB::rollback();
+            return back();
+        } catch (DecryptException $e) {
+            toastr()->info('Ocurrio un error al intentar acceder al recurso solicitado');
+            DB::rollback();
+            return back();
+        } catch (\Exception $e) {
+            toastr()->warning($e->getMessage());
+            DB::rollback();
+            return back();
+        }
     }
 }
