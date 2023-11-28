@@ -141,6 +141,7 @@
         #MessageViewBody .video-wrapper { display:block!important; }
         #MessageViewBody .video-fallback { display:none!important; }
     </style>
+    @yield('css')
 </head>
 
 <body class="clean-body" style="margin: 0; padding: 0; -webkit-text-size-adjust: 100%; background-color: transparent;">
