@@ -24,7 +24,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $mes = date("m");
+        $anio = date("Y");
+        $schedule->call('App\Http\Controllers\EstadoPagoController@cambiarAMoroso')->dailyAt('4:00');
+        $schedule->call('App\Http\Controllers\EstadoPagoController@cambiarAVencido')->dailyAt('5:00');
+        $schedule->call('App\Http\Controllers\AlertaController@recordarPagoArrendatariosMensual')->dailyAt('10:00');
     }
 
     /**
