@@ -793,4 +793,39 @@ class EstadoPagoController extends Controller
             return back();
         }
     }
+    public function cambiarAMoroso()
+    {
+        $fechaActual = date('Y-m-d');
+        $estadosDePago = EstadoPago::join('contratos_arriendos', 'estados_pagos.idContrato', '=', 'contratos_arriendos.idContratoArriendo')
+                    ->where('contratos_arriendos.idEstado', '=',61)
+                    ->where('estados_pagos.idEstado', '=', 47)
+                    ->get();
+        foreach($estadosDePago as $estadosDePagos)
+        {
+            if($estadosDePagos->fechaVencimiento < $fechaActual)
+            {
+                $estadosDePagos->idEstado = 49;
+                $estadosDePagos->save();
+            }
+        }
+        return 'finalizo';
+    }
+    public function cambiarAVencido()
+    {
+        $fechaActual = date('Y-m-d');
+        $estadosDePago = EstadoPago::join('contratos_arriendos', 'estados_pagos.idContrato', '=', 'contratos_arriendos.idContratoArriendo')
+                    ->where('contratos_arriendos.idEstado', '=',61)
+                    ->where('estados_pagos.idEstado', '=', 49)
+                    ->get();
+        $dias = ParametroGeneral::where('parametroGeneral', '=', 'DIAS PARA PASAR PAGO A VENCIDO')->first();
+        foreach($estadosDePago as $estadosDePagos)
+        {
+            if(date("Y-m-d",strtotime($estadosDePagos->fechaVencimiento."+ ".$dias->valorParametro." days")) < $fechaActual)
+            {
+                $estadosDePagos->idEstado = 50;
+                $estadosDePagos->save();
+            }
+        }
+        return 'finalizo';
+    }
 }
