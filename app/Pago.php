@@ -16,6 +16,8 @@ class Pago extends Model
         'idMetodoPago',
         'tokenPago',
         'creadoPor',
+        'metodoPagoOtrosPagos',
+        'tipoPago',
         'created_at',
         'updated_at'
     ];

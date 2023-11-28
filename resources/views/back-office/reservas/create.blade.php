@@ -60,8 +60,71 @@
                         document.getElementById("direccion").value = respuesta['direccion'];
                         document.getElementById("numero").value = respuesta['numero'];
                         document.getElementById("departamento").value = respuesta['block'];
+                        document.getElementById("idPais").value = respuesta['idPais'];
+                        document.getElementById("idProvincia").value = respuesta['idProvincia'];
+                        document.getElementById("idRegion").value = respuesta['idRegion'];
+                        document.getElementById("idComuna").value = respuesta['idComuna'];
                     }
                 });
+            });
+        });
+    </script>
+    <script>
+        $("#idPais").change(function(){
+            var idPais = $("#idPais").val();          
+            $.ajax({
+                type: "GET",
+                url : "{{url('api/getRegion')}}",
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                dataType: 'json',
+                data : { 'id' : idPais},
+                success : function(respuesta){
+                    var select_region = '<option value="">Seleccione Region</option>'
+                    for (var i=0; i<respuesta.length;i++){
+                        select_region+='<option value="'+respuesta[i].id +'">'+respuesta[i].nombre+'</option>';
+                    }
+                    $("#idRegion").html(select_region);
+                }
+            });
+        });
+        $("#idRegion").change(function(){
+            var idRegion = $("#idRegion").val();          
+            $.ajax({
+                type: "GET",
+                url : "{{url('api/getProvincia')}}",
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                dataType: 'json',
+                data : { 'id' : idRegion},
+                success : function(respuesta){
+                    var select_provincia = '<option value="">Seleccione Provincia</option>'
+                    for (var i=0; i<respuesta.length;i++){
+                        select_provincia+='<option value="'+respuesta[i].id +'">'+respuesta[i].nombre+'</option>';
+                    }
+                    $("#idProvincia").html(select_provincia);
+                }
+            });
+        });
+        $("#idProvincia").change(function(){
+            var idProvincia = $("#idProvincia").val();          
+            $.ajax({
+                type: "GET",
+                url : "{{url('api/getComuna')}}",
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                dataType: 'json',
+                data : { 'id' : idProvincia},
+                success : function(respuesta){
+                    var select_comuna = '<option value="">Seleccione Comuna</option>'
+                    for (var i=0; i<respuesta.length;i++){
+                        select_comuna+='<option value="'+respuesta[i].id +'">'+respuesta[i].nombre+'</option>';
+                    }
+                    $("#idComuna").html(select_comuna);
+                }
             });
         });
     </script>
