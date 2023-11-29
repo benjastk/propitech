@@ -54,6 +54,7 @@ Route::get('/leads', 'HomeController@leads')->name('leads');
 Route::get('/recordarPagoArrendatariosMensual', 'AlertaController@recordarPagoArrendatariosMensual');
 Route::get('/morosos', 'EstadoPagoController@cambiarAMoroso');
 Route::get('/vencidos', 'EstadoPagoController@cambiarAVencido');
+Route::get('/agregarPorcentajeAMorosos', 'EstadoPagoController@agregarPorcentajeAMorosos');
 Route::get('/tokenizarEstadosPagos', 'EstadoPagoController@tokenizarEstadosPagos');
 Route::prefix('users')->group(function () {
     Route::get('/', 'UserController@index')->name('users');
