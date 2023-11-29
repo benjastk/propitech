@@ -803,12 +803,15 @@ class EstadoPagoController extends Controller
                     ->where('contratos_arriendos.idEstado', '=',61)
                     ->where('estados_pagos.idEstado', '=', 47)
                     ->get();
-        foreach($estadosDePago as $estadosDePagos)
+        if($estadosDePago)
         {
-            if($estadosDePagos->fechaVencimiento < $fechaActual)
+            foreach($estadosDePago as $estadosDePagos)
             {
-                $estadosDePagos->idEstado = 49;
-                $estadosDePagos->save();
+                if($estadosDePagos->fechaVencimiento < $fechaActual)
+                {
+                    $estadosDePagos->idEstado = 49;
+                    $estadosDePagos->save();
+                }
             }
         }
         return 'finalizo';
@@ -821,22 +824,57 @@ class EstadoPagoController extends Controller
                     ->where('estados_pagos.idEstado', '=', 49)
                     ->get();
         $dias = ParametroGeneral::where('parametroGeneral', '=', 'DIAS PARA PASAR PAGO A VENCIDO')->first();
-        foreach($estadosDePago as $estadosDePagos)
+        if($estadosDePago)
         {
-            if(date("Y-m-d",strtotime($estadosDePagos->fechaVencimiento."+ ".$dias->valorParametro." days")) < $fechaActual)
+            foreach($estadosDePago as $estadosDePagos)
             {
-                $estadosDePagos->idEstado = 50;
-                $estadosDePagos->save();
+                if(date("Y-m-d",strtotime($estadosDePagos->fechaVencimiento."+ ".$dias->valorParametro." days")) < $fechaActual)
+                {
+                    $estadosDePagos->idEstado = 50;
+                    $estadosDePagos->save();
+                }
             }
         }
         return 'finalizo';
     }
     public function agregarPorcentajeAMorosos()
     {
-        return $estadosDePago = EstadoPago::join('contratos_arriendos', 'estados_pagos.idContrato', '=', 'contratos_arriendos.idContratoArriendo')
+        $estadosDePago = EstadoPago::join('contratos_arriendos', 'estados_pagos.idContrato', '=', 'contratos_arriendos.idContratoArriendo')
         ->where('contratos_arriendos.idEstado', '=',61)
         ->whereIn('estados_pagos.idEstado', [49,50])
         ->get();
+        if($estadosDePago)
+        {
+            foreach($estadosDePago as $estadosDePagos)
+            {
+                $montoACargar = ($estadosDePagos->subtotal * 1) / 100;
+                $cargo = new Cargo();
+                $cargo->idEstadoPago = $estadosDePagos->idEstadoPago;
+                $cargo->nombreCargo = 'Intereses por mora';
+                $cargo->descripcionCargo = 'Intereses por mora';
+                $cargo->montoCargo = $montoACargar;
+                $cargo->correspondeA = 2;
+                $cargo->cargoValidado = 1;
+                $cargo->creadoPor = "Automatico";
+                $cargo->save();
+                DB::commit();
+
+                $estadoPago = EstadoPago::where('idEstadoPago', $estadosDePagos->idEstadoPago)->first();
+                $estadoPago->subtotal = $estadoPago->subtotal + $montoACargar;
+                if($estadoPago->saldo > 0)
+                {
+                    $estadoPago->saldo = $estadoPago->saldo + $montoACargar;
+                }
+                $estadoPago->save();
+
+                $logTransaccion = new LogTransaccion();
+                $logTransaccion->tipoTransaccion = 'Creacion de cargo en estado de pago Automatico por MULTA';
+                $logTransaccion->webclient = 'CRON AUTOMATICO';
+                $logTransaccion->descripcionTransaccion = 'Creacion de cargo en estado de pago Automatico por MULTA ID estado de pago: '.$estadosDePagos->idEstadoPago. ' - Monto del cargo: '.
+                $montoACargar;
+                $logTransaccion->save();
+            }
+        }
     }
     public function tokenizarEstadosPagos(Request $request)
     {
