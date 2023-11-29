@@ -831,6 +831,13 @@ class EstadoPagoController extends Controller
         }
         return 'finalizo';
     }
+    public function agregarPorcentajeAMorosos()
+    {
+        return $estadosDePago = EstadoPago::join('contratos_arriendos', 'estados_pagos.idContrato', '=', 'contratos_arriendos.idContratoArriendo')
+        ->where('contratos_arriendos.idEstado', '=',61)
+        ->whereIn('estados_pagos.idEstado', [49,50])
+        ->get();
+    }
     public function tokenizarEstadosPagos(Request $request)
     {
         try{
