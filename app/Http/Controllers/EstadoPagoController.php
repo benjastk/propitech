@@ -151,7 +151,7 @@ class EstadoPagoController extends Controller
 
             DB::commit();
             toastr()->success('Estado de pago actualizado exitosamente');
-            return redirect('/contratos');
+            return redirect('/estados-pagos/mostrar/'.$estadoPago->idContrato );
         } catch (ModelNotFoundException $e) {
             toastr()->warning('No autorizado');
             DB::rollback();

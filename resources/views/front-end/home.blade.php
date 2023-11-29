@@ -697,38 +697,62 @@
     </section>
     <section class="pt-10 pb-9">
         <div class="container">
-        <p class="text-primary letter-spacing-263 text-uppercase lh-186 text-center mb-0">Noticias y articulos</p>
-        <h2 class="text-center lh-1625 text-dark pb-1">
-        Últimos artículos publicados
-        </h2>
-        <div class="mx-n2">
-            <div class="slick-slider mt-6 mx-n1 slick-dots-mt-0" data-slick-options='{"slidesToShow": 3, "infinite":true, "autoplay":true,"arrows":true,"dots":false,"responsive":[{"breakpoint": 992,"settings": {"slidesToShow":2}},{"breakpoint": 768,"settings": {"slidesToShow": 2,"autoplay":true}},{"breakpoint": 576,"settings": {"slidesToShow": 1,"arrows":false,"dots":true,"autoplay":true}}]}'>
-                @if($noticias)
-                @foreach($noticias as $noticia)
-                <div class="item py-4" data-animate="fadeInUp">
-                    <div class="card border-0 shadow-xxs-3" data-animate="fadeInUp" style="height: 100%;">
-                    <div class="position-relative d-flex align-items-end card-img-top">
-                        <a href="/blog/{{ $noticia->idNoticia }}" class="hover-shine">
-                            <img src="/img/noticias/{{ $noticia->imagenNoticia }}" alt="" style="height: 240px !important; width: 100% !important">
-                        </a>
-                        <!--<a href="#" class="badge text-white bg-dark-opacity-04 fs-13 font-weight-500 bg-hover-primary hover-white mx-2 my-4 position-absolute pos-fixed-bottom">
-                        Creative
-                        </a>-->
+            <p class="text-primary letter-spacing-263 text-uppercase lh-186 text-center mb-0">Noticias y articulos</p>
+            <h2 class="text-center lh-1625 text-dark pb-1">
+            Últimos artículos publicados
+            </h2>
+            <div class="mx-n2">
+                <div class="slick-slider mt-6 mx-n1 slick-dots-mt-0" data-slick-options='{"slidesToShow": 3, "infinite":true, "autoplay":true,"arrows":true,"dots":false,"responsive":[{"breakpoint": 992,"settings": {"slidesToShow":2}},{"breakpoint": 768,"settings": {"slidesToShow": 2,"autoplay":true}},{"breakpoint": 576,"settings": {"slidesToShow": 1,"arrows":false,"dots":true,"autoplay":true}}]}'>
+                    @if($noticias)
+                    @foreach($noticias as $noticia)
+                    <div class="item py-4" data-animate="fadeInUp">
+                        <div class="card border-0 shadow-xxs-3" data-animate="fadeInUp" style="height: 100%;">
+                        <div class="position-relative d-flex align-items-end card-img-top">
+                            <a href="/blog/{{ $noticia->idNoticia }}" class="hover-shine">
+                                <img src="/img/noticias/{{ $noticia->imagenNoticia }}" alt="" style="height: 240px !important; width: 100% !important">
+                            </a>
+                            <!--<a href="#" class="badge text-white bg-dark-opacity-04 fs-13 font-weight-500 bg-hover-primary hover-white mx-2 my-4 position-absolute pos-fixed-bottom">
+                            Creative
+                            </a>-->
+                        </div>
+                        <div class="card-body px-5 pt-3 pb-5">
+                            <p class="mb-1 fs-13">{{ $noticia->fechaPublicacion }}</p>
+                            <h3 class="fs-18 text-heading lh-194 mb-1">
+                                <a href="/blog/{{ $noticia->idNoticia }}" class="text-heading hover-primary">{{ $noticia->titulo }}</a>
+                            </h3>
+                            <p class="mb-3">{{ $noticia->textoResumen }}</p>
+                            <a class="text-heading font-weight-500" style="bottom: 15px;position: fixed;" href="/blog/{{ $noticia->idNoticia }}">Leer mas <i class="far fa-long-arrow-right text-primary ml-1"></i></a>
+                        </div>
+                        </div>
                     </div>
-                    <div class="card-body px-5 pt-3 pb-5">
-                        <p class="mb-1 fs-13">{{ $noticia->fechaPublicacion }}</p>
-                        <h3 class="fs-18 text-heading lh-194 mb-1">
-                            <a href="/blog/{{ $noticia->idNoticia }}" class="text-heading hover-primary">{{ $noticia->titulo }}</a>
-                        </h3>
-                        <p class="mb-3">{{ $noticia->textoResumen }}</p>
-                        <a class="text-heading font-weight-500" style="bottom: 15px;position: fixed;" href="/blog/{{ $noticia->idNoticia }}">Leer mas <i class="far fa-long-arrow-right text-primary ml-1"></i></a>
-                    </div>
-                    </div>
+                    @endforeach
+                    @endif
                 </div>
-                @endforeach
-                @endif
             </div>
         </div>
+    </section>
+    <section>
+        <div class="container container-xxl">
+            <div class="py-lg-8 py-6 border-top">
+                <div class="slick-slider mx-0 partners"
+                    data-slick-options='{"slidesToShow": 3, "autoplay":true,"dots":false,"arrows":false,"responsive":[{"breakpoint": 1200,"settings": {"slidesToShow":4}},{"breakpoint": 992,"settings": {"slidesToShow":3}},{"breakpoint": 768,"settings": {"slidesToShow": 3}},{"breakpoint": 576,"settings": {"slidesToShow": 2}}]}'>
+                    <div class="box d-flex align-items-center justify-content-center" data-animate="fadeInUp">
+                        <a href="#" class="item">
+                            <img src="front/proppit.png" alt=" class="image">
+                        </a>
+                    </div>
+                    <div class="box d-flex align-items-center justify-content-center" data-animate="fadeInUp">
+                        <a href="#" class="item">
+                            <img src="front/otrospagos.jpg" alt=" class="image">
+                        </a>
+                    </div>
+                    <div class="box d-flex align-items-center justify-content-center" data-animate="fadeInUp">
+                        <a href="#" class="item">
+                            <img src="front/firmaVirtual.png" alt=" class="image">
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 @endsection
