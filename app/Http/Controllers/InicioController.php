@@ -597,7 +597,7 @@ class InicioController extends Controller
                 {
                     $tipoRut = '01';
                 }
-                return redirect()->to('https://pre.otrospagos.com/publico/portal/enlace?id='.$convenio.'&idcli='.$estadoPago->rut.'&tiidc='.$tipoRut.'');
+                return redirect()->to('https://otrospagos.com/publico/portal/enlace?id='.$convenio.'&idcli='.$estadoPago->rut.'&tiidc='.$tipoRut.'');
             }
             else
             {
@@ -667,7 +667,7 @@ class InicioController extends Controller
             if($reserva)
             {
                 $tipoRut = '01';
-                return redirect()->to('https://pre.otrospagos.com/publico/portal/enlace?id='.$convenio.'&idcli='.$reserva->rut.'&tiidc='.$tipoRut.'');
+                return redirect()->to('https://otrospagos.com/publico/portal/enlace?id='.$convenio.'&idcli='.$reserva->rut.'&tiidc='.$tipoRut.'');
             }
             else
             {
