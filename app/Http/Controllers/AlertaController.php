@@ -48,7 +48,12 @@ class AlertaController extends Controller
         ->join('contratos_arriendos', 'contratos_arriendos.idContratoArriendo', '=', 'estados_pagos.idContrato')
         ->join('users', 'users.id', '=', 'contratos_arriendos.idUsuarioArrendatario')
         ->whereIn('estados_pagos.idEstado', [47])
-        ->get();
+        ->first();
+        YaSeEncuentraDisponibleTuPagoJob::dispatch($estadosPagos);
+        $nuevoLogCorreo = new LogCorreoEnviado();
+        $nuevoLogCorreo->nombre_tipo_correo = 'RECORDATORIO PAGO DE ARRIENDO '. $diasAlerta1->valorParametro .' DIAS ANTES';
+        $nuevoLogCorreo->usuario = 'CRON AUTOMATIZADO';
+        $nuevoLogCorreo->save();
         if(!$estadosPagos->isEmpty())
         {
             foreach ($estadosPagos as $estadoPago) 
