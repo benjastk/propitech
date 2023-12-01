@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
         $schedule->call('App\Http\Controllers\EstadoPagoController@cambiarAVencido')->dailyAt('2:00');
         $schedule->call('App\Http\Controllers\EstadoPagoController@agregarPorcentajeAMorosos')->dailyAt('3:00');
         $schedule->call('App\Http\Controllers\AlertaController@recordarPagoArrendatariosMensual')->dailyAt('10:00');
-        $schedule->call('App\Http\Controllers\AlertaController@pruebaMail')->dailyAt('15:30');
+        $schedule->call('App\Http\Controllers\AlertaController@pruebaMail')->dailyAt('15:35');
     }
 
     /**
