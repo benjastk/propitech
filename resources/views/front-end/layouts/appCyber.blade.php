@@ -221,7 +221,7 @@
                         <a href="#" class="text-muted lh-26 font-weight-500 hover-white">Politica de privacidad</a>
                     </li>
                     <li class="list-group-item bg-transparent p-0">
-                        <a href="#" class="text-muted lh-26 font-weight-500 hover-white">Contacto soporte</a>
+                        <a href="https://soporte.benjaminperez.cl/" class="text-muted lh-26 font-weight-500 hover-white">Contacto soporte</a>
                     </li>
                     </ul>
                 </div>
@@ -243,7 +243,7 @@
                     </form>
                     <ul class="list-inline mb-0">
                         <li class="list-inline-item mr-0">
-                            <a href="{{ $twitter->valorParametro }}" target="_blank" class="text-white opacity-3 fs-25 px-4 opacity-hover-10"><i class="fab fa-twitter"></i></a>
+                            <a href="{{ $twitter->valorParametro }}" target="_blank" class="text-white opacity-3 fs-25 px-4 opacity-hover-10"><i class="fab fa-facebook"></i></a>
                         </li>
                         <li class="list-inline-item mr-0">
                             <a href="{{ $instagram->valorParametro }}" target="_blank" class="text-white opacity-3 fs-25 px-4 opacity-hover-10"><i class="fab fa-instagram"></i></a>
