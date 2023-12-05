@@ -55,7 +55,8 @@ class AlertaController extends Controller
             { 
                 if($diasAlerta1->valorParametro != -1)
                 {
-                    return date("Y-m-d",strtotime($estadoPago->fechaVencimiento."- ".$diasAlerta1->valorParametro." days"));
+                    var_dump(date("Y-m-d",strtotime($estadoPago->fechaVencimiento."- ".$diasAlerta1->valorParametro." days")));
+                    //return date("Y-m-d",strtotime($estadoPago->fechaVencimiento."- ".$diasAlerta1->valorParametro." days"));
                     if(date("Y-m-d",strtotime($estadoPago->fechaVencimiento."- ".$diasAlerta1->valorParametro." days")) == $fechaActual)
                     {
                         //return $estadoPago;

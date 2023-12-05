@@ -43,6 +43,7 @@ Route::get('/pago-reserva-online', 'InicioController@pagoReservaOnline');
 Route::post('/ir-a-pagar-reserva-online', 'InicioController@pagarReservaOnline')->name('ir-a-pagar-reserva-online');
 
 Route::get('/pruebaCorreo', 'PagoController@pruebaCorreo');
+Route::get('/pruebaMail', 'AlertaController@pruebaMail');
 // back-office routes
 Route::get('/login', function () {
     return view('auth.login');
