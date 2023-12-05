@@ -61,11 +61,11 @@ class AlertaController extends Controller
                     {
                         var_dump(date("Y-m-d",strtotime($estadoPago->fechaVencimiento."- ".$diasAlerta1->valorParametro." days")));
                         //return $estadoPago;
-                        /*YaSeEncuentraDisponibleTuPagoJob::dispatch($estadoPago);
+                        /*YaSeEncuentraDisponibleTuPagoJob::dispatch($estadoPago);*/
                         $nuevoLogCorreo = new LogCorreoEnviado();
                         $nuevoLogCorreo->nombre_tipo_correo = 'RECORDATORIO PAGO DE ARRIENDO '. $diasAlerta1->valorParametro .' DIAS ANTES';
                         $nuevoLogCorreo->usuario = 'CRON AUTOMATIZADO';
-                        $nuevoLogCorreo->save();*/
+                        $nuevoLogCorreo->save();
                     }
                 }
             }
