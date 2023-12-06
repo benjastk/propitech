@@ -72,7 +72,7 @@
         <tbody>
             <tr>
                 <td style="width: 100; text-align: center;">
-                    <a href="https://pre.otrospagos.com/publico/portal/enlace?convenio=propitech" target="_blank" rel="noreferrer" style="padding: 10px; background-color: red; color: white; font-weight: bolder; font-size: 16px; border-radius: 5px;">
+                    <a href="https://propitech.cl/pago-online" target="_blank" rel="noreferrer" style="padding: 10px; background-color: red; color: white; font-weight: bolder; font-size: 16px; border-radius: 5px;">
                         Pagar Arriendo
                     </a>
                 </td>
