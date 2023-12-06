@@ -18,6 +18,7 @@ class AlertaController extends Controller
         ->join('contratos_arriendos', 'contratos_arriendos.idContratoArriendo', '=', 'estados_pagos.idContrato')
         ->join('users', 'users.id', '=', 'contratos_arriendos.idUsuarioArrendatario')
         ->whereIn('estados_pagos.idEstado', [47])
+        ->where('contratos_arriendos.idEstado', 61)
         ->get();
         if(!$estadosPagos->isEmpty())
         {
@@ -25,10 +26,8 @@ class AlertaController extends Controller
             { 
                 if($diasAlerta1->valorParametro != -1)
                 {
-                    //return date("Y-m-d",strtotime($estadoPago->fechaVencimiento."- ".$diasAlerta1->valorParametro." days"));
                     if(date("Y-m-d",strtotime($estadoPago->fechaVencimiento."- ".$diasAlerta1->valorParametro." days")) == $fechaActual)
                     {
-                        //return $estadoPago;
                         YaSeEncuentraDisponibleTuPagoJob::dispatch($estadoPago);
                         $nuevoLogCorreo = new LogCorreoEnviado();
                         $nuevoLogCorreo->nombre_tipo_correo = 'RECORDATORIO PAGO DE ARRIENDO '. $diasAlerta1->valorParametro .' DIAS ANTES';
@@ -48,6 +47,7 @@ class AlertaController extends Controller
         ->join('contratos_arriendos', 'contratos_arriendos.idContratoArriendo', '=', 'estados_pagos.idContrato')
         ->join('users', 'users.id', '=', 'contratos_arriendos.idUsuarioArrendatario')
         ->whereIn('estados_pagos.idEstado', [47])
+        ->where('contratos_arriendos.idEstado', 61)
         ->get();
         if(!$estadosPagos->isEmpty())
         {
@@ -55,13 +55,9 @@ class AlertaController extends Controller
             { 
                 if($diasAlerta1->valorParametro != -1)
                 {
-                    //var_dump(date("Y-m-d",strtotime($estadoPago->fechaVencimiento."- ".$diasAlerta1->valorParametro." days")));
-                    //return date("Y-m-d",strtotime($estadoPago->fechaVencimiento."- ".$diasAlerta1->valorParametro." days"));
                     if(date("Y-m-d",strtotime($estadoPago->fechaVencimiento."- ".$diasAlerta1->valorParametro." days")) == $fechaActual)
                     {
-                        var_dump(date("Y-m-d",strtotime($estadoPago->fechaVencimiento."- ".$diasAlerta1->valorParametro." days")));
-                        //return $estadoPago;
-                        /*YaSeEncuentraDisponibleTuPagoJob::dispatch($estadoPago);*/
+                        //YaSeEncuentraDisponibleTuPagoJob::dispatch($estadoPago);
                         $nuevoLogCorreo = new LogCorreoEnviado();
                         $nuevoLogCorreo->nombre_tipo_correo = 'RECORDATORIO PAGO DE ARRIENDO '. $diasAlerta1->valorParametro .' DIAS ANTES';
                         $nuevoLogCorreo->usuario = 'CRON AUTOMATIZADO';
