@@ -26,14 +26,14 @@
                 <td style="width: 50%;"><strong>Valor arriendo</strong></td>
                 <td style="width: 50%; text-align: right;">$ {{ number_format($estadoPago->arriendoMensual, 0, ",", ".") }}</td>
             </tr>
-            <!--<tr>
-                <td style="width: 50%;"><strong>Reajuste mensualidad</strong></td>
-                <td style="width: 50%; text-align: right;">$0</td>
+            <tr>
+                <td style="width: 50%;"><strong>Garantia</strong></td>
+                <td style="width: 50%; text-align: right;">${{ number_format($garantia, 0, ",", ".") }}</td>
             </tr>
             <tr>
-                <td style="width: 50%;"><strong>Multa</strong></td>
-                <td style="width: 50%; text-align: right;">$0</td>
-            </tr>-->
+                <td style="width: 50%;"><strong>Comisión</strong></td>
+                <td style="width: 50%; text-align: right;">${{ number_format($comision, 0, ",", ".") }}</td>
+            </tr
             <tr>
                 <td style="width: 50%;"><strong>Abonos</strong></td>
                 <td style="width: 50%; text-align: right;">${{ number_format($totalCargo, 0, ",", ".") }}</td>
