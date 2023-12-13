@@ -407,15 +407,15 @@ class InicioController extends Controller
         return view('front-end.single-property', compact('propiedad', 'amenidades', 'propiedadesDestacadas1',
         'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram'));
     }
-    public function singleBlog($id)
+    public function singleBlog($urlNoticia)
     {
         $noticia = Noticia::select('noticias.*', 'users.name', 'users.apellido', 'users.avatarImg', 'roles.nombre')
         ->leftjoin('users', 'noticias.idUsuario', '=', 'users.id')
         ->leftjoin('rol_usuario', 'rol_usuario.id_usuario', '=', 'users.id')
         ->leftjoin('roles', 'roles.id', '=', 'rol_usuario.id_rol')
-        ->where('idNoticia', $id)
+        ->where('urlNoticia', $urlNoticia)
         ->first();
-        $noticias = Noticia::where('idNoticia', '!=', $id)
+        $noticias = Noticia::where('urlNoticia', '!=', $urlNoticia)
         ->whereNull('deleteOf')
         ->orderBy('fechaPublicacion', 'desc')
         ->get();

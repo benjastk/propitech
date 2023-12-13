@@ -718,10 +718,10 @@
                         <div class="card-body px-5 pt-3 pb-5">
                             <p class="mb-1 fs-13">{{ $noticia->fechaPublicacion }}</p>
                             <h3 class="fs-18 text-heading lh-194 mb-1">
-                                <a href="/blog/{{ $noticia->idNoticia }}" class="text-heading hover-primary">{{ $noticia->titulo }}</a>
+                                <a href="/blog/{{ $noticia->urlNoticia }}" class="text-heading hover-primary">{{ $noticia->titulo }}</a>
                             </h3>
                             <p class="mb-3">{{ $noticia->textoResumen }}</p>
-                            <a class="text-heading font-weight-500" style="bottom: 15px;position: fixed;" href="/blog/{{ $noticia->idNoticia }}">Leer mas <i class="far fa-long-arrow-right text-primary ml-1"></i></a>
+                            <a class="text-heading font-weight-500" style="bottom: 15px;position: fixed;" href="/blog/{{ $noticia->urlNoticia }}">Leer mas <i class="far fa-long-arrow-right text-primary ml-1"></i></a>
                         </div>
                         </div>
                     </div>
