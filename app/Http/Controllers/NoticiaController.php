@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use App\LogTransaccion;
 use App\Noticia;
 use App\User;
@@ -60,7 +61,10 @@ class NoticiaController extends Controller
             $noticia = new Noticia();
             $noticia->fill($request->all());
             $noticia->fechaPublicacion = date('Y-m-d');
-            if($request->hasFile('foto')){
+            $slug = Str::slug($request->titulo);
+            $noticia->urlNoticia = $slug;
+            if($request->hasFile('foto'))
+            {
                 $nombreArchivo = "";
                 $file =  $request['foto'];
                 $nombreArchivo = time() . $file->getClientOriginalName();
@@ -139,6 +143,15 @@ class NoticiaController extends Controller
         try{
             DB::beginTransaction();
             $noticia = Noticia::where('idNoticia', $id)->firstOrFail();
+            if($noticia->urlNoticia)
+            {
+
+            }
+            else
+            {
+                $slug = Str::slug($request->titulo);
+                $noticia->urlNoticia = $slug;
+            }
             $noticia->fill($request->all());
             if($noticia->fechaPublicacion)
             {

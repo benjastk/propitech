@@ -96,7 +96,7 @@
                         <li class="list-group-item px-0 pt-0 pb-3">
                             <div class="media">
                             <div class="position-relative mr-3">
-                                <a href="/blog/{{ $noticasAntes->idNoticia }}"
+                                <a href="/blog/{{ $noticasAntes->urlNoticia }}"
                                                     class="d-block w-100px rounded pt-11 bg-img-cover-center"
                                                     style="background-image: url(/img/noticias/{{ $noticasAntes->imagenNoticia }})">
                                 </a>
@@ -107,7 +107,7 @@
                             </div>
                             <div class="media-body">
                                 <h4 class="fs-14 lh-186 mb-1">
-                                    <a href="/blog/{{ $noticasAntes->idNoticia }}" class="text-dark hover-primary">
+                                    <a href="/blog/{{ $noticasAntes->urlNoticia }}" class="text-dark hover-primary">
                                     {{ $noticasAntes->titulo }}
                                     </a>
                                 </h4>
