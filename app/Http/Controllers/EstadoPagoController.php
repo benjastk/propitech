@@ -907,4 +907,61 @@ class EstadoPagoController extends Controller
             return back();
         }
     }
+    public function reajusteIPC() 
+    {
+        $keyCMF = getenv("KEY_CMF");
+        $fechaActual = date('Y-m-d');
+        $fechaAnioABuscar = date("Y-m-d",strtotime($fechaActual."- 5 months"));
+        $mesAnio = date("Y/m", strtotime($fechaAnioABuscar));
+        $actualMesAnio = date('Y/m');
+        $json = "https://api.cmfchile.cl/api-sbifv3/recursos_api/ipc/periodo/". $mesAnio."/". $actualMesAnio ."?apikey=". $keyCMF ."&formato=JSON";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $json);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        $jsonfile = file_get_contents($json);
+        $data = json_decode($jsonfile);
+        $sumaIPC = 0;
+        if($data)
+        {
+            foreach ($data->IPCs as $key => $dato) 
+            {
+                $sumaIPC = $sumaIPC + floatval(str_replace(',', '.', str_replace('.', '', $dato->Valor)));
+            }
+        }
+        $mesContratos = date("m", strtotime($fechaAnioABuscar));
+        $anioContratos = date("Y", strtotime($fechaAnioABuscar));
+        $contratosArriendos = ContratoArriendo::where('idEstado', 61)
+        ->whereNull('fechaDeReajuste')
+        ->whereYear('desde', '=', $anioContratos)
+        ->whereMonth('desde', '=', $mesContratos)
+        ->get();
+
+        if($contratosArriendos)
+        {
+            foreach ($contratosArriendos as $contrato) 
+            {
+                $estadosPagos = EstadoPago::where('idContrato', $contrato->idContratoArriendo)
+                ->where('idEstado', '!=', 48)
+                ->where('numeroCuota', '>', 5)
+                ->get();
+                if($estadosPagos)
+                {
+                    foreach ($estadosPagos as $estadoPago) 
+                    {
+                        $calculoReajuste = (($estadoPago->arriendoMensual * $sumaIPC) / 100);
+                        $estadoPago->reajusteAplicado = $calculoReajuste;
+                        $estadoPago->arriendoMensual = $estadoPago->arriendoMensual + $calculoReajuste;
+                        $estadoPago->save();
+                    }
+                }
+                $contrato->fechaDeReajuste = date('Y-m-d');
+                $contrato->save();
+            }
+        }
+        return response()->json($sumaIPC);
+    }
 }

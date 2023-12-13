@@ -44,6 +44,7 @@ Route::post('/ir-a-pagar-reserva-online', 'InicioController@pagarReservaOnline')
 
 Route::get('/pruebaCorreo', 'PagoController@pruebaCorreo');
 Route::get('/pruebaMail', 'AlertaController@pruebaMail');
+Route::get('/reajusteIPC', 'EstadoPagoController@reajusteIPC');
 // back-office routes
 Route::get('/login', function () {
     return view('auth.login');
@@ -53,10 +54,10 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/leads', 'HomeController@leads')->name('leads');
 Route::get('/recordarPagoArrendatariosMensual', 'AlertaController@recordarPagoArrendatariosMensual');
-Route::get('/morosos', 'EstadoPagoController@cambiarAMoroso');
+/*Route::get('/morosos', 'EstadoPagoController@cambiarAMoroso');
 Route::get('/vencidos', 'EstadoPagoController@cambiarAVencido');
 Route::get('/agregarPorcentajeAMorosos', 'EstadoPagoController@agregarPorcentajeAMorosos');
-Route::get('/tokenizarEstadosPagos', 'EstadoPagoController@tokenizarEstadosPagos');
+Route::get('/tokenizarEstadosPagos', 'EstadoPagoController@tokenizarEstadosPagos');*/
 Route::prefix('users')->group(function () {
     Route::get('/', 'UserController@index')->name('users');
     Route::get('/create', 'UserController@create');
