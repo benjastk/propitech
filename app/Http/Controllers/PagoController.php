@@ -345,7 +345,7 @@ class PagoController extends Controller
                     }
                 }
                 $estadoDePago = EstadoPago::where('token', '=', $request->p_doc)
-                ->where('idEstado', 47)
+                ->whereIn('estados_pagos.idEstado', [ 47, 49, 50])
                 ->first();
                 if($pagoReserva == false)
                 {

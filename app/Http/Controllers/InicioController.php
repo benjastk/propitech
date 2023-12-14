@@ -545,7 +545,7 @@ class InicioController extends Controller
             ->join('users', 'users.id', '=', 'contratos_arriendos.idUsuarioArrendatario')
             ->where('users.rut', $request->rut)
             ->where('contratos_arriendos.idEstado', 61)
-            ->where('estados_pagos.idEstado', 47)
+            ->whereIn('estados_pagos.idEstado', [ 47, 49, 50])
             ->orderBy('estados_pagos.fechaVencimiento', 'asc')
             ->first();
             $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
@@ -581,7 +581,7 @@ class InicioController extends Controller
             ->join('users', 'users.id', '=', 'contratos_arriendos.idUsuarioArrendatario')
             ->where('users.rut', $request->rut)
             ->where('contratos_arriendos.idEstado', 61)
-            ->where('estados_pagos.idEstado', 47)
+            ->whereIn('estados_pagos.idEstado', [ 47, 49, 50])
             ->orderBy('estados_pagos.fechaVencimiento', 'asc')
             ->first();
             $convenio = getenv("OTROS_PAGOS_COVENIO");
