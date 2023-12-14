@@ -18,6 +18,45 @@ class PagoController extends Controller
 {
     public function condeures(Request $request)
     {
+        $convenio = getenv("OTROS_PAGOS_COVENIO");
+        $key = $request->p_fectr.$request->p_tid.$convenio;
+        $llave = str_pad($key, 16);
+        try 
+        {
+            $encriptacion = openssl_encrypt($llave, "AES-256-CBC", getenv("OTROS_PAGOS_KEY"), 1, getenv("OTROS_PAGOS_IV"));
+        } 
+        catch (\Throwable $th) 
+        {
+            $logPago = new LogTransaccionPagos();
+            $logPago->nombreTransaccion = 'FIRMA DE OTROSPAGOS.COM NO COINCIDE EN TRANSACCION - CODIGO 65';
+            $logPago->numeroTransaccion = $request->p_tid;
+            $logPago->webClient = 'OtrosPagos.com - NOTPAG';
+            $logPago->save();
+            return response()->json(['r_retcod' => "65"], 200);
+        }
+        $h_firma = base64_encode($encriptacion);
+        //cambiar a false
+        $firmaOk = false;
+        $headers = apache_request_headers();
+        foreach ($headers as $header => $value) 
+        {
+            if($header == "H-Firma")
+            {
+                if($value != $h_firma)
+                {
+                    $logPago = new LogTransaccionPagos();
+                    $logPago->nombreTransaccion = 'FIRMA NO COINCIDE EN TRANSACCION - CODIGO 65 - NOTIFICACION DE PAGO';
+                    $logPago->numeroTransaccion = $idTransaccion;
+                    $logPago->webClient = 'OtrosPagos.com - NOTPAG';
+                    $logPago->save();
+                    return response()->json(['r_retcod' => "65"], 200);
+                }
+                else
+                {
+                    $firmaOk = true;
+                }
+            }
+        }
         $digitoVerificador = substr($request->p_idcli, -1);
         $rutSinDigito = substr($request->p_idcli, 0, -1);
         $rutUsuario = $rutSinDigito.'-'.$digitoVerificador;
@@ -32,46 +71,6 @@ class PagoController extends Controller
         {
             if($reserva)
             {
-                $convenio = getenv("OTROS_PAGOS_COVENIO");
-                $key = $request->p_fectr.$request->p_tid.$convenio;
-                $llave = str_pad($key, 16);
-                try 
-                {
-                    $encriptacion = openssl_encrypt($llave, "AES-256-CBC", getenv("OTROS_PAGOS_KEY"), 1, getenv("OTROS_PAGOS_IV"));
-                } 
-                catch (\Throwable $th) 
-                {
-                    $logPago = new LogTransaccionPagos();
-                    $logPago->nombreTransaccion = 'FIRMA DE OTROSPAGOS.COM NO COINCIDE EN TRANSACCION - CODIGO 65';
-                    $logPago->numeroTransaccion = $request->p_tid;
-                    $logPago->webClient = 'OtrosPagos.com - CONDEU - RESERVA';
-                    $logPago->save();
-                    return response()->json(['r_retcod' => "65"], 200);
-                }
-                $h_firma = base64_encode($encriptacion);
-                
-                //CAMBIAR A FALSE
-                $firmaOk = false;
-                $headers = apache_request_headers();
-                foreach ($headers as $header => $value) 
-                {
-                    if($header == "H-Firma")
-                    {
-                        if($value != $h_firma)
-                        {
-                            $logPago = new LogTransaccionPagos();
-                            $logPago->nombreTransaccion = 'FIRMA DE OTROSPAGOS.COM NO COINCIDE EN TRANSACCION - CODIGO 65';
-                            $logPago->numeroTransaccion = $request->p_tid;
-                            $logPago->webClient = 'OtrosPagos.com - CONDEU';
-                            $logPago->save();
-                            return response()->json(['r_retcod' => "65"], 200);
-                        }
-                        else
-                        {
-                            $firmaOk = true;
-                        }
-                    }
-                }
                 if($firmaOk == true)
                 {
                     $pagoReserva = true;
