@@ -17,6 +17,8 @@ class Pago extends Model
         'tokenPago',
         'creadoPor',
         'metodoPagoOtrosPagos',
+        'secuenciaTransaccion',
+        'metodoPagoOtrosPagos',
         'tipoPago',
         'created_at',
         'updated_at'
