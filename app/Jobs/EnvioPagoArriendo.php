@@ -68,8 +68,10 @@ class EnvioPagoArriendo implements ShouldQueue
 
             $descuentos = $this->totalDescuento;
             $cargos = $this->totalCargo;
-            //Mail::to($estadosDePago->email)
-            Mail::to(['beenjaahp@hotmail.com', 'beenjaahp@gmail.com'])
+            Mail::to($estadosDePago->email)
+            //Mail::to(['beenjaahp@hotmail.com', 'beenjaahp@gmail.com'])
+            ->cc(['administracion@propitech.cl'])
+            ->bcc(['admin@benjaminperez.cl'])
             ->send(new ComprobantePagoArriendo($estadosDePago, $descuentos, $cargos, $pdf));
         }
         catch(\Exception $e)

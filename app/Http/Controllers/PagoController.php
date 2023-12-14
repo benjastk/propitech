@@ -214,6 +214,7 @@ class PagoController extends Controller
     //notificacion de pago
     public function notpagres(Request $request)
     {
+        Log::info('Info', array('client' => $request));
         $idTransaccion = (int)$request->p_tid;
         if($idTransaccion)
         {
@@ -258,7 +259,7 @@ class PagoController extends Controller
             }
             if($firmaOk == true)
             {
-                //Log::info('Info', array('client' => $request));
+                //
                 $reserva = ReservaPropiedad::where('token', $request->p_doc)
                 ->where('idEstado', 47)
                 ->first();

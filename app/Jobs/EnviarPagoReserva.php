@@ -46,8 +46,10 @@ class EnviarPagoReserva implements ShouldQueue
             //return dd($this->estadosDePago);
             $pdf = \PDF::loadView('emails.adjuntoPagoReservaArrendatario', [ 'estadosDePago' => $estadosDePago]);
 
-            //Mail::to($estadosDePago->email)
-            Mail::to(['beenjaahp@hotmail.com', 'beenjaahp@gmail.com'])
+            Mail::to($estadosDePago->email)
+            //Mail::to(['beenjaahp@hotmail.com', 'beenjaahp@gmail.com'])
+            ->cc(['administracion@propitech.cl'])
+            ->bcc(['admin@benjaminperez.cl'])
             ->send(new ComprobantePagoReserva($estadosDePago, $pdf));
         }
         catch(\Exception $e)
