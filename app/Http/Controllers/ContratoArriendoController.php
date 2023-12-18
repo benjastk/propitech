@@ -8,6 +8,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Crypt;
 use App\Exports\ContratosExport;
+use App\ReservaPropiedad;
 use App\NumerosEnLetras;
 use App\TiempoPagoGarantia;
 use App\LogTransaccion;
@@ -159,18 +160,25 @@ class ContratoArriendoController extends Controller
                 }
                 elseif($i == 1)
                 {
-                    $nuevosEstadosPagos->comision = (($nuevoContrato->arriendoMensual / 2) * 1.19);
+                    if($request->idTipoContrato == 1)
+                    {
+                        $nuevosEstadosPagos->comision = (($nuevoContrato->arriendoMensual / 2) * 1.19);
+                    }
+                    else 
+                    {
+                        $nuevosEstadosPagos->comision = 0;
+                    }
                     /////////////////////////////////////dias proporcionales
                     $fechaDesde = Carbon::parse($nuevoContrato->desde);
                     $ultimoDiaDelMes = Carbon::parse($nuevoContrato->desde);
                     $ultimoDiaDelMes->addMonth();
                     $ultimoDiaDelMes->day = 0;
-                    $diasProporcionales = $fechaDesde->diffInDays($ultimoDiaDelMes);
+                    $diasProporcionales = ($fechaDesde->diffInDays($ultimoDiaDelMes)) + 1;
 
                     $valorProporcional = 0;
                     if($fechaDesde->format("d") != "01")
                     {
-                        $proporcionalMes = ($nuevoContrato->arriendoMensual / 30);
+                        $proporcionalMes = ($nuevoContrato->arriendoMensual / $ultimoDiaDelMes->day);
                         $valorProporcionalParaMes = $proporcionalMes * $diasProporcionales;
 
                         $nuevosEstadosPagos->arriendoMensual = $valorProporcionalParaMes;
@@ -228,7 +236,35 @@ class ContratoArriendoController extends Controller
             $actualizarPropiedad = Propiedad::where('id', '=', $nuevoContrato->idPropiedad)->firstOrFail();
             $actualizarPropiedad->idEstado = 43;
             $actualizarPropiedad->save();
+            
+            if($request->idTipoContrato == 1)
+            {
+                $reserva = ReservaPropiedad::where('rut', $request->rutArrendatario)
+                ->where('idEstado', 48)
+                ->first();
+                if($reserva)
+                {
+                    $estadoPagoMenos = EstadoPago::where('idContrato', $nuevoContrato->idContratoArriendo)
+                    ->orderBy('fechaVencimiento', 'asc')
+                    ->first();
+                    if($estadoPagoMenos)
+                    {
+                        $comisionAnterior = $estadoPagoMenos->comision;
+                        $pagadoAnterior = $estadoPagoMenos->totalPagado;
+                        $estadoPagoMenos->comision = $comisionAnterior - $reserva->valorReserva;
+                        $estadoPagoMenos->totalPagado = $pagadoAnterior + $reserva->valorReserva;
+                        $estadoPagoMenos->saldo = $estadoPagoMenos->subtotal - $reserva->valorReserva;
+                        $estadoPagoMenos->save();
 
+                        $logTransaccion = new LogTransaccion();
+                        $logTransaccion->tipoTransaccion = 'Aplica Reserva a estado de pago';
+                        $logTransaccion->idUsuario =  Auth::user()->id;
+                        $logTransaccion->webclient = $request->userAgent();
+                        $logTransaccion->descripcionTransaccion = 'Aplica reserva a estado de pago: '. $estadoPagoMenos->idEstadoPago. ' - Contrato ID: '.$nuevoContrato->idContratoArriendo. " - VALOR DE RESERVA: ".$reserva->valorReserva  ;
+                        $logTransaccion->save();
+                    }
+                }
+            }
             DB::commit();
             toastr()->success('Contrato registrado exitosamente');
             /*if($nuevoContrato->idEstado == 2)

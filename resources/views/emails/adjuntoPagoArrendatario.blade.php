@@ -97,7 +97,7 @@
       <tr style="height: 3px;">
       @if($estadosDePago->numeroCuota == 1)
       <td style="width: 175px; height: 13px;">VALOR ARRIENDO VIGENTE</td>
-      <td style="width: 175px; height: 13px;">${{ number_format($estadosDePago->arriendoMensual, 0, '', '.')}}</td>
+      <td style="width: 175px; height: 13px;">${{ number_format($estadosDePago->valorArriendoContrato, 0, '', '.')}}</td>
       @else
       <td style="width: 175px; height: 13px;">VALOR ARRIENDO VIGENTE</td>
       <td style="width: 175px; height: 13px;">${{ number_format($estadosDePago->arriendoMensual, 0, '', '.')}}</td>
