@@ -50,7 +50,7 @@ class EnvioPagoArriendo implements ShouldQueue
              'contratos_arriendos.idTiempoPagoGarantia', 'pagos.montoPago', 'pagos.idPago', 'pagos.created_at as fechaPagado', 
              'users.numero as numeroTelefonoUsuario', 'paises.codigoPais', 'pagos.tokenPago', 'pagos.idMetodoPago', 'users.name', 'users.apellido',
              'comuna.nombre as nombreComuna', 'region.nombre as nombreRegion', 'users.email', 'contratos_arriendos.idContratoArriendo', 'propiedades.block', 
-             'pagos.numeroTransaccion')
+             'pagos.numeroTransaccion', 'contratos_arriendos.arriendoMensual as valorArriendoContrato')
             ->join('estados', 'estados_pagos.idEstado', '=', 'estados.idEstado')
             ->join('contratos_arriendos', 'estados_pagos.idContrato', '=', 'contratos_arriendos.idContratoArriendo')
             ->join('propiedades', 'contratos_arriendos.idPropiedad', '=', 'propiedades.id')
