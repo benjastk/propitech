@@ -58,7 +58,8 @@
                         <p>I.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FECHA DE FIRMA DEL CONTRATO 
                     </td>
                     <td width="225">
-                        <p>{{ $contratoArriendo->fechaCompromiso }}</p>
+                        @php(setlocale(LC_TIME, 'spanish'))
+                        <p>{{ strftime("%d de %B de %Y", strtotime($contratoArriendo->created_at)) }}</p>
                     </td>
                 </tr>
             </tbody>
