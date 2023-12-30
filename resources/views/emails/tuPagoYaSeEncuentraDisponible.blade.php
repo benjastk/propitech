@@ -28,11 +28,11 @@
             </tr>
             <tr>
                 <td style="width: 50%;"><strong>Garantia</strong></td>
-                <td style="width: 50%; text-align: right;">${{ number_format($garantia, 0, ",", ".") }}</td>
+                <td style="width: 50%; text-align: right;">${{ number_format($estadoPago->garantia, 0, ",", ".") }}</td>
             </tr>
             <tr>
                 <td style="width: 50%;"><strong>Comisión</strong></td>
-                <td style="width: 50%; text-align: right;">${{ number_format($comision, 0, ",", ".") }}</td>
+                <td style="width: 50%; text-align: right;">${{ number_format($estadoPago->comision, 0, ",", ".") }}</td>
             </tr
             <tr>
                 <td style="width: 50%;"><strong>Abonos</strong></td>
