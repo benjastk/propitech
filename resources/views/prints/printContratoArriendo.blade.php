@@ -2,7 +2,7 @@
     <head>
         <style>
             @page {
-                margin: 80px 100px;
+                margin: 70px 100px;
                 font-size: 13px;
             }
 
