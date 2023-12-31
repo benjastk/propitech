@@ -2,7 +2,7 @@
     <head>
         <style>
             @page {
-                margin: 80px 100px;
+                margin: 70px 100px;
                 font-size: 13px;
             }
 
@@ -58,7 +58,11 @@
                         <p>I.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FECHA DE FIRMA DEL CONTRATO 
                     </td>
                     <td width="225">
-                        <p>{{ $contratoArriendo->fechaCompromiso }}</p>
+                        <?php
+                            setlocale(LC_TIME, 'es_ES', 'Spanish_Spain', 'Spanish');
+                            $fecha = strftime("%d de %B de %Y", strtotime($contratoArriendo->created_at));
+                        ?>
+                        <p>{{ $fecha }}</p>
                     </td>
                 </tr>
             </tbody>
