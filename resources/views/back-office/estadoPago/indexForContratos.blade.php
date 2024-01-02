@@ -33,6 +33,7 @@
                                     <li class="breadcrumb-item"><a href="javascript: void(0);">Contactos</a></li>
                                     <li class="breadcrumb-item active">Lista de usuarios</li>
                                 </ol>-->
+                                <a href="#" class="btn btn-success" data-toggle="modal" data-target=".agregar-estado-pago" title="agregar estado de pago"><i class="bx bx-money"></i>Agregar Estado de Pago</a>
                             </div>
                         </div>
                     </div>
@@ -344,6 +345,97 @@
                 </div>
                 @endforeach
                 @endif
+                <!--  Modal AGREGAR ESTADO DE PAGO -->
+                <div class="modal fade bs-example-modal-md agregar-estado-pago" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-md">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title mt-0" id="myLargeModalLabel">Agregar Estado de Pago</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-lg-12" style="padding:20px !important">
+                                        <form method="POST" action="{{ route('crearEstadoPago') }}" enctype="multipart/form-data">
+                                            {{ csrf_field() }}
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label for="nombre">Fecha de vencimiento</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <input id="fechaVencimiento" name="fechaVencimiento" type="date" class="form-control" >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label for="nombre">Arriendo Mensual</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <input id="arriendoMensual" name="arriendoMensual" type="text" class="form-control" >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label for="nombre">Garantia</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <input id="garantia" name="garantia" type="text" class="form-control" >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label for="nombre">Comision</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <input id="comision" name="comision" type="text" class="form-control" >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label for="nombre">Nota</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <textarea name="notas" class="form-control" id="notas" rows="2"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <input type="text" style="display: none" name="idContrato" id="idContrato" class="form-control" value="{{ $contrato->idContratoArriendo }}" >
+                                                </div>
+                                                <div class="col-sm-4" style="text-align: right">
+                                                    <p style="margin-bottom: 5px">&nbsp;</p>
+                                                    <button class="btn btn-success"><i class="bx bx-plus"></i> Crear</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div> <!-- container-fluid -->
         </div>
         <!-- End Page-content -->
