@@ -57,7 +57,9 @@ class EstadoPagoController extends Controller
     {
         try{
             DB::beginTransaction();
-            $ultimoEstadoPago = EstadoPago::orderBy('idEstadoPago', 'desc')->first();
+            $ultimoEstadoPago = EstadoPago::where('idContrato', $request->idContrato)
+            ->orderBy('idEstadoPago', 'desc')
+            ->first();
             $estadoPago = new EstadoPago();
             $estadoPago->fill($request->all());
             $estadoPago->subtotal = $request->arriendoMensual + $request->garantia + $request->comision;
