@@ -134,6 +134,8 @@ Route::prefix('mandatos')->group(function () {
 
     Route::post('/reimpresionMandatoAdministracion', 'MandatoAdministracionController@imprimirMandatoAdministracion');
     Route::get('/export', 'MandatoAdministracionController@exportExcel')->name('export-mandatos');
+    Route::get('/liquidacion-inversionista', 'MandatoAdministracionController@liquidacionInversionista');
+    Route::get('buscarPagosMandatosMes', 'MandatoAdministracionController@buscarPagosMandatosMes')->name('buscarPagosMandatosMes');
 });
 Route::prefix('estados-pagos')->group(function () {
     Route::get('/', 'EstadoPagoController@index');

@@ -438,6 +438,67 @@ class MandatoAdministracionController extends Controller
 			return back();
 		}
 	}
+    public function liquidacionInversionista()
+    {
+        $user = Auth::user();
+        $anio = date('Y');
+        $mes = date('mm');
+        $filtro = EstadosPagosMandatarios::selectRaw('year(fechaDePago) year, month(fechaDePago) month, count(*) data')
+            ->groupby('year','month')
+            ->get();
+        $filtroDos = MandatoAdministracion::selectRaw('diaPago, count(*) data')
+            ->groupby('diaPago')
+            ->get();
+        $estadosPagosMandatarios = null;
+        return view('back-office.mandatos.liquidacionInversionista', compact('filtro', 'estadosPagosMandatarios', 'filtroDos', 'user', 'anio', 'mes'));
+    }
+    public function buscarPagosMandatosMes(Request $request)
+    {
+        $user = Auth::user();
+        $anio = substr($request->filtro, -4);
+        $mes = substr($request->filtro, 0, -5);
+        $tipo = $request->tipo;
+        if($request->tipo == 1)
+        {
+            $estadosPagosMandatarios = EstadosPagosMandatarios::select('estados_pagos_mandatarios.*', 'estados.nombreEstado', 'propiedades.nombrePropiedad', 
+            'mandatos_propiedad.rutPropietario', 'users.rut', 'propiedades.block', 'mandatos_propiedad.nombrePropietario', 'mandatos_propiedad.apellidoPropietario', 
+            'mandatos_propiedad.nombreArrendatario', 'mandatos_propiedad.apellidoArrendatario', 'mandatos_propiedad.rutArrendatario')
+            ->join('estados', 'estados_pagos_mandatarios.idEstado', '=', 'estados.idEstado')
+            ->join('mandatos_propiedad', 'estados_pagos_mandatarios.idMandatoPropiedad', '=', 'mandatos_propiedad.idMandatoPropiedad')
+            ->join('propiedades', 'mandatos_propiedad.idPropiedad', '=', 'propiedades.id')
+            ->join('users', 'mandatos_propiedad.idPropietario', '=', 'users.id')
+            ->leftjoin('contratos_arriendos', 'estados_pagos_mandatarios.idContrato', '=', 'contratos_arriendos.idContratoArriendo')
+            ->whereIn('estados_pagos_mandatarios.idEstado', [69, 67])
+            ->whereMonth('estados_pagos_mandatarios.fechaDePago', '=', $mes)
+            ->whereYear('estados_pagos_mandatarios.fechaDePago', '=', $anio)
+            ->orderBy('users.name', 'ASC')
+            ->get();
+        }
+        else
+        {
+            $estadosPagosMandatarios = EstadosPagosMandatarios::select('estados_pagos_mandatarios.*', 'estados.nombreEstado', 'propiedades.nombrePropiedad', 
+            'mandatos_propiedad.rutPropietario', 'users.rut', 'propiedades.block', 'mandatos_propiedad.nombrePropietario', 'mandatos_propiedad.apellidoPropietario', 
+            'mandatos_propiedad.nombreArrendatario', 'mandatos_propiedad.apellidoArrendatario', 'mandatos_propiedad.rutArrendatario')
+            ->join('estados', 'estados_pagos_mandatarios.idEstado', '=', 'estados.idEstado')
+            ->join('mandatos_propiedad', 'estados_pagos_mandatarios.idMandatoPropiedad', '=', 'mandatos_propiedad.idMandatoPropiedad')
+            ->join('propiedades', 'mandatos_propiedad.idPropiedad', '=', 'propiedades.id')
+            ->join('users', 'mandatos_propiedad.idPropietario', '=', 'users.id')
+            ->leftjoin('contratos_arriendos', 'estados_pagos_mandatarios.idContrato', '=', 'contratos_arriendos.idContratoArriendo')
+            ->where('estados_pagos_mandatarios.idEstado', '=', 68)
+            ->whereMonth('estados_pagos_mandatarios.fechaDePago', '=', $mes)
+            ->whereYear('estados_pagos_mandatarios.fechaDePago', '=', $anio)
+            ->orderBy('users.name', 'ASC')
+            ->get();
+        }
+        $filtro = EstadosPagosMandatarios::selectRaw('year(fechaDePago) year, month(fechaDePago) month, count(*) data')
+            ->groupby('year','month')
+            ->get();
+        $filtroDos = MandatoAdministracion::selectRaw('diaPago, count(*) data')
+            ->groupby('diaPago')
+            ->get();
+        $estados = Estado::where('idTipoEstado', '=', 16)->get();
+        return view('back-office.mandatos.liquidacionInversionista', compact('estadosPagosMandatarios', 'filtro', 'anio', 'mes', 'filtroDos', 'dia', 'estados', 'tipo', 'user'));
+    }
     public function comisionMandato($mes, $anio)
     {
         //$mes = date("06");

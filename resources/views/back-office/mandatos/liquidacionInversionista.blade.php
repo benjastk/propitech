@@ -47,7 +47,6 @@
                     <div class="col-12">
                         <div class="page-title-box d-flex align-items-center justify-content-between">
                             <h4 class="mb-0 font-size-18">Liquidacion Inversionista</h4>
-
                             <div class="page-title-right">
                                 <!--<ol class="breadcrumb m-0">
                                     <li class="breadcrumb-item"><a href="javascript: void(0);">Contactos</a></li>
@@ -60,7 +59,77 @@
                                     <i class="far fa-file-excel"></i> Descargar Excel
                                 </a>
                             </div>
+                            
                         </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <form method="GET" action="{{ route('buscarPagosMandatosMes') }}" >
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>Mes y año</label>
+                                    <select name="filtro" id="filtro" class="form-control" required>
+                                        <option value="">Mes/Año</option>
+                                        @foreach ($filtro as $filtros)
+                                        <option value="{{$filtros->month}}/{{$filtros->year}}" >{{$filtros->month}} / {{$filtros->year}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Estado</label>
+                                    <select name="tipo" class="form-control" required>
+                                        <option value="1">Validados/Liquidados</option>
+                                        <option value="2">Rezagados</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>&nbsp;</label>
+                                    <center><button style="width: 100%;" type="submit" class="btn btn-block btn-primary btn-sm"><i class="fa fa-search"></i> Buscar</button></center>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-2">
+                        <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <form method="POST" action="#" >
+                        @csrf
+                            <input type="hidden" name="anio" value="{{$anio}}">
+                            <input type="hidden" name="mes" value="{{$mes}}">
+                            <div class="form-group col-md-12">
+                                <center><button style="width: 100%;" type="submit" class="btn btn-block btn-primary btn-sm"><i class="fa fa-file"></i> Descargar planilla</button></center>
+                            </div>
+                        </form>
+                    </div>
+                    <!--<div class="col-sm-4">
+                        <form method="POST" action="#" >
+                        @csrf
+                            <input type="hidden" name="anio" value="{{$anio}}">
+                            <input type="hidden" name="mes" value="{{$mes}}">
+                            <div class="form-group col-md-12">
+                            <center><button style="width: 100%;" type="submit" class="btn btn-block btn-primary btn-sm"><i class="fa fa-file"></i> Pagos no realizados Excel</button></center>
+                            </div>
+                        </form>
+                    </div>-->
+                    <div class="col-sm-2">
+                    <!--
+                        <input type="hidden" name="anio" value="{{$anio}}">
+                        <input type="hidden" name="mes" value="{{$mes}}">
+                        <div class="form-group col-md-12">-->
+                        <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <center><button style="width: 100%;" data-toggle="modal" data-target="#validar" class="btn btn-block btn-success btn-sm"><i class="fa fa-check"></i> VALIDAR</button></center>
+                    </div>
+                    <div class="col-sm-2">
+                        <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        @if($mes)
+                        <center><a href="{{ url('/comisionMandato/'.$mes.'/'.$anio) }}" ><button style="width: 100%;" class="btn btn-block btn-primary btn-sm"><i class="fa fa-link"></i> ACTUALIZAR</button></a></center>
+                        @else
+                        @php
+                            $mes = date('m');
+                            $anio = date('Y');
+                        @endphp
+                        <center><a href="{{ url('/comisionMandato/'.$mes.'/'.$anio) }}" ><button style="width: 100%;" class="btn btn-block btn-primary btn-sm"><i class="fa fa-redo-alt"></i> ACTUALIZAR</button></a></center>
+                        @endif
                     </div>
                 </div>
                 <div class="row">
@@ -71,25 +140,25 @@
                                 <table id="tabla-ingresos" class="table table-centered table-hover">
                                         <thead class="thead-light">
                                             <tr>
-                                            <th>ID</th>
-                                            <th>Rut Propietario</th>
-                                            <th>Propietario</th>
-                                            <th>Rut Arrendatario</th>
-                                            <th>Arrendatario</th>
-                                            <th>Propiedad</th>
-                                            <th>Monto A Pagar</th>
-                                            <th>Cargos / Descuentos</th>
-                                            <th>Monto Pagado</th>
-                                            <th>Garantia</th>
-                                            <th>Comision de Corretaje</th>
-                                            <th>Comision</th>
-                                            <th>Saldos a favor</th>
-                                            <th>Seguro de arriendo</th>
-                                            <th>Deuda</th>
-                                            <th>Monto A Liquidar Propietario</th>
-                                            <th>Estado</th>
-                                            <th>Fecha liquidado</th>
-                                            <th>@if($tipo == 2) Acciones @endif</th>
+                                                <th>ID</th>
+                                                <th>Rut Propietario</th>
+                                                <th>Propietario</th>
+                                                <th>Rut Arrendatario</th>
+                                                <th>Arrendatario</th>
+                                                <th>Propiedad</th>
+                                                <th>Monto A Pagar</th>
+                                                <th>Cargos / Descuentos</th>
+                                                <th>Monto Pagado</th>
+                                                <th>Garantia</th>
+                                                <th>Comision de Corretaje</th>
+                                                <th>Comision</th>
+                                                <th>Saldos a favor</th>
+                                                <th>Seguro de arriendo</th>
+                                                <th>Deuda</th>
+                                                <th>Monto A Liquidar Propietario</th>
+                                                <th>Estado</th>
+                                                <th>Fecha liquidado</th>
+                                                <th>Acciones</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -101,7 +170,7 @@
                                             <td>@if($estadosDePagos->nombreEstado == 'NO LIQUIDADO')<input type="checkbox" id="pagos[]" name="pagos[]" class="check" value="{{ $estadosDePagos->idEstadoPagoMandato }}" >
                                             @endif</td>
                                             @endif
-                                            <td>{{ $estadosDePagos->idEstadoPagoMandato}}</td>
+                                            <!--<td>{{ $estadosDePagos->idEstadoPagoMandato}}</td>-->
                                             <td>{{ $estadosDePagos->rutPropietario}}</td>
                                             <td>{{ $estadosDePagos->nombrePropietario}} {{$estadosDePagos->apellidoPropietario}}</td>
                                             <td>{{ $estadosDePagos->rutArrendatario}}</td>
@@ -129,7 +198,7 @@
                                                 
                                                 <a class="dropdown-item"  data-toggle="modal" data-target="#exampleModalMandatario-{{ $estadosDePagos->idEstadoPagoMandato }}" href="#"><i class="fa fa-edit"></i> Editar</a>
                                                 <a class="dropdown-item" href="imprimirComprobantePagoPropietario/{{$estadosDePagos->idEstadoPagoMandato}}"><i class="fa fa-print"></i> Imprimir Comprobante A Inversionista</a>
-                                                <!--<a class="dropdown-item" href="descuentos/{{$estadosDePagos->idEstadoPago}}"><i class="fa fa-arrow-down"></i> Descuentos</a>-->
+                                                <a class="dropdown-item" href="descuentos/{{$estadosDePagos->idEstadoPago}}"><i class="fa fa-arrow-down"></i> Descuentos</a>
                                                 <a class="dropdown-item"  data-toggle="modal" data-target="#exampleModalCenterEliminar-{{ $estadosDePagos->idEstadoPagoMandato }}" href="#"><i class="fa fa-trash"></i> Eliminar</a>
                                                 </div>
                                             </div>
