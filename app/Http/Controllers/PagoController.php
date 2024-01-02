@@ -679,6 +679,7 @@ class PagoController extends Controller
         $estadosDePago = EstadoPago::select('estados_pagos.*', 'pagos.montoPago', 'pagos.numeroTransaccion', 'pagos.tokenPago', 'pagos.secuenciaTransaccion')
         ->join('pagos', 'pagos.tokenEstadoPago', '=', 'estados_pagos.token')
         ->where('estados_pagos.token', '=', $request->tokenEstadoPago)
+        ->where('estados_pagos.idEstado', '=', 48)
         ->first();
         if($estadosDePago)
         {
