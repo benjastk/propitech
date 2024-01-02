@@ -102,7 +102,7 @@
                         </a>
                     </li>
                     <li id="navbar-item-property" aria-haspopup="true" aria-expanded="false" class="nav-item dropdown py-2 py-lg-5 px-0 px-lg-4">
-                    <a class="nav-link dropdown-toggle p-0" href="listing.html" data-toggle="dropdown" >
+                    <a class="nav-link dropdown-toggle p-0" href="#" data-toggle="dropdown" >
                         Propiedades
                         <span class="caret"></span>
                     </a>
