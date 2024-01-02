@@ -55,7 +55,50 @@ class EstadoPagoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+            DB::beginTransaction();
+            $ultimoEstadoPago = EstadoPago::orderBy('idEstadoPago', 'desc')->first();
+            $estadoPago = new EstadoPago();
+            $estadoPago->fill($request->all());
+            $estadoPago->subtotal = $request->arriendoMensual + $request->garantia + $request->comision;
+            $estadoPago->editado = 0;
+            $estadoPago->idContrato = $request->idContrato;
+            $estadoPago->token = uniqid();
+            $estadoPago->numeroCuota = $ultimoEstadoPago->numeroCuota + 1;
+            $estadoPago->idEstado = 47;
+            $estadoPago->garantiaDos = 0;
+            $estadoPago->totalPagado = 0;
+            $estadoPago->creadoPor = Auth::user()->id;
+            $estadoPago->save();
+            
+            $logTransaccion = new LogTransaccion();
+            $logTransaccion->tipoTransaccion = 'Creacion de Estado de Pago';
+            $logTransaccion->idUsuario =  Auth::user()->id;
+            $logTransaccion->webclient = $request->userAgent();
+            $logTransaccion->descripcionTransaccion = 'Creacion de Estado de Pago: '. $estadoPago->idEstadoPago. ' - Arriendo: '.
+            $estadoPago->arriendoMensual.' - Garantia: '. $estadoPago->garantia.' - Comision: '. $estadoPago->comision.'';
+            $logTransaccion->save();
+
+            DB::commit();
+            toastr()->success('Estado de pago actualizado exitosamente');
+            return redirect('/estados-pagos/mostrar/'.$estadoPago->idContrato );
+        } catch (ModelNotFoundException $e) {
+            toastr()->warning('No autorizado');
+            DB::rollback();
+            return back()->withInput($request->all());
+        } catch (QueryException $e) {
+            toastr()->warning('Ha ocurrido un error, favor intente nuevamente' . $e->getMessage());
+            DB::rollback();
+            return back()->withInput($request->all());
+        } catch (DecryptException $e) {
+            toastr()->info('Ocurrio un error al intentar acceder al recurso solicitado');
+            DB::rollback();
+            return back()->withInput($request->all());
+        } catch (\Exception $e) {
+            toastr()->warning($e->getMessage());
+            DB::rollback();
+            return back()->withInput($request->all());
+        }
     }
 
     /**
@@ -72,6 +115,7 @@ class EstadoPagoController extends Controller
         ->join('estados', 'estados.idEstado', '=', 'estados_pagos.idEstado')
         ->join('contratos_arriendos', 'contratos_arriendos.idContratoArriendo', '=', 'estados_pagos.idContrato')
         ->where('estados_pagos.idContrato', '=', $id)
+        ->orderBy('fechaVencimiento', 'asc')
         ->get();
         $descuentos = Descuento::where('idEstadoPago', $id)->get();
 

@@ -139,7 +139,7 @@ Route::prefix('estados-pagos')->group(function () {
     Route::get('/', 'EstadoPagoController@index');
     Route::get('/mostrar/{id}', 'EstadoPagoController@show');
     Route::get('/create', 'EstadoPagoController@create');
-    Route::post('/store', 'EstadoPagoController@store');
+    Route::post('/store', 'EstadoPagoController@store')->name('crearEstadoPago');
     Route::get('/edit/{id}', 'EstadoPagoController@edit');
     Route::post('/update/{id}', 'EstadoPagoController@update');
     Route::post('/destroy', 'EstadoPagoController@destroy');
