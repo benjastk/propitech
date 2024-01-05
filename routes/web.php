@@ -42,6 +42,9 @@ Route::post('/ir-a-pagar-online', 'InicioController@pagarOnline')->name('ir-a-pa
 Route::get('/pago-reserva-online', 'InicioController@pagoReservaOnline');
 Route::post('/ir-a-pagar-reserva-online', 'InicioController@pagarReservaOnline')->name('ir-a-pagar-reserva-online');
 
+Route::get('/proyectos-venta', 'InicioController@proyectosEnVenta');
+Route::get('/proyectos-venta/{descripcion}', 'InicioController@singleProyectosEnVenta');
+
 Route::get('/pruebaCorreo', 'PagoController@pruebaCorreo');
 Route::get('/pruebaMail', 'AlertaController@pruebaMail');
 // back-office routes
