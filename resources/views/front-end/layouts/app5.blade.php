@@ -54,6 +54,7 @@
             {
                 background-color: #2db5ff !important;
             }
+            
         </style>
         <style>
             .whatsapp {
@@ -73,6 +74,41 @@
             .whatsapp-icon {
                 margin-top:13px;
             }
+        </style>
+        <style>
+            .navbar-light .navbar-nav .nav-link {
+                color: white !important;
+            }
+            .texto-triangulo {
+                fill: white;
+                font-size:12px;
+                font-family:arial;
+                letter-spacing:-1px;
+
+            }
+            .texto-descuento {
+                fill: white;
+                font-size:14px;
+                font-family:arial;
+
+            }
+            /* fondo */
+            .triangulo {
+                fill: black;
+                opacity:0.9;
+            }
+            /* css oferta */
+            /* triángulo */
+            .oferta-verde {
+                fill:#2db5ff !important;
+                /*opacity:0.9;*/
+
+            }
+            /* texto */
+            .texto-oferta-verde {
+                fill: white;
+                font-size:14px;
+            }
             .cardPropiedades:hover {
                 box-shadow: 0 0 20px rgba(33,33,33,.5); 
             }
@@ -89,12 +125,6 @@
                 src: url('{{ asset("/front/fonts/FeltThat.ttf") }}');
             }
         </style>
-        <style>
-            a .pagarr:hover {
-                background-color: 'white' !important;
-                color: 'black' !important;
-            }
-        </style>
         @yield('css')
     </head>
     <body>
@@ -102,12 +132,12 @@
             class="whatsapp" target="_blank"> 
             <i class="fab fa-whatsapp" style="margin-top: 9px; font-size: 40px;"></i>
         </a>
-        <header class="main-header navbar-dark bg-secondary pb-lg-9 header-sticky header-sticky-smart header-mobile-lg">
+        <header class="main-header navbar-dark bg-secondary pb-lg-9 header-sticky header-sticky-smart header-mobile-lg" style="padding-bottom: 0px !important">
         <div class="sticky-area bg-secondary">
             <div class="container">
                 <nav class="navbar navbar-expand-lg bg-transparent px-0">
                 <a class="navbar-brand" href="/">
-                    <img src="/front/LOGOPROPITECHby.png" style="height: 68px" alt="PROPITECH">
+                <img src="/front/LOGOPROPITECHby.png" style="height: 68px" alt="PROPITECH">
                 </a>
                 <div class="d-flex d-lg-none ml-auto">
                     <button class="navbar-toggler border-0 px-0" type="button" data-toggle="collapse"
@@ -125,31 +155,10 @@
                         </a>
                     </li>
                     <li id="navbar-item-property" aria-haspopup="true" aria-expanded="false" class="nav-item dropdown py-2 py-lg-5 px-0 px-lg-4">
-                    <a class="nav-link dropdown-toggle p-0" data-toggle="dropdown" >
+                    <a class="nav-link dropdown-toggle p-0" href="#" data-toggle="dropdown" >
                         Propiedades
                         <span class="caret"></span>
                     </a>
-                    <!--<div class="dropdown-menu px-0 pt-3 dropdown-menu-docs" aria-labelledby="navbar-item-property">
-                        <div class="row no-gutters">
-                            <div class="col-lg-12">
-                                <a class="dropdown-item" href="/catalogo-propiedades-venta">
-                                    Propiedades en Venta
-                                </a>
-                                <a class="dropdown-item" href="/catalogo-propiedades-venta?tipoPropiedad=1">
-                                    Casas en Venta
-                                </a>
-                                <a class="dropdown-item" href="/catalogo-propiedades-venta?tipoPropiedad=2">
-                                    Departamentos en Venta
-                                </a>
-                                <a class="dropdown-item" href="/catalogo-propiedades-venta?tipoPropiedad=5">
-                                    Parcelas en Venta
-                                </a>
-                                <a class="dropdown-item" href="/catalogo-propiedades">
-                                    Propiedades en Arriendo
-                                </a>
-                            </div>
-                        </div>
-                    </div>-->
                     <div class="dropdown-menu dropdown-menu-xxl px-0 py-3 dropdown-menu-listing" aria-labelledby="navbar-item-property">
                         <div class="row no-gutters">
                             <div class="col-lg-6">
@@ -171,9 +180,6 @@
                                     Oficinas en Venta
                                 </a>
                                 <!--<a class="dropdown-item" href="#">
-                                    
-                                </a>
-                                <a class="dropdown-item" href="#">
                                 List with right sidebar
                                 </a>-->
                             </div>
@@ -192,7 +198,8 @@
                                 <a class="dropdown-item" href="/catalogo-propiedades?tipoPropiedad=8">
                                     Oficinas en Arriendo
                                 </a>
-                                <!--<a class="dropdown-item" href="#">
+                                <!--
+                                <a class="dropdown-item" href="#">
                                     
                                 </a>
                                 <a class="dropdown-item" href="#">
@@ -248,26 +255,20 @@
                             </li>
                         </ul>
                     </li>
-                    <li id="navbar-item-dashboard" aria-haspopup="true" aria-expanded="false" class="nav-item dropdown py-2 py-lg-5 px-0 px-lg-4">
-                        <a class="btn btn-success" href="#" style="background-color: green;">
-                            ¡Invierte!
-                            <span class="caret"></span>
-                        </a>
-                    </li>
                 </ul>
                 <div class="d-block d-lg-none">
-                    <ul class="navbar-nav flex-row ml-auto align-items-center justify-content-lg-end flex-wrap py-2">
+                    <!--<ul class="navbar-nav flex-row ml-auto align-items-center justify-content-lg-end flex-wrap py-2">
                         <li class="nav-item">
                             <a class="btn btn-success btn-lg" href="/pago-online">Paga tu Arriendo Aquí</a>
                         </li>
-                    </ul>
+                    </ul>-->
                 </div>
                 </div>
                 <div class="d-none d-lg-block">
                 <ul class="navbar-nav flex-row ml-auto align-items-center justify-content-lg-end flex-wrap py-2">
-                    <li class="nav-item">
+                    <!--<li class="nav-item">
                         <a class="btn btn-success text-white rounded-lg bg-hover-primary border-hover-primary hover-white d-none d-lg-block pagarr" href="/pago-online">Paga tu Arriendo Aquí</a>
-                    </li>
+                    </li>-->
                     <!--<li class="nav-item">
                     <a class="nav-link px-2 position-relative" href="#">
                         <i class="fal fa-heart fs-large-4"></i>
@@ -324,7 +325,7 @@
                             <input type="text" name="email" required class="form-control bg-white shadow-none border-0 z-index-1" placeholder="Correo electronico">
                             <input type="hidden" name="id_formulario" value="1">
                             <div class="input-group-append">
-                            <button class="btn btn-primary" type="submit">Suscribir</button>
+                                <button class="btn btn-primary" type="submit">Suscribir</button>
                             </div>
                         </div>
                     </form>
@@ -336,20 +337,20 @@
                             <a href="{{ $instagram->valorParametro }}" target="_blank" class="text-white opacity-3 fs-25 px-4 opacity-hover-10"><i class="fab fa-instagram"></i></a>
                         </li>
                         <li class="list-inline-item mr-0">
-                            <a href="{{ $linkedin->valorParametro }}" target="_blank"  class="text-white opacity-3 fs-25 px-4 opacity-hover-10"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="{{ $linkedin->valorParametro }}" target="_blank" class="text-white opacity-3 fs-25 px-4 opacity-hover-10"><i class="fab fa-linkedin-in"></i></a>
                         </li>
                     </ul>
                 </div>
                 </div>
                 <div class="mt-0 mt-md-10 row">
-                <!--<ul class="list-inline mb-0 col-md-6 mr-auto">
-                    <li class="list-inline-item mr-6">
-                        <a href="#" class="text-muted lh-26 font-weight-500 hover-white">Terms of Use</a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a href="#" class="text-muted lh-26 font-weight-500 hover-white">Privacy Policy</a>
-                    </li>
-                </ul>-->
+                    <!--<ul class="list-inline mb-0 col-md-6 mr-auto">
+                        <li class="list-inline-item mr-6">
+                            <a href="#" class="text-muted lh-26 font-weight-500 hover-white">Terms of Use</a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#" class="text-muted lh-26 font-weight-500 hover-white">Privacy Policy</a>
+                        </li>
+                    </ul>-->
                 <p class="col-md-auto mb-0 text-muted">
                     © Propitech 2023. Todos los derechos reservados
                 </p>

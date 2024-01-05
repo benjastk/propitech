@@ -695,4 +695,22 @@ class InicioController extends Controller
             return view('front-end.pago-online-reserva', compact('reserva', 'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'rut'));
         }
     }
+    public function proyectosEnVenta(Request $request)
+    {
+        $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+        $correoHome = ParametroGeneral::where('parametroGeneral', 'CORREO HOME')->first();
+        $direccionHome = ParametroGeneral::where('parametroGeneral', 'DIRECCION HOME')->first();
+        $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
+        $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
+        $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
+        $proyectosEnVenta = Propiedad::select('propiedades.*', 'comuna.nombre as nombreComuna', 'provincia.nombre as nombreProvincia',
+        'region.nombre as nombreRegion')
+        ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
+        ->join('provincia', 'provincia.id', '=', 'propiedades.idProvincia')
+        ->join('region', 'region.id', '=', 'propiedades.idRegion')
+        ->where('propiedades.idEstado', 42)
+        ->where('propiedades.idTipoComercial', 1) //Venta
+        ->get();
+        return view('front-end.inversiones', compact('telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'proyectosEnVenta'));
+    }
 }
