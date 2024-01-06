@@ -521,7 +521,7 @@ class EstadoPagoController extends Controller
                     $totalCargo = $totalCargo + $cargo->montoCargo;
                 }
             }
-            EnvioPagoArriendo::dispatch( $nuevoPago->idPago, $cargos, $descuentos, $totalCargo, $totalDescuento);
+            EnvioPagoArriendo::dispatch( $nuevoPago->idPago, $cargos, $descuentos, $totalDescuento, $totalCargo);
             $logTransaccion = new LogTransaccion();
             $logTransaccion->tipoTransaccion = 'Pago rapido de estado de pago';
             $logTransaccion->idUsuario =  Auth::user()->id;

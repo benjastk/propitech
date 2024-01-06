@@ -14,11 +14,12 @@ use App\EstadoPago;
 class EnvioPagoArriendo implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    protected $idPago;
     protected $cargos;
     protected $descuentos;
     protected $totalDescuento;
     protected $totalCargo;
-    protected $idPago;
+    
     /**
      * Create a new job instance.
      *
