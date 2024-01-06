@@ -453,7 +453,7 @@ class PagoController extends Controller
                                         $totalCargo = $totalCargo + $cargo->montoCargo;
                                     }
                                 }
-                                EnvioPagoArriendo::dispatch( $nuevoPago->idPago, $cargos, $descuentos, $totalCargo, $totalDescuento);
+                                EnvioPagoArriendo::dispatch( $nuevoPago->idPago, $cargos, $descuentos, $totalDescuento, $totalCargo);
                                 return response()->json(['r_tid' => $idTransaccion,
                                                     'r_retcod' => "00",
                                                     'r_cau' => $request->p_doc], 200);
