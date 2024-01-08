@@ -164,4 +164,8 @@ class ContactoController extends Controller
             return back()->withInput($request->all());
         }
     }
+    public function formularioInversiones()
+    {
+        
+    }
 }

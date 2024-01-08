@@ -8,13 +8,141 @@
 <meta name="generator" content="LaravelV7">
 @endsection
 @section('css')
+<style>
+    .nav-tabs.wizard {
+        background-color: transparent;
+        padding: 0;
+        width: 100%;
+        margin: 1em auto;
+        border-radius: .25em;
+        clear: both;
+        border-bottom: none;
+    }
 
+    .nav-tabs.wizard li {
+        width: 100%;
+        float: none;
+        margin-bottom: 3px;
+    }
+
+    .nav-tabs.wizard li>* {
+        position: relative;
+        padding: 1em .8em .8em 2.5em;
+        color: #999999;
+        background-color: #dedede;
+        border-color: #dedede;
+    }
+
+    .nav-tabs.wizard li.completed>* {
+        color: #fff !important;
+        background-color: #96c03d !important;
+        border-color: #96c03d !important;
+        border-bottom: none !important;
+    }
+
+    .nav-tabs.wizard li.active>* {
+        color: #fff !important;
+        background-color: #2c3f4c !important;
+        border-color: #2c3f4c !important;
+        border-bottom: none !important;
+    }
+
+    .nav-tabs.wizard li::after:last-child {
+        border: none;
+    }
+
+    .nav-tabs.wizard > li > a {
+        opacity: 1;
+        font-size: 14px;
+    }
+
+    .nav-tabs.wizard a:hover {
+        color: #fff;
+        background-color: #2c3f4c;
+        border-color: #2c3f4c
+    }
+
+    span.nmbr {
+        display: inline-block;
+        padding: 10px 0 0 0;
+        background: #ffffff;
+        width: 35px;
+        line-height: 100%;
+        height: 35px;
+        margin: auto;
+        border-radius: 50%;
+        font-weight: bold;
+        font-size: 16px;
+        color: #555;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
+    @media(min-width:992px) {
+        .nav-tabs.wizard li {
+            position: relative;
+            padding: 0;
+            margin: 4px 4px 4px 0;
+            width: 19.6%;
+            float: left;
+            text-align: center;
+        }
+        .nav-tabs.wizard li.active a {
+            padding-top: 15px;
+        }
+        .nav-tabs.wizard li::after,
+        .nav-tabs.wizard li>*::after {
+            content: '';
+            position: absolute;
+            top: 1px;
+            left: 100%;
+            height: 0;
+            width: 0;
+            border: 45px solid transparent;
+            border-right-width: 0;
+            /*border-left-width: 20px*/
+        }
+        .nav-tabs.wizard li::after {
+            z-index: 1;
+            -webkit-transform: translateX(4px);
+            -moz-transform: translateX(4px);
+            -ms-transform: translateX(4px);
+            -o-transform: translateX(4px);
+            transform: translateX(4px);
+            border-left-color: #fff;
+            margin: 0
+        }
+        .nav-tabs.wizard li>*::after {
+            z-index: 2;
+            border-left-color: inherit
+        }
+        .nav-tabs.wizard > li:nth-of-type(1) > a {
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+        }
+        .nav-tabs.wizard li:last-child a {
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+        .nav-tabs.wizard li:last-child {
+            margin-right: 0;
+        }
+        .nav-tabs.wizard li:last-child a:after,
+        .nav-tabs.wizard li:last-child:after {
+            content: "";
+            border: none;
+        }
+        span.nmbr {
+            display: block;
+        }
+    }
+</style>
 @endsection
 @section('content')
     <section>
         <div class="slick-slider mx-0 custom-arrow-center" data-slick-options='{"slidesToShow": 1, "infinite":true, "autoplay":true,"responsive":[{"breakpoint": 1200,"settings": {"slidesToShow":1,"arrows":false,"dots":false}},{"breakpoint": 992,"settings": {"slidesToShow":1,"arrows":false,"dots":false}},{"breakpoint": 768,"settings": {"slidesToShow": 1,"arrows":false,"dots":false}},{"breakpoint": 576,"settings": {"slidesToShow": 1,"arrows":false,"dots":false}}]}'>
             <div class="box px-0 d-flex flex-column" style="display: flex" >
-                <div class="row">
+                <div class="row" style="margin: 0px !important">
                     <div class="bg-cover d-flex align-items-center custom-vh-02" style="background-image: url('front/images/bg-slider-01.jpg'); width: 50%">
                         
                     </div>
@@ -186,14 +314,25 @@
             </div>
         </div>
     </section>
-    <section class="pt-11">
+    <section>
+        <div class="tabbable">
+            <ul class="nav nav-tabs wizard">
+                <li class="active"><a href="#i9" data-toggle="tab" aria-expanded="false"><span class="nmbr">1</span>Step 01</a></li>
+                <li><a href="#w4" data-toggle="tab" aria-expanded="false"><span class="nmbr">2</span>Step 02</a></li>
+                <li><a href="#stateinfo" data-toggle="tab" aria-expanded="false"><span class="nmbr">3</span>Step 03</a></li>
+                <li><a href="#companydoc" data-toggle="tab" aria-expanded="false"><span class="nmbr">4</span>Step 04</a></li>
+                <li><a href="#finish" data-toggle="tab" aria-expanded="true"><span class="nmbr">5</span>Step 05</a></li>
+            </ul>
+        </div>
+    </section>
+    <section>
         <div class="bg-cover d-flex align-items-center custom-vh-100 contactanos" id="contactanos" style="background-image: url(/front/movil.jpg); min-height: 80vh !important">
             <div class="container">
                 <div class="row">
                     <div class="col-md-5 col-sm-12 pb-7 pb-lg-0">
                         <h3 class="text-heading mb-4 fs-22 lh-15 pr-6" style="color: white !important; font-weight: bolder; text-align: center; font-style: italic;font-family: 'Gordita';font-size: 33px !important;">Dejanos tus datos e invierte en propiedades para tu futuro</h3>
                         <br>
-                        <form action="{{ route('formulario-contacto-propiedades')}}" method="post" >
+                        <form action="{{ route('formulario-contacto-inversiones')}}" method="post" >
                             @csrf
                             <div class="row">
                                 <div class="col-md-12">
@@ -215,8 +354,8 @@
                                 </div>
                             </div>
                             <div class="form-group mb-6">
-                                <textarea class="form-control border-0" placeholder="Mensaje" name="mensaje" rows="3"></textarea>
-                                <input type="hidden" name="id_formulario" value="3">
+                                <textarea class="form-control border-0" placeholder="Mensaje" name="mensaje" rows="2"></textarea>
+                                <input type="hidden" name="id_formulario" value="8">
                             </div>
                             <button type="submit" style="width: 100%; background-color: white; color: #0ec6d5; font-weight: 800;" class="btn btn btn-primary px-9">Enviar</button>
                         </form>
@@ -230,5 +369,11 @@
     </section>
 @endsection
 @section('jss')
+<script>
+    $('.wizard li').click(function() {
+        $(this).prevAll().addClass("completed");
+        $(this).nextAll().removeClass("completed")
 
+    });
+</script>
 @endsection
