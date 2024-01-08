@@ -19,6 +19,7 @@ Route::post('/formulario-contacto-propiedades', 'ContactoController@contactoCont
 Route::post('/formulario-canje-propiedades', 'ContactoController@formularioCanje')->name('formulario-canje-propiedades');
 Route::post('/formulario-captador-propiedades', 'ContactoController@formularioCaptador')->name('formulario-captador-propiedades');
 Route::post('/formulario-publica-tu-propiedad', 'ContactoController@formularioPublicaTuPropiedad')->name('formulario-publica-tu-propiedad');
+Route::post('/formulario-contacto-inversiones', 'ContactoController@formularioInversiones')->name('formulario-contacto-inversiones');
 
 Route::post('/catalogo-propiedades', 'InicioController@list')->name('catalogo-propiedades');
 Route::get('/catalogo-propiedades', 'InicioController@mapaCatalogoPropiedades');
