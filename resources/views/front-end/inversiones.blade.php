@@ -9,7 +9,17 @@
 @endsection
 @section('css')
 <style>
-    .nav-tabs.wizard {
+    .navegadorrr{
+        font-weight: 400;
+        text-align: left;
+        font-family: '"Helvetica Neue",Helvetica,Arial,sans-serif';
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: '#333';
+        box-sizing: border-box;
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
         background-color: transparent;
         padding: 0;
         width: 100%;
@@ -18,123 +28,93 @@
         clear: both;
         border-bottom: none;
     }
-
-    .nav-tabs.wizard li {
-        width: 100%;
-        float: none;
-        margin-bottom: 3px;
+    .activoss{
+        font-weight: 400;
+        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #333;
+        list-style: none;
+        box-sizing: border-box;
+        display: block;
+        position: relative;
+        padding: 0;
+        margin: 4px 4px 4px 0;
+        width: 19.6%;
+        float: left;
+        text-align: center;
     }
-
-    .nav-tabs.wizard li>* {
+    .activoss a{
+        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+        list-style: none;
+        text-align: center;
+        box-sizing: border-box;
+        transition: all 0.2s;
+        text-decoration: none;
+        display: block;
+        margin-right: 2px;
+        line-height: 1.42857143;
+        border-radius: 4px 4px 0 0;
         position: relative;
         padding: 1em .8em .8em 2.5em;
-        color: #999999;
-        background-color: #dedede;
-        border-color: #dedede;
-    }
-
-    .nav-tabs.wizard li.completed>* {
-        color: #fff !important;
-        background-color: #96c03d !important;
-        border-color: #96c03d !important;
-        border-bottom: none !important;
-    }
-
-    .nav-tabs.wizard li.active>* {
+        cursor: default;
+        border: 1px solid #ddd;
+        opacity: 1;
+        font-size: 14px;
         color: #fff !important;
         background-color: #2c3f4c !important;
         border-color: #2c3f4c !important;
         border-bottom: none !important;
+        padding-top: 15px;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
     }
-
-    .nav-tabs.wizard li::after:last-child {
-        border: none;
+    .navegadorrr li
+    {
+        font-weight: 400;
+        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #333;
+        list-style: none;
+        box-sizing: border-box;
+        display: block;
+        position: relative;
+        padding: 0;
+        margin: 4px 4px 4px 0;
+        width: 19.6%;
+        float: left;
+        text-align: center;
+        background-color: grey;
     }
-
-    .nav-tabs.wizard > li > a {
+    .completed a
+    {
+        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+        list-style: none;
+        text-align: center;
+        box-sizing: border-box;
+        transition: all 0.2s;
+        text-decoration: none;
+        display: block;
+        margin-right: 2px;
+        line-height: 1.42857143;
+        border-radius: 4px 4px 0 0;
+        position: relative;
+        padding: 1em .8em .8em 2.5em;
+        cursor: default;
+        border: 1px solid #ddd;
         opacity: 1;
         font-size: 14px;
+        color: #fff !important;
+        background-color: green !important;
+        border-color: #2c3f4c !important;
+        border-bottom: none !important;
+        padding-top: 15px;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
     }
-
-    .nav-tabs.wizard a:hover {
-        color: #fff;
-        background-color: #2c3f4c;
-        border-color: #2c3f4c
-    }
-
-    span.nmbr {
-        display: inline-block;
-        padding: 10px 0 0 0;
-        background: #ffffff;
-        width: 35px;
-        line-height: 100%;
-        height: 35px;
-        margin: auto;
-        border-radius: 50%;
-        font-weight: bold;
-        font-size: 16px;
-        color: #555;
-        margin-bottom: 10px;
-        text-align: center;
-    }
-
-    @media(min-width:992px) {
-        .nav-tabs.wizard li {
-            position: relative;
-            padding: 0;
-            margin: 4px 4px 4px 0;
-            width: 19.6%;
-            float: left;
-            text-align: center;
-        }
-        .nav-tabs.wizard li.active a {
-            padding-top: 15px;
-        }
-        .nav-tabs.wizard li::after,
-        .nav-tabs.wizard li>*::after {
-            content: '';
-            position: absolute;
-            top: 1px;
-            left: 100%;
-            height: 0;
-            width: 0;
-            border: 45px solid transparent;
-            border-right-width: 0;
-            /*border-left-width: 20px*/
-        }
-        .nav-tabs.wizard li::after {
-            z-index: 1;
-            -webkit-transform: translateX(4px);
-            -moz-transform: translateX(4px);
-            -ms-transform: translateX(4px);
-            -o-transform: translateX(4px);
-            transform: translateX(4px);
-            border-left-color: #fff;
-            margin: 0
-        }
-        .nav-tabs.wizard li>*::after {
-            z-index: 2;
-            border-left-color: inherit
-        }
-        .nav-tabs.wizard > li:nth-of-type(1) > a {
-            border-top-left-radius: 10px;
-            border-bottom-left-radius: 10px;
-        }
-        .nav-tabs.wizard li:last-child a {
-            border-top-right-radius: 10px;
-            border-bottom-right-radius: 10px;
-        }
-        .nav-tabs.wizard li:last-child {
-            margin-right: 0;
-        }
-        .nav-tabs.wizard li:last-child a:after,
-        .nav-tabs.wizard li:last-child:after {
-            content: "";
-            border: none;
-        }
-        span.nmbr {
-            display: block;
-        }
+    .hacerZoom:hover {
+        transform: scale(1.1);
     }
 </style>
 @endsection
@@ -226,103 +206,139 @@
                 <div class="col-xxl-6 col-lg-6 col-md-6 mb-6" data-animate="zoomIn">
                     <div class="card border-0 bg-overlay-gradient-3 rounded-lg hover-change-image">
                         <img src="front/images/properties-grid-08.jpg" class="card-img" alt="Villa on Hollywood Boulevard">
-                        <div class="card-img-overlay d-flex flex-column position-relative-sm">
-                            <div class="d-flex">
-                                <div class="mr-auto h-24 d-flex">
-                                    <span class="badge badge-primary mr-2">For Sale</span>
+                        <a href="/proyectos-venta/1">
+                            <div class="card-img-overlay d-flex flex-column position-relative-sm">
+                                <div class="d-flex">
+                                    <div class="mr-auto h-24 d-flex">
+                                        <span class="badge badge-primary mr-2">For Sale</span>
+                                    </div>
+                                </div>
+                                <div class="mt-auto px-2">
+                                    <p class="fs-17 font-weight-bold text-white mb-0 lh-13">$1.250.000</p>
+                                    <h4 class="mt-0 mb-2 lh-1" style="color: white">Villa on Hollywood Boulevard</h4>
+                                    <div class="border-top border-white-opacity-03 pt-2">
+                                        <ul class="list-inline d-flex mb-0 flex-wrap mt-2 mt-lg-0 mr-n5">
+                                            <li class="list-inline-item text-white font-weight-500 fs-13 d-flex align-items-center mr-5" data-toggle="tooltip" title="Habitaciones">
+                                                <svg class="icon icon-bedroom fs-18 text-primary mr-1">
+                                                    <use xlink:href="#icon-bedroom"></use>
+                                                </svg>
+                                                3 Br
+                                            </li>
+                                            <li class="list-inline-item text-white font-weight-500 fs-13 d-flex align-items-center mr-5" data-toggle="tooltip" title="Baños">
+                                                <svg class="icon icon-shower fs-18 text-primary mr-1">
+                                                    <use xlink:href="#icon-shower"></use>
+                                                </svg>
+                                                3 Ba
+                                            </li>
+                                            <li class="list-inline-item text-white font-weight-500 fs-13 d-flex align-items-center mr-5" data-toggle="tooltip" title="Tamaño">
+                                                <svg class="icon icon-square fs-18 text-primary mr-1">
+                                                    <use xlink:href="#icon-square"></use>
+                                                </svg>
+                                                2300 Sq.Ft
+                                            </li>
+                                            <li class="list-inline-item text-white font-weight-500 fs-13 d-flex align-items-center mr-5" data-toggle="tooltip" title="Estacionamiento">
+                                                <svg class="icon icon-Garage fs-18 text-primary mr-1">
+                                                    <use xlink:href="#icon-Garage"></use>
+                                                </svg>
+                                                1 Gr
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="mt-auto px-2">
-                                <p class="fs-17 font-weight-bold text-white mb-0 lh-13">$1.250.000</p>
-                                <h4 class="mt-0 mb-2 lh-1"><a href="single-property-1.html" class="fs-16 text-white">Villa on Hollywood Boulevard</a></h4>
-                                <div class="border-top border-white-opacity-03 pt-2">
-                                    <ul class="list-inline d-flex mb-0 flex-wrap mt-2 mt-lg-0 mr-n5">
-                                        <li class="list-inline-item text-white font-weight-500 fs-13 d-flex align-items-center mr-5" data-toggle="tooltip" title="3 Bedroom">
-                                            <svg class="icon icon-bedroom fs-18 text-primary mr-1">
-                                                <use xlink:href="#icon-bedroom"></use>
-                                            </svg>
-                                            3 Br
-                                        </li>
-                                        <li class="list-inline-item text-white font-weight-500 fs-13 d-flex align-items-center mr-5" data-toggle="tooltip" title="3 Bedroom">
-                                            <svg class="icon icon-shower fs-18 text-primary mr-1">
-                                                <use xlink:href="#icon-shower"></use>
-                                            </svg>
-                                            3 Ba
-                                        </li>
-                                        <li class="list-inline-item text-white font-weight-500 fs-13 d-flex align-items-center mr-5" data-toggle="tooltip" title="3 Bedroom">
-                                            <svg class="icon icon-square fs-18 text-primary mr-1">
-                                                <use xlink:href="#icon-square"></use>
-                                            </svg>
-                                            2300 Sq.Ft
-                                        </li>
-                                        <li class="list-inline-item text-white font-weight-500 fs-13 d-flex align-items-center mr-5" data-toggle="tooltip" title="3 Bedroom">
-                                            <svg class="icon icon-Garage fs-18 text-primary mr-1">
-                                                <use xlink:href="#icon-Garage"></use>
-                                            </svg>
-                                            1 Gr
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                        </a>
                     </div>
                 </div>
                 <div class="col-xxl-6 col-lg-6 col-md-6 mb-6" data-animate="zoomIn">
                     <div class="card border-0 bg-overlay-gradient-3 rounded-lg hover-change-image">
                         <img src="front/images/properties-grid-08.jpg" class="card-img" alt="Villa on Hollywood Boulevard">
-                        <div class="card-img-overlay d-flex flex-column position-relative-sm">
-                            <div class="d-flex">
-                                <div class="mr-auto h-24 d-flex">
-                                    <span class="badge badge-primary mr-2">For Sale</span>
+                        <a href="/proyectos-venta/1">
+                            <div class="card-img-overlay d-flex flex-column position-relative-sm">
+                                <div class="d-flex">
+                                    <div class="mr-auto h-24 d-flex">
+                                        <span class="badge badge-primary mr-2">For Sale</span>
+                                    </div>
+                                </div>
+                                <div class="mt-auto px-2">
+                                    <p class="fs-17 font-weight-bold text-white mb-0 lh-13">$1.250.000</p>
+                                    <h4 class="mt-0 mb-2 lh-1 text-white">Villa on Hollywood Boulevard</h4>
+                                    <div class="border-top border-white-opacity-03 pt-2">
+                                        <ul class="list-inline d-flex mb-0 flex-wrap mt-2 mt-lg-0 mr-n5">
+                                            <li class="list-inline-item text-white font-weight-500 fs-13 d-flex align-items-center mr-5" data-toggle="tooltip" title="Habitaciones">
+                                                <svg class="icon icon-bedroom fs-18 text-primary mr-1">
+                                                    <use xlink:href="#icon-bedroom"></use>
+                                                </svg>
+                                                3 Br
+                                            </li>
+                                            <li class="list-inline-item text-white font-weight-500 fs-13 d-flex align-items-center mr-5" data-toggle="tooltip" title="Baños">
+                                                <svg class="icon icon-shower fs-18 text-primary mr-1">
+                                                    <use xlink:href="#icon-shower"></use>
+                                                </svg>
+                                                3 Ba
+                                            </li>
+                                            <li class="list-inline-item text-white font-weight-500 fs-13 d-flex align-items-center mr-5" data-toggle="tooltip" title="Tamaño">
+                                                <svg class="icon icon-square fs-18 text-primary mr-1">
+                                                    <use xlink:href="#icon-square"></use>
+                                                </svg>
+                                                2300 Sq.Ft
+                                            </li>
+                                            <li class="list-inline-item text-white font-weight-500 fs-13 d-flex align-items-center mr-5" data-toggle="tooltip" title="Estacionamiento">
+                                                <svg class="icon icon-Garage fs-18 text-primary mr-1">
+                                                    <use xlink:href="#icon-Garage"></use>
+                                                </svg>
+                                                1 Gr
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="mt-auto px-2">
-                                <p class="fs-17 font-weight-bold text-white mb-0 lh-13">$1.250.000</p>
-                                <h4 class="mt-0 mb-2 lh-1"><a href="single-property-1.html" class="fs-16 text-white">Villa on Hollywood Boulevard</a></h4>
-                                <div class="border-top border-white-opacity-03 pt-2">
-                                    <ul class="list-inline d-flex mb-0 flex-wrap mt-2 mt-lg-0 mr-n5">
-                                        <li class="list-inline-item text-white font-weight-500 fs-13 d-flex align-items-center mr-5" data-toggle="tooltip" title="3 Bedroom">
-                                            <svg class="icon icon-bedroom fs-18 text-primary mr-1">
-                                                <use xlink:href="#icon-bedroom"></use>
-                                            </svg>
-                                            3 Br
-                                        </li>
-                                        <li class="list-inline-item text-white font-weight-500 fs-13 d-flex align-items-center mr-5" data-toggle="tooltip" title="3 Bedroom">
-                                            <svg class="icon icon-shower fs-18 text-primary mr-1">
-                                                <use xlink:href="#icon-shower"></use>
-                                            </svg>
-                                            3 Ba
-                                        </li>
-                                        <li class="list-inline-item text-white font-weight-500 fs-13 d-flex align-items-center mr-5" data-toggle="tooltip" title="3 Bedroom">
-                                            <svg class="icon icon-square fs-18 text-primary mr-1">
-                                                <use xlink:href="#icon-square"></use>
-                                            </svg>
-                                            2300 Sq.Ft
-                                        </li>
-                                        <li class="list-inline-item text-white font-weight-500 fs-13 d-flex align-items-center mr-5" data-toggle="tooltip" title="3 Bedroom">
-                                            <svg class="icon icon-Garage fs-18 text-primary mr-1">
-                                                <use xlink:href="#icon-Garage"></use>
-                                            </svg>
-                                            1 Gr
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <section>
-        <div class="tabbable">
-            <ul class="nav nav-tabs wizard">
-                <li class="active"><a href="#i9" data-toggle="tab" aria-expanded="false"><span class="nmbr">1</span>Step 01</a></li>
-                <li><a href="#w4" data-toggle="tab" aria-expanded="false"><span class="nmbr">2</span>Step 02</a></li>
-                <li><a href="#stateinfo" data-toggle="tab" aria-expanded="false"><span class="nmbr">3</span>Step 03</a></li>
-                <li><a href="#companydoc" data-toggle="tab" aria-expanded="false"><span class="nmbr">4</span>Step 04</a></li>
-                <li><a href="#finish" data-toggle="tab" aria-expanded="true"><span class="nmbr">5</span>Step 05</a></li>
-            </ul>
+    <section class="pb-11">
+        <div class="row" style="margin: 0px">
+            <div class="col-12" style="margin: 0px !important; padding: 0px !important">
+                <center>
+                <h2 class="text-heading">¿Como lo hacemos?</h2>
+                <span class="heading-divider"></span>
+                <p class="mb-7">Lorem ipsum dolor sit amet, consec tetur cing elit. Suspe ndisse suscipit</p>
+                </center>
+            </div>
+        </div>
+        <div class="row" style="margin: 0px !important; color: white !important">
+            <div class="col-lx-2 col-lg-2 col-md-12 col-sm-12">
+                <div style="background-color: green; height: 100%; padding: 15px; border-radius: 9px; box-shadow: rgb(38, 57, 77) 0px 20px 30px">
+                    Revisa nuestros proyectos y elige el que mas te guste
+                </div>
+            </div>
+            <div class="col-lx-2 col-lg-2 col-md-12 col-sm-12">
+                <div style="background-color: green; height: 100%; padding: 15px; border-radius: 9px; box-shadow: rgb(38, 57, 77) 0px 20px 30px">
+                    Envianos tus datos para ser contactado por un ejecutivo
+                </div>
+            </div>
+            <div class="col-lx-2 col-lg-2 col-md-12 col-sm-12">
+                <div style="background-color: green; height: 100%; padding: 15px; border-radius: 9px; box-shadow: rgb(38, 57, 77) 0px 20px 30px">
+                    Te enviamos la cotizacion de los proyectos que quieras
+                </div>
+            </div>
+            <div class="col-lx-2 col-lg-2 col-md-12 col-sm-12">
+                <div style="background-color: green; height: 100%; padding: 15px; border-radius: 9px; box-shadow: rgb(38, 57, 77) 0px 20px 30px">
+                    Visita el proyecto y aclara tus dudas con nosotros
+                </div>
+            </div>
+            <div class="col-lx-2 col-lg-2 col-md-12 col-sm-12">
+                <div style="background-color: green; height: 100%; padding: 15px; border-radius: 9px; box-shadow: rgb(38, 57, 77) 0px 20px 30px">
+                    Tomamos tu credito hipotecario y ayudamos con la gestion
+                </div>
+            </div>
+            <div class="col-lx-2 col-lg-2 col-md-12 col-sm-12">
+                <div style="background-color: green; height: 100%; padding: 15px; border-radius: 9px; box-shadow: rgb(38, 57, 77) 0px 20px 30px">
+                    Entregamos tu propiedad arrendada en caso de lo que necesites
+                </div>
+            </div> 
         </div>
     </section>
     <section>
@@ -353,6 +369,18 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group mb-4">
+                                        <select class="form-control form-control border-0" name="idRentaMensual" id="idRentaMensual">
+                                            <option value="">Seleccione renta mensual</option>
+                                            @foreach($rentas as $renta)
+                                            <option value="{{ $renta->idRentaMensual }}">{{ $renta->nombreRentaMensual }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="form-group mb-6">
                                 <textarea class="form-control border-0" placeholder="Mensaje" name="mensaje" rows="2"></textarea>
                                 <input type="hidden" name="id_formulario" value="8">
@@ -370,10 +398,9 @@
 @endsection
 @section('jss')
 <script>
-    $('.wizard li').click(function() {
+    $('.navegadorrr li').click(function() {
         $(this).prevAll().addClass("completed");
-        $(this).nextAll().removeClass("completed")
-
+        $(this).nextAll().removeClass("completed");
     });
 </script>
 @endsection

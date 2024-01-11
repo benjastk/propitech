@@ -547,13 +547,13 @@
         <h2 class="text-dark text-center mxw-751 px-md-8 lh-163">En propitech tenemos lo que necesitas</h2>
         <span class="heading-divider mx-auto"></span>
         <div class="row mt-7 mb-6 mb-lg-11">
-            <div class="col-lg-6 mb-6 mb-lg-0">
+            <div class="col-lg-4 mb-6 mb-lg-0">
                 <a href="/catalogo-propiedades-venta">
                     <div class="media rounded-lg bg-white border border-hover shadow-xs-2 shadow-hover-lg-1 px-7 py-8 hover-change-image flex-column flex-sm-row h-100"
                             data-animate="fadeInUp">
                         <img src="front/images/group-16.png" class="mb-6 mb-sm-0 mr-sm-6">
                         <div class="media-body">
-                            <h4 class="fs-20 lh-1625 text-secondary mb-1" style="font-family: FeltThat,sans-serif; font-size: 38px !important">Comprar una propiedad</h4>
+                            <h4 class="fs-20 lh-1625 text-secondary mb-1" style="font-family: FeltThat,sans-serif; font-size: 38px !important; line-height: 30px !important;">Comprar una propiedad</h4>
                             <div class="position-relative d-flex align-items-center ml-2">
                             <span class="image text-primary position-absolute pos-fixed-left-center fs-16"><i class="fal fa-long-arrow-right"></i></span>
                             <span class="text-primary fs-42 lh-1 hover-image d-flex align-items-center"><svg class="icon icon-long-arrow"><use xlink:href="#icon-long-arrow"></use></svg></span>
@@ -565,13 +565,13 @@
                     </div>
                 </a>
             </div>
-            <div class="col-lg-6 mb-6 mb-lg-0">
+            <div class="col-lg-4 mb-6 mb-lg-0">
                 <a href="/catalogo-propiedades">
                 <div class="media rounded-lg bg-white border border-hover shadow-xs-2 shadow-hover-lg-1 px-7 py-8 hover-change-image flex-column flex-sm-row h-100"
                         data-animate="fadeInUp">
                     <img src="front/images/group-17.png" class="mb-6 mb-sm-0 mr-sm-6">
                     <div class="media-body">
-                        <h4 class="fs-20 lh-1625 text-secondary mb-1" style="font-family: FeltThat,sans-serif; font-size: 38px !important" >Arrendar una propiedad</h4>
+                        <h4 class="fs-20 lh-1625 text-secondary mb-1" style="font-family: FeltThat,sans-serif; font-size: 38px !important; line-height: 30px !important;" >Arrendar una propiedad</h4>
                         <div class="position-relative d-flex align-items-center ml-2">
                         <span class="image text-primary position-absolute pos-fixed-left-center fs-16"><i class="fal fa-long-arrow-right"></i></span>
                         <span class="text-primary fs-42 lh-1 hover-image d-flex align-items-center"><svg class="icon icon-long-arrow"><use xlink:href="#icon-long-arrow"></use></svg></span>
@@ -582,6 +582,24 @@
                     </p>
                     </div>
                 </div>
+                </a>
+            </div>
+            <div class="col-lg-4 mb-6 mb-lg-0">
+                <a href="/proyectos-venta">
+                    <div class="media rounded-lg bg-white border border-hover shadow-xs-2 shadow-hover-lg-1 px-7 py-8 hover-change-image flex-column flex-sm-row h-100"
+                            data-animate="fadeInUp">
+                        <img src="front/images/architecture-and-city.png" class="mb-6 mb-sm-0 mr-sm-6">
+                        <div class="media-body">
+                        <h4 class="fs-20 lh-1625 text-secondary mb-1" style="font-family: FeltThat,sans-serif; font-size: 38px !important; line-height: 30px !important;" >Invertir <br>en <br> propiedades</h4>
+                            <div class="position-relative d-flex align-items-center ml-2">
+                            <span class="image text-primary position-absolute pos-fixed-left-center fs-16"><i class="fal fa-long-arrow-right"></i></span>
+                            <span class="text-primary fs-42 lh-1 hover-image d-flex align-items-center"><svg class="icon icon-long-arrow"><use xlink:href="#icon-long-arrow"></use></svg></span>
+                            </div>
+                        <p class="mb-0">
+                            Contamos con propiedades de inversión para asegurar tu futuro.
+                        </p>
+                        </div>
+                    </div>
                 </a>
             </div>
         </div>
