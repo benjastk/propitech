@@ -44,7 +44,7 @@ Route::get('/pago-reserva-online', 'InicioController@pagoReservaOnline');
 Route::post('/ir-a-pagar-reserva-online', 'InicioController@pagarReservaOnline')->name('ir-a-pagar-reserva-online');
 
 Route::get('/proyectos-venta', 'InicioController@proyectosEnVenta');
-Route::get('/proyectos-venta/{descripcion}', 'InicioController@singleProyectosEnVenta');
+Route::get('/proyectos-venta/{id}', 'InicioController@singleProyectos');
 
 Route::get('/pruebaCorreo', 'PagoController@pruebaCorreo');
 Route::get('/pruebaMail', 'AlertaController@pruebaMail');
@@ -89,6 +89,14 @@ Route::prefix('properties')->group(function () {
 
     Route::get('/suspendidas', 'PropertyController@suspendidas');
     Route::post('/suspender/{propiedad}', 'PropertyController@suspender');
+});
+Route::prefix('proyectos')->group(function () {
+    Route::get('/', 'ProyectosController@index')->name('proyectos');
+    Route::get('/create', 'ProyectosController@create');
+    Route::post('/store', 'ProyectosController@store');
+    Route::get('/edit/{propiedad}', 'ProyectosController@edit');
+    Route::post('/update/{propiedad}', 'ProyectosController@update');
+    Route::post('/destroy', 'ProyectosController@destroy');
 });
 Route::prefix('noticias')->group(function () {
     Route::get('/', 'NoticiaController@index')->name('noticias');

@@ -11,8 +11,10 @@ use App\Region;
 use App\Pais;
 use App\Comuna;
 use App\Noticia;
+use App\Proyecto;
 use App\Provincia;
 use App\EstadoPago;
+use App\RentaMensual;
 use App\TipoPropiedad;
 use App\TipoComercial;
 use App\ParametroGeneral;
@@ -703,6 +705,7 @@ class InicioController extends Controller
         $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
         $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
         $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
+        $rentas = RentaMensual::get();
         $proyectosEnVenta = Propiedad::select('propiedades.*', 'comuna.nombre as nombreComuna', 'provincia.nombre as nombreProvincia',
         'region.nombre as nombreRegion')
         ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
@@ -711,6 +714,28 @@ class InicioController extends Controller
         ->where('propiedades.idEstado', 42)
         ->where('propiedades.idTipoComercial', 1) //Venta
         ->get();
-        return view('front-end.inversiones', compact('telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'proyectosEnVenta'));
+        return view('front-end.inversiones', compact('telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'proyectosEnVenta', 'rentas'));
+    }
+    public function singleProyectos($id)
+    {
+        /*$proyecto = Proyecto::join('comuna', 'comuna.id', '=', 'proyectos.idComuna')
+        ->join('provincia', 'provincia.id', '=', 'proyectos.idProvincia')
+        ->join('region', 'region.id', '=', 'proyectos.idRegion')
+        ->join('tipos_propiedades', 'proyectos.idTipoPropiedad', '=', 'tipos_propiedades.idTipoPropiedad')
+        ->join('niveles_uso_propiedad', 'proyectos.idNivelUsoPropiedad', '=', 'niveles_uso_propiedad.idNivelUsoPropiedad')
+        ->leftjoin('users', 'users.id', '=', 'proyectos.idUsuarioExpertoVendedor')
+        ->where('proyectos.idProyecto', $id)
+        ->first();*/
+
+        $proyecto = '';
+        $rentas = RentaMensual::get();
+        $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+        $correoHome = ParametroGeneral::where('parametroGeneral', 'CORREO HOME')->first();
+        $direccionHome = ParametroGeneral::where('parametroGeneral', 'DIRECCION HOME')->first();
+        $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
+        $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
+        $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
+        return view('front-end.single-inversiones', compact('proyecto',
+        'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'rentas'));
     }
 }
