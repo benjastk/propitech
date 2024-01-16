@@ -120,7 +120,7 @@
 @endsection
 @section('content')
     <section>
-        @if($proyectosDestacados)
+        @if(count($proyectosDestacados))
         <div class="slick-slider mx-0 custom-arrow-center" data-slick-options='{"slidesToShow": 1, "infinite":true, "autoplay":true,"responsive":[{"breakpoint": 1200,"settings": {"slidesToShow":1,"arrows":false,"dots":false}},{"breakpoint": 992,"settings": {"slidesToShow":1,"arrows":false,"dots":false}},{"breakpoint": 768,"settings": {"slidesToShow": 1,"arrows":false,"dots":false}},{"breakpoint": 576,"settings": {"slidesToShow": 1,"arrows":false,"dots":false}}]}'>
             @foreach($proyectosDestacados as $proyectoDestacado)
             <div class="box px-0 d-flex flex-column" style="display: flex" >
@@ -206,13 +206,13 @@
                     <center>
                     <h2 class="text-heading">Proyectos en Venta</h2>
                     <span class="heading-divider"></span>
-                    <p class="mb-7">Revisa los mejores proyectos que tenemos para tí</p>
+                    <p class="mb-7">Revisa los mejores proyectos que tenemos para ti</p>
                     </center>
                 </div>
             </div>
             <div class="row">
-            @if($proyectos)
-            @foreach($proyectos as $proyecto)
+            @if(count($proyectos))
+                @foreach($proyectos as $proyecto)
                 <div class="col-xxl-6 col-lg-6 col-md-6 mb-6" data-animate="zoomIn">
                     <div class="card border-0 bg-overlay-gradient-3 rounded-lg hover-change-image">
                         <img src="img/proyecto/{{ $proyecto->fotoProyecto}}" class="card-img" alt="">
@@ -265,7 +265,7 @@
             @endforeach
             @else
             <div class="col-12">
-                <center><h6 style="text-align:center">Proximamente contaremos con ofertas exclusivas para tí, dejanos tus datos y un ejecutivo te contactará</h6></center>
+                <center><h6 style="text-align:center">Próximamente contaremos con ofertas exclusivas para ti, dejanos tus datos y un ejecutivo te contactará</h6></center>
             </div>
             @endif
             </div>
@@ -277,14 +277,14 @@
                 <center>
                 <h2 class="text-heading">¿Como lo hacemos?</h2>
                 <span class="heading-divider"></span>
-                <p class="mb-7">Lorem ipsum dolor sit amet, consec tetur cing elit. Suspe ndisse suscipit</p>
+                <p class="mb-7">Contamos con un proceso simple y rápido, nuestros ejecutivos te asesorarán en todo momento.</p>
                 </center>
             </div>
         </div>
         <div class="row" style="margin: 0px !important; color: white !important">
             <div class="col-lx-2 col-lg-2 col-md-12 col-sm-12">
                 <div style="background-color: green; height: 100%; padding: 15px; border-radius: 9px; box-shadow: rgb(38, 57, 77) 0px 20px 30px">
-                    Revisa nuestros proyectos y elige el que mas te guste
+                    Revisa nuestros proyectos y elige el que más te guste
                 </div>
             </div>
             <div class="col-lx-2 col-lg-2 col-md-12 col-sm-12 mt-2">
@@ -294,7 +294,7 @@
             </div>
             <div class="col-lx-2 col-lg-2 col-md-12 col-sm-12 mt-2">
                 <div style="background-color: green; height: 100%; padding: 15px; border-radius: 9px; box-shadow: rgb(38, 57, 77) 0px 20px 30px">
-                    Te enviamos la cotizacion de los proyectos que quieras
+                Te enviamos la cotización de los proyectos que te interesen
                 </div>
             </div>
             <div class="col-lx-2 col-lg-2 col-md-12 col-sm-12 mt-2">
@@ -304,7 +304,7 @@
             </div>
             <div class="col-lx-2 col-lg-2 col-md-12 col-sm-12 mt-2">
                 <div style="background-color: green; height: 100%; padding: 15px; border-radius: 9px; box-shadow: rgb(38, 57, 77) 0px 20px 30px">
-                    Tomamos tu credito hipotecario y ayudamos con la gestion
+                Tomamos tu crédito hipotecario y ayudamos con la gestión
                 </div>
             </div>
             <div class="col-lx-2 col-lg-2 col-md-12 col-sm-12 mt-2">
