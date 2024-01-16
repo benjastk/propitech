@@ -213,7 +213,7 @@
                             <section class="mt-2 pb-7 px-6 pt-5 rounded-lg">
                                 <h4 class="fs-22 text-heading mb-4" style="font-family: FeltThat,sans-serif !important; font-size: 45px !important" >Amenidades</h4>
                                 <ul class="list-unstyled mb-0 row no-gutters">
-                                    @if($amenidades)
+                                    @if(count($amenidades))
                                     @foreach($amenidades as $amenidad)
                                         <li class="col-sm-6 col-6 mb-2"><i class="far fa-check mr-2 text-primary"></i>{{ $amenidad->nombreCaracteristica }}
                                         </li>
@@ -256,7 +256,7 @@
                 </article>
             </div>
         </div>
-        @if($fotos)
+        @if(count($fotos))
         <section>
             <div class="container">
                 <center><h4 class="fs-22 text-heading mb-6" style="font-family: FeltThat,sans-serif !important; font-size: 45px !important" >Fotos del proyecto</h4></center>
@@ -293,7 +293,7 @@
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <br>
-                    @if($fotosCercanas)
+                    @if(count($fotosCercanas))
                     <div class="galleries position-relative" style="height: auto; !important">
                         <div class="tab-content p-0 shadow-none">
                             <div class="slick-slider" data-slick-options='{"slidesToShow": 1, "autoplay":true, "dots":false,"arrows":false, "infinite": true}'>
@@ -315,7 +315,7 @@
                 </div>
             </div>
         </div>
-        @if($otrosProyectos)
+        @if(count($otrosProyectos))
         <div class="container">
             <div class="row">   
                 <article class="col-lg-12">
