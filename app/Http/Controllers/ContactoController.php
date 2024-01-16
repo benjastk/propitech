@@ -6,6 +6,7 @@ use App\Mail\FormularioCanje as MailFormularioCanje;
 use App\Mail\FormularioCaptador as MailFormularioCaptador;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
+use App\RentaMensual;
 use App\FormularioCaptador;
 use App\FormularioContacto;
 use App\FormularioCanje;
@@ -27,7 +28,7 @@ class ContactoController extends Controller
             ->first();
             
             Mail::to(['beenjaahp@hotmail.com',
-                'beenjaahp@gmail.com'])
+                'beenjaahp@gmail.com', 'admin@benjaminperez.cl'])
             ->send(new MailFormulario($formularioDos));
             DB::commit();
             toastr()->success('Formulario enviado exitosamente, pronto lo contactaremos.', 'Operación exitosa');
@@ -64,7 +65,7 @@ class ContactoController extends Controller
             ->first();
             
             Mail::to(['beenjaahp@hotmail.com',
-                'beenjaahp@gmail.com'])
+                'beenjaahp@gmail.com', 'admin@benjaminperez.cl'])
             ->send(new MailFormularioCanje($formularioDos));
             DB::commit();
             toastr()->success('Formulario enviado exitosamente, pronto lo contactaremos.', 'Operación exitosa');
@@ -102,7 +103,7 @@ class ContactoController extends Controller
             ->first();
             
             Mail::to(['beenjaahp@hotmail.com',
-                'beenjaahp@gmail.com'])
+                'beenjaahp@gmail.com', 'admin@benjaminperez.cl'])
             ->send(new MailFormularioCaptador($formularioDos));
             DB::commit();
             toastr()->success('Formulario enviado exitosamente, pronto lo contactaremos.', 'Operación exitosa');
@@ -164,8 +165,50 @@ class ContactoController extends Controller
             return back()->withInput($request->all());
         }
     }
-    public function formularioInversiones()
+    public function formularioInversiones(Request $request)
     {
-        
+        try{
+            $renta = RentaMensual::where('idRentaMensual', $request->idRentaMensual)->first();
+            DB::beginTransaction();
+            $formulario = new FormularioContacto();
+            $formulario->fill($request->all());
+            if($renta)
+            {
+                $formulario->mensaje = $request->mensaje. ' - Renta Mensual: '. $renta->nombreRentaMensual;
+            }
+            else
+            {
+                $formulario->mensaje = $request->mensaje;
+            }
+            $formulario->save();
+            
+            $formularioDos = FormularioContacto::select('formulario_contacto.*', 'tipo_formulario.nombreFormulario')
+            ->leftjoin('tipo_formulario', 'tipo_formulario.id', '=', 'formulario_contacto.id_formulario')
+            ->where('formulario_contacto.id', $formulario->id)
+            ->first();
+            
+            Mail::to(['beenjaahp@hotmail.com',
+                'beenjaahp@gmail.com', 'admin@benjaminperez.cl'])
+            ->send(new MailFormulario($formularioDos));
+            DB::commit();
+            toastr()->success('Formulario enviado exitosamente, pronto lo contactaremos.', 'Operación exitosa');
+            return redirect('/proyectos-venta');
+        } catch (ModelNotFoundException $e) {
+            toastr()->warning('No autorizado', 'Advertencia');
+            DB::rollback();
+            return back()->withInput($request->all());
+        } catch (QueryException $e) {
+            toastr()->warning('Ha ocurrido un error, favor intente nuevamente' . $e->getMessage(), 'Advertencia');
+            DB::rollback();
+            return back()->withInput($request->all());
+        } catch (DecryptException $e) {
+            toastr()->info('Ocurrio un error al intentar acceder al recurso solicitado', 'Información');
+            DB::rollback();
+            return back()->withInput($request->all());
+        } catch (\Exception $e) {
+            toastr()->warning($e->getMessage(), 'Error');
+            DB::rollback();
+            return back()->withInput($request->all());
+        }
     }
 }

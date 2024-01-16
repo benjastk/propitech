@@ -73,6 +73,24 @@
                 ['table', ['table']]
             ]
         });
+        $('#summernote2').summernote({
+            placeholder: '',
+            tabsize: 2,
+            height: 200,
+            dialogsInBody: true,
+            dialogsFade: true,
+            toolbar: [
+                // [groupName, [list of button]]
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['font', ['strikethrough', 'superscript', 'subscript']],
+                ['fontsize', ['fontsize']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['picture', ['picture']],
+                ['table', ['table']]
+            ]
+        });
     </script>
     <script>
         $("#idPais").change(function(){

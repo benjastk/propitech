@@ -59,7 +59,7 @@
                                 <a href="/properties/export" class="btn btn-success waves-effect waves-light" style="margin-right: 10px">
                                     <i class="far fa-file-excel"></i> Descargar Excel
                                 </a>-->
-                                <a href="/properties/create" class="btn btn-info waves-effect waves-light" style="margin-right: 10px">
+                                <a href="/proyectos/create" class="btn btn-info waves-effect waves-light" style="margin-right: 10px">
                                     <i class="bx bx-plus font-size-16 align-middle mr-2"></i> Crear Proyecto
                                 </a>
                             </div>
@@ -75,8 +75,8 @@
                                         <tr>
                                             <th scope="col" >ID</th>
                                             <th scope="col" style="width: 100px">Foto</th>
-                                            <th scope="col" style="width: 50px; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;">Propiedad</th>
-                                            <th scope="col" style="text-align:center" >Distribucion</th>
+                                            <th scope="col" style="word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;">Proyecto</th>
+                                            <th scope="col" style="text-align:center" >Metros</th>
                                             <th scope="col" style="text-align:center" >Estado</th>
                                             <th scope="col" style="text-align:center" >Valor UF</th>
                                             <th scope="col" style="text-align:center" >Acciones</th>
@@ -91,14 +91,15 @@
                                             <td>
                                                 <img src="/img/proyecto/{{ $proyecto->fotoProyecto}}" width="120px" height="100px">
                                             </td>
-                                            <td style="width: 50px; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;">
-                                                <h5 class="text-truncate font-size-14"><a href="#" class="text-dark">{{ $proyecto->nombreProyecto }}</a> 
-                                                    <br>
-                                                    <span class="badge badge-soft-primary">{{ $proyecto->nombreTipoPropiedad}}</span>
-                                                    
-                                                </h5>
+                                            <td style="word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;">
+                                                <h5 class="text-truncate font-size-14"><a href="#" class="text-dark">{{ $proyecto->nombreProyecto }}</a></h5>
+                                                <span class="badge badge-soft-primary">{{ $proyecto->nombreTipoPropiedad}}</span>
+                                                @if($proyecto->entregaInmediata)<span class="badge badge-soft-success">Entrega Inmediata</span>@endif
+                                                @if($proyecto->idDestacado)<span class="badge badge-soft-warning">Destacado</span>@endif
+                                                <p class="text-muted mb-0">{{ $proyecto->direccion }} {{ $proyecto->numero }}, {{ $proyecto->nombreComuna }}, {{ $proyecto->nombreRegion }}</p>
                                             </td>
                                             <td style="text-align:center" >
+                                            DESDE {{ $proyecto->metrosDesde }} mts. <br> HASTA {{ $proyecto->metrosHasta }} mts.
                                             </td>
                                             <td style="text-align:center">
                                                 @if($proyecto->idEstado == 42)
@@ -118,8 +119,8 @@
                                                 <br>
                                             </td>
                                             <td>
-                                                <h5><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">UF {{ number_format($proyecto->valorUFDesde, 0, ",", ".") }} </font></font></h5> - 
-                                                <h5><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">UF {{ number_format($proyecto->valorUFHasta, 0, ",", ".") }} </font></font></h5>
+                                                <h5><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Desde UF {{ number_format($proyecto->valorUFDesde, 0, ",", ".") }} </font></font></h5>
+                                                <h5><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Hasta UF {{ number_format($proyecto->valorUFHasta, 0, ",", ".") }} </font></font></h5>
                                             </td>
                                             <td>
                                                 <ul class="list-inline font-size-20 contact-links mb-0">
