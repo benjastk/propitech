@@ -751,7 +751,7 @@ class InicioController extends Controller
         ->where('proyectos.idDestacado', 1)
         ->get();
         //$proyectosDestacados = [];
-        return view('front-end.inversiones', compact('telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'proyectosEnVenta', 
+        return view('front-end.inversiones', compact('telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 
         'rentas', 'proyectosDestacados', 'proyectos', 'invierteAqui'));
     }
     public function singleProyectos($id)
