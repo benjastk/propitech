@@ -521,7 +521,7 @@ class EstadoPagoController extends Controller
                     $totalCargo = $totalCargo + $cargo->montoCargo;
                 }
             }
-            EnvioPagoArriendo::dispatch( $nuevoPago->idPago, $cargos, $descuentos, $totalCargo, $totalDescuento);
+            EnvioPagoArriendo::dispatch( $nuevoPago->idPago, $cargos, $descuentos, $totalDescuento, $totalCargo);
             $logTransaccion = new LogTransaccion();
             $logTransaccion->tipoTransaccion = 'Pago rapido de estado de pago';
             $logTransaccion->idUsuario =  Auth::user()->id;
@@ -885,10 +885,16 @@ class EstadoPagoController extends Controller
     }
     public function agregarPorcentajeAMorosos()
     {
-        $estadosDePago = EstadoPago::join('contratos_arriendos', 'estados_pagos.idContrato', '=', 'contratos_arriendos.idContratoArriendo')
+        $anioActual = date('Y');
+        $mesActual = date('m');
+        $estadosDePago = EstadoPago::select('estados_pagos.*')
+        ->join('contratos_arriendos', 'estados_pagos.idContrato', '=', 'contratos_arriendos.idContratoArriendo')
         ->where('contratos_arriendos.idEstado', '=',61)
-        ->whereIn('estados_pagos.idEstado', [49,50])
+        ->whereIn('estados_pagos.idEstado', [49,50, 47])
+        ->whereMonth('estados_pagos.fechaVencimiento', '=', $mesActual)
+        ->whereYear('estados_pagos.fechaVencimiento', '=', $anioActual)
         ->get();
+
         if($estadosDePago)
         {
             foreach($estadosDePago as $estadosDePagos)
@@ -921,6 +927,7 @@ class EstadoPagoController extends Controller
                 $logTransaccion->save();
             }
         }
+        return "Listo";
     }
     public function tokenizarEstadosPagos(Request $request)
     {
