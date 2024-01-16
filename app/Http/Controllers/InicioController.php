@@ -13,7 +13,10 @@ use App\Comuna;
 use App\Noticia;
 use App\Proyecto;
 use App\Provincia;
+use App\Tipologia;
 use App\EstadoPago;
+use App\FotoCercana;
+use App\FotoProyecto;
 use App\RentaMensual;
 use App\TipoPropiedad;
 use App\TipoComercial;
@@ -22,6 +25,7 @@ use App\ReservaPropiedad;
 use App\PlanAdministracion;
 use App\CaracteristicaPlan;
 use App\CaracteristicaPlanAsignada;
+use App\CaracteristicasPorProyectos;
 use App\CaracteristicasPorPropiedades;
 
 class InicioController extends Controller
@@ -706,28 +710,55 @@ class InicioController extends Controller
         $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
         $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
         $rentas = RentaMensual::get();
-        $proyectosEnVenta = Propiedad::select('propiedades.*', 'comuna.nombre as nombreComuna', 'provincia.nombre as nombreProvincia',
+        $proyectos = Proyecto::select('proyectos.*', 'comuna.nombre as nombreComuna', 'provincia.nombre as nombreProvincia',
         'region.nombre as nombreRegion')
-        ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
-        ->join('provincia', 'provincia.id', '=', 'propiedades.idProvincia')
-        ->join('region', 'region.id', '=', 'propiedades.idRegion')
-        ->where('propiedades.idEstado', 42)
-        ->where('propiedades.idTipoComercial', 1) //Venta
+        ->join('comuna', 'comuna.id', '=', 'proyectos.idComuna')
+        ->join('provincia', 'provincia.id', '=', 'proyectos.idProvincia')
+        ->join('region', 'region.id', '=', 'proyectos.idRegion')
         ->get();
-        return view('front-end.inversiones', compact('telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'proyectosEnVenta', 'rentas'));
+        $proyectosDestacados = Proyecto::select('proyectos.*', 'comuna.nombre as nombreComuna', 'provincia.nombre as nombreProvincia',
+        'region.nombre as nombreRegion')
+        ->join('comuna', 'comuna.id', '=', 'proyectos.idComuna')
+        ->join('provincia', 'provincia.id', '=', 'proyectos.idProvincia')
+        ->join('region', 'region.id', '=', 'proyectos.idRegion')
+        ->where('proyectos.idDestacado', 1)
+        ->get();
+        //$proyectosDestacados = [];
+        return view('front-end.inversiones', compact('telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'proyectosEnVenta', 
+        'rentas', 'proyectosDestacados', 'proyectos'));
     }
     public function singleProyectos($id)
     {
-        /*$proyecto = Proyecto::join('comuna', 'comuna.id', '=', 'proyectos.idComuna')
+        $proyecto = Proyecto::select('proyectos.*', 'comuna.nombre as nombreComuna', 'provincia.nombre as nombreProvincia',
+        'region.nombre as nombreRegion', 'tipos_propiedades.nombreTipoPropiedad', 'users.name', 'users.apellido', 'users.telefono', 'users.email',
+        'users.avatarImg')
+        ->join('comuna', 'comuna.id', '=', 'proyectos.idComuna')
         ->join('provincia', 'provincia.id', '=', 'proyectos.idProvincia')
         ->join('region', 'region.id', '=', 'proyectos.idRegion')
-        ->join('tipos_propiedades', 'proyectos.idTipoPropiedad', '=', 'tipos_propiedades.idTipoPropiedad')
-        ->join('niveles_uso_propiedad', 'proyectos.idNivelUsoPropiedad', '=', 'niveles_uso_propiedad.idNivelUsoPropiedad')
-        ->leftjoin('users', 'users.id', '=', 'proyectos.idUsuarioExpertoVendedor')
+        ->join('tipos_propiedades', 'proyectos.tipoPropiedad', '=', 'tipos_propiedades.idTipoPropiedad')
+        ->leftjoin('users', 'users.id', '=', 'proyectos.creadoPor')
         ->where('proyectos.idProyecto', $id)
-        ->first();*/
+        ->first();
 
-        $proyecto = '';
+        $otrosProyectos = Proyecto::select('proyectos.*', 'comuna.nombre as nombreComuna', 'provincia.nombre as nombreProvincia',
+        'region.nombre as nombreRegion', 'tipos_propiedades.nombreTipoPropiedad')
+        ->join('comuna', 'comuna.id', '=', 'proyectos.idComuna')
+        ->join('provincia', 'provincia.id', '=', 'proyectos.idProvincia')
+        ->join('region', 'region.id', '=', 'proyectos.idRegion')
+        ->join('tipos_propiedades', 'proyectos.tipoPropiedad', '=', 'tipos_propiedades.idTipoPropiedad')
+        ->leftjoin('users', 'users.id', '=', 'proyectos.creadoPor')
+        ->where('proyectos.idEstado', 42)
+        ->get();
+
+        $amenidades = CaracteristicasPorProyectos::select('caracteristicas_propiedades.*')
+        ->join('caracteristicas_propiedades', 'caracteristicas_propiedades.idCaracteristicaPropiedad', '=', 'caracteristicas_por_proyecto.idCaracteristicaPropiedad')
+        ->where('caracteristicas_por_proyecto.idProyecto', $id)
+        ->get();
+
+        $tipologias = Tipologia::where('idProyecto', $id)->get();
+
+        $fotos = FotoProyecto::where('idProyecto', $id)->get();
+        $fotosCercanas = FotoCercana::where('idProyecto', $id)->get();
         $rentas = RentaMensual::get();
         $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
         $correoHome = ParametroGeneral::where('parametroGeneral', 'CORREO HOME')->first();
@@ -735,7 +766,7 @@ class InicioController extends Controller
         $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
         $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
         $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
-        return view('front-end.single-inversiones', compact('proyecto',
+        return view('front-end.single-inversiones', compact('proyecto', 'amenidades', 'tipologias', 'fotos', 'fotosCercanas', 'otrosProyectos',
         'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'rentas'));
     }
 }

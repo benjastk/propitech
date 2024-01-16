@@ -248,7 +248,7 @@
                 <div class="col-lg-6 col-md-6 col-sm-12">
                 <label>Foto principal</label>
                     <div class="form-group" >
-                        <img src="/img/propiedad/{{ $proyecto->fotoProyecto}}" width="150px" height="120px">
+                        <img src="/img/proyecto/{{ $proyecto->fotoProyecto}}" width="150px" height="120px">
                     </div>
                 </div>
                 @endif
@@ -363,6 +363,7 @@
             </select>
         </div>
     </div>
+    <br>
     <br>
     <div class="row">
         <div class="col-12" style="text-align:center">

@@ -12,6 +12,10 @@ class Tipologia extends Model
         'descripcionTipologia',
         'mContruidos',
         'mTotales',
+        'fotoTipologia',
+        'idProyecto',
+        'dormitorios',
+        'banos',
         'created_at',
         'updated_at'
     ];

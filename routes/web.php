@@ -97,6 +97,14 @@ Route::prefix('proyectos')->group(function () {
     Route::get('/edit/{propiedad}', 'ProyectosController@edit');
     Route::post('/update/{propiedad}', 'ProyectosController@update');
     Route::post('/destroy', 'ProyectosController@destroy');
+
+    Route::post('/create-tipologia', 'ProyectosController@crearTipologia')->name('create-tipologia');
+    Route::post('/delete-tipologia', 'ProyectosController@eliminarTipologia')->name('delete-tipologia');
+
+    Route::post('/img/subir/{id}', 'ProyectosController@subirImagen');
+    Route::post('/img/eliminar/{fileName}', 'ProyectosController@eliminarImagen');
+    Route::post('/img/subirCercana/{id}', 'ProyectosController@subirImagenCercana');
+    Route::post('/img/eliminarCercana/{fileName}', 'ProyectosController@eliminarImagenCercana');
 });
 Route::prefix('noticias')->group(function () {
     Route::get('/', 'NoticiaController@index')->name('noticias');
