@@ -121,6 +121,22 @@ class ProyectosController extends Controller
                 $proyecto->fotoProyecto = $nombreArchivo;
             }
             $proyecto->save();
+
+            if($request->comodidades != null) {
+                $caracteristicasProyectos = CaracteristicasPorProyectos::where('idProyecto', '=', $proyecto->idProyecto)->get();
+                if($caracteristicasProyectos)
+                {
+                    foreach ($caracteristicasProyectos as $caracteristicaDeLaPropiedad ) {
+                        $caracteristicaDeLaPropiedad->delete();
+                    }
+                }
+                foreach ($request->comodidades as $idCaracteristica) {
+                    $caracteristicaProyecto = new CaracteristicasPorProyectos;
+                    $caracteristicaProyecto->idProyecto = $proyecto->idProyecto;
+                    $caracteristicaProyecto->idCaracteristicaPropiedad = $idCaracteristica;
+                    $caracteristicaProyecto->save();
+                }
+            }
             $logTransaccion = new LogTransaccion();
             $logTransaccion->tipoTransaccion = 'Nuevo Proyecto de Inversion';
             $logTransaccion->idUsuario =  Auth::user()->id;

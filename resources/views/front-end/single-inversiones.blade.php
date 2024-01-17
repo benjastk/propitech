@@ -395,8 +395,64 @@
             </div>
         </div>
     </section>
-    <section>
+    <section class="d-none d-lg-block d-md-block d-sm-none" >
         <div class="bg-cover d-flex align-items-center custom-vh-100 contactanos" id="contactanos" style="background-image: url(/front/invertirCasa.jpg); min-height: 80vh !important">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-12 pb-7 pb-lg-0">
+                    </div>
+                    <div class="col-md-6 col-sm-12 pb-7 pb-lg-0">
+                        <h3 class="text-heading mb-4 fs-22 lh-15 pr-6" style="color: white !important; font-weight: bolder; text-align: center; font-style: italic;font-family: 'Gordita';font-size: 33px !important;">Conoce mas sobre nuestros proyectos</h3>
+                        <br>
+                        <form action="{{ route('formulario-contacto-inversiones')}}" method="post" >
+                            @csrf
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group mb-4">
+                                        <input type="text" placeholder="Nombre" class="form-control form-control border-0" name="nombre">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 px-2" style="padding-left: 15px !important">
+                                    <div class="form-group mb-4">
+                                        <input type="text" placeholder="Telefono" name="telefono" class="form-control form-control border-0" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-4">
+                                        <input placeholder="Correo electronico" class="form-control form-control border-0" type="email" name="email">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group mb-4">
+                                        <select class="form-control form-control border-0" name="idRentaMensual" id="idRentaMensual">
+                                            <option value="">Seleccione renta mensual</option>
+                                            @foreach($rentas as $renta)
+                                            <option value="{{ $renta->idRentaMensual }}">{{ $renta->nombreRentaMensual }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mb-6">
+                                <textarea class="form-control border-0" placeholder="Mensaje" name="mensaje" rows="2"></textarea>
+                                <input type="hidden" name="id_formulario" value="8">
+                            </div>
+                            <button type="submit" style="width: 100%; background-color: white; color: #0ec6d5; font-weight: 800;" class="btn btn btn-primary px-9">Enviar</button>
+                        </form>
+                    </div>
+                    <div class="col-md-6 col-sm-12 pb-7 pb-lg-0">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="d-sm-block d-xl-none d-md-none" >
+        <div class="bg-cover d-flex align-items-center custom-vh-100 contactanos" id="contactanos" style="background-image: url(/front/invertirCasaMobile.png); min-height: 80vh !important">
             <div class="container">
                 <div class="row">
                     <div class="col-md-6 col-sm-12 pb-7 pb-lg-0">
