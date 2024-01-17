@@ -147,6 +147,7 @@
                                         <table id="tableUsuario" class="table">
                                             <thead>
                                                 <tr>
+                                                    <th>Imagen</th>
                                                     <th>Descripcion Tipologia</th>
                                                     <th>Mts. Construidos</th>
                                                     <th>Mts. Totales</th>

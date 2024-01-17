@@ -338,7 +338,7 @@
             @if(!isset($proyecto->entregaInmediata))
                 <div class="custom-control custom-switch mb-2" dir="ltr">
                     <input name="entregaInmediata1" type="checkbox" class="custom-control-input" id="customSwitch5" {{ (Input::old("entregaInmediata") == 'on' ? "checked":"") }} >
-                    <label class="custom-control-label" for="customSwitch5">Destacar proyecto</label>
+                    <label class="custom-control-label" for="customSwitch5">Entrega Inmediata</label>
                 </div>
             @else
                 <div class="custom-control custom-switch mb-2" dir="ltr">
