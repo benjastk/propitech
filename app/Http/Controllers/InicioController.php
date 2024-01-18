@@ -11,8 +11,13 @@ use App\Region;
 use App\Pais;
 use App\Comuna;
 use App\Noticia;
+use App\Proyecto;
 use App\Provincia;
+use App\Tipologia;
 use App\EstadoPago;
+use App\FotoCercana;
+use App\FotoProyecto;
+use App\RentaMensual;
 use App\TipoPropiedad;
 use App\TipoComercial;
 use App\ParametroGeneral;
@@ -20,6 +25,7 @@ use App\ReservaPropiedad;
 use App\PlanAdministracion;
 use App\CaracteristicaPlan;
 use App\CaracteristicaPlanAsignada;
+use App\CaracteristicasPorProyectos;
 use App\CaracteristicasPorPropiedades;
 
 class InicioController extends Controller
@@ -99,9 +105,10 @@ class InicioController extends Controller
         $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
         $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
         $isCyber = ParametroGeneral::where('parametroGeneral', 'CYBER')->first();
+        $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
         return view('front-end.home', compact('propiedadesEnArriendo', 'propiedadesEnVenta', 'propiedadesDestacadas', 'comunas', 'paises', 
         'regiones', 'provincias', 'habitaciones', 'noticias', 'planes', 'caracteristicasPlanes',
-        'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'isCyber'));
+        'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'isCyber', 'invierteAqui'));
     }
     public function list(Request $request)
     {
@@ -117,6 +124,7 @@ class InicioController extends Controller
         $regiones = Region::get();
         $provincias = Provincia::get();
         $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+        $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
         if($request->tipoVenta == 1)
         {
             $propiedadesEnVenta1 = Propiedad::select('propiedades.*', 'comuna.nombre as nombreComuna', 'provincia.nombre as nombreProvincia',
@@ -156,7 +164,7 @@ class InicioController extends Controller
             }   
             $propiedadesEnVenta = $propiedadesEnVenta1->get();
             return view('front-end.mapa-catalogo-venta', compact('propiedadesEnVenta','comunas', 'paises', 'regiones', 'provincias', 'habitaciones',
-                'telefonoWhatsapp', 'coordenada'));
+                'telefonoWhatsapp', 'coordenada', 'invierteAqui'));
         }
         else if($request->tipoVenta == 2)
         {
@@ -196,7 +204,7 @@ class InicioController extends Controller
                 $coordenada = '[-70.64827, -33.45694]';
             }   
             return view('front-end.mapa-catalogo-arriendo', compact('propiedadesEnArriendo','comunas', 'paises', 'regiones', 'provincias', 
-                'habitaciones', 'telefonoWhatsapp', 'coordenada'));
+                'habitaciones', 'telefonoWhatsapp', 'coordenada', 'invierteAqui'));
         }
         else
         {
@@ -236,7 +244,7 @@ class InicioController extends Controller
             }
             $propiedadesEnArriendo = $propiedadesEnArriendo1->get();
             return view('front-end.mapa-catalogo-arriendo', compact('propiedadesEnArriendo','comunas', 'paises', 'regiones', 'provincias', 
-                'habitaciones', 'telefonoWhatsapp', 'coordenada'));
+                'habitaciones', 'telefonoWhatsapp', 'coordenada', 'invierteAqui'));
         }
     }
     public function mapaCatalogoPropiedades(Request $request)
@@ -299,9 +307,10 @@ class InicioController extends Controller
         {
             $coordenada = '[-70.64827, -33.45694]';
         }   
+        $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
         $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
         return view('front-end.mapa-catalogo-arriendo', compact('propiedadesEnArriendo','comunas', 'paises', 'regiones', 'provincias', 'habitaciones',
-        'telefonoWhatsapp', 'coordenada'));
+        'telefonoWhatsapp', 'coordenada', 'invierteAqui'));
     }
     public function mapaCatalogoPropiedadesVenta(Request $request)
     {
@@ -355,8 +364,9 @@ class InicioController extends Controller
             $coordenada = '[-70.64827, -33.45694]';
         }   
         $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+        $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
         return view('front-end.mapa-catalogo-venta', compact('propiedadesEnVenta','comunas', 'paises', 'regiones', 'provincias', 'habitaciones', 
-        'telefonoWhatsapp', 'coordenada'));
+        'telefonoWhatsapp', 'coordenada', 'invierteAqui'));
     }
     public function singleProperty($id)
     {
@@ -404,8 +414,9 @@ class InicioController extends Controller
         $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
         $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
         $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
+        $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
         return view('front-end.single-property', compact('propiedad', 'amenidades', 'propiedadesDestacadas1',
-        'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram'));
+        'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'invierteAqui'));
     }
     public function singleBlog($urlNoticia)
     {
@@ -426,9 +437,9 @@ class InicioController extends Controller
         $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
         $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
         $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
-
+        $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
         return view('front-end.blog', compact('noticia', 'noticias',
-        'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram'));
+        'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'invierteAqui'));
     }
     public function servicios()
     {
@@ -462,9 +473,9 @@ class InicioController extends Controller
         $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
         $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
         $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
-
+        $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
         return view('front-end.servicios', compact('planes', 'caracteristicasPlanes',
-        'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram'));
+        'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'invierteAqui'));
     }
     public function nosotros()
     {
@@ -474,7 +485,8 @@ class InicioController extends Controller
         $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
         $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
         $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
-        return view('front-end.nosotros', compact('telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram'));
+        $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
+        return view('front-end.nosotros', compact('telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'invierteAqui'));
     }
     public function preguntasFrecuentes()
     {
@@ -484,7 +496,8 @@ class InicioController extends Controller
         $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
         $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
         $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
-        return view('front-end.preguntasFrecuentes', compact('telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram'));
+        $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
+        return view('front-end.preguntasFrecuentes', compact('telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'invierteAqui'));
     }
     public function terminosYCondiciones()
     {
@@ -494,7 +507,8 @@ class InicioController extends Controller
         $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
         $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
         $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
-        return view('front-end.terminosYCondiciones', compact('telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram'));
+        $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
+        return view('front-end.terminosYCondiciones', compact('telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'invierteAqui'));
     }
     public function publicaTuPropiedad()
     {
@@ -509,11 +523,12 @@ class InicioController extends Controller
         $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
         $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
         $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
+        $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
 
         $tiposPropiedades = TipoPropiedad::get();
         $tiposComerciales = TipoComercial::get();
         return view('front-end.publica-tu-propiedad', compact('tiposPropiedades', 'tiposComerciales', 
-        'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram'));
+        'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'invierteAqui'));
     }
     public function trabajaConNosotros()
     {
@@ -529,12 +544,13 @@ class InicioController extends Controller
         $correoContacto = ParametroGeneral::where('parametroGeneral', 'CORREO CONTACTO')->first();
         $horarioSemana = ParametroGeneral::where('parametroGeneral', 'HORARIO SEMANA')->first();
         $horarioFinDeSemana = ParametroGeneral::where('parametroGeneral', 'HORARIO FIN DE SEMANA')->first();
+        $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
 
         $tiposPropiedades = TipoPropiedad::get();
         $tiposComerciales = TipoComercial::get();
         return view('front-end.trabaja-con-nosotros', compact('tiposPropiedades', 'tiposComerciales', 
         'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram',
-        'telefonoContacto', 'telefonoContacto2', 'correoContacto', 'horarioSemana', 'horarioFinDeSemana'));
+        'telefonoContacto', 'telefonoContacto2', 'correoContacto', 'horarioSemana', 'horarioFinDeSemana', 'invierteAqui'));
     }
     public function pagoOnline(Request $request)
     {
@@ -554,8 +570,10 @@ class InicioController extends Controller
             $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
             $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
             $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
+            $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
             $rut = $request->rut;
-            return view('front-end.pago-online', compact('estadoPago', 'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'rut'));
+            return view('front-end.pago-online', compact('estadoPago', 'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 
+            'rut', 'invierteAqui'));
         }
         else
         {
@@ -565,10 +583,12 @@ class InicioController extends Controller
             $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
             $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
             $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
+            $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
             $rut = '';
             $estadoPago = '';
         }
-        return view('front-end.pago-online', compact('estadoPago', 'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'rut'));
+        return view('front-end.pago-online', compact('estadoPago', 'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 
+        'rut', 'invierteAqui'));
     }
     public function pagarOnline(Request $request)
     {
@@ -607,9 +627,11 @@ class InicioController extends Controller
                 $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
                 $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
                 $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
+                $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
                 $rut = '';
                 $estadoPago = '';
-                return view('front-end.pago-online', compact('estadoPago', 'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'rut'));
+                return view('front-end.pago-online', compact('estadoPago', 'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 
+                'rut', 'invierteAqui'));
             }
         }
         else
@@ -620,9 +642,11 @@ class InicioController extends Controller
             $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
             $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
             $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
+            $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
             $rut = '';
             $estadoPago = '';
-            return view('front-end.pago-online', compact('estadoPago', 'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'rut'));
+            return view('front-end.pago-online', compact('estadoPago', 'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 
+            'rut', 'invierteAqui'));
         }
     }
     public function pagoReservaOnline(Request $request)
@@ -639,8 +663,10 @@ class InicioController extends Controller
             $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
             $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
             $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
+            $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
             $rut = $request->rut;
-            return view('front-end.pago-online-reserva', compact('reserva', 'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'rut'));
+            return view('front-end.pago-online-reserva', compact('reserva', 'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 
+            'rut', 'invierteAqui'));
         }
         else
         {
@@ -650,10 +676,12 @@ class InicioController extends Controller
             $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
             $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
             $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
+            $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
             $rut = '';
             $reserva = '';
         }
-        return view('front-end.pago-online-reserva', compact('reserva', 'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'rut'));
+        return view('front-end.pago-online-reserva', compact('reserva', 'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 
+        'rut', 'invierteAqui'));
     }
     public function pagarReservaOnline(Request $request)
     {
@@ -677,9 +705,11 @@ class InicioController extends Controller
                 $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
                 $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
                 $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
+                $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
                 $rut = '';
                 $reserva = '';
-                return view('front-end.pago-online-reserva', compact('reserva', 'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'rut'));
+                return view('front-end.pago-online-reserva', compact('reserva', 'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 
+                'instagram', 'rut', 'invierteAqui'));
             }
         }
         else
@@ -690,9 +720,81 @@ class InicioController extends Controller
             $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
             $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
             $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
+            $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
             $rut = '';
             $estadoPago = '';
-            return view('front-end.pago-online-reserva', compact('reserva', 'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'rut'));
+            return view('front-end.pago-online-reserva', compact('reserva', 'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 
+            'rut', 'invierteAqui'));
         }
+    }
+    public function proyectosEnVenta(Request $request)
+    {
+        $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+        $correoHome = ParametroGeneral::where('parametroGeneral', 'CORREO HOME')->first();
+        $direccionHome = ParametroGeneral::where('parametroGeneral', 'DIRECCION HOME')->first();
+        $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
+        $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
+        $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
+        $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
+        $rentas = RentaMensual::get();
+        $proyectos = Proyecto::select('proyectos.*', 'comuna.nombre as nombreComuna', 'provincia.nombre as nombreProvincia',
+        'region.nombre as nombreRegion')
+        ->join('comuna', 'comuna.id', '=', 'proyectos.idComuna')
+        ->join('provincia', 'provincia.id', '=', 'proyectos.idProvincia')
+        ->join('region', 'region.id', '=', 'proyectos.idRegion')
+        ->get();
+        $proyectosDestacados = Proyecto::select('proyectos.*', 'comuna.nombre as nombreComuna', 'provincia.nombre as nombreProvincia',
+        'region.nombre as nombreRegion')
+        ->join('comuna', 'comuna.id', '=', 'proyectos.idComuna')
+        ->join('provincia', 'provincia.id', '=', 'proyectos.idProvincia')
+        ->join('region', 'region.id', '=', 'proyectos.idRegion')
+        ->where('proyectos.idDestacado', 1)
+        ->get();
+        //$proyectosDestacados = [];
+        return view('front-end.inversiones', compact('telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 
+        'rentas', 'proyectosDestacados', 'proyectos', 'invierteAqui'));
+    }
+    public function singleProyectos($id)
+    {
+        $proyecto = Proyecto::select('proyectos.*', 'comuna.nombre as nombreComuna', 'provincia.nombre as nombreProvincia',
+        'region.nombre as nombreRegion', 'tipos_propiedades.nombreTipoPropiedad', 'users.name', 'users.apellido', 'users.telefono', 'users.email',
+        'users.avatarImg')
+        ->join('comuna', 'comuna.id', '=', 'proyectos.idComuna')
+        ->join('provincia', 'provincia.id', '=', 'proyectos.idProvincia')
+        ->join('region', 'region.id', '=', 'proyectos.idRegion')
+        ->join('tipos_propiedades', 'proyectos.tipoPropiedad', '=', 'tipos_propiedades.idTipoPropiedad')
+        ->leftjoin('users', 'users.id', '=', 'proyectos.creadoPor')
+        ->where('proyectos.idProyecto', $id)
+        ->first();
+
+        $otrosProyectos = Proyecto::select('proyectos.*', 'comuna.nombre as nombreComuna', 'provincia.nombre as nombreProvincia',
+        'region.nombre as nombreRegion', 'tipos_propiedades.nombreTipoPropiedad')
+        ->join('comuna', 'comuna.id', '=', 'proyectos.idComuna')
+        ->join('provincia', 'provincia.id', '=', 'proyectos.idProvincia')
+        ->join('region', 'region.id', '=', 'proyectos.idRegion')
+        ->join('tipos_propiedades', 'proyectos.tipoPropiedad', '=', 'tipos_propiedades.idTipoPropiedad')
+        ->leftjoin('users', 'users.id', '=', 'proyectos.creadoPor')
+        ->where('proyectos.idEstado', 42)
+        ->get();
+
+        $amenidades = CaracteristicasPorProyectos::select('caracteristicas_propiedades.*')
+        ->join('caracteristicas_propiedades', 'caracteristicas_propiedades.idCaracteristicaPropiedad', '=', 'caracteristicas_por_proyecto.idCaracteristicaPropiedad')
+        ->where('caracteristicas_por_proyecto.idProyecto', $id)
+        ->get();
+
+        $tipologias = Tipologia::where('idProyecto', $id)->get();
+
+        $fotos = FotoProyecto::where('idProyecto', $id)->get();
+        $fotosCercanas = FotoCercana::where('idProyecto', $id)->get();
+        $rentas = RentaMensual::get();
+        $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+        $correoHome = ParametroGeneral::where('parametroGeneral', 'CORREO HOME')->first();
+        $direccionHome = ParametroGeneral::where('parametroGeneral', 'DIRECCION HOME')->first();
+        $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
+        $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
+        $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
+        $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
+        return view('front-end.single-inversiones', compact('proyecto', 'amenidades', 'tipologias', 'fotos', 'fotosCercanas', 'otrosProyectos',
+        'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'rentas', 'invierteAqui'));
     }
 }

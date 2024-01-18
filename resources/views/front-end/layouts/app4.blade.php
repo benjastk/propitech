@@ -258,6 +258,14 @@
                             </li>
                         </ul>
                     </li>
+                    @if($invierteAqui->parametroGeneral == 1)
+                    <li id="navbar-item-dashboard" aria-haspopup="true" aria-expanded="false" class="nav-item dropdown py-2 py-lg-5 px-0 px-lg-4">
+                        <a class="btn btn-success" href="/proyectos-venta" style="background-color: #d57a49; font-weight: 700; box-shadow: 2px 2px 2px 1px rgb(0 0 0 / 30%)">
+                            ¡Invierte Aquí!
+                            <span class="caret"></span>
+                        </a>
+                    </li>
+                    @endif
                 </ul>
                 <div class="d-block d-lg-none">
                     <ul class="navbar-nav flex-row ml-auto align-items-center justify-content-lg-end flex-wrap py-2">
