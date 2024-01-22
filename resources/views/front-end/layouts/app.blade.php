@@ -170,10 +170,10 @@
                                 <a class="dropdown-item" href="/catalogo-propiedades-venta?tipoPropiedad=8">
                                     Oficinas en Venta
                                 </a>
-                                <!--<a class="dropdown-item" href="listing-with-left-sidebar.html">
+                                <!--<a class="dropdown-item" href="#">
                                     
                                 </a>
-                                <a class="dropdown-item" href="listing-with-right-sidebar.html">
+                                <a class="dropdown-item" href="#">
                                 List with right sidebar
                                 </a>-->
                             </div>
@@ -192,10 +192,10 @@
                                 <a class="dropdown-item" href="/catalogo-propiedades?tipoPropiedad=8">
                                     Oficinas en Arriendo
                                 </a>
-                                <!--<a class="dropdown-item" href="listing-with-left-sidebar.html">
+                                <!--<a class="dropdown-item" href="#">
                                     
                                 </a>
-                                <a class="dropdown-item" href="listing-with-right-sidebar.html">
+                                <a class="dropdown-item" href="#">
                                 List with right sidebar
                                 </a>-->
                             </div>
@@ -248,22 +248,28 @@
                             </li>
                         </ul>
                     </li>
+                    @if($invierteAqui->parametroGeneral == 1)
+                    <li id="navbar-item-dashboard" aria-haspopup="true" aria-expanded="false" class="nav-item dropdown py-2 py-lg-5 px-0 px-lg-4">
+                        <a class="btn btn-success" href="/proyectos-venta" style="background-color: #d57a49; font-weight: 700; box-shadow: 2px 2px 2px 1px rgb(0 0 0 / 30%)">
+                            ¡Invierte Aquí!
+                            <span class="caret"></span>
+                        </a>
+                    </li>
+                    @endif
                 </ul>
                 <div class="d-block d-lg-none">
                     <ul class="navbar-nav flex-row ml-auto align-items-center justify-content-lg-end flex-wrap py-2">
-                        <!--<li class="divider"></li>
                         <li class="nav-item">
-                            <a class="btn btn-primary btn-lg" href="/pago-online">Paga Aquí</a>
+                            <a class="btn btn-success btn-lg" href="/pago-online">Paga tu Arriendo Aquí</a>
                         </li>
                     </ul>
                 </div>
                 </div>
                 <div class="d-none d-lg-block">
                 <ul class="navbar-nav flex-row ml-auto align-items-center justify-content-lg-end flex-wrap py-2">
-                    <li class="divider"></li>
                     <li class="nav-item">
-                        <a class="btn btn-outline-light btn-lg text-white rounded-lg bg-hover-primary border-hover-primary hover-white d-none d-lg-block pagarr" href="/pago-online">Paga Aquí</a>
-                    </li>-->
+                        <a class="btn btn-success text-white rounded-lg bg-hover-primary border-hover-primary hover-white d-none d-lg-block pagarr" href="/pago-online">Paga tu Arriendo Aquí</a>
+                    </li>
                     <!--<li class="nav-item">
                     <a class="nav-link px-2 position-relative" href="#">
                         <i class="fal fa-heart fs-large-4"></i>

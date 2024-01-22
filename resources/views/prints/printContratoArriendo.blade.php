@@ -435,7 +435,7 @@
                     </td>
                     <td width="225">
                         <p>@if($contratoArriendo->renovacionAutomatica == 1) Si @else No @endif</p>
-                        <p>12 meses.</p>
+                        <p>{{ $contratoArriendo->tiempoContrato }} meses.</p>
                     </td>
                 </tr>
             </tbody>
@@ -616,7 +616,7 @@
             y tendr&aacute; Vigencia {{ $contratoArriendo->tiempoContrato }} meses. Confirmando las partes que contin&uacute;an con la relaci&oacute;n 
             comercial, se renueva autom&aacute;ticamente, a menos que alguna de las partes, manifieste a la otra su intenci&oacute;n de no perseverar en 
             el contrato mediante aviso enviado por carta certificada o carta simple, (correo electr&oacute;nico individualizado en condiciones particulares), 
-            enviada a lo menos 30 d&iacute;as de anticipaci&oacute;n al vencimiento del plazo o cualquiera de sus prorrogas. Las partes podr&aacute;n de 
+            enviada a lo menos {{ $contratoArriendo->diaNotificacionFinContrato }} d&iacute;as de anticipaci&oacute;n al vencimiento del plazo o cualquiera de sus prorrogas. Las partes podr&aacute;n de 
             com&uacute;n acuerdo en cualquier momento durante la vigencia del contrato, acordar su pr&oacute;rroga por los periodos y t&eacute;rminos que 
             en cada oportunidad establezca.</p>
             <p style="page-break-after: always;">

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DB;
 use Auth;
 use App\User;
+use Carbon\Carbon;
 use App\Propiedad;
 use App\FormularioCanje;
 use App\ContratoArriendo;
@@ -40,8 +41,9 @@ class HomeController extends Controller
         $propiedadesArriendo = Propiedad::where('idTipoComercial', 2)->where('idEstado', 42)->count();
         $contratosArriendos = ContratoArriendo::where('idEstado', 61)->count();
         $mandatosAdministracion = MandatoAdministracion::where('idEstadoMandato', 61)->count();
+        $hora = Carbon::now();
         return view('back-office.home', compact('user', 'leadsContactos', 'propiedadesVenta', 'propiedadesArriendo', 'contratosArriendos', 
-        'mandatosAdministracion'));
+        'mandatosAdministracion', 'hora'));
     }
     public function leads()
     {
