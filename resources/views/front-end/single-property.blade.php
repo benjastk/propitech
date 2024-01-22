@@ -302,10 +302,10 @@
             <section class="mt-2 pb-6 px-6 pt-6 bg-white rounded-lg" >
                 <h4 class="fs-22 text-heading mb-6" style="font-family: FeltThat,sans-serif !important; font-size: 38px !important; color: #2db5ff !important;" >Ubicación</h4>
                 <div class="position-relative">
-                <div class="position-relative">
-                    <div id="map" style="height: 300px; !important">
-                    <p class="mb-0 p-3 bg-white shadow rounded-lg position-absolute pos-fixed-bottom mb-4 ml-4 lh-17 z-index-2">{{ $propiedad->direccion }} {{ $propiedad->numero }}, {{ $propiedad->nombreComuna }}, {{ $propiedad->nombreRegion }}</p>
-                </div>
+                    <div class="position-relative">
+                        <div id="map" style="height: 300px; !important">
+                        <p class="mb-0 p-3 bg-white shadow rounded-lg position-absolute pos-fixed-bottom mb-4 ml-4 lh-17 z-index-2">{{ $propiedad->direccion }} {{ $propiedad->numero }}, {{ $propiedad->nombreComuna }}, {{ $propiedad->nombreRegion }}</p>
+                    </div>
                 </div>
             </section>
             <section class="mt-2 pb-7 px-6 pt-6 bg-white rounded-lg">

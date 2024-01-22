@@ -24,6 +24,12 @@
                     </a>
                 </li>
                 <li>
+                    <a href="/proyectos" class="waves-effect">
+                        <i class="bx bxs-building"></i>
+                        <span>Proyectos</span>
+                    </a>
+                </li>
+                <li>
                     <a href="/reservas" class="waves-effect">
                         <i class="bx bx-food-menu"></i>
                         <span>Reservas de Propiedades</span>

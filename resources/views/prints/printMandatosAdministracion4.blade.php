@@ -127,7 +127,7 @@
             </ol>
             <p>&nbsp;</p>
             <ol>
-            <li><strong>Comisi&oacute;n por Administraci&oacute;n</strong>: <strong>pagos mensuales</strong> de uno {{ $porcentajeAdministracionPalabras }} por ciento del 
+            <li><strong>Comisi&oacute;n por Administraci&oacute;n</strong>: <strong>pagos mensuales</strong> de un {{ $porcentajeAdministracionPalabras }} por ciento del 
             arriendo, m&aacute;s IVA, por concepto de arrendamiento de(l) inmueble(es) materia de este contrato.</li>
             </ol>
             <p>&nbsp;</p>

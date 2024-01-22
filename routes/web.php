@@ -19,6 +19,7 @@ Route::post('/formulario-contacto-propiedades', 'ContactoController@contactoCont
 Route::post('/formulario-canje-propiedades', 'ContactoController@formularioCanje')->name('formulario-canje-propiedades');
 Route::post('/formulario-captador-propiedades', 'ContactoController@formularioCaptador')->name('formulario-captador-propiedades');
 Route::post('/formulario-publica-tu-propiedad', 'ContactoController@formularioPublicaTuPropiedad')->name('formulario-publica-tu-propiedad');
+Route::post('/formulario-contacto-inversiones', 'ContactoController@formularioInversiones')->name('formulario-contacto-inversiones');
 
 Route::post('/catalogo-propiedades', 'InicioController@list')->name('catalogo-propiedades');
 Route::get('/catalogo-propiedades', 'InicioController@mapaCatalogoPropiedades');
@@ -41,9 +42,13 @@ Route::post('/ir-a-pagar-online', 'InicioController@pagarOnline')->name('ir-a-pa
 
 Route::get('/pago-reserva-online', 'InicioController@pagoReservaOnline');
 Route::post('/ir-a-pagar-reserva-online', 'InicioController@pagarReservaOnline')->name('ir-a-pagar-reserva-online');
+Route::get('/proyectos-venta', 'InicioController@proyectosEnVenta');
+Route::get('/proyectos-venta/{id}', 'InicioController@singleProyectos');
+
 Route::get('/comision/{mes}/{anio}', 'MandatoAdministracionController@comisionMandato');
 //Route::get('/pruebaCorreo', 'PagoController@pruebaCorreo');
 //Route::get('/pruebaMail', 'AlertaController@pruebaMail');
+
 // back-office routes
 Route::get('/login', function () {
     return view('auth.login');
@@ -85,6 +90,22 @@ Route::prefix('properties')->group(function () {
 
     Route::get('/suspendidas', 'PropertyController@suspendidas');
     Route::post('/suspender/{propiedad}', 'PropertyController@suspender');
+});
+Route::prefix('proyectos')->group(function () {
+    Route::get('/', 'ProyectosController@index')->name('proyectos');
+    Route::get('/create', 'ProyectosController@create');
+    Route::post('/store', 'ProyectosController@store');
+    Route::get('/edit/{propiedad}', 'ProyectosController@edit');
+    Route::post('/update/{propiedad}', 'ProyectosController@update');
+    Route::post('/destroy', 'ProyectosController@destroy');
+
+    Route::post('/create-tipologia', 'ProyectosController@crearTipologia')->name('create-tipologia');
+    Route::post('/delete-tipologia', 'ProyectosController@eliminarTipologia')->name('delete-tipologia');
+
+    Route::post('/img/subir/{id}', 'ProyectosController@subirImagen');
+    Route::post('/img/eliminar/{fileName}', 'ProyectosController@eliminarImagen');
+    Route::post('/img/subirCercana/{id}', 'ProyectosController@subirImagenCercana');
+    Route::post('/img/eliminarCercana/{fileName}', 'ProyectosController@eliminarImagenCercana');
 });
 Route::prefix('noticias')->group(function () {
     Route::get('/', 'NoticiaController@index')->name('noticias');
@@ -141,7 +162,7 @@ Route::prefix('estados-pagos')->group(function () {
     Route::get('/', 'EstadoPagoController@index');
     Route::get('/mostrar/{id}', 'EstadoPagoController@show');
     Route::get('/create', 'EstadoPagoController@create');
-    Route::post('/store', 'EstadoPagoController@store');
+    Route::post('/store', 'EstadoPagoController@store')->name('crearEstadoPago');
     Route::get('/edit/{id}', 'EstadoPagoController@edit');
     Route::post('/update/{id}', 'EstadoPagoController@update');
     Route::post('/destroy', 'EstadoPagoController@destroy');
