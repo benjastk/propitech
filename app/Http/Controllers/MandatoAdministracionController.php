@@ -1255,4 +1255,8 @@ class MandatoAdministracionController extends Controller
         toastr()->success('Actualizacion planilla mandatarios mes: '. $mes.' año: '.$anio);
         return back();
     }
+    public function editarEstadoPagoMandato(Reques $request)
+    {
+
+    }
 }

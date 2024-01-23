@@ -37,6 +37,34 @@
     {
         float: right;
     }
+
+    /* Estilos para motores Webkit y blink (Chrome, Safari, Opera... )*/
+
+    .contenedor::-webkit-scrollbar {
+        -webkit-appearance: none;
+    }
+
+    .contenedor::-webkit-scrollbar:vertical {
+        width:10px;
+    }
+
+    .contenedor::-webkit-scrollbar-button:increment,.contenedor::-webkit-scrollbar-button {
+        display: none;
+    } 
+
+    .contenedor::-webkit-scrollbar:horizontal {
+        height: 10px;
+    }
+
+    .contenedor::-webkit-scrollbar-thumb {
+        background-color: #556ee6;
+        border-radius: 20px;
+        border: 2px solid #f1f2f3;
+    }
+
+    .contenedor::-webkit-scrollbar-track {
+        border-radius: 10px;  
+    }
 </style>
 @endsection
 @section('content')
@@ -71,16 +99,27 @@
                                     <label>Mes y año</label>
                                     <select name="filtro" id="filtro" class="form-control" required>
                                         <option value="">Mes/Año</option>
-                                        @foreach ($filtro as $filtros)
-                                        <option value="{{$filtros->month}}/{{$filtros->year}}" >{{$filtros->month}} / {{$filtros->year}}</option>
-                                        @endforeach
+                                        @if($mes && $anio)
+                                            @foreach ($filtro as $filtros)
+                                            <option value="{{$filtros->month}}/{{$filtros->year}}" {{ ($filtros->month.$filtros->year == $mes.$anio ) ? 'selected' :'' }} >{{$filtros->month}} / {{$filtros->year}}</option>
+                                            @endforeach
+                                        @else
+                                            @foreach ($filtro as $filtros)
+                                            <option value="{{$filtros->month}}/{{$filtros->year}}" >{{$filtros->month}} / {{$filtros->year}}</option>
+                                            @endforeach
+                                        @endif
                                     </select>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label>Estado</label>
                                     <select name="tipo" class="form-control" required>
+                                        @if($tipo)
+                                        <option value="2" {{ ($tipo == 2 ) ? 'selected' :'' }} >No validados</option>
+                                        <option value="1" {{ ($tipo == 1 ) ? 'selected' :'' }}>Validados/Liquidados</option>
+                                        @else
+                                        <option value="2">No validados</option>
                                         <option value="1">Validados/Liquidados</option>
-                                        <option value="2">Rezagados</option>
+                                        @endif
                                     </select>
                                 </div>
                                 <div class="form-group col-md-4">
@@ -122,13 +161,13 @@
                     <div class="col-sm-2">
                         <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                         @if($mes)
-                        <center><a href="{{ url('/comisionMandato/'.$mes.'/'.$anio) }}" ><button style="width: 100%;" class="btn btn-block btn-primary btn-sm"><i class="fa fa-link"></i> ACTUALIZAR</button></a></center>
+                        <center><a href="{{ url('/comision/'.$mes.'/'.$anio) }}" ><button style="width: 100%;" class="btn btn-block btn-primary btn-sm"><i class="fa fa-link"></i> ACTUALIZAR</button></a></center>
                         @else
                         @php
                             $mes = date('m');
                             $anio = date('Y');
                         @endphp
-                        <center><a href="{{ url('/comisionMandato/'.$mes.'/'.$anio) }}" ><button style="width: 100%;" class="btn btn-block btn-primary btn-sm"><i class="fa fa-redo-alt"></i> ACTUALIZAR</button></a></center>
+                        <center><a href="{{ url('/comision/'.$mes.'/'.$anio) }}" ><button style="width: 100%;" class="btn btn-block btn-primary btn-sm"><i class="fa fa-redo-alt"></i> ACTUALIZAR</button></a></center>
                         @endif
                     </div>
                 </div>
@@ -136,7 +175,7 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                <div class="table-responsive">
+                                <div class="table-responsive contenedor">
                                 <table id="tabla-ingresos" class="table table-centered table-hover">
                                         <thead class="thead-light">
                                             <tr>
@@ -153,8 +192,8 @@
                                                 <th>Comision de Corretaje</th>
                                                 <th>Comision</th>
                                                 <th>Saldos a favor</th>
-                                                <th>Seguro de arriendo</th>
-                                                <th>Deuda</th>
+                                                <!--<th>Seguro de arriendo</th>-->
+                                                <!--<th>Deuda</th>-->
                                                 <th>Monto A Liquidar Propietario</th>
                                                 <th>Estado</th>
                                                 <th>Fecha liquidado</th>
@@ -183,8 +222,8 @@
                                             <td>${{ number_format($estadosDePagos->comisionCorretaje, 0, '', '.')}}</td>
                                             <td>@if($estadosDePagos->montoComision < 0) 0 @else ${{ number_format($estadosDePagos->montoComision, 0, '', '.')}} @endif</td>
                                             <td>${{ number_format($estadosDePagos->saldoArrastre, 0, '', '.')}}</td>
-                                            <td>${{ number_format($estadosDePagos->valorSeguroArriendo, 0, '', '.')}}</td>
-                                            <td>{{ number_format($estadosDePagos->montoDeuda, 0, '', '.')}}</td>
+                                            <!--<td>${{ number_format($estadosDePagos->valorSeguroArriendo, 0, '', '.')}}</td>-->
+                                            <!--<td>{{ number_format($estadosDePagos->montoDeuda, 0, '', '.')}}</td>-->
                                             <td>{{ number_format($estadosDePagos->montoALiquidarPropietario, 0, '', '.')}}</td>
                                             <td>{{ $estadosDePagos->nombreEstado }}</td>
                                             <td>{{ $estadosDePagos->fechaLiquidado}}</td>
@@ -228,6 +267,108 @@
                 </div>
             </div> <!-- container-fluid -->
         </div>
+        @if($estadosPagosMandatarios)
+            @foreach ($estadosPagosMandatarios as $estadoPagoModal)    
+            <div class="modal fade" id="exampleModalMandatario-{{$estadoPagoModal->idEstadoPagoMandato}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Editar estado de pago mandato</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" action="{{ route('editarEstadoPagoMandato') }}" >
+                        @csrf
+                            <div class="row">
+                                <div class="form-group col-lg-4 col-md-4 col-sm-4">
+                                    <label>Monto A Pagar</label>
+                                </div>
+                                <div class="form-group col-lg-8 col-md-8 col-sm-8">
+                                    <input type="text" class="form-control" name="montoAPagar" value="{{$estadoPagoModal->montoAPagar}}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-lg-4 col-md-4 col-sm-4">
+                                    <label>Cargos Abonos</label>
+                                </div>
+                                <div class="form-group col-lg-8 col-md-8 col-sm-8">
+                                    <input type="text" class="form-control" name="cargosAbonos" value="{{$estadoPagoModal->cargosAbonos}}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-lg-4 col-md-4 col-sm-4">
+                                    <label>Monto pagado</label>
+                                </div>
+                                <div class="form-group col-lg-8 col-md-8 col-sm-8">
+                                    <input type="text" class="form-control" name="montoPagado" value="{{$estadoPagoModal->montoPagado}}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-lg-4 col-md-4 col-sm-4">
+                                    <label>Garantia</label>
+                                </div>
+                                <div class="form-group col-lg-8 col-md-8 col-sm-8">
+                                    <input type="text" class="form-control" name="garantia" value="{{$estadoPagoModal->garantia}}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-lg-4 col-md-4 col-sm-4">
+                                    <label>Monto Comision</label>
+                                </div>
+                                <div class="form-group col-lg-8 col-md-8 col-sm-8">
+                                    <input type="text" class="form-control" name="montoComision" value="{{$estadoPagoModal->montoComision}}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-lg-4 col-md-4 col-sm-4">
+                                    <label>Monto A Liquidar</label>
+                                </div>
+                                <div class="form-group col-lg-8 col-md-8 col-sm-8">
+                                    <input type="text" class="form-control" name="montoALiquidarPropietario" value="{{$estadoPagoModal->montoALiquidarPropietario}}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-lg-4 col-md-4 col-sm-4">
+                                    <label>Fecha Liquidado</label>
+                                </div>
+                                <div class="form-group col-lg-8 col-md-8 col-sm-8">
+                                    <input type="text" class="form-control" name="fechaLiquidado" value="<?php echo date('Y-m-d', strtotime($estadoPagoModal->fechaLiquidado)); ?>">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-lg-4 col-md-4 col-sm-4">
+                                    <label>Estado</label>
+                                </div>
+                                <div class="form-group col-lg-8 col-md-8 col-sm-8">
+                                    @if( !isset($estadoPagoModal->idEstado))
+                                    <select name="idEstado" class="form-control">
+                                        @foreach ($estados as $estado)
+                                        <option value="{{ $estado->idEstado }}">{{ $estado->nombreEstado}}</option>
+                                        @endforeach
+                                </select>
+                                @else
+                                <select name="idEstado" class="form-control">
+                                    @foreach ($estados as $estado)
+                                    <option value="{{ $estado->idEstado }}" {{ ($estadoPagoModal->idEstado == $estado->idEstado ) ? 'selected' :'' }}>{{ $estado->nombreEstado}}</option>
+                                    @endforeach
+                                </select>
+                                @endif
+                                </div>
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="idEstadoPago" id="idEstadoPago" value="{{ Crypt::encrypt($estadoPagoModal->idEstadoPagoMandato) }}" >
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-success">Guardar</button>
+                        </form>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        @endif
         <!-- End Page-content -->
         <footer class="footer">
             <div class="container-fluid">
