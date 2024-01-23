@@ -223,7 +223,7 @@
                     <h4 class="text-white fs-16 my-4 font-weight-500">Links de interés</h4>
                     <ul class="list-group list-group-flush list-group-no-border">
                     <li class="list-group-item bg-transparent p-0">
-                        <a href="#" class="text-muted lh-26 font-weight-500 hover-white">Terminos y condiciones</a>
+                        <a href="/terminos-condiciones" class="text-muted lh-26 font-weight-500 hover-white">Terminos y condiciones</a>
                     </li>
                     <li class="list-group-item bg-transparent p-0">
                         <a href="#" class="text-muted lh-26 font-weight-500 hover-white">Politica de privacidad</a>
