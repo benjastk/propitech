@@ -82,10 +82,10 @@
                                 </ol>
                                 <a href="/contratos/create" class="btn btn-info waves-effect waves-light" style="margin-right: 10px">
                                     <i class="bx bx-user-plus font-size-16 align-middle mr-2"></i> Crear Contrato de arriendo
-                                </a>-->
+                                </a>
                                 <a href="/mandatos/export" class="btn btn-success waves-effect waves-light" style="margin-right: 10px">
                                     <i class="far fa-file-excel"></i> Descargar Excel
-                                </a>
+                                </a>-->
                             </div>
                             
                         </div>
@@ -131,10 +131,11 @@
                     </div>
                     <div class="col-md-2">
                         <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                        <form method="POST" action="#" >
+                        <form method="POST" action="{{ route('excelEstadosPagosMandatos') }}" >
                         @csrf
                             <input type="hidden" name="anio" value="{{$anio}}">
                             <input type="hidden" name="mes" value="{{$mes}}">
+                            <input type="hidden" name="tipo" value="{{$tipo}}">
                             <div class="form-group col-md-12">
                                 <center><button style="width: 100%;" type="submit" class="btn btn-block btn-primary btn-sm"><i class="fa fa-file"></i> Descargar planilla</button></center>
                             </div>
@@ -237,7 +238,7 @@
                                                 
                                                 <a class="dropdown-item"  data-toggle="modal" data-target="#exampleModalMandatario-{{ $estadosDePagos->idEstadoPagoMandato }}" href="#"><i class="fa fa-edit"></i> Editar</a>
                                                 <a class="dropdown-item" href="imprimirComprobantePagoPropietario/{{$estadosDePagos->idEstadoPagoMandato}}"><i class="fa fa-print"></i> Imprimir Comprobante A Inversionista</a>
-                                                <a class="dropdown-item" href="descuentos/{{$estadosDePagos->idEstadoPago}}"><i class="fa fa-arrow-down"></i> Descuentos</a>
+                                                <!--<a class="dropdown-item" href="descuentos/{{$estadosDePagos->idEstadoPago}}"><i class="fa fa-arrow-down"></i> Descuentos</a>-->
                                                 <a class="dropdown-item"  data-toggle="modal" data-target="#exampleModalCenterEliminar-{{ $estadosDePagos->idEstadoPagoMandato }}" href="#"><i class="fa fa-trash"></i> Eliminar</a>
                                                 </div>
                                             </div>
@@ -329,6 +330,8 @@
                                     <input type="text" class="form-control" name="montoALiquidarPropietario" value="{{$estadoPagoModal->montoALiquidarPropietario}}">
                                 </div>
                             </div>
+                            @if($estadoPagoModal->idEstado == 68)
+                            @else
                             <div class="row">
                                 <div class="form-group col-lg-4 col-md-4 col-sm-4">
                                     <label>Fecha Liquidado</label>
@@ -337,16 +340,17 @@
                                     <input type="text" class="form-control" name="fechaLiquidado" value="<?php echo date('Y-m-d', strtotime($estadoPagoModal->fechaLiquidado)); ?>">
                                 </div>
                             </div>
+                            @endif
                             <div class="row">
                                 <div class="form-group col-lg-4 col-md-4 col-sm-4">
                                     <label>Estado</label>
                                 </div>
                                 <div class="form-group col-lg-8 col-md-8 col-sm-8">
-                                    @if( !isset($estadoPagoModal->idEstado))
-                                    <select name="idEstado" class="form-control">
-                                        @foreach ($estados as $estado)
-                                        <option value="{{ $estado->idEstado }}">{{ $estado->nombreEstado}}</option>
-                                        @endforeach
+                                @if( !isset($estadoPagoModal->idEstado))
+                                <select name="idEstado" class="form-control">
+                                    @foreach ($estados as $estado)
+                                    <option value="{{ $estado->idEstado }}">{{ $estado->nombreEstado}}</option>
+                                    @endforeach
                                 </select>
                                 @else
                                 <select name="idEstado" class="form-control">
@@ -362,6 +366,32 @@
                         <input type="hidden" name="idEstadoPago" id="idEstadoPago" value="{{ Crypt::encrypt($estadoPagoModal->idEstadoPagoMandato) }}" >
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                         <button type="submit" class="btn btn-success">Guardar</button>
+                        </form>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        @endif
+        @if($estadosPagosMandatarios)
+            @foreach ($estadosPagosMandatarios as $estadosPagosMandatariosEliminar)    
+            <div class="modal fade" id="exampleModalCenterEliminar-{{$estadosPagosMandatariosEliminar->idEstadoPagoMandato}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Eliminar Mandato</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        ¿Esta seguro que desea eliminar el estado de pago?
+                    </div>
+                    <div class="modal-footer">
+                        <form method="POST" action="{{action('MandatoAdministracionController@eliminarPagoMandato', $estadosPagosMandatariosEliminar->idEstadoPagoMandato)}}" >
+                        @csrf
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
                         </form>
                     </div>
                     </div>
