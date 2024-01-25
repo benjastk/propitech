@@ -505,7 +505,7 @@ class MandatoAdministracionController extends Controller
             ->groupby('diaPago')
             ->get();
         $estados = Estado::where('idTipoEstado', '=', 16)->get();
-        return view('back-office.mandatos.liquidacionInversionista', compact('estadosPagosMandatarios', 'filtro', 'anio', 'mes', 'filtroDos', 'dia', 'estados', 'tipo', 'user'));
+        return view('back-office.mandatos.liquidacionInversionista', compact('estadosPagosMandatarios', 'filtro', 'anio', 'mes', 'filtroDos', 'estados', 'tipo', 'user'));
     }
     public function comisionMandato($mes, $anio)
     {
