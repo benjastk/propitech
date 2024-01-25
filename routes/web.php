@@ -156,11 +156,14 @@ Route::prefix('mandatos')->group(function () {
     Route::post('/reimpresionMandatoAdministracion', 'MandatoAdministracionController@imprimirMandatoAdministracion');
     Route::get('/export', 'MandatoAdministracionController@exportExcel')->name('export-mandatos');
 
-
     Route::get('/liquidacion-inversionista', 'MandatoAdministracionController@liquidacionInversionista');
     Route::get('buscarPagosMandatosMes', 'MandatoAdministracionController@buscarPagosMandatosMes')->name('buscarPagosMandatosMes');
     Route::get('/comision/{mes}/{anio}', 'MandatoAdministracionController@comisionMandato');
-    Route::post('/editarEstadoPagoMandato', 'EstadoPagoController@editarEstadoPagoMandato')->name('editarEstadoPagoMandato');
+    Route::post('/editarEstadoPagoMandato', 'MandatoAdministracionController@editarEstadoPagoMandato')->name('editarEstadoPagoMandato');
+    Route::post('/eliminarPagoMandato/{id}','MandatoAdministracionController@eliminarPagoMandato')->name('eliminarPagoMandato');
+
+    Route::post('excelEstadosPagosMandatos', 'MandatoAdministracionController@exportLiquidacionInversionista')->name('excelEstadosPagosMandatos');
+    Route::post('excelEstadosPagosMandatosSinPago', 'MandatoAdministracionController@excelEstadosPagosMandatosSinPago')->name('excelEstadosPagosMandatosSinPago');
 });
 Route::prefix('estados-pagos')->group(function () {
     Route::get('/', 'EstadoPagoController@index');

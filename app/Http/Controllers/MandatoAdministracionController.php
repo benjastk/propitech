@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Crypt;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\LiquidacionInversionista;
 use App\Exports\MandatosExport;
 use App\EstadosPagosMandatarios;
 use App\UsuarioCuentaBancaria;
@@ -456,7 +457,8 @@ class MandatoAdministracionController extends Controller
             ->groupby('diaPago')
             ->get();
         $estadosPagosMandatarios = null;
-        return view('back-office.mandatos.liquidacionInversionista', compact('filtro', 'estadosPagosMandatarios', 'filtroDos', 'user', 'anio', 'mes'));
+        $tipo = '';
+        return view('back-office.mandatos.liquidacionInversionista', compact('filtro', 'estadosPagosMandatarios', 'filtroDos', 'user', 'anio', 'mes', 'tipo'));
     }
     public function buscarPagosMandatosMes(Request $request)
     {
@@ -1255,8 +1257,106 @@ class MandatoAdministracionController extends Controller
         toastr()->success('Actualizacion planilla mandatarios mes: '. $mes.' año: '.$anio);
         return back();
     }
-    public function editarEstadoPagoMandato(Reques $request)
+    public function editarEstadoPagoMandato(Request $request)
     {
-
+        try{
+            DB::beginTransaction();
+            $id = Crypt::decrypt($request->idEstadoPago);
+            $estadoPago = EstadosPagosMandatarios::where('idEstadoPagoMandato', '=', $id)->firstOrFail();
+            $estadoPago->montoAPagar = $request->montoAPagar;
+            $estadoPago->cargosAbonos = $request->cargosAbonos;
+            $estadoPago->montoPagado = $request->montoPagado;
+            $estadoPago->garantia = $request->garantia;
+            $estadoPago->montoComision = $request->montoComision;
+            $estadoPago->montoALiquidarPropietario = $request->montoALiquidarPropietario;
+            $estadoPago->editadoManual = 1;
+            $estadoPago->idEstado = $request->idEstado;
+            $estadoPago->fechaLiquidado = $request->fechaLiquidado;
+            $estadoPago->save();
+            DB::commit();
+            //inicio log transaccion
+            $nuevoLogTransaccion = new LogTransaccion();
+            $nuevoLogTransaccion->tipoTransaccion = 'EDITAR ESTADO PAGO MANDATO: '.$estadoPago->idMandatoPropiedad;
+            $nuevoLogTransaccion->idUsuario = Auth::user()->id;
+            $nuevoLogTransaccion->webclient = $_SERVER['HTTP_USER_AGENT'];
+            $nuevoLogTransaccion->descripcionTransaccion = 'EDITAR ESTADO PAGO MANDATO: '.$estadoPago->idMandatoPropiedad;
+            $nuevoLogTransaccion->save();
+            //fin log transaccion
+            toastr()->success('Estado pago editado con exito');
+            return back();
+        } catch (ModelNotFoundException $e) {
+            toastr()->warning('No autorizado');
+            DB::rollback();
+            return back();
+        } catch (QueryException $e) {
+            toastr()->warning('Ha ocurrido un error, favor intente nuevamente' . $e->getMessage());
+            DB::rollback();
+            return back();
+        } catch (DecryptException $e) {
+            toastr()->info('Ocurrio un error al intentar acceder al recurso solicitado');
+            DB::rollback();
+            return back();
+        } catch (\Exception $e) {
+            toastr()->warning($e->getMessage());
+            DB::rollback();
+            return back();
+        }
     }
+    public function eliminarPagoMandato($id)
+    {
+        try{
+            DB::beginTransaction();
+            $estadoPago = EstadosPagosMandatarios::where('idEstadoPagoMandato', '=', $id)->firstOrFail();
+            $nuevoLogTransaccion = new LogTransaccion();
+            $nuevoLogTransaccion->tipoTransaccion = 'ELIMINAR ESTADO PAGO MANDATO: '.$estadoPago->idMandatoPropiedad;
+            $nuevoLogTransaccion->idUsuario = Auth::user()->id;
+            $nuevoLogTransaccion->webclient = $_SERVER['HTTP_USER_AGENT'];
+            $nuevoLogTransaccion->descripcionTransaccion = 'ELIMINAR ESTADO DE PAGO DE MANTADO : '.$estadoPago->idMandatoPropiedad;
+            $nuevoLogTransaccion->save();
+            //fin log transaccion
+            $estadoPago->delete();
+            DB::commit();
+            toastr()->success('Liquidacion eliminada con exito');
+            return back();
+        } catch (ModelNotFoundException $e) {
+            toastr()->warning('No autorizado');
+            DB::rollback();
+            return back();
+        } catch (QueryException $e) {
+            toastr()->warning('Ha ocurrido un error, favor intente nuevamente' . $e->getMessage());
+            DB::rollback();
+            return back();
+        } catch (DecryptException $e) {
+            toastr()->info('Ocurrio un error al intentar acceder al recurso solicitado');
+            DB::rollback();
+            return back();
+        } catch (\Exception $e) {
+            toastr()->warning($e->getMessage());
+            DB::rollback();
+            return back();
+        }
+    }
+    public function exportLiquidacionInversionista(Request $request)
+    {
+		try {
+            if($request->tipo)
+            {
+                return Excel::download(new LiquidacionInversionista($request->mes, $request->anio, $request->tipo), 'estadosPagosMandatos.xlsx');
+            }
+            else
+            {
+                toastr()->warning('Elija mes, año y estado para generar la planilla Excel');
+			    return back();
+            }
+		} catch (QueryException $e) {
+			toastr()->error($e->getMessage());
+			return back();
+		} catch (ModelNotFoundException $e) {
+			toastr()->error('Imagen no encontrada');
+			return back();
+		} catch (Exception $e) {
+			toastr()->error('Se ha producido un error, favor intente nuevamente');
+			return back();
+		}
+	}
 }
