@@ -338,8 +338,8 @@
         @endforeach
         @endif
     </div>-->
-    <img class="d-none d-xl-block d-md-block" src="/front/frontNuevo.png">
-    <img class="d-sm-block d-xl-none d-md-none d-lg-none" src="/front/frontNuevoMobile.png">
+    <img class="d-none d-xl-block d-md-block" style="width: 100%" src="/front/new2.jpg">
+    <img class="d-sm-block d-xl-none d-md-none d-lg-none" src="/front/new1.jpg">
 </section>
 @endif
 <section class="pt-9 pb-9 pb-lg-11" style="padding-bottom: 0px !important;">
