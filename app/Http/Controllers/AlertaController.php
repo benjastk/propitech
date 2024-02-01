@@ -30,13 +30,14 @@ class AlertaController extends Controller
             { 
                 if($diasAlerta1->valorParametro != -1)
                 {
+                    var_dump(date("Y-m-d",strtotime($estadoPago->fechaVencimiento."- ".$diasAlerta1->valorParametro." days")));
                     if(date("Y-m-d",strtotime($estadoPago->fechaVencimiento."- ".$diasAlerta1->valorParametro." days")) == $fechaActual)
                     {
-                        YaSeEncuentraDisponibleTuPagoJob::dispatch($estadoPago);
+                        /*YaSeEncuentraDisponibleTuPagoJob::dispatch($estadoPago);
                         $nuevoLogCorreo = new LogCorreoEnviado();
                         $nuevoLogCorreo->nombre_tipo_correo = 'RECORDATORIO PAGO DE ARRIENDO '. $diasAlerta1->valorParametro .' DIAS ANTES';
                         $nuevoLogCorreo->usuario = 'CRON AUTOMATIZADO';
-                        $nuevoLogCorreo->save();
+                        $nuevoLogCorreo->save();*/
                     }
                 }
             }
@@ -62,11 +63,12 @@ class AlertaController extends Controller
         {
             foreach ($estadosPagos as $estadoPago) 
             { 
-                YaSeEncuentraDisponibleTuPagoJob::dispatch($estadoPago);
+                /*YaSeEncuentraDisponibleTuPagoJob::dispatch($estadoPago);
                 $nuevoLogCorreo = new LogCorreoEnviado();
                 $nuevoLogCorreo->nombre_tipo_correo = 'RECORDATORIO PAGO DE ARRIENDO MANUAL';
                 $nuevoLogCorreo->usuario = 'URL MANUAL';
-                $nuevoLogCorreo->save();
+                $nuevoLogCorreo->save();*/
+                dd();
             }
         }
         return "listo";

@@ -47,7 +47,7 @@ Route::get('/proyectos-venta/{id}', 'InicioController@singleProyectos');
 
 Route::get('/comision/{mes}/{anio}', 'MandatoAdministracionController@comisionMandato');
 //Route::get('/pruebaCorreo', 'PagoController@pruebaCorreo');
-//Route::get('/pruebaMail', 'AlertaController@pruebaMail');
+Route::get('/pruebaMail', 'AlertaController@pruebaMail');
 
 // back-office routes
 Route::get('/login', function () {
@@ -57,7 +57,7 @@ Route::get('/login', function () {
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/leads', 'HomeController@leads')->name('leads');
-//Route::get('/recordarPagoArrendatariosMensual', 'AlertaController@recordarPagoArrendatariosMensual');
+Route::get('/recordarPagoArrendatariosMensual', 'AlertaController@recordarPagoArrendatariosMensual');
 //Route::get('/morosos', 'EstadoPagoController@cambiarAMoroso');
 //Route::get('/vencidos', 'EstadoPagoController@cambiarAVencido');
 //Route::get('/agregarPorcentajeAMorosos', 'EstadoPagoController@agregarPorcentajeAMorosos');
