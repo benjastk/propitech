@@ -26,9 +26,9 @@ class Kernel extends ConsoleKernel
     {
         $mes = date("m");
         $anio = date("Y");
-        $schedule->call('App\Http\Controllers\EstadoPagoController@cambiarAMoroso')->dailyAt('1:00');
-        $schedule->call('App\Http\Controllers\EstadoPagoController@cambiarAVencido')->dailyAt('2:00');
-        $schedule->call('App\Http\Controllers\EstadoPagoController@agregarPorcentajeAMorosos')->dailyAt('00:10');
+        $schedule->call('App\Http\Controllers\EstadoPagoController@cambiarAMoroso')->dailyAt('00:30');
+        $schedule->call('App\Http\Controllers\EstadoPagoController@cambiarAVencido')->dailyAt('1:00');
+        $schedule->call('App\Http\Controllers\EstadoPagoController@agregarPorcentajeAMorosos')->dailyAt('1:30');
         $schedule->call('App\Http\Controllers\AlertaController@recordarPagoArrendatariosMensual')->dailyAt('10:00');
         //$schedule->call('App\Http\Controllers\AlertaController@pruebaMail')->dailyAt('13:45');
     }
