@@ -104,4 +104,28 @@ class AlertaController extends Controller
         }
         return "listo";
     }
+    public function mailPorCorreo(Request $request)
+    {
+        $fechaActual = date('Y-m-d');
+        $anioActual = date('Y');
+        $mesActual = date('m');
+        return $estadosPagos = EstadoPago::select('estados_pagos.*', 'users.email', 'users.id as idUsuario', 'users.name', 'users.apellido')
+        ->join('contratos_arriendos', 'contratos_arriendos.idContratoArriendo', '=', 'estados_pagos.idContrato')
+        ->join('users', 'users.id', '=', 'contratos_arriendos.idUsuarioArrendatario')
+        ->whereIn('estados_pagos.idEstado', [47])
+        ->where('contratos_arriendos.idEstado', 61)
+        ->where('users.email', '=', $request->mail)
+        ->whereMonth('estados_pagos.fechaVencimiento', '=', $mesActual)
+        ->whereYear('estados_pagos.fechaVencimiento', '=', $anioActual)
+        ->first();
+        if($estadosPagos)
+        {
+            UltimoDiaParaPagar::dispatch($estadosPagos);
+            $nuevoLogCorreo = new LogCorreoEnviado();
+            $nuevoLogCorreo->nombre_tipo_correo = 'RECORDATORIO PAGO DE ARRIENDO ULTIMO DIA';
+            $nuevoLogCorreo->usuario = 'CRON AUTOMATIZADO';
+            $nuevoLogCorreo->save();
+        }
+        return "listo";
+    }
 }
