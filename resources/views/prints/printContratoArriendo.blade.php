@@ -466,7 +466,7 @@
                     <td width="225">
                         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
                         <p>${{ number_format($contratoArriendo->arriendoMensual, 0, '', '.')}}</p>
-                        <p>Anual según IPC</p>
+                        <p>Semestral según IPC</p>
                     </td>
                 </tr>
             </tbody>
@@ -622,7 +622,7 @@
             <p style="page-break-after: always;">
             <p><strong><u>TERCERO</u></strong><strong>: RENTA </strong></p>
             <p>La renta de arriendo se pagar&aacute; mensualmente, de manera anticipada, a m&aacute;s tardar el d&iacute;a {{ $contratoArriendo->diaPago }} 
-            de cada mes y tendr&aacute; un valor de <strong>${{ number_format($contratoArriendo->arriendoMensual, 0, '', '.')}}.- ({{ $arriendoEnLetra }}).</strong></p>
+            de cada mes y tendr&aacute; un valor de <strong>${{ number_format($contratoArriendo->arriendoMensual, 0, '', '.')}}.- ({{ $arriendoEnLetra }}) pesos chilenos.</strong></p>
             <p>&nbsp;</p>
             <p>En caso de mora o simple retardo en el pago de la renta de arrendamiento, se deber&aacute; pagar el equivalente al 1% de la renta pactada por 
             cada d&iacute;a de atraso. Si como consecuencia del retardo, se le encarga a un abogado la cobranza judicial, el &ldquo;Arrendatario&rdquo; 
@@ -634,7 +634,7 @@
             estuviere vigente y exigir la restituci&oacute;n inmediata de la propiedad arrendada, de conformidad a las reglas establecidas en el presente 
             contrato.(Ley n&deg;21.461.-)</p>
             <p>&nbsp;</p>
-            <p>La Renta se pagar&aacute; por la plataforma digital Otrospagos.com.</p>
+            <p>La Renta se pagar&aacute; por la plataforma digital www.propitech.cl/pago-online o en www.propitech.cl en el boton superior derecho.</p>
             <p><strong>&nbsp;</strong></p>
             <p><strong><u>CUARTO:</u></strong><strong> REAJUSTE.</strong></p>
             <p>&nbsp;</p>
@@ -707,7 +707,7 @@
             <p>&nbsp;</p>
             
             <p><strong><u>DECIMO</u></strong><strong>: GARANT&Iacute;A DE ARRIENDO. </strong>El <strong>&ldquo;Arrendatario&rdquo; </strong>entrega en este 
-            acto la suma de &nbsp;<strong>${{ number_format($contratoArriendo->garantia, 0, '', '.')}}.- ({{ $garantiaEnLetra }}),</strong> 
+            acto la suma de &nbsp;<strong>${{ number_format($contratoArriendo->garantia, 0, '', '.')}}.- ({{ $garantiaEnLetra }}) pesos chilenos,</strong> 
             que corresponde a&nbsp; {{ $contratoArriendo->cantidadGarantias }} de garant&iacute;a, a fin de garantizar la conservaci&oacute;n de la propiedad y su restituci&oacute;n en el 
             mismo estado en que la recibe; la devoluci&oacute;n y conservaci&oacute;n de las especies y artefactos que se indicar&aacute;n en el inventario; 
             el pago de los perjuicios y deterioros que se causen en la propiedad arrendada, sus servicios e instalaciones y en general, para responder 

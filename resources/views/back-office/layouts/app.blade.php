@@ -26,11 +26,37 @@
         <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> 
         <link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="{{ url('font-awesome/css/font-awesome.min.css') }}">
+        <style>
+            .bodyContenedor::-webkit-scrollbar {
+                -webkit-appearance: none;
+            }
+
+            .bodyContenedor::-webkit-scrollbar:vertical {
+                width:10px;
+            }
+
+            .bodyContenedor::-webkit-scrollbar-button:increment,.contenedor::-webkit-scrollbar-button {
+                display: none;
+            } 
+
+            .bodyContenedor::-webkit-scrollbar:horizontal {
+                height: 10px;
+            }
+
+            .bodyContenedor::-webkit-scrollbar-thumb {
+                background-color: #545458f2;
+                border-radius: 20px;
+            }
+
+            .bodyContenedor::-webkit-scrollbar-track {
+                border-radius: 10px;  
+            }
+        </style>
         @toastr_css
         @yield('css')
     </head>
 
-    <body data-sidebar="dark" >
+    <body data-sidebar="dark" class="bodyContenedor" >
         <!-- Begin page -->
         <div id="layout-wrapper">
             <header id="page-topbar">

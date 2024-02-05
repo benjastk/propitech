@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Crypt;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\LiquidacionInversionista;
 use App\Exports\MandatosExport;
+use App\EstadosPagosMandatarios;
 use App\UsuarioCuentaBancaria;
 use App\MandatoAdministracion;
 use App\PlanAdministracion;
@@ -15,10 +17,14 @@ use App\ParametroGeneral;
 use App\ContratoArriendo;
 use App\NumerosEnLetras;
 use App\LogTransaccion;
+use App\EstadoPago;
 use App\Propiedad;
+use App\Descuento;
 use App\Moneda;
 use App\Estado;
+use App\Cargo;
 use App\User;
+use Carbon\Carbon;
 use Session;
 use Auth;
 use DB;
@@ -428,6 +434,920 @@ class MandatoAdministracionController extends Controller
     {
 		try {
             return Excel::download(new MandatosExport, 'mandatos.xlsx');
+		} catch (QueryException $e) {
+			toastr()->error($e->getMessage());
+			return back();
+		} catch (ModelNotFoundException $e) {
+			toastr()->error('Imagen no encontrada');
+			return back();
+		} catch (Exception $e) {
+			toastr()->error('Se ha producido un error, favor intente nuevamente');
+			return back();
+		}
+	}
+    public function liquidacionInversionista()
+    {
+        $user = Auth::user();
+        $anio = date('Y');
+        $mes = date('mm');
+        $filtro = EstadosPagosMandatarios::selectRaw('year(fechaDePago) year, month(fechaDePago) month, count(*) data')
+            ->groupby('year','month')
+            ->get();
+        $filtroDos = MandatoAdministracion::selectRaw('diaPago, count(*) data')
+            ->groupby('diaPago')
+            ->get();
+        $estadosPagosMandatarios = null;
+        $tipo = '';
+        return view('back-office.mandatos.liquidacionInversionista', compact('filtro', 'estadosPagosMandatarios', 'filtroDos', 'user', 'anio', 'mes', 'tipo'));
+    }
+    public function buscarPagosMandatosMes(Request $request)
+    {
+        $user = Auth::user();
+        $anio = substr($request->filtro, -4);
+        $mes = substr($request->filtro, 0, -5);
+        $tipo = $request->tipo;
+        if($request->tipo == 1)
+        {
+            $estadosPagosMandatarios = EstadosPagosMandatarios::select('estados_pagos_mandatarios.*', 'estados.nombreEstado', 'propiedades.nombrePropiedad', 
+            'mandatos_propiedad.rutPropietario', 'users.rut', 'propiedades.block', 'mandatos_propiedad.nombrePropietario', 'mandatos_propiedad.apellidoPropietario', 
+            'mandatos_propiedad.nombreArrendatario', 'mandatos_propiedad.apellidoArrendatario', 'mandatos_propiedad.rutArrendatario')
+            ->join('estados', 'estados_pagos_mandatarios.idEstado', '=', 'estados.idEstado')
+            ->join('mandatos_propiedad', 'estados_pagos_mandatarios.idMandatoPropiedad', '=', 'mandatos_propiedad.idMandatoPropiedad')
+            ->join('propiedades', 'mandatos_propiedad.idPropiedad', '=', 'propiedades.id')
+            ->join('users', 'mandatos_propiedad.idPropietario', '=', 'users.id')
+            ->leftjoin('contratos_arriendos', 'estados_pagos_mandatarios.idContrato', '=', 'contratos_arriendos.idContratoArriendo')
+            ->whereIn('estados_pagos_mandatarios.idEstado', [69, 67])
+            ->whereMonth('estados_pagos_mandatarios.fechaDePago', '=', $mes)
+            ->whereYear('estados_pagos_mandatarios.fechaDePago', '=', $anio)
+            ->orderBy('users.name', 'ASC')
+            ->get();
+        }
+        else
+        {
+            $estadosPagosMandatarios = EstadosPagosMandatarios::select('estados_pagos_mandatarios.*', 'estados.nombreEstado', 'propiedades.nombrePropiedad', 
+            'mandatos_propiedad.rutPropietario', 'users.rut', 'propiedades.block', 'mandatos_propiedad.nombrePropietario', 'mandatos_propiedad.apellidoPropietario', 
+            'mandatos_propiedad.nombreArrendatario', 'mandatos_propiedad.apellidoArrendatario', 'mandatos_propiedad.rutArrendatario')
+            ->join('estados', 'estados_pagos_mandatarios.idEstado', '=', 'estados.idEstado')
+            ->join('mandatos_propiedad', 'estados_pagos_mandatarios.idMandatoPropiedad', '=', 'mandatos_propiedad.idMandatoPropiedad')
+            ->join('propiedades', 'mandatos_propiedad.idPropiedad', '=', 'propiedades.id')
+            ->join('users', 'mandatos_propiedad.idPropietario', '=', 'users.id')
+            ->leftjoin('contratos_arriendos', 'estados_pagos_mandatarios.idContrato', '=', 'contratos_arriendos.idContratoArriendo')
+            ->where('estados_pagos_mandatarios.idEstado', '=', 68)
+            ->whereMonth('estados_pagos_mandatarios.fechaDePago', '=', $mes)
+            ->whereYear('estados_pagos_mandatarios.fechaDePago', '=', $anio)
+            ->orderBy('users.name', 'ASC')
+            ->get();
+        }
+        $filtro = EstadosPagosMandatarios::selectRaw('year(fechaDePago) year, month(fechaDePago) month, count(*) data')
+            ->groupby('year','month')
+            ->get();
+        $filtroDos = MandatoAdministracion::selectRaw('diaPago, count(*) data')
+            ->groupby('diaPago')
+            ->get();
+        $estados = Estado::where('idTipoEstado', '=', 16)->get();
+        return view('back-office.mandatos.liquidacionInversionista', compact('estadosPagosMandatarios', 'filtro', 'anio', 'mes', 'filtroDos', 'estados', 'tipo', 'user'));
+    }
+    public function comisionMandato($mes, $anio)
+    {
+        //$mes = date("06");
+        //$anio = date("2020");
+        $mandatos = MandatoAdministracion::select('mandatos_propiedad.*', 'planes.comisionAdministracion')
+        ->join('planes', 'planes.id', '=', 'mandatos_propiedad.idPlan')
+        ->where('mandatos_propiedad.idEstadoMandato', '=', 61)
+        ->get();
+        $mandatosConTraspaso = MandatoAdministracion::select('mandatos_propiedad.*', 'planes.comisionAdministracion')
+            ->join('planes', 'planes.id', '=', 'mandatos_propiedad.idPlan')
+            ->where('mandatos_propiedad.conTraspaso', '=', 1)
+            ->whereMonth('mandatos_propiedad.hasta', '=', $mes)
+            ->whereYear('mandatos_propiedad.hasta', '=', $anio)
+            ->where('mandatos_propiedad.idEstadoMandato', '=', 61)
+            ->get();
+        foreach ($mandatosConTraspaso as $mandatoTraspaso) 
+        {
+            $mandatos->push($mandatoTraspaso);
+        }
+
+        //NOTA: falta verificar que el estado de pago no este liquidado, ya que si no, se actualiza el estado de pago. si esta liquidado, se realiza ningun proceso.
+        foreach ($mandatos as $mandato) 
+        {
+            $first = Carbon::create($mandato->desde);
+            $second = Carbon::create($mandato->hasta);
+            $fechaInicioMandato = Carbon::parse($mandato->desde);
+
+            //revisando si existen mandatos que empezaron con traspaso y verificando que los mandatos con estado activo no sobrepasen la fecha del mes y el año
+            if(Carbon::create($anio, $mes, 01, 3)->between($first, $second) || $fechaInicioMandato->format("d") != '01' && $fechaInicioMandato->format("m") == $mes && $fechaInicioMandato->format("Y") == $anio)
+            {
+                //estado de pago de contrato
+                $estadosPagos = EstadoPago::select('estados_pagos.*')->join('contratos_arriendos', 'estados_pagos.idContrato', '=', 'contratos_arriendos.idContratoArriendo')
+                    ->where('contratos_arriendos.idPropiedad', '=', $mandato->idPropiedad)
+                    ->where('contratos_arriendos.idEstado', '=', 61)
+                    ->whereMonth('estados_pagos.fechaVencimiento', '=', $mes)
+                    ->whereYear('estados_pagos.fechaVencimiento', '=', $anio)
+                    ->first();
+                //ultimo estado de pago en caso de que sea por dias proporcionales
+                if(empty($estadosPagos))
+                {
+                    $estadosPagos = EstadoPago::select('estados_pagos.*')
+                    ->join('contratos_arriendos', 'estados_pagos.idContrato', '=', 'contratos_arriendos.idContratoArriendo')
+                    ->where('contratos_arriendos.idPropiedad', '=', $mandato->idPropiedad)
+                    ->whereMonth('estados_pagos.fechaVencimiento', '=', $mes)
+                    ->whereYear('estados_pagos.fechaVencimiento', '=', $anio)
+                    ->whereMonth('contratos_arriendos.fechaTerminoContrato', '=', $mes)
+                    ->whereYear('contratos_arriendos.fechaTerminoContrato', '=', $anio)
+                    ->first();
+                }
+                //fin de ultimo estado de pago
+                //ver si ya existe el estado de pago a crear
+                $existe = EstadosPagosMandatarios::where('idMandatoPropiedad', '=', $mandato->idMandatoPropiedad)
+                    ->whereMonth('estados_pagos_mandatarios.fechaDePago', '=', $mes)
+                    ->whereYear('estados_pagos_mandatarios.fechaDePago', '=', $anio)
+                    ->first();
+                //obteniendo cargos y descuentos
+                $cargos = null;
+                $descuentos = null;
+                if($estadosPagos)
+                {
+                    $cargos = Cargo::select(DB::raw("SUM(montoCargo) as cargo"))
+                    ->where('idEstadoPago', '=', $estadosPagos->idEstadoPago)
+                    ->first();
+                    $descuentos = Descuento::select(DB::raw("SUM(montoDescuento) as descuento"))
+                    ->where('idEstadoPago', '=', $estadosPagos->idEstadoPago)
+                    ->first();
+
+                    $multasNoValidadas = Cargo::select(DB::raw("SUM(montoCargo) as multaNoValidada"))
+                    ->where('idEstadoPago', '=', $estadosPagos->idEstadoPago)
+                    ->where('idEstado', '=', 88)
+                    ->where('cargoValidado', '=', 0)
+                    ->first();
+
+                    $cargosDescuentos = (($cargos) ? $cargos->cargo : 0) - (($descuentos) ? $descuentos->descuento : 0) - (($multasNoValidadas) ? $multasNoValidadas->multaNoValidada : 0);
+                }
+                //en caso de que hayan dos mandatos el mismo mes
+                $opcion = 0;
+                if($fechaInicioMandato->format("d") != '01' && $fechaInicioMandato->format("m") == $mes && $fechaInicioMandato->format("Y") == $anio)
+                {
+                    $fechaDesde = Carbon::parse($mandato->desde);
+                    $mesDesde = Carbon::parse($mandato->desde);
+                    $diaInicio = "30";
+                    $mesInicio = $mesDesde->month;
+                    $anioInicio = $mesDesde->year;
+                    $diasProporcionalesMandato = $fechaDesde->diffInDays($diaInicio.'-'.$mesInicio.'-'.$anioInicio) + 1;
+                    $opcion = 1;
+
+                }
+                if($mandato->conTraspaso == 1)
+                {
+                    $fechaDesde = Carbon::parse($mandato->hasta);
+                    $mesDesde = Carbon::parse($mandato->hasta);
+                    $diaFin = "01";
+                    $mesFin = $mesDesde->month;
+                    $anioFin = $mesDesde->year;
+                    $diasProporcionalesTraspaso = $fechaDesde->diffInDays($diaFin.'-'.$mesFin.'-'.$anioFin) + 1;
+                    $opcion = 2;
+                }
+                //fin de dos mandatos el mismo mes
+                //primero los pagos garantizados que son los mas importantes
+                if($mandato->seguroDeArriendo == 1)
+                {
+                    DB::beginTransaction();
+                    //preguntamos si existe para crear o actualizar, el primer caso actualiza el estado de pago
+                    if($existe)
+                    {
+                        //vemos si ya esta liquidado el estado de pago de mandatario
+                        if($existe->idEstado == 68)
+                        {
+                            //vemos si ya se actualizo manualmente
+                            if($existe->editadoManual == 1)
+                            {
+                                DB::rollback();
+                            }
+                            else
+                            {
+                                //si no se actualizó, modificar diariamente
+                                //Si no hay estado de pago de arriendo no se genera el estado de pago
+                                if($estadosPagos)
+                                {
+                                    $existe->idMandatoPropiedad = $mandato->idMandatoPropiedad;
+                                    $existe->idEstado = 68;
+                                    $existe->idEstadoPago = $estadosPagos->idEstadoPago;
+                                    $existe->idContrato = $estadosPagos->idContrato;
+                                    $existe->garantia = (($estadosPagos->garantia) ? $estadosPagos->garantia : 0) + (($estadosPagos->garantiaDos) ? $estadosPagos->garantiaDos : 0);
+                                    if($opcion == 1)
+                                    {
+                                        $existe->montoAPagar = (($estadosPagos->arriendoMensual / 30) * $diasProporcionalesMandato);
+                                        $existe->montoPagado = (($estadosPagos->totalPagado / 30) * $diasProporcionalesMandato);
+                                        $existe->garantia = (($existe->garantia / 30) * $diasProporcionalesMandato);
+
+                                    }
+                                    elseif($opcion == 2)
+                                    {
+                                        $existe->montoAPagar = (($estadosPagos->arriendoMensual / 30) * $diasProporcionalesTraspaso);
+                                        $existe->montoPagado = (($estadosPagos->totalPagado / 30) * $diasProporcionalesTraspaso);
+                                        $existe->garantia = (($existe->garantia / 30) * $diasProporcionalesTraspaso);
+                                    }
+                                    else
+                                    {
+                                        $existe->montoAPagar = $estadosPagos->arriendoMensual;
+                                        $existe->montoPagado = $estadosPagos->totalPagado;
+                                        $existe->garantia = $existe->garantia;
+                                    }
+                                    
+                                    $existe->cargosAbonos = $cargosDescuentos;
+                                    //$existe->tieneTraspasoSaldo = $estadosPagos->traspasoSaldo;
+                                    //revisamos si existen cargos o descuentos asociados al propietario
+                                    //opcion 0 en where corresponde a propietario
+                                    if($estadosPagos)
+                                    {
+                                        $cargosPropietario = Cargo::select(DB::raw("SUM(montoCargo) as cargo"))
+                                            ->where('idEstadoPago', '=', $estadosPagos->idEstadoPago)
+                                            ->where('correspondeA', '=', 1)
+                                            ->first();
+                                        $descuentosPropietario = Descuento::select(DB::raw("SUM(montoDescuento) as descuento"))
+                                            ->where('idEstadoPago', '=', $estadosPagos->idEstadoPago)
+                                            ->where('correspondeADescuentos', '=', 1)
+                                            ->first();
+                                        $valor = (($cargosPropietario) ? $cargosPropietario->cargo : 0) - (($descuentosPropietario) ? $descuentosPropietario->descuento : 0);
+                                        if($opcion == 1)
+                                        {
+                                            $valor = (($valor / 30) * $diasProporcionalesMandato);
+                                        }
+                                        if($opcion == 2)
+                                        {
+                                            $valor = (($valor / 30) * $diasProporcionalesTraspaso);
+                                        }
+                                    }
+                                    $comisionIntegra = 0;
+                                    //si es porcentaje,  se calcula el porcentaje de comision primero y despues se le resta al arriendo, se trabaja con el MONTO ARRIENDO, ya que si no ha realizado pagos el arrendatario, de igual forma se le paga al propietario
+                                    if($mandato->comisionAdministracion != null || $mandato->comisionAdministracion == "0")
+                                    {
+                                        //porcentaje comision
+                                        $porcentajeRestado = (100 - (float) str_replace(['.', ','], ['', '.'], $mandato->comisionAdministracion));
+                                        //seguro de arriendo si es que existe
+                                        $existe->montoALiquidarPropietario = (($existe->montoAPagar * $porcentajeRestado)/100) + (($valor) ? $valor : 0);
+
+                                        $ivaComision = ((($existe->montoAPagar * (float) str_replace(['.', ','], ['', '.'], $mandato->comisionAdministracion)) / 100) * 1.19) - (($existe->montoAPagar * (float) str_replace(['.', ','], ['', '.'], $mandato->comisionAdministracion)) / 100);
+
+                                        $existe->montoALiquidarPropietario = $existe->montoALiquidarPropietario - $ivaComision;
+ 
+                                        //nuevo proporcional
+                                        if($opcion == 1)
+                                        {
+                                            if($existe->montoPagado > 0)
+                                            {
+                                                $existe->montoComision = ((((($existe->montoAPagar / 30) * $diasProporcionalesMandato) * (float) str_replace(['.', ','], ['', '.'], $mandato->comisionAdministracion)) / 100) * 1.19);
+                                                $existe->comisionCorretaje = (($estadosPagos->comision / 30) * $diasProporcionalesMandato);
+                                            }
+                                            else
+                                            {
+                                                $existe->montoComision = 0;
+                                                $existe->comisionCorretaje = 0;
+                                            }
+                                        }
+                                        elseif($opcion == 2)
+                                        {
+                                            if($existe->montoPagado > 0)
+                                            {
+                                                $existe->montoComision = ((((($existe->montoAPagar / 30) * $diasProporcionalesTraspaso) * (float) str_replace(['.', ','], ['', '.'], $mandato->comisionAdministracion)) / 100) * 1.19);
+                                                $existe->comisionCorretaje = (($estadosPagos->comision / 30) * $diasProporcionalesTraspaso);
+                                            }
+                                            else
+                                            {
+                                                $existe->montoComision = 0;
+                                                $existe->comisionCorretaje = 0;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if($existe->montoPagado > 0)
+                                            {
+                                                $existe->montoComision = ((($existe->montoAPagar * (float) str_replace(['.', ','], ['', '.'], $mandato->comisionAdministracion)) / 100) * 1.19);
+                                                $existe->comisionCorretaje = (($estadosPagos->comision) ? $estadosPagos->comision : 0);
+                                            }
+                                            else
+                                            {
+                                                $existe->montoComision = 0;
+                                                $existe->comisionCorretaje = 0;
+                                            }
+                                           
+                                        }
+                                        $comisionIntegra = ((($existe->montoAPagar * (float) str_replace(['.', ','], ['', '.'], $mandato->comisionAdministracion)) / 100) * 1.19);
+                                        if($existe->montoComision < 1)
+                                        {
+                                            $existe->saldoArrastre = 0;
+                                            $existe->montoComision = 0;
+                                            $existe->valorSeguroArriendo = 0;
+                                        }
+                                        else
+                                        {
+                                            $existe->montoComision = $existe->montoComision;
+                                            $existe->saldoArrastre = (($existe->montoPagado - $existe->montoALiquidarPropietario) - $existe->garantia - $existe->comisionCorretaje) - $comisionIntegra;
+                                        }
+                                        $existe->aLiquidarSinDeuda = $existe->montoALiquidarPropietario;
+                                    }
+                                    if($existe->montoPagado < $existe->montoAPagar)
+                                    {
+                                        $existe->montoALiquidarPropietario = $existe->montoALiquidarPropietario;
+                                    }
+                                    else
+                                    {
+                                        $existe->montoALiquidarPropietario = $existe->montoALiquidarPropietario;
+                                    }
+                                    $existe->editadoManual = 0;
+                                    $existe->save();
+                                    DB::commit();
+                                }
+                                else
+                                {
+                                    DB::rollback();
+                                    continue;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            DB::rollback();
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        // si no existe, se crea le nuevo estado de pago
+                        if($estadosPagos)
+                        {
+                            $estadoPagoMandato = new EstadosPagosMandatarios();
+                            $estadoPagoMandato->idMandatoPropiedad = $mandato->idMandatoPropiedad;
+                            $estadoPagoMandato->idEstado = 68;
+                            $estadoPagoMandato->idEstadoPago = $estadosPagos->idEstadoPago;
+                            $estadoPagoMandato->idContrato = $estadosPagos->idContrato;
+                            $estadoPagoMandato->garantia = (($estadosPagos->garantia) ? $estadosPagos->garantia : 0) + (($estadosPagos->garantiaDos) ? $estadosPagos->garantiaDos : 0);
+                            if($estadosPagos->totalPagado > 0)
+                            {
+                                if($opcion == 1)
+                                {
+                                    $estadoPagoMandato->montoAPagar = (($estadosPagos->arriendoMensual / 30) * $diasProporcionalesMandato);
+                                    $estadoPagoMandato->montoPagado = (($estadosPagos->totalPagado / 30) * $diasProporcionalesMandato);
+                                    $estadoPagoMandato->garantia = (($estadoPagoMandato->garantia / 30) * $diasProporcionalesMandato);
+
+                                }
+                                elseif($opcion == 2)
+                                {
+                                    $estadoPagoMandato->montoAPagar = (($estadosPagos->arriendoMensual / 30) * $diasProporcionalesTraspaso);
+                                    $estadoPagoMandato->montoPagado = (($estadosPagos->totalPagado / 30) * $diasProporcionalesTraspaso);
+                                    $estadoPagoMandato->garantia = (($estadoPagoMandato->garantia / 30) * $diasProporcionalesTraspaso);
+                                }
+                                else
+                                {
+                                    $estadoPagoMandato->montoAPagar = $estadosPagos->arriendoMensual;
+                                    $estadoPagoMandato->montoPagado = $estadosPagos->totalPagado;
+                                    $estadoPagoMandato->garantia = $estadoPagoMandato->garantia;
+                                }
+                            }
+                            else
+                            {                                    
+                                $estadoPagoMandato->montoAPagar = $estadosPagos->arriendoMensual;
+                                $estadoPagoMandato->montoPagado = 0;
+                                $estadoPagoMandato->garantia = $estadoPagoMandato->garantia;
+                            }
+                            
+                            
+                            $estadoPagoMandato->cargosAbonos = $cargosDescuentos;
+                            //$existe->tieneTraspasoSaldo = $estadosPagos->traspasoSaldo;
+                            //revisamos si existen cargos o descuentos asociados al propietario
+                            //opcion 0 en where corresponde a propietario
+                            if($estadosPagos)
+                            {
+                                $cargosPropietario = Cargo::select(DB::raw("SUM(montoCargo) as cargo"))
+                                    ->where('idEstadoPago', '=', $estadosPagos->idEstadoPago)
+                                    ->where('correspondeA', '=', 1)
+                                    ->first();
+                                $descuentosPropietario = Descuento::select(DB::raw("SUM(montoDescuento) as descuento"))
+                                    ->where('idEstadoPago', '=', $estadosPagos->idEstadoPago)
+                                    ->where('correspondeADescuentos', '=', 1)
+                                    ->first();
+                                $valor = (($cargosPropietario) ? $cargosPropietario->cargo : 0) - (($descuentosPropietario) ? $descuentosPropietario->descuento : 0);
+                                if($opcion == 1)
+                                {
+                                    $valor = (($valor / 30) * $diasProporcionalesMandato);
+                                }
+                                if($opcion == 2)
+                                {
+                                    $valor = (($valor / 30) * $diasProporcionalesTraspaso);
+                                }
+                            }
+                            $comisionIntegra = 0;
+                            //si es porcentaje,  se calcula el porcentaje de comision primero y despues se le resta al arriendo, se trabaja con el MONTO ARRIENDO, ya que si no ha realizado pagos el arrendatario, de igual forma se le paga al propietario
+                            if($mandato->comisionAdministracion != null || $mandato->comisionAdministracion == "0")
+                            {
+                                $porcentajeRestado = (100 - (float) str_replace(['.', ','], ['', '.'], $mandato->comisionAdministracion));
+                                $ivaComision = ((($estadoPagoMandato->montoAPagar * (float) str_replace(['.', ','], ['', '.'], $mandato->comisionAdministracion)) / 100) * 1.19) - (($estadoPagoMandato->montoAPagar * (float) str_replace(['.', ','], ['', '.'], $mandato->comisionAdministracion)) / 100);
+                                if($opcion == 1)
+                                {
+                                    if($estadoPagoMandato->montoPagado > 0)
+                                    {
+                                        $estadoPagoMandato->montoComision = ((((($estadoPagoMandato->montoAPagar / 30) * $diasProporcionalesMandato) * (float) str_replace(['.', ','], ['', '.'], $mandato->comisionAdministracion)) / 100) * 1.19);
+                                        $estadoPagoMandato->comisionCorretaje = (($estadosPagos->comision / 30) * $diasProporcionalesMandato);
+                                        $estadoPagoMandato->montoALiquidarPropietario = (($estadoPagoMandato->montoAPagar * $porcentajeRestado)/100) + (($valor) ? $valor : 0);
+                                        $estadoPagoMandato->montoALiquidarPropietario = $estadoPagoMandato->montoALiquidarPropietario - $ivaComision;
+                                    }
+                                    else
+                                    {
+                                        $estadoPagoMandato->montoComision = 0;
+                                        $estadoPagoMandato->comisionCorretaje = 0;
+                                        $estadoPagoMandato->montoALiquidarPropietario = 0;
+                                    }
+                                }
+                                elseif($opcion == 2)
+                                {
+                                    if($estadoPagoMandato->montoPagado > 0)
+                                    {
+                                        $estadoPagoMandato->montoComision = ((((($estadoPagoMandato->montoAPagar / 30) * $diasProporcionalesTraspaso) * (float) str_replace(['.', ','], ['', '.'], $mandato->comisionAdministracion)) / 100) * 1.19);
+                                        $estadoPagoMandato->comisionCorretaje = (($estadosPagos->comision / 30) * $diasProporcionalesTraspaso);
+                                        $estadoPagoMandato->montoALiquidarPropietario = (($estadoPagoMandato->montoAPagar * $porcentajeRestado)/100) + (($valor) ? $valor : 0);
+                                        $estadoPagoMandato->montoALiquidarPropietario = $estadoPagoMandato->montoALiquidarPropietario - $ivaComision;
+                                    }
+                                    else
+                                    {
+                                        $estadoPagoMandato->montoComision = 0;
+                                        $estadoPagoMandato->comisionCorretaje = 0;
+                                        $estadoPagoMandato->montoALiquidarPropietario = 0;
+                                    }
+                                }
+                                else
+                                {
+                                    if($estadoPagoMandato->montoPagado > 0)
+                                    {
+                                        $estadoPagoMandato->montoComision = ((($estadoPagoMandato->montoAPagar * (float) str_replace(['.', ','], ['', '.'], $mandato->comisionAdministracion)) / 100) * 1.19);
+                                        $estadoPagoMandato->comisionCorretaje = (($estadosPagos->comision) ? $estadosPagos->comision : 0);
+                                        $estadoPagoMandato->montoALiquidarPropietario = (($estadoPagoMandato->montoAPagar * $porcentajeRestado)/100) + (($valor) ? $valor : 0);
+                                        $estadoPagoMandato->montoALiquidarPropietario = $estadoPagoMandato->montoALiquidarPropietario - $ivaComision;
+                                    }
+                                    else
+                                    {
+                                        $estadoPagoMandato->montoComision = 0;
+                                        $estadoPagoMandato->comisionCorretaje = 0;
+                                        $estadoPagoMandato->montoALiquidarPropietario = 0;
+                                    }
+                                   
+                                }
+                                $comisionIntegra = ((($estadoPagoMandato->montoAPagar * (float) str_replace(['.', ','], ['', '.'], $mandato->comisionAdministracion)) / 100) * 1.19);
+                                if($estadoPagoMandato->montoComision < 1)
+                                {
+                                    $estadoPagoMandato->saldoArrastre = 0;
+                                    $estadoPagoMandato->montoComision = 0;
+                                    $estadoPagoMandato->valorSeguroArriendo = 0;
+                                }
+                                else
+                                {
+                                    $estadoPagoMandato->montoComision = $estadoPagoMandato->montoComision;
+                                    $estadoPagoMandato->saldoArrastre = (($estadoPagoMandato->montoPagado - $estadoPagoMandato->montoALiquidarPropietario) - $estadoPagoMandato->garantia - $estadoPagoMandato->comisionCorretaje) - $comisionIntegra;
+                                }
+                                $estadoPagoMandato->aLiquidarSinDeuda = $estadoPagoMandato->montoALiquidarPropietario;
+                            }
+                            if($estadoPagoMandato->montoPagado < $estadoPagoMandato->montoAPagar)
+                            {
+                                $estadoPagoMandato->montoALiquidarPropietario = $estadoPagoMandato->montoALiquidarPropietario;
+                            }
+                            else
+                            {
+                                $estadoPagoMandato->montoALiquidarPropietario = $estadoPagoMandato->montoALiquidarPropietario;
+                            }
+                            $estadoPagoMandato->editadoManual = 0;
+                            //solo al crear se debe colocar la fecha
+                            $estadoPagoMandato->fechaDePago = "".$anio."-".$mes."-".$mandato->diaPago."";
+                            $estadoPagoMandato->save();
+                            DB::commit();
+                        }
+                        else
+                        {
+                            //no esta arrendado
+                            DB::rollback();
+                            continue;
+                        }
+                    }
+                }
+                else
+                {
+                    //preguntamos si existe para crear o actualizar, el primer caso actualiza el estado de pago
+                    if($existe)
+                    {
+                        //vemos si ya esta liquidado el estado de pago de mandatario
+                        if($existe->idEstado == 68)
+                        {
+                            //vemos si ya se actualizo manualmente
+                            if($existe->editadoManual == 1)
+                            {
+                                DB::rollback();
+                            }
+                            else
+                            {
+                                //si no se actualizó, modificar diariamente
+                                //Si no hay estado de pago de arriendo no se genera el estado de pago
+                                if($estadosPagos)
+                                {
+                                    $existe->idMandatoPropiedad = $mandato->idMandatoPropiedad;
+                                    $existe->idEstado = 68;
+                                    $existe->idEstadoPago = $estadosPagos->idEstadoPago;
+                                    $existe->idContrato = $estadosPagos->idContrato;
+                                    $existe->garantia = (($estadosPagos->garantia) ? $estadosPagos->garantia : 0) + (($estadosPagos->garantiaDos) ? $estadosPagos->garantiaDos : 0);
+                                    if($estadosPagos->totalPagado > 0)
+                                    {
+                                        if($opcion == 1)
+                                        {
+                                            $existe->montoAPagar = (($estadosPagos->arriendoMensual / 30) * $diasProporcionalesMandato);
+                                            $existe->montoPagado = (($estadosPagos->totalPagado / 30) * $diasProporcionalesMandato);
+                                            $existe->garantia = (($existe->garantia / 30) * $diasProporcionalesMandato);
+
+                                        }
+                                        elseif($opcion == 2)
+                                        {
+                                            $existe->montoAPagar = (($estadosPagos->arriendoMensual / 30) * $diasProporcionalesTraspaso);
+                                            $existe->montoPagado = (($estadosPagos->totalPagado / 30) * $diasProporcionalesTraspaso);
+                                            $existe->garantia = (($existe->garantia / 30) * $diasProporcionalesTraspaso);
+                                        }
+                                        else
+                                        {
+                                            $existe->montoAPagar = $estadosPagos->arriendoMensual;
+                                            $existe->montoPagado = $estadosPagos->totalPagado;
+                                            $existe->garantia = $existe->garantia;
+                                        }
+                                    }
+                                    else
+                                    {                                    
+                                        $existe->montoAPagar = $estadosPagos->arriendoMensual;
+                                        $existe->montoPagado = 0;
+                                        $existe->garantia = $existe->garantia;
+                                    }
+                                    
+                                    
+                                    $existe->cargosAbonos = $cargosDescuentos;
+                                    //$existe->tieneTraspasoSaldo = $estadosPagos->traspasoSaldo;
+                                    //revisamos si existen cargos o descuentos asociados al propietario
+                                    //opcion 0 en where corresponde a propietario
+                                    if($estadosPagos)
+                                    {
+                                        $cargosPropietario = Cargo::select(DB::raw("SUM(montoCargo) as cargo"))
+                                            ->where('idEstadoPago', '=', $estadosPagos->idEstadoPago)
+                                            ->where('correspondeA', '=', 1)
+                                            ->first();
+                                        $descuentosPropietario = Descuento::select(DB::raw("SUM(montoDescuento) as descuento"))
+                                            ->where('idEstadoPago', '=', $estadosPagos->idEstadoPago)
+                                            ->where('correspondeADescuentos', '=', 1)
+                                            ->first();
+                                        $valor = (($cargosPropietario) ? $cargosPropietario->cargo : 0) - (($descuentosPropietario) ? $descuentosPropietario->descuento : 0);
+                                        if($opcion == 1)
+                                        {
+                                            $valor = (($valor / 30) * $diasProporcionalesMandato);
+                                        }
+                                        if($opcion == 2)
+                                        {
+                                            $valor = (($valor / 30) * $diasProporcionalesTraspaso);
+                                        }
+                                    }
+                                    $comisionIntegra = 0;
+                                    //si es porcentaje,  se calcula el porcentaje de comision primero y despues se le resta al arriendo, se trabaja con el MONTO ARRIENDO, ya que si no ha realizado pagos el arrendatario, de igual forma se le paga al propietario
+                                    if($mandato->comisionAdministracion != null || $mandato->comisionAdministracion == "0")
+                                    {
+                                        $porcentajeRestado = (100 - (float) str_replace(['.', ','], ['', '.'], $mandato->comisionAdministracion));
+                                        $ivaComision = ((($existe->montoAPagar * (float) str_replace(['.', ','], ['', '.'], $mandato->comisionAdministracion)) / 100) * 1.19) - (($existe->montoAPagar * (float) str_replace(['.', ','], ['', '.'], $mandato->comisionAdministracion)) / 100);
+                                        if($opcion == 1)
+                                        {
+                                            if($existe->montoPagado > 0)
+                                            {
+                                                $existe->montoComision = ((((($existe->montoAPagar / 30) * $diasProporcionalesMandato) * (float) str_replace(['.', ','], ['', '.'], $mandato->comisionAdministracion)) / 100) * 1.19);
+                                                $existe->comisionCorretaje = (($estadosPagos->comision / 30) * $diasProporcionalesMandato);
+                                                $existe->montoALiquidarPropietario = (($existe->montoAPagar * $porcentajeRestado)/100) + (($valor) ? $valor : 0);
+                                                $existe->montoALiquidarPropietario = $existe->montoALiquidarPropietario - $ivaComision;
+                                            }
+                                            else
+                                            {
+                                                $existe->montoComision = 0;
+                                                $existe->comisionCorretaje = 0;
+                                                $existe->montoALiquidarPropietario = 0;
+                                            }
+                                        }
+                                        elseif($opcion == 2)
+                                        {
+                                            if($existe->montoPagado > 0)
+                                            {
+                                                $existe->montoComision = ((((($existe->montoAPagar / 30) * $diasProporcionalesTraspaso) * (float) str_replace(['.', ','], ['', '.'], $mandato->comisionAdministracion)) / 100) * 1.19);
+                                                $existe->comisionCorretaje = (($estadosPagos->comision / 30) * $diasProporcionalesTraspaso);
+                                                $existe->montoALiquidarPropietario = (($existe->montoAPagar * $porcentajeRestado)/100) + (($valor) ? $valor : 0);
+                                                $existe->montoALiquidarPropietario = $existe->montoALiquidarPropietario - $ivaComision;
+                                            }
+                                            else
+                                            {
+                                                $existe->montoComision = 0;
+                                                $existe->comisionCorretaje = 0;
+                                                $existe->montoALiquidarPropietario = 0;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if($existe->montoPagado > 0)
+                                            {
+                                                $existe->montoComision = ((($existe->montoAPagar * (float) str_replace(['.', ','], ['', '.'], $mandato->comisionAdministracion)) / 100) * 1.19);
+                                                $existe->comisionCorretaje = (($estadosPagos->comision) ? $estadosPagos->comision : 0);
+                                                $existe->montoALiquidarPropietario = (($existe->montoAPagar * $porcentajeRestado)/100) + (($valor) ? $valor : 0);
+                                                $existe->montoALiquidarPropietario = $existe->montoALiquidarPropietario - $ivaComision;
+                                            }
+                                            else
+                                            {
+                                                $existe->montoComision = 0;
+                                                $existe->comisionCorretaje = 0;
+                                                $existe->montoALiquidarPropietario = 0;
+                                            }
+                                           
+                                        }
+                                        $comisionIntegra = ((($existe->montoAPagar * (float) str_replace(['.', ','], ['', '.'], $mandato->comisionAdministracion)) / 100) * 1.19);
+                                        if($existe->montoComision < 1)
+                                        {
+                                            $existe->saldoArrastre = 0;
+                                            $existe->montoComision = 0;
+                                            $existe->valorSeguroArriendo = 0;
+                                        }
+                                        else
+                                        {
+                                            $existe->montoComision = $existe->montoComision;
+                                            $existe->saldoArrastre = (($existe->montoPagado - $existe->montoALiquidarPropietario) - $existe->garantia - $existe->comisionCorretaje) - $comisionIntegra;
+                                        }
+                                        $existe->aLiquidarSinDeuda = $existe->montoALiquidarPropietario;
+                                    }
+                                    if($existe->montoPagado < $existe->montoAPagar)
+                                    {
+                                        $existe->montoALiquidarPropietario = $existe->montoALiquidarPropietario;
+                                    }
+                                    else
+                                    {
+                                        $existe->montoALiquidarPropietario = $existe->montoALiquidarPropietario;
+                                    }
+                                    $existe->editadoManual = 0;
+                                    $existe->save();
+                                    DB::commit();
+                                }
+                                else
+                                {
+                                    DB::rollback();
+                                    continue;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            DB::rollback();
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        // si no existe, se crea le nuevo estado de pago
+                        if($estadosPagos)
+                        {
+                            $estadoPagoMandato = new EstadosPagosMandatarios();
+                            $estadoPagoMandato->idMandatoPropiedad = $mandato->idMandatoPropiedad;
+                            $estadoPagoMandato->idEstado = 68;
+                            $estadoPagoMandato->idEstadoPago = $estadosPagos->idEstadoPago;
+                            $estadoPagoMandato->idContrato = $estadosPagos->idContrato;
+                            $estadoPagoMandato->garantia = (($estadosPagos->garantia) ? $estadosPagos->garantia : 0) + (($estadosPagos->garantiaDos) ? $estadosPagos->garantiaDos : 0);
+                            
+                            if($estadosPagos->totalPagado > 0)
+                            {
+                                if($opcion == 1)
+                                {
+                                    $estadoPagoMandato->montoAPagar = (($estadosPagos->arriendoMensual / 30) * $diasProporcionalesMandato);
+                                    $estadoPagoMandato->montoPagado = (($estadosPagos->totalPagado / 30) * $diasProporcionalesMandato);
+                                    $estadoPagoMandato->garantia = (($estadoPagoMandato->garantia / 30) * $diasProporcionalesMandato);
+
+                                }
+                                elseif($opcion == 2)
+                                {
+                                    $estadoPagoMandato->montoAPagar = (($estadosPagos->arriendoMensual / 30) * $diasProporcionalesTraspaso);
+                                    $estadoPagoMandato->montoPagado = (($estadosPagos->totalPagado / 30) * $diasProporcionalesTraspaso);
+                                    $estadoPagoMandato->garantia = (($estadoPagoMandato->garantia / 30) * $diasProporcionalesTraspaso);
+                                }
+                                else
+                                {
+                                    $estadoPagoMandato->montoAPagar = $estadosPagos->arriendoMensual;
+                                    $estadoPagoMandato->montoPagado = $estadosPagos->totalPagado;
+                                    $estadoPagoMandato->garantia = $estadoPagoMandato->garantia;
+                                }
+                            }
+                            else
+                            {                                    
+                                $estadoPagoMandato->montoAPagar = $estadosPagos->arriendoMensual;
+                                $estadoPagoMandato->montoPagado = 0;
+                                $estadoPagoMandato->garantia = $estadoPagoMandato->garantia;
+                            }
+                            
+                                    
+                            $estadoPagoMandato->cargosAbonos = $cargosDescuentos;
+                            //$existe->tieneTraspasoSaldo = $estadosPagos->traspasoSaldo;
+                            //revisamos si existen cargos o descuentos asociados al propietario
+                            //opcion 0 en where corresponde a propietario
+                            if($estadosPagos)
+                            {
+                                $cargosPropietario = Cargo::select(DB::raw("SUM(montoCargo) as cargo"))
+                                    ->where('idEstadoPago', '=', $estadosPagos->idEstadoPago)
+                                    ->where('correspondeA', '=', 1)
+                                    ->first();
+                                $descuentosPropietario = Descuento::select(DB::raw("SUM(montoDescuento) as descuento"))
+                                    ->where('idEstadoPago', '=', $estadosPagos->idEstadoPago)
+                                    ->where('correspondeADescuentos', '=', 1)
+                                    ->first();
+                                $valor = (($cargosPropietario) ? $cargosPropietario->cargo : 0) - (($descuentosPropietario) ? $descuentosPropietario->descuento : 0);
+                                if($opcion == 1)
+                                {
+                                    $valor = (($valor / 30) * $diasProporcionalesMandato);
+                                }
+                                if($opcion == 2)
+                                {
+                                    $valor = (($valor / 30) * $diasProporcionalesTraspaso);
+                                }
+                            }
+                            $comisionIntegra = 0;
+                            if($mandato->comisionAdministracion != null || $mandato->comisionAdministracion == "0")
+                            {
+                                $porcentajeRestado = (100 - (float) str_replace(['.', ','], ['', '.'], $mandato->comisionAdministracion));
+                                $ivaComision = ((($estadoPagoMandato->montoAPagar * (float) str_replace(['.', ','], ['', '.'], $mandato->comisionAdministracion)) / 100) * 1.19) - (($estadoPagoMandato->montoAPagar * (float) str_replace(['.', ','], ['', '.'], $mandato->comisionAdministracion)) / 100);
+                                if($opcion == 1)
+                                {
+                                    if($estadoPagoMandato->montoPagado > 0)
+                                    {
+                                        $estadoPagoMandato->montoComision = ((((($estadoPagoMandato->montoAPagar / 30) * $diasProporcionalesMandato) * (float) str_replace(['.', ','], ['', '.'], $mandato->comisionAdministracion)) / 100) * 1.19);
+                                        $estadoPagoMandato->comisionCorretaje = (($estadosPagos->comision / 30) * $diasProporcionalesMandato);
+                                        $estadoPagoMandato->montoALiquidarPropietario = (($estadoPagoMandato->montoAPagar * $porcentajeRestado)/100) + (($valor) ? $valor : 0);
+                                        $estadoPagoMandato->montoALiquidarPropietario = $estadoPagoMandato->montoALiquidarPropietario - $ivaComision;
+                                    }
+                                    else
+                                    {
+                                        $estadoPagoMandato->montoComision = 0;
+                                        $estadoPagoMandato->comisionCorretaje = 0;
+                                        $estadoPagoMandato->montoALiquidarPropietario = 0;
+                                    }
+                                }
+                                elseif($opcion == 2)
+                                {
+                                    if($estadoPagoMandato->montoPagado > 0)
+                                    {
+                                        $estadoPagoMandato->montoComision = ((((($estadoPagoMandato->montoAPagar / 30) * $diasProporcionalesTraspaso) * (float) str_replace(['.', ','], ['', '.'], $mandato->comisionAdministracion)) / 100) * 1.19);
+                                        $estadoPagoMandato->comisionCorretaje = (($estadoPagoMandato->comision / 30) * $diasProporcionalesTraspaso);
+                                        $estadoPagoMandato->montoALiquidarPropietario = (($estadoPagoMandato->montoAPagar * $porcentajeRestado)/100) + (($valor) ? $valor : 0);
+                                        $estadoPagoMandato->montoALiquidarPropietario = $estadoPagoMandato->montoALiquidarPropietario - $ivaComision;
+                                    }
+                                    else
+                                    {
+                                        $estadoPagoMandato->montoComision = 0;
+                                        $estadoPagoMandato->comisionCorretaje = 0;
+                                        $estadoPagoMandato->montoALiquidarPropietario = 0;
+                                    }
+                                }
+                                else
+                                {
+                                    if($estadoPagoMandato->montoPagado > 0)
+                                    {
+                                        $estadoPagoMandato->montoComision = ((($estadoPagoMandato->montoAPagar * (float) str_replace(['.', ','], ['', '.'], $mandato->comisionAdministracion)) / 100) * 1.19);
+                                        $estadoPagoMandato->comisionCorretaje = (($estadosPagos->comision) ? $estadosPagos->comision : 0);
+                                        $estadoPagoMandato->montoALiquidarPropietario = (($estadoPagoMandato->montoAPagar * $porcentajeRestado)/100) + (($valor) ? $valor : 0);
+                                        $estadoPagoMandato->montoALiquidarPropietario = $estadoPagoMandato->montoALiquidarPropietario - $ivaComision;
+                                    }
+                                    else
+                                    {
+                                        $estadoPagoMandato->montoComision = 0;
+                                        $estadoPagoMandato->comisionCorretaje = 0;
+                                        $estadoPagoMandato->montoALiquidarPropietario = 0;
+                                    }
+                                    
+                                }
+                                $comisionIntegra = ((($estadoPagoMandato->montoAPagar * (float) str_replace(['.', ','], ['', '.'], $mandato->comisionAdministracion)) / 100) * 1.19);
+                                if($estadoPagoMandato->montoComision < 1)
+                                {
+                                    $estadoPagoMandato->saldoArrastre = 0;
+                                    $estadoPagoMandato->montoComision = 0;
+                                    $estadoPagoMandato->valorSeguroArriendo = 0;
+                                }
+                                else
+                                {
+                                    $estadoPagoMandato->montoComision = $estadoPagoMandato->montoComision;
+                                    $estadoPagoMandato->saldoArrastre = (($estadoPagoMandato->montoPagado - $estadoPagoMandato->montoALiquidarPropietario) - $estadoPagoMandato->garantia - $estadoPagoMandato->comisionCorretaje) - $comisionIntegra;
+                                }
+                                $estadoPagoMandato->aLiquidarSinDeuda = $estadoPagoMandato->montoALiquidarPropietario;
+                            }
+                            if($estadoPagoMandato->montoPagado < $estadoPagoMandato->montoAPagar)
+                            {
+                                $estadoPagoMandato->montoALiquidarPropietario = $estadoPagoMandato->montoALiquidarPropietario;
+                            }
+                            else
+                            {
+                                $estadoPagoMandato->montoALiquidarPropietario = $estadoPagoMandato->montoALiquidarPropietario;
+                            }
+                            $estadoPagoMandato->editadoManual = 0;
+                            //solo al crear se debe colocar la fecha
+                            $estadoPagoMandato->fechaDePago = "".$anio."-".$mes."-".$mandato->diaPago."";
+                            $estadoPagoMandato->save();
+                            DB::commit();
+                        }
+                        else
+                        {
+                            DB::rollback();
+                            continue;
+                        }
+                    }
+                }
+            }
+        }
+        toastr()->success('Actualizacion planilla mandatarios mes: '. $mes.' año: '.$anio);
+        return back();
+    }
+    public function editarEstadoPagoMandato(Request $request)
+    {
+        try{
+            DB::beginTransaction();
+            $id = Crypt::decrypt($request->idEstadoPago);
+            $estadoPago = EstadosPagosMandatarios::where('idEstadoPagoMandato', '=', $id)->firstOrFail();
+            $estadoPago->montoAPagar = $request->montoAPagar;
+            $estadoPago->cargosAbonos = $request->cargosAbonos;
+            $estadoPago->montoPagado = $request->montoPagado;
+            $estadoPago->garantia = $request->garantia;
+            $estadoPago->montoComision = $request->montoComision;
+            $estadoPago->montoALiquidarPropietario = $request->montoALiquidarPropietario;
+            $estadoPago->editadoManual = 1;
+            $estadoPago->idEstado = $request->idEstado;
+            $estadoPago->fechaLiquidado = $request->fechaLiquidado;
+            $estadoPago->save();
+            DB::commit();
+            //inicio log transaccion
+            $nuevoLogTransaccion = new LogTransaccion();
+            $nuevoLogTransaccion->tipoTransaccion = 'EDITAR ESTADO PAGO MANDATO: '.$estadoPago->idMandatoPropiedad;
+            $nuevoLogTransaccion->idUsuario = Auth::user()->id;
+            $nuevoLogTransaccion->webclient = $_SERVER['HTTP_USER_AGENT'];
+            $nuevoLogTransaccion->descripcionTransaccion = 'EDITAR ESTADO PAGO MANDATO: '.$estadoPago->idMandatoPropiedad;
+            $nuevoLogTransaccion->save();
+            //fin log transaccion
+            toastr()->success('Estado pago editado con exito');
+            return back();
+        } catch (ModelNotFoundException $e) {
+            toastr()->warning('No autorizado');
+            DB::rollback();
+            return back();
+        } catch (QueryException $e) {
+            toastr()->warning('Ha ocurrido un error, favor intente nuevamente' . $e->getMessage());
+            DB::rollback();
+            return back();
+        } catch (DecryptException $e) {
+            toastr()->info('Ocurrio un error al intentar acceder al recurso solicitado');
+            DB::rollback();
+            return back();
+        } catch (\Exception $e) {
+            toastr()->warning($e->getMessage());
+            DB::rollback();
+            return back();
+        }
+    }
+    public function eliminarPagoMandato($id)
+    {
+        try{
+            DB::beginTransaction();
+            $estadoPago = EstadosPagosMandatarios::where('idEstadoPagoMandato', '=', $id)->firstOrFail();
+            $nuevoLogTransaccion = new LogTransaccion();
+            $nuevoLogTransaccion->tipoTransaccion = 'ELIMINAR ESTADO PAGO MANDATO: '.$estadoPago->idMandatoPropiedad;
+            $nuevoLogTransaccion->idUsuario = Auth::user()->id;
+            $nuevoLogTransaccion->webclient = $_SERVER['HTTP_USER_AGENT'];
+            $nuevoLogTransaccion->descripcionTransaccion = 'ELIMINAR ESTADO DE PAGO DE MANTADO : '.$estadoPago->idMandatoPropiedad;
+            $nuevoLogTransaccion->save();
+            //fin log transaccion
+            $estadoPago->delete();
+            DB::commit();
+            toastr()->success('Liquidacion eliminada con exito');
+            return back();
+        } catch (ModelNotFoundException $e) {
+            toastr()->warning('No autorizado');
+            DB::rollback();
+            return back();
+        } catch (QueryException $e) {
+            toastr()->warning('Ha ocurrido un error, favor intente nuevamente' . $e->getMessage());
+            DB::rollback();
+            return back();
+        } catch (DecryptException $e) {
+            toastr()->info('Ocurrio un error al intentar acceder al recurso solicitado');
+            DB::rollback();
+            return back();
+        } catch (\Exception $e) {
+            toastr()->warning($e->getMessage());
+            DB::rollback();
+            return back();
+        }
+    }
+    public function exportLiquidacionInversionista(Request $request)
+    {
+		try {
+            if($request->tipo)
+            {
+                return Excel::download(new LiquidacionInversionista($request->mes, $request->anio, $request->tipo), 'estadosPagosMandatos.xlsx');
+            }
+            else
+            {
+                toastr()->warning('Elija mes, año y estado para generar la planilla Excel');
+			    return back();
+            }
 		} catch (QueryException $e) {
 			toastr()->error($e->getMessage());
 			return back();

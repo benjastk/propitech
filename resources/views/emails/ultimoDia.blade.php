@@ -13,7 +13,7 @@
         <tbody>
             <tr>
                 <td valign="top">
-                    <p class="v1MsoNormal" style="text-align: center;">Ya se encuentra disponible el pago de tu arriendo del mes de {{ strftime("%B de %Y", strtotime($estadoPago->fechaVencimiento)) }}.</p>
+                    <p class="v1MsoNormal" style="text-align: center;">Hoy vence el pago de arriendo del mes de {{ strftime("%B de %Y", strtotime($estadoPago->fechaVencimiento)) }}.</p>
                 </td>
             </tr>
         </tbody>
