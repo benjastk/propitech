@@ -45,11 +45,13 @@
 @section('script')
 <script>
   $(document).ready(function(){
-        if({{ $contrato->rutCodeudor }} != '')
+        @if( $contrato->rutCodeudor )
+        if({{ $contrato->rutCodeudor }})
         {
             document.getElementById("formularioCodeudor").style.display = "inline";
             $('#codeudor').prop('checked', true);
         }
+        @endif
         if({{ $contrato->reajustePesos }} > 0)
         {
             $('#elegirReajuste').val(2)
@@ -65,31 +67,31 @@
             document.getElementById("antesDeReajuste").style.display = "none";
         }
         $("#rutArrendatario").change(function(){
-        var rut = $(this).val();
-        $.ajax({
-            url: '/api/buscarUsuario',
-            method:'POST',
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-              },
-            dataType: 'json',
-            data:     { data: rut },
-            success: function (respuesta) {
-                console.log(respuesta);
-                document.getElementById("nombreArrendatario").value = respuesta['name'];
-                document.getElementById("apellidoArrendatario").value = respuesta['apellido'];
-                document.getElementById("correoArrendatario").value = respuesta['email'];
-                document.getElementById("numeroTelefonoArrendatario").value = respuesta['telefono'];
-                document.getElementById("nacionalidadArrendatario").value = respuesta['nacionalidad'];
-                document.getElementById("estadoCivilArrendatario").value = respuesta['estadoCivil'];
-                document.getElementById("direccionArrendatario").value = respuesta['direccion'];
-                document.getElementById("nombreComunaArrendatario").value = respuesta['nombreComuna'];
-                document.getElementById("nombreRegionArrendatario").value = respuesta['nombreRegion'];
-            },
-            error: function(err) {
-                alert("Usuario no encontrado");
-            }
-        });
+            var rut = $(this).val();
+            $.ajax({
+                url: '/api/buscarUsuario',
+                method:'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                dataType: 'json',
+                data:     { data: rut },
+                success: function (respuesta) {
+                    console.log(respuesta);
+                    document.getElementById("nombreArrendatario").value = respuesta['name'];
+                    document.getElementById("apellidoArrendatario").value = respuesta['apellido'];
+                    document.getElementById("correoArrendatario").value = respuesta['email'];
+                    document.getElementById("numeroTelefonoArrendatario").value = respuesta['telefono'];
+                    document.getElementById("nacionalidadArrendatario").value = respuesta['nacionalidad'];
+                    document.getElementById("estadoCivilArrendatario").value = respuesta['estadoCivil'];
+                    document.getElementById("direccionArrendatario").value = respuesta['direccion'];
+                    document.getElementById("nombreComunaArrendatario").value = respuesta['nombreComuna'];
+                    document.getElementById("nombreRegionArrendatario").value = respuesta['nombreRegion'];
+                },
+                error: function(err) {
+                    alert("Usuario no encontrado");
+                }
+            });
         });
     });
 </script>

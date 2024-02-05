@@ -53,7 +53,7 @@
         <tbody>
             <tr>
                 <td style="width: 50%;"><strong>Total</strong></td>
-                <td style="width: 50%; text-align: right;"><strong><span style="color: #3366ff;">$ {{ number_format($estadoPago->subtotal, 0, ",", ".") }}</span></strong></td>
+                <td style="width: 50%; text-align: right;"><strong><span style="color: #3366ff;">@if($estadoPago->saldo > 0) $ {{ number_format($estadoPago->saldo, 0, ",", ".") }} @else $ {{ number_format($estadoPago->subtotal, 0, ",", ".") }} @endif</span></strong></td>
             </tr>
         </tbody>
     </table>
