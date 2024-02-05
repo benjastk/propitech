@@ -890,9 +890,7 @@ class EstadoPagoController extends Controller
         $estadosDePago = EstadoPago::select('estados_pagos.*')
         ->join('contratos_arriendos', 'estados_pagos.idContrato', '=', 'contratos_arriendos.idContratoArriendo')
         ->where('contratos_arriendos.idEstado', '=',61)
-        ->whereIn('estados_pagos.idEstado', [49,50, 47])
-        ->whereMonth('estados_pagos.fechaVencimiento', '=', $mesActual)
-        ->whereYear('estados_pagos.fechaVencimiento', '=', $anioActual)
+        ->whereIn('estados_pagos.idEstado', [49, 50])
         ->get();
 
         if($estadosDePago)
