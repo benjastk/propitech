@@ -7,6 +7,7 @@ use App\EstadoPago;
 use App\LogCorreoEnviado;
 use App\ParametroGeneral;
 use App\Jobs\YaSeEncuentraDisponibleTuPagoJob;
+use App\Jobs\UltimoDiaParaPagar;
 class AlertaController extends Controller
 {
     public function recordarPagoArrendatariosMensual()
@@ -59,11 +60,12 @@ class AlertaController extends Controller
         ->get();
         if(!$estadosPagos->isEmpty())
         {
+            
             foreach ($estadosPagos as $estadoPago) 
             {
-                if(date("Y-m-d", $estadoPago->fechaVencimiento) == $fechaActual)
+                if(date("Y-m-d",strtotime($estadoPago->fechaVencimiento)) == $fechaActual)
                 {
-                    YaSeEncuentraDisponibleTuPagoJob::dispatch($estadoPago);
+                    UltimoDiaParaPagar::dispatch($estadoPago);
                     $nuevoLogCorreo = new LogCorreoEnviado();
                     $nuevoLogCorreo->nombre_tipo_correo = 'RECORDATORIO PAGO DE ARRIENDO ULTIMO DIA';
                     $nuevoLogCorreo->usuario = 'CRON AUTOMATIZADO';

@@ -57,7 +57,7 @@ Route::get('/login', function () {
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/leads', 'HomeController@leads')->name('leads');
-Route::get('/recordarPagoArrendatariosMensual', 'AlertaController@recordarPagoArrendatariosMensual');
+Route::get('/ultimoDiaParaPagar', 'AlertaController@ultimoDiaParaPagar');
 //Route::get('/morosos', 'EstadoPagoController@cambiarAMoroso');
 //Route::get('/vencidos', 'EstadoPagoController@cambiarAVencido');
 //Route::get('/agregarPorcentajeAMorosos', 'EstadoPagoController@agregarPorcentajeAMorosos');
