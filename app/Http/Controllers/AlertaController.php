@@ -109,7 +109,7 @@ class AlertaController extends Controller
         $fechaActual = date('Y-m-d');
         $anioActual = date('Y');
         $mesActual = date('m');
-        return $estadosPagos = EstadoPago::select('estados_pagos.*', 'users.email', 'users.id as idUsuario', 'users.name', 'users.apellido')
+        $estadosPagos = EstadoPago::select('estados_pagos.*', 'users.email', 'users.id as idUsuario', 'users.name', 'users.apellido')
         ->join('contratos_arriendos', 'contratos_arriendos.idContratoArriendo', '=', 'estados_pagos.idContrato')
         ->join('users', 'users.id', '=', 'contratos_arriendos.idUsuarioArrendatario')
         ->whereIn('estados_pagos.idEstado', [47])
