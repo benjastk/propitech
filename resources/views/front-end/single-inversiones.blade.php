@@ -61,17 +61,19 @@
             </article>
         </div>
     </div>
-    <section class="shadow-5">
-        <div class="container">
-            <div class="galleries position-relative">
-                <div class="tab-content p-0 shadow-none">
-                    <div class="tab-pane fade show active" id="image" role="tabpanel">
-                        <div>
-                            <div class="box">
-                                <div class="item item-size-3-2">
-                                    <div class="card p-0">
-                                        <a href="#" class="card-img" style="background-image:url('/img/proyecto/{{ $proyecto->fotoProyecto}}')">
-                                        </a>
+    <section class="primary-content bg-gray-01">
+        <div style="background-color: #2db5ff26 !important;">
+            <div class="container">
+                <div class="galleries position-relative">
+                    <div class="tab-content p-0 shadow-none">
+                        <div class="tab-pane fade show active" id="image" role="tabpanel">
+                            <div>
+                                <div class="box">
+                                    <div class="item item-size-3-2">
+                                        <div class="card p-0">
+                                            <a href="#" class="card-img" style="background-image:url('/img/proyecto/{{ $proyecto->fotoProyecto}}')">
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -380,6 +382,16 @@
         </div>
         @endif
     </div>
+    <!--<section class="pt-7 pb-7" style="background-color: blue;">
+        <div class="container">
+            <div class="row">
+                <h4>Calculo de dividendo</h4>
+            </div>
+            <div class="row">
+
+            </div>
+        </div>
+    </section>-->
     <section>
         <div class="d-flex bottom-bar-action bottom-bar-action-01 py-2 px-4 bg-gray-01 align-items-center position-fixed fixed-bottom d-sm-none">
             <div class="media align-items-center">
