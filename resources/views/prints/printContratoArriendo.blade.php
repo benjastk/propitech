@@ -638,7 +638,7 @@
             <p><strong>&nbsp;</strong></p>
             <p><strong><u>CUARTO:</u></strong><strong> REAJUSTE.</strong></p>
             <p>&nbsp;</p>
-            <p>La renta se reajustar&aacute; durante toda la vigencia del arrendamiento; reajuste que se har&aacute; cada doce meses en la misma 
+            <p>La renta se reajustar&aacute; durante toda la vigencia del arrendamiento; reajuste que se har&aacute; cada seis meses en la misma 
                 proporci&oacute;n o porcentaje en que haya podido variar el &Iacute;ndice de Precios al Consumidor (IPC) determinado por el Instituto
              Nacional de Estad&iacute;sticas o por el organismo que lo reemplace, en la relaci&oacute;n al per&iacute;odo que medie entre el &uacute;ltimo 
              d&iacute;a del mes que ante&nbsp;precede&nbsp;al que empieza a regir este contrato y el &uacute;ltimo d&iacute;a del mes ante precedente a 
