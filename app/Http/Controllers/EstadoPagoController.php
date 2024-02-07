@@ -182,7 +182,26 @@ class EstadoPagoController extends Controller
             $garantiaAnterior = $estadoPago->garantia;
             $comisionAnterior = $estadoPago->comision;
             $estadoPago->fill($request->all());
-            $estadoPago->subtotal = $request->arriendoMensual + $request->garantia + $request->comision;
+
+            $sumaCargos = 0;
+            $cargos = Cargo::where('idEstadoPago', '=', $id)->get();
+            if($cargos)
+            {
+                foreach ($cargos as $cargo) 
+                {
+                    $sumaCargos = $sumaCargos + $cargo->montoCargo;
+                }
+            }
+            $sumaDescuentos = 0;
+            $descuentos = Descuento::where('idEstadoPago', '=', $id)->get();
+            if($descuentos)
+            {
+                foreach ($descuentos as $descuento) 
+                {
+                    $sumaDescuentos = $sumaDescuentos + $descuento->montoDescuento;
+                }
+            }
+            $estadoPago->subtotal = $request->arriendoMensual + $request->garantia + $request->comision + $sumaCargos - $sumaDescuentos;
             $estadoPago->editado = 1;
             $estadoPago->save();
             
@@ -897,7 +916,15 @@ class EstadoPagoController extends Controller
         {
             foreach($estadosDePago as $estadosDePagos)
             {
-                $montoACargar = ($estadosDePagos->subtotal * 1) / 100;
+                if($estadoPago->saldo > 0)
+                {
+                    $montoACargar = ($estadosDePagos->saldo * 1) / 100;
+                }
+                else
+                {
+                    $montoACargar = ($estadosDePagos->subtotal * 1) / 100;
+                }
+
                 $cargo = new Cargo();
                 $cargo->idEstadoPago = $estadosDePagos->idEstadoPago;
                 $cargo->nombreCargo = 'Intereses por mora';
@@ -910,10 +937,14 @@ class EstadoPagoController extends Controller
                 DB::commit();
 
                 $estadoPago = EstadoPago::where('idEstadoPago', $estadosDePagos->idEstadoPago)->first();
-                $estadoPago->subtotal = $estadoPago->subtotal + $montoACargar;
+                
                 if($estadoPago->saldo > 0)
                 {
                     $estadoPago->saldo = $estadoPago->saldo + $montoACargar;
+                }
+                else
+                {
+                    $estadoPago->subtotal = $estadoPago->subtotal + $montoACargar;
                 }
                 $estadoPago->save();
 
