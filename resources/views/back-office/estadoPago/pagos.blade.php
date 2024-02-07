@@ -152,8 +152,13 @@
                                             <input id="comision" name="comision" type="text" value="{{ $estadoPago->comision}}" class="form-control" readonly >
                                         </div>
                                         <div class="col-3">
+                                            @if($estadoPago->saldo > 0)
+                                            <label for="nombre">Total a Pagar</label>
+                                            <input id="subtotal" name="subtotal" type="text" value="{{ $estadoPago->saldo}}" class="form-control" readonly >
+                                            @else
                                             <label for="nombre">Total a Pagar</label>
                                             <input id="subtotal" name="subtotal" type="text" value="{{ $estadoPago->subtotal - $estadoPago->totalPagado}}" class="form-control" readonly >
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="row">
