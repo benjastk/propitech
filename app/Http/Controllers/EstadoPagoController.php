@@ -916,7 +916,7 @@ class EstadoPagoController extends Controller
         {
             foreach($estadosDePago as $estadosDePagos)
             {
-                if($estadoPago->saldo > 0)
+                if($estadosDePagos->saldo > 0)
                 {
                     $montoACargar = ($estadosDePagos->saldo * 1) / 100;
                 }
