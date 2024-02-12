@@ -736,6 +736,7 @@ class InicioController extends Controller
         $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
         $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
         $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
+        $valorUF = ParametroGeneral::where('parametroGeneral', 'VALOR UF MES')->first();
         $rentas = RentaMensual::get();
         $proyectos = Proyecto::select('proyectos.*', 'comuna.nombre as nombreComuna', 'provincia.nombre as nombreProvincia',
         'region.nombre as nombreRegion')
@@ -752,7 +753,7 @@ class InicioController extends Controller
         ->get();
         //$proyectosDestacados = [];
         return view('front-end.inversiones', compact('telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 
-        'rentas', 'proyectosDestacados', 'proyectos', 'invierteAqui'));
+        'rentas', 'proyectosDestacados', 'proyectos', 'invierteAqui', 'valorUF'));
     }
     public function singleProyectos($id)
     {
@@ -794,7 +795,9 @@ class InicioController extends Controller
         $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
         $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
         $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
+        $valorUF = ParametroGeneral::where('parametroGeneral', 'VALOR UF MES')->first();
+        $calcularDividendo = ParametroGeneral::where('parametroGeneral', 'CALCULAR DIVIDENDO')->first();
         return view('front-end.single-inversiones', compact('proyecto', 'amenidades', 'tipologias', 'fotos', 'fotosCercanas', 'otrosProyectos',
-        'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'rentas', 'invierteAqui'));
+        'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'rentas', 'invierteAqui', 'valorUF', 'calcularDividendo'));
     }
 }
