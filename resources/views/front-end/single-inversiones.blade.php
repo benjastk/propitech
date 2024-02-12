@@ -26,6 +26,14 @@
     .fa-angle-left:before {
         content: "" !important;
     }
+    table th
+    {
+        padding: 0.20rem !important;
+    }
+    table td
+    {
+        padding: 0.20rem !important;
+    }
 </style>
 @endsection
 @section('content')
@@ -323,7 +331,7 @@
                 <article class="col-lg-12">
                     <section class="mt-2 pb-7 px-6 pt-6 bg-white rounded-lg">
                         <h4 class="fs-22 text-heading mb-6" style="font-family: FeltThat,sans-serif !important; font-size: 45px !important" >Otros Proyectos</h4>
-                        <div class="slick-slider" data-slick-options='{"slidesToShow": 3, "autoplay":true,"dots":false,"arrows":false,"responsive":[{"breakpoint": 1200,"settings": {"slidesToShow":4}},{"breakpoint": 992,"settings": {"slidesToShow":3}},{"breakpoint": 768,"settings": {"slidesToShow": 3}},{"breakpoint": 576,"settings": {"slidesToShow": 1}}]}'>
+                        <div class="slick-slider" data-slick-options='{"slidesToShow": 3, "autoplay":true,"dots":false,"arrows":false,"responsive":[{"breakpoint": 1200,"settings": {"slidesToShow":3}},{"breakpoint": 992,"settings": {"slidesToShow":3}},{"breakpoint": 768,"settings": {"slidesToShow": 3}},{"breakpoint": 576,"settings": {"slidesToShow": 1}}]}'>
                             @foreach($otrosProyectos as $otroProyecto)
                             <div class="col-xxl-12 col-lg-12 col-md-12 mb-6">
                                 <div class="card border-0 bg-overlay-gradient-3 rounded-lg hover-change-image">
@@ -382,16 +390,139 @@
         </div>
         @endif
     </div>
-    <!--<section class="pt-7 pb-7" style="background-color: blue;">
+    @if($calcularDividendo->valorParametro = 1)
+    <section class="pt-7 pb-7" style="background-color: white;">
         <div class="container">
             <div class="row">
-                <h4>Calculo de dividendo</h4>
+                <h4 style="font-family: FeltThat,sans-serif !important; font-size: 45px !important; color: black">Calculo de dividendo</h4>
             </div>
             <div class="row">
-
+                <div class="col-md-3 col-sm-12 pb-7 pb-lg-0">
+                    <div class="card mb-4" style="background-color: #0e3b53 !important;">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-7">
+                                    <p style="font-size: 0.75rem; font-weight: bold; color: white; margin-top: 10px">Selecciona el pie</p>
+                                </div>
+                                <div class="col-5">
+                                    <dd id="resultRangoPie" class="text-primary-600 bg-white p-2 md:text-base font-bold whitespace-nowrap" style="font-size: 0.75rem; border-radius: 30px; text-align:center; font-weight:bold">20%</dd>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12" style="display:flex">
+                                    <p style="width: 15%; margin-top: 1rem; font-weight: bold; color: white">10 %</p>
+                                    <input type="range" class="form-control-range" id="rangoPie" min="10" max="" step="1" style="width: 65%">
+                                    <p style="width: 20%; padding-left: 5px; margin-top: 1rem; font-weight: bold; color: white">100 %</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-12 pb-7 pb-lg-0">
+                    <div class="card mb-4" style="background-color: #0e3b53 !important;">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-7">
+                                    <p style="font-size: 0.75rem; font-weight: bold; color: white; margin-top: 10px">Selecciona el plazo</p>
+                                </div>
+                                <div class="col-5">
+                                    <dd id="resultRangoAnios" class="text-primary-600 bg-white p-2 md:text-base font-bold whitespace-nowrap" style="font-size: 0.75rem; border-radius: 30px; text-align:center; font-weight:bold">30 años</dd>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12" style="display:flex">
+                                    <p style="width: 23%; margin-top: 1rem; font-weight: bold; color: white">5 años</p>
+                                    <input type="range" class="form-control-range" id="rangoAnios" min="5" max="30" step="1" style="width: 50%">
+                                    <p style="width: 27%; padding-left: 5px; margin-top: 1rem; font-weight: bold; color: white">30 años</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-12 pb-7 pb-lg-0">
+                    <div class="card mb-4" style="background-color: #0e3b53 !important;">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-8">
+                                    <p style="font-size: 0.75rem; font-weight: bold; color: white; margin-top: 10px">Selecciona Tasa (CAE)</p>
+                                </div>
+                                <div class="col-4">
+                                    <dd id="resultRangoTasa" class="text-primary-600 bg-white p-2 md:text-base font-bold whitespace-nowrap" style="font-size: 0.75rem; border-radius: 30px; text-align:center; font-weight:bold">7,0</dd>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12" style="display:flex">
+                                    <p style="width: 20%; margin-top: 1rem; font-weight: bold; color: white">0.1 %</p>
+                                    <input type="range" class="form-control-range" id="rangoTasa" min="0.1" max="6.5" step="0.1" style="width: 57%">
+                                    <p style="width: 23%; padding-left: 5px; margin-top: 1rem; font-weight: bold; color: white">6,5 %</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-12 pb-7 pb-lg-0">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-9 col-sm-12 pb-7 pb-lg-0">
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                            <th scope="col">Detalle</th>
+                            <th scope="col">UF</th>
+                            <th scope="col">Pesos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Precio</th>
+                                <td>{{ number_format($proyecto->valorUFDesde, 0, ",", ".") }}</td>
+                                <td><p style="margin: 0px !important" id="precioPesos"></p></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">% Pie</th>
+                                <td><p style="margin: 0px !important" id="resultRangoPieDos"></p></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Pie</th>
+                                <td><p style="margin: 0px !important" id="valorPieUF"></p></td>
+                                <td><p style="margin: 0px !important" id="valorPiePesos"></p></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Credito</th>
+                                <td><p style="margin: 0px !important" id="valorCreditoUF"></p></td>
+                                <td><p style="margin: 0px !important" id="valorCreditoPesos"></p></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Años de Crédito</th>
+                                <td><p style="margin: 0px !important" id="resultRangoAniosDos"></p></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Número de Cuotas</th>
+                                <td><p style="margin: 0px !important" id="cuotasTotales"></p></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Tasa de Crédito</th>
+                                <td><p style="margin: 0px !important" id="resulRangoTasaDos"></p></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Dividendo</th>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-3 col-sm-12 pb-7 pb-lg-0">
+                </div>
             </div>
         </div>
-    </section>-->
+    </section>
+    @endif
     <section>
         <div class="d-flex bottom-bar-action bottom-bar-action-01 py-2 px-4 bg-gray-01 align-items-center position-fixed fixed-bottom d-sm-none">
             <div class="media align-items-center">
@@ -804,6 +935,70 @@
         });
         marker.setMap(map);
     }        
+</script>
+<script>
+    $(document).ready(function()
+    {
+        $("#rangoAnios").change(function(){
+            changeRangoAnios();    
+        });
+        $("#rangoPie").change(function(){
+            changeRangoPie();    
+        });
+        $("#rangoTasa").change(function(){
+            changeRangoTasa();   
+        });
+        function changeRangoAnios()
+        {
+            var rangoAnios = $("#rangoAnios").val();
+            var cuotasTotales = rangoAnios * 12;
+            document.getElementById('resultRangoAnios').innerText = rangoAnios
+            document.getElementById('resultRangoAniosDos').innerText = rangoAnios
+            document.getElementById('cuotasTotales').innerText = cuotasTotales
+        }
+        function changeRangoPie()
+        {
+            var rangoPie = $("#rangoPie").val();
+            var valorUF = {{ $valorUF->valorParametro }};
+            var valorDesde = {{ $proyecto->valorUFDesde }};
+            var valorPieUF = ((valorDesde * rangoPie) / 100);
+            var valorPiePesos = ((valorDesde * rangoPie) / 100) * valorUF;
+
+            var valorCreditoUF = valorDesde - ((valorDesde * rangoPie) / 100);
+            var valorCreditoPesos = (valorDesde - ((valorDesde * rangoPie) / 100)) * valorUF;
+
+            document.getElementById('resultRangoPie').innerText = rangoPie
+            document.getElementById('resultRangoPieDos').innerText = rangoPie
+            document.getElementById('valorPieUF').innerText = valorPieUF
+            document.getElementById('valorPiePesos').innerText = valorPiePesos
+            document.getElementById('valorCreditoUF').innerText = valorCreditoUF
+            document.getElementById('valorCreditoPesos').innerText = valorCreditoPesos
+        }
+        function changeRangoTasa()
+        {
+            var rangoTasa = $("#rangoTasa").val();
+            document.getElementById('resultRangoTasa').innerText = rangoTasa
+            document.getElementById('resulRangoTasaDos').innerText = rangoTasa + '%'
+        }
+        function changePrecio()
+        {
+            var valorUF = {{ $valorUF->valorParametro }};
+            var valorDesde = {{ $proyecto->valorUFDesde }};
+            var rangoPie = $("#rangoPie").val();
+            var valorPesos = valorUF * valorDesde;
+            var valorPie = valorUF * rangoPie;
+            document.getElementById('precioPesos').innerText = valorPesos;
+        }
+        setTimeout(() => {
+            document.getElementById("rangoAnios").value = 30;
+            document.getElementById("rangoPie").value = 20;
+            document.getElementById("rangoTasa").value = 4.5;
+            changePrecio();
+            changeRangoAnios();
+            changeRangoPie();
+            changeRangoTasa();
+        }, 2000);
+    });
 </script>
 @endsection
         
