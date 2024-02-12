@@ -331,7 +331,7 @@
                 <article class="col-lg-12">
                     <section class="mt-2 pb-7 px-6 pt-6 bg-white rounded-lg">
                         <h4 class="fs-22 text-heading mb-6" style="font-family: FeltThat,sans-serif !important; font-size: 45px !important" >Otros Proyectos</h4>
-                        <div class="slick-slider" data-slick-options='{"slidesToShow": 3, "autoplay":true,"dots":false,"arrows":false,"responsive":[{"breakpoint": 1200,"settings": {"slidesToShow":3}},{"breakpoint": 992,"settings": {"slidesToShow":3}},{"breakpoint": 768,"settings": {"slidesToShow": 3}},{"breakpoint": 576,"settings": {"slidesToShow": 1}}]}'>
+                        <div class="slick-slider" data-slick-options='{"slidesToShow": 3, "autoplay":true,"dots":false,"arrows":false,"responsive":[{"breakpoint": 1200,"settings": {"slidesToShow":1,"arrows":false,"dots":false}},{"breakpoint": 992,"settings": {"slidesToShow":1,"arrows":false,"dots":false}},{"breakpoint": 768,"settings": {"slidesToShow": 1,"arrows":false,"dots":false}},{"breakpoint": 576,"settings": {"slidesToShow": 1,"arrows":false,"dots":false}}]}'>
                             @foreach($otrosProyectos as $otroProyecto)
                             <div class="col-xxl-12 col-lg-12 col-md-12 mb-6">
                                 <div class="card border-0 bg-overlay-gradient-3 rounded-lg hover-change-image">
@@ -390,7 +390,7 @@
         </div>
         @endif
     </div>
-    @if($calcularDividendo->valorParametro = 1)
+    @if($calcularDividendo->valorParametro == 1)
     <section class="pt-7 pb-7" style="background-color: white;">
         <div class="container">
             <div class="row">
