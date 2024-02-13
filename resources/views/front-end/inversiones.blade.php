@@ -213,54 +213,54 @@
             <div class="row">
             @if(count($proyectos))
                 @foreach($proyectos as $proyecto)
-                <div class="col-xxl-6 col-lg-6 col-md-6 mb-6" data-animate="zoomIn">
-                    <div class="card border-0 bg-overlay-gradient-3 rounded-lg hover-change-image">
-                        <img src="img/proyecto/{{ $proyecto->fotoProyecto}}" class="card-img" alt="">
-                        <a href="/proyectos-venta/{{ $proyecto->idProyecto }}">
-                            <div class="card-img-overlay d-flex flex-column position-relative-sm">
-                                <div class="d-flex">
-                                    <div class="mr-auto h-24 d-flex">
-                                        <span class="badge badge-primary mr-2">Venta</span>
-                                        @if($proyecto->idDestacado)
-                                        <span class="badge badge-warning mr-2">Entrega Inmediata</span>
-                                        @endif
+                <div class="col-xxl-6 col-lg-6 col-md-12 col-sm-12">
+                        <div class="card border-0 bg-overlay-gradient-3 rounded-lg hover-change-image">
+                            <img src="img/proyecto/{{ $proyecto->fotoProyecto}}" class="card-img" alt="">
+                            <a href="/proyectos-venta/{{ $proyecto->idProyecto }}">
+                                <div class="card-img-overlay d-flex flex-column position-relative-sm">
+                                    <div class="d-flex">
+                                        <div class="mr-auto h-24 d-flex">
+                                            <span class="badge badge-primary mr-2">Venta</span>
+                                            @if($proyecto->idDestacado)
+                                            <span class="badge badge-warning mr-2">Entrega Inmediata</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="mt-auto px-2">
+                                        <p class="fs-17 font-weight-bold text-white mb-0 lh-13">Desde {{ number_format($proyecto->valorUFDesde, 0, ",", ".") }} UF</p>
+                                        <h4 class="mt-0 mb-2 lh-1" style="color: white">{{ $proyecto->nombreProyecto }}</h4>
+                                        <div class="border-top border-white-opacity-03 pt-2">
+                                            <ul class="list-inline d-flex mb-0 flex-wrap mt-2 mt-lg-0 mr-n5">
+                                                <li class="list-inline-item text-white font-weight-500 fs-13 d-flex align-items-center mr-5" data-toggle="tooltip" title="Habitaciones">
+                                                    <svg class="icon icon-bedroom fs-18 text-primary mr-1">
+                                                        <use xlink:href="#icon-bedroom"></use>
+                                                    </svg>
+                                                    {{ $proyecto->dormitoriosDesde }} / {{ $proyecto->dormitoriosHasta}}
+                                                </li>
+                                                <li class="list-inline-item text-white font-weight-500 fs-13 d-flex align-items-center mr-5" data-toggle="tooltip" title="Baños">
+                                                    <svg class="icon icon-shower fs-18 text-primary mr-1">
+                                                        <use xlink:href="#icon-shower"></use>
+                                                    </svg>
+                                                    {{ $proyecto->baniosDesde }} / {{ $proyecto->baniosHasta }}
+                                                </li>
+                                                <li class="list-inline-item text-white font-weight-500 fs-13 d-flex align-items-center mr-5" data-toggle="tooltip" title="Tamaño">
+                                                    <svg class="icon icon-square fs-18 text-primary mr-1">
+                                                        <use xlink:href="#icon-square"></use>
+                                                    </svg>
+                                                    Desde {{ $proyecto->metrosDesde }} Hasta {{ $proyecto->metrosHasta }} MT2
+                                                </li>
+                                                <!--<li class="list-inline-item text-white font-weight-500 fs-13 d-flex align-items-center mr-5" data-toggle="tooltip" title="Estacionamiento">
+                                                    <svg class="icon icon-Garage fs-18 text-primary mr-1">
+                                                        <use xlink:href="#icon-Garage"></use>
+                                                    </svg>
+                                                    1 Gr
+                                                </li>-->
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="mt-auto px-2">
-                                    <p class="fs-17 font-weight-bold text-white mb-0 lh-13">Desde {{ number_format($proyecto->valorUFDesde, 0, ",", ".") }} UF</p>
-                                    <h4 class="mt-0 mb-2 lh-1" style="color: white">{{ $proyecto->nombreProyecto }}</h4>
-                                    <div class="border-top border-white-opacity-03 pt-2">
-                                        <ul class="list-inline d-flex mb-0 flex-wrap mt-2 mt-lg-0 mr-n5">
-                                            <li class="list-inline-item text-white font-weight-500 fs-13 d-flex align-items-center mr-5" data-toggle="tooltip" title="Habitaciones">
-                                                <svg class="icon icon-bedroom fs-18 text-primary mr-1">
-                                                    <use xlink:href="#icon-bedroom"></use>
-                                                </svg>
-                                                {{ $proyecto->dormitoriosDesde }} / {{ $proyecto->dormitoriosHasta}}
-                                            </li>
-                                            <li class="list-inline-item text-white font-weight-500 fs-13 d-flex align-items-center mr-5" data-toggle="tooltip" title="Baños">
-                                                <svg class="icon icon-shower fs-18 text-primary mr-1">
-                                                    <use xlink:href="#icon-shower"></use>
-                                                </svg>
-                                                {{ $proyecto->baniosDesde }} / {{ $proyecto->baniosHasta }}
-                                            </li>
-                                            <li class="list-inline-item text-white font-weight-500 fs-13 d-flex align-items-center mr-5" data-toggle="tooltip" title="Tamaño">
-                                                <svg class="icon icon-square fs-18 text-primary mr-1">
-                                                    <use xlink:href="#icon-square"></use>
-                                                </svg>
-                                                Desde {{ $proyecto->metrosDesde }} Hasta {{ $proyecto->metrosHasta }} MT2
-                                            </li>
-                                            <!--<li class="list-inline-item text-white font-weight-500 fs-13 d-flex align-items-center mr-5" data-toggle="tooltip" title="Estacionamiento">
-                                                <svg class="icon icon-Garage fs-18 text-primary mr-1">
-                                                    <use xlink:href="#icon-Garage"></use>
-                                                </svg>
-                                                1 Gr
-                                            </li>-->
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+                            </a>
+                        </div>
                 </div>
             @endforeach
             @else
