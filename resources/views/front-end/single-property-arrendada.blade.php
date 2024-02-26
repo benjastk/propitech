@@ -38,7 +38,22 @@
         <div class="container">
             <div class="d-block d-lg-none">
                 <div class="row">
+                    <div style="position: fixed;width: 100%;z-index: 9999999999999;" class="header-sticky header-sticky-smart">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                        height="100px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve" style="float: right;" >
+                            <g>
+                                <path fill-rule="evenodd" clip-rule="evenodd" class="oferta-verde" style="fill: black !important;" d="M0,0h41.4L100,58.6V100L0,0z"/>
+                                <text x="20" y="38" transform="rotate(45 48 48)" class="texto-oferta-verde">ARRENDADA</text>  
+                            </g>
+                            <g>  
+                                <path fill-rule="evenodd" clip-rule="evenodd" class="triangulo" d="M100,0v59L41,0H100z"/>
+                                <text x="30" y="11" transform="rotate(45 48 48)" class="texto-triangulo"></text>
+                                <!--<text x="57" y="11" transform="rotate(45 48 48)" class="texto-descuento">%</text>-->
+                            </g>
+                        </svg>
+                    </div>
                     <article class="col-12" style="padding: 20px">
+                        
                         <ul class="list-inline d-sm-flex align-items-sm-center mb-2">
                             @if($propiedad->idDestacado > 0)
                                 <li class="list-inline-item badge badge-orange mr-2">Destacada</li>
@@ -87,212 +102,8 @@
                                     </div>
                                 </div>
                             </div>
-                            @if($propiedad->fotos)
-                            @foreach($propiedad->fotos as $foto1)
-                                <div class="box px-0">
-                                    <div class="item item-size-3-2">
-                                        <div class="card p-0 hover-change-image">
-                                            <a href="/img/propiedad/{{ $foto1->nombreArchivo }}" class="card-img" data-gtf-mfp="true" data-gallery-id="04" style="background-image:url('/img/propiedad/{{ $foto1->nombreArchivo }}')">
-                                        </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                            @endif
-                        </div>
-                        <div class="slick-slider slider-nav-01 mt-4 mx-n1 arrow-haft-inner" data-slick-options='{"slidesToShow": 4, "infinite":true, "autoplay":true,"dots":false,"arrows":false,"asNavFor": ".slider-for-01","focusOnSelect": true,"responsive":[{"breakpoint": 768,"settings": {"slidesToShow": 4}},{"breakpoint": 576,"settings": {"slidesToShow": 2}}]}'>
-                            <div class="box pb-6 px-0">
-                                <div class="bg-hover-white p-1 shadow-hover-xs-3 h-100 rounded-lg">
-                                    <img src="/img/propiedad/{{ $propiedad->fotoPrincipal }}" alt="" class="h-100 w-100 rounded-lg">
-                                </div>
-                            </div>
-                            @if($propiedad->fotos)
-                            @foreach($propiedad->fotos as $foto)
-                                <div class="box pb-6 px-0">
-                                    <div class="bg-hover-white p-1 shadow-hover-xs-3 h-100 rounded-lg">
-                                        <img src="/img/propiedad/{{ $foto->nombreArchivo }}" alt="" class="h-100 w-100 rounded-lg">
-                                    </div>
-                                </div>
-                            @endforeach
-                            @endif
                         </div>
                     </div>
-                </section>
-                <section class="pb-8 px-6 pt-5 bg-white rounded-lg">
-                    <h4 class="fs-22 text-heading mb-3" style="font-family: FeltThat,sans-serif !important; font-size: 38px !important; color: #2db5ff !important;" >Descripción</h4>
-                    <p class="mb-0 lh-214">{!! $propiedad->descripcion !!}</p>
-                </section>
-                <section class="mt-2 pb-3 px-6 pt-5 bg-white rounded-lg">
-                    <h4 class="fs-22 text-heading mb-6" style="font-family: FeltThat,sans-serif !important; font-size: 38px !important; color: #2db5ff !important;">Características de la propiedad</h4>
-                    <div class="row">
-                    <div class="col-lg-3 col-sm-4 mb-6">
-                        <div class="media">
-                        <div class="p-2 shadow-xxs-1 rounded-lg mr-2">
-                            <svg class="icon icon-family fs-32 text-primary"><use xlink:href="#icon-family"></use></svg>
-                        </div>
-                        <div class="media-body">
-                            <h5 class="my-1 fs-14 text-uppercase letter-spacing-093 font-weight-normal">Tipo</h5>
-                            <p class="mb-0 fs-13 font-weight-bold text-heading">{{ $propiedad->nombreTipoPropiedad }}</p>
-                        </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-4 mb-6">
-                        <div class="media">
-                        <div class="p-2 shadow-xxs-1 rounded-lg mr-2">
-                            <svg class="icon icon-year fs-32 text-primary"><use xlink:href="#icon-year"></use></svg>
-                        </div>
-                        <div class="media-body">
-                            <h5 class="my-1 fs-14 text-uppercase letter-spacing-093 font-weight-normal">Antiguedad</h5>
-                            <p class="mb-0 fs-13 font-weight-bold text-heading">{{ $propiedad->antiguedad}}</p>
-                        </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-4 mb-6">
-                        <div class="media">
-                        <div class="p-2 shadow-xxs-1 rounded-lg mr-2">
-                            <svg class="icon icon-status fs-32 text-primary"><use xlink:href="#icon-status"></use></svg>
-                        </div>
-                        <div class="media-body">
-                            <h5 class="my-1 fs-14 text-uppercase letter-spacing-093 font-weight-normal">Estado</h5>
-                            <p class="mb-0 fs-13 font-weight-bold text-heading">{{ $propiedad->nombreNivelUsoPropiedad }}</p>
-                        </div>
-                        </div>
-                    </div>
-                    @if($propiedad->mascotas > 0)
-                        <div class="col-lg-3 col-sm-4 mb-6">
-                            <div class="media">
-                            <div class="p-2 shadow-xxs-1 rounded-lg mr-2">
-                                <svg class="icon icon-heart fs-32 text-primary"><use xlink:href="#icon-heart"></use></svg>
-                            </div>
-                            <div class="media-body">
-                                <h5 class="my-1 fs-14 text-uppercase letter-spacing-093 font-weight-normal">Mascotas</h5>
-                                <p class="mb-0 fs-13 font-weight-bold text-heading">Si</p>
-                            </div>
-                            </div>
-                        </div>
-                    @else
-                    
-                    @endif
-                    <div class="col-lg-3 col-sm-4 mb-6">
-                        <div class="media">
-                        <div class="p-2 shadow-xxs-1 rounded-lg mr-2">
-                            <svg class="icon icon-bedroom fs-32 text-primary"><use xlink:href="#icon-bedroom"></use></svg>
-                        </div>
-                        <div class="media-body">
-                            <h5 class="my-1 fs-14 text-uppercase letter-spacing-093 font-weight-normal">Habitaciones</h5>
-                            <p class="mb-0 fs-13 font-weight-bold text-heading">{{ $propiedad->habitacion}}</p>
-                        </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-4 mb-6">
-                        <div class="media">
-                        <div class="p-2 shadow-xxs-1 rounded-lg mr-2">
-                            <svg class="icon icon-sofa fs-32 text-primary"><use xlink:href="#icon-sofa"></use></svg>
-                        </div>
-                        <div class="media-body">
-                            <h5 class="my-1 fs-14 text-uppercase letter-spacing-093 font-weight-normal">Baños</h5>
-                            <p class="mb-0 fs-13 font-weight-bold text-heading">{{ $propiedad->bano }}</p>
-                        </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-4 mb-6">
-                        <div class="media">
-                        <div class="p-2 shadow-xxs-1 rounded-lg mr-2">
-                            <svg class="icon icon-my-package fs-18 text-primary mr-1">
-                                <use xlink:href="#icon-my-package"></use>
-                            </svg>
-                        </div>
-                        <div class="media-body">
-                            <h5 class="my-1 fs-14 text-uppercase letter-spacing-093 font-weight-normal">Bodega</h5>
-                            @if($propiedad->usoGoceBodega > 0)
-                            Si
-                            @else
-                            No
-                            @endif
-                        </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-4 mb-6">
-                        <div class="media">
-                        <div class="p-2 shadow-xxs-1 rounded-lg mr-2">
-                            <svg class="icon icon-Garage fs-32 text-primary"><use xlink:href="#icon-Garage"></use></svg>
-                        </div>
-                        <div class="media-body">
-                            <h5 class="my-1 fs-14 text-uppercase letter-spacing-093 font-weight-normal">Estacionamiento</h5>
-                            @if($propiedad->usoGoceEstacionamiento > 0)
-                            Si
-                            @else
-                            No
-                            @endif
-                        </div>
-                        </div>
-                    </div>
-                    </div>
-                </section>
-                <section class="mt-2 pb-6 px-6 pt-5 bg-white rounded-lg">
-                    <h4 class="fs-22 text-heading mb-4" style="font-family: FeltThat,sans-serif !important; font-size: 38px !important; color: #2db5ff !important;">Detalles de la propiedad</h4>
-                    <div class="row">
-                        <dl class="col-sm-6 mb-0 d-flex">
-                            <dt class="w-110px fs-14 font-weight-500 text-heading pr-2">ID</dt>
-                            <dd>{{ $propiedad->id }}</dd>
-                        </dl>
-                        <dl class="col-sm-6 mb-0 d-flex">
-                            <dt class="w-110px fs-14 font-weight-500 text-heading pr-2">Precio</dt>
-                            @if($propiedad->idTipoComercial == 2)
-                                <dd>$ {{ number_format($propiedad->valorArriendo, 0, ",", ".") }}</dd>
-                            @else
-                                <dd>UF {{ number_format($propiedad->precio, 0, ",", ".") }}</dd>
-                            @endif
-                        </dl>
-                        <dl class="col-sm-6 mb-0 d-flex">
-                            <dt class="w-110px fs-14 font-weight-500 text-heading pr-2">Tipo</dt>
-                            <dd>{{ $propiedad->nombreTipoPropiedad }}</dd>
-                        </dl>
-                        <dl class="col-sm-6 mb-0 d-flex">
-                            <dt class="w-110px fs-14 font-weight-500 text-heading pr-2">Operacion</dt>
-                            @if($propiedad->idTipoComercial == 2)
-                                <dd>Arriendo</dd>
-                            @else
-                                <dd>Venta</dd>
-                            @endif
-                        </dl>
-                        <dl class="col-sm-6 mb-0 d-flex">
-                            <dt class="w-110px fs-14 font-weight-500 text-heading pr-2">Habitaciones</dt>
-                            <dd>{{ $propiedad->habitacion }}</dd>
-                        </dl>
-                        <dl class="col-sm-6 mb-0 d-flex">
-                            <dt class="w-110px fs-14 font-weight-500 text-heading pr-2">Baños</dt>
-                            <dd>{{ $propiedad->bano }}</dd>
-                        </dl>
-                        <dl class="col-sm-6 mb-0 d-flex">
-                            <dt class="w-110px fs-14 font-weight-500 text-heading pr-2">Mts. totales</dt>
-                            <dd>{{ $propiedad->mTotal }}</dd>
-                        </dl>
-                        <dl class="col-sm-6 mb-0 d-flex">
-                            <dt class="w-110px fs-14 font-weight-500 text-heading pr-2">Mts. constr.</dt>
-                            <dd>{{ $propiedad->mConstruido }}</dd>
-                        </dl>
-                        <dl class="col-sm-6 mb-0 d-flex">
-                            <dt class="w-110px fs-14 font-weight-500 text-heading pr-2">Metros terraza</dt>
-                            <dd>{{ $propiedad->mTerraza }}</dd>
-                        </dl>
-                        @if($propiedad->orientacion)
-                        <dl class="col-sm-6 mb-0 d-flex">
-                            <dt class="w-110px fs-14 font-weight-500 text-heading pr-2">Orientación</dt>
-                            <dd>{{ $propiedad->orientacion }}</dd>
-                        </dl>
-                        @endif
-                    </div>
-                </section>
-                <section class="mt-2 pb-7 px-6 pt-5 bg-white rounded-lg">
-                    <h4 class="fs-22 text-heading mb-4" style="font-family: FeltThat,sans-serif !important; font-size: 38px !important; color: #2db5ff !important;" >Amenidades</h4>
-                    <ul class="list-unstyled mb-0 row no-gutters">
-                        @if($amenidades)
-                        @foreach($amenidades as $amenidad)
-                            <li class="col-sm-3 col-6 mb-2">{!! $amenidad->iTag !!} {{ $amenidad->nombreCaracteristica }}</li>
-                        @endforeach
-                        @endif
-                    </ul>
                 </section>
                 <section class="mt-2 pb-7 px-6 pt-6 bg-white rounded-lg">
                     <div class="card border-0">
@@ -313,22 +124,13 @@
                             </div>
                         </div>
                         <div class="form-group mb-6">
-                            <textarea class="form-control form-control-lg border-0" placeholder="Tu mensaje" name="mensaje" rows="5">Hola, estoy interesado en la propiedad {{ $propiedad->direccion }} {{ $propiedad->numero }}, {{ $propiedad->nombreComuna }} - ID:{{ $propiedad->id }}
+                            <textarea class="form-control form-control-lg border-0" placeholder="Tu mensaje" name="mensaje" rows="2">Hola, estoy buscando una propiedad similar a la ubicada en {{ $propiedad->direccion }} {{ $propiedad->numero }}, {{ $propiedad->nombreComuna }} - ID:{{ $propiedad->id }}
                             </textarea>
                             <input type="hidden" name="id_formulario" value="3">
                         </div>
                         <button type="submit" class="btn btn-lg btn-primary px-10">Contactar</button>
                         </form>
                     </div>
-                    </div>
-                </section>
-                <section class="mt-2 pb-6 px-6 pt-6 bg-white rounded-lg" >
-                    <h4 class="fs-22 text-heading mb-6" style="font-family: FeltThat,sans-serif !important; font-size: 38px !important; color: #2db5ff !important;" >Ubicación</h4>
-                    <div class="position-relative">
-                        <div class="position-relative">
-                            <div id="map" style="height: 300px; !important">
-                            <p class="mb-0 p-3 bg-white shadow rounded-lg position-absolute pos-fixed-bottom mb-4 ml-4 lh-17 z-index-2">{{ $propiedad->direccion }} {{ $propiedad->numero }}, {{ $propiedad->nombreComuna }}, {{ $propiedad->nombreRegion }}</p>
-                        </div>
                     </div>
                 </section>
                 <section class="mt-2 pb-7 px-6 pt-6 bg-white rounded-lg">
@@ -420,6 +222,20 @@
                 </section>
             </article>
             <aside class="col-lg-4 pl-xl-4 primary-sidebar sidebar-sticky" id="sidebar" style="top: 15px;">
+                <div style="z-index: 9999999999999;">
+                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    height="100px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve" style="float: right;" >
+                        <g>
+                            <path fill-rule="evenodd" clip-rule="evenodd" class="oferta-verde" style="fill: black !important;" d="M0,0h41.4L100,58.6V100L0,0z"/>
+                            <text x="20" y="38" transform="rotate(45 48 48)" class="texto-oferta-verde">ARRENDADA</text>  
+                        </g>
+                        <g>  
+                            <path fill-rule="evenodd" clip-rule="evenodd" class="triangulo" d="M100,0v59L41,0H100z"/>
+                            <text x="30" y="11" transform="rotate(45 48 48)" class="texto-triangulo"></text>
+                            <!--<text x="57" y="11" transform="rotate(45 48 48)" class="texto-descuento">%</text>-->
+                        </g>
+                    </svg>
+                </div>
             <div class="primary-sidebar-inner">
                 <div class="bg-white rounded-lg py-lg-6 pl-lg-6 pr-lg-3 p-4">
                 @if($propiedad->valorCyber)
@@ -607,7 +423,7 @@
                             <input type="email" name="email" class="form-control form-control-lg border-0" placeholder="Tu correo electronico">
                         </div>
                         <div class="form-group mb-2">
-                            <textarea class="form-control border-0" name="mensaje" rows="2">Hola, estoy interesado en la propiedad {{ $propiedad->direccion }} {{ $propiedad->numero }}, {{ $propiedad->nombreComuna }} - ID:{{ $propiedad->id }}</textarea>
+                            <textarea class="form-control border-0" name="mensaje" rows="2">Hola, estoy buscando una propiedad similar a la ubicada en {{ $propiedad->direccion }} {{ $propiedad->numero }}, {{ $propiedad->nombreComuna }} - ID:{{ $propiedad->id }}</textarea>
                         </div>
                         <div class="form-group form-check mb-4">
                             <input type="checkbox" class="form-check-input" id="exampleCheck3">
@@ -624,39 +440,4 @@
 </main>
 @endsection
 @section('jss')
-<!--<script>
-    mapboxgl.accessToken = 'pk.eyJ1IjoiYmVuamFzdGsiLCJhIjoiY2xnZHYwZ2V0MG82MjNscnl6dXQxZWxsaiJ9.wLKdL8bv-Y9DKI8qSW_AZw';
-    var map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v11',
-        center: [{{ $propiedad->longitud }}, {{ $propiedad->latitud }}],
-        zoom: 14
-    });
-    $('.mapboxgl-canvas').css('height', '100%');
-    map.resize();
-    var marker{{ $propiedad->id }} = new mapboxgl.Marker({ color: '#2db5ff' })
-    .setLngLat([{{ $propiedad->longitud }}, {{ $propiedad->latitud }}])
-    .addTo(map);
-</script>-->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzyDN_wIGU_xsKCYm-0L7pF54cuR2sq5I&callback=initMap" async defer></script>
-<script>
-    var map;
-    var lat = {{ $propiedad->latitud }};
-    var lng = {{ $propiedad->longitud }};
-    function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-            center: { lng, lat },
-            zoom: 14,
-            streetViewControl: false,
-            mapTypeId: google.maps.MapTypeId.ROADMAP,
-            disableDefaultUI: true
-        });
-        var myLatlng = new google.maps.LatLng(lat, lng);
-        var marker = new google.maps.Marker({
-            position: myLatlng,
-            icon: {url:'/front/marker.png', scaledSize: new google.maps.Size(50, 70)}
-        });
-        marker.setMap(map);
-    }
-</script>
 @endsection
