@@ -40,3 +40,5 @@ Route::post('/otrospagos/revpag', 'PagoController@revpag');
 
 Route::post('/pago-arriendo-exitoso', 'PagoController@pagoArriendoExitoso');
 Route::post('/pago-reserva-exitosa', 'PagoController@pagoReservaExitosa');
+
+Route::get('/properties-sincronize','Api\BuyDepaIntegracionController@sincronizeProperties');
