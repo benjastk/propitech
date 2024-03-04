@@ -62,7 +62,7 @@ Route::get('/mailPorCorreo', 'AlertaController@mailPorCorreo');
 //Route::get('/morosos', 'EstadoPagoController@cambiarAMoroso');
 //Route::get('/vencidos', 'EstadoPagoController@cambiarAVencido');
 Route::get('/agregarPorcentajeAMorosos', 'EstadoPagoController@agregarPorcentajeAMorosos');
-//Route::get('/tokenizarEstadosPagos', 'EstadoPagoController@tokenizarEstadosPagos');
+Route::get('/recordarPagoSMS', 'AlertaController@recordarPagoSMS');
 Route::prefix('users')->group(function () {
     Route::get('/', 'UserController@index')->name('users');
     Route::get('/create', 'UserController@create');
