@@ -201,10 +201,19 @@ class ContratoArriendoController extends Controller
                 if($nuevoContrato->idTiempoPagoGarantia > 1)
                 {
                     $tiempoPagoGarantia = TiempoPagoGarantia::where('idTiempoPagoGarantia', '=', $nuevoContrato->idTiempoPagoGarantia)->first();
-                    if($i < $tiempoPagoGarantia->tiempo || $i == $tiempoPagoGarantia->tiempo)
+                    if($i == 1)
                     {
-                        $nuevosEstadosPagos->garantia = ($nuevoContrato->garantia / $tiempoPagoGarantia->tiempo);
-                        $subtotal = $subtotal + ($nuevoContrato->garantia / $tiempoPagoGarantia->tiempo) + $nuevosEstadosPagos->comision;
+                        $primeraGarantiaCalculada = ($nuevoContrato->garantia / $request->cantidadGarantias);
+                        $garantiaRestante = $nuevoContrato->garantia - $primeraGarantiaCalculada;
+                        $nuevosEstadosPagos->garantia = $primeraGarantiaCalculada;
+                    }
+                    else
+                    {
+                        if($i < $tiempoPagoGarantia->tiempo || $i == $tiempoPagoGarantia->tiempo)
+                        {
+                            $nuevosEstadosPagos->garantia = ($garantiaRestante / $tiempoPagoGarantia->tiempo);
+                            $subtotal = $subtotal + ($garantiaRestante / $tiempoPagoGarantia->tiempo) + $nuevosEstadosPagos->comision;
+                        }
                     }
                 }
                 else
@@ -240,7 +249,6 @@ class ContratoArriendoController extends Controller
             if($request->idTipoContrato == 1)
             {
                 $reserva = ReservaPropiedad::where('rut', $request->rutArrendatario)
-                ->where('idEstado', 48)
                 ->first();
                 if($reserva)
                 {
@@ -251,9 +259,15 @@ class ContratoArriendoController extends Controller
                     {
                         $comisionAnterior = $estadoPagoMenos->comision;
                         $pagadoAnterior = $estadoPagoMenos->totalPagado;
+                        $subtotalAnterior = $estadoPagoMenos->subtotal;
                         $estadoPagoMenos->comision = $comisionAnterior - $reserva->valorReserva;
-                        $estadoPagoMenos->totalPagado = $pagadoAnterior + $reserva->valorReserva;
-                        $estadoPagoMenos->saldo = $estadoPagoMenos->subtotal - $reserva->valorReserva;
+                        if($estadoPagoMenos->comision == $reserva->valorReserva)
+                        {      
+                        }
+                        else
+                        {
+                            $estadoPagoMenos->subtotal = $subtotalAnterior - $reserva->valorReserva;
+                        }
                         $estadoPagoMenos->save();
 
                         $logTransaccion = new LogTransaccion();

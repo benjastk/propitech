@@ -151,7 +151,7 @@ class AlertaController extends Controller
                 { 
                     $enviar = SMS::sendSMS();
                     $enviar['cliente']->messages->create( '+56'.$estadoPago->telefono,
-                        ['from' => $enviar['numero'], 'body' => 'Estimado'. $estadoPago->name. ' '. $estadoPago->apellido.', ya se encuentra disponible el pago de tu arriendo del mes de Marzo.
+                        ['from' => $enviar['numero'], 'body' => 'Estimado/a '. $estadoPago->name. ' '. $estadoPago->apellido.', ya se encuentra disponible el pago de tu arriendo del mes de Marzo.
                         Puede pagar en www.propitech.cl/pago-online. Equipo Propitech'] );
                 }
             }

@@ -208,7 +208,7 @@
       </tr>-->
       </tbody>
       </table>
-      <p>&nbsp;</p>
+      <p>*NOTA: Al realizar el pago de la reserva el cliente acepta los términos y condiciones establecidos en nuestra página web</p>
       </div>
       </div>
       <br>
