@@ -139,6 +139,7 @@ class ContratoArriendoController extends Controller
             $fechaVencimientoInicial = Carbon::parse($mesYAnio.'-'.$nuevoContrato->diaPago)->format('Y-m-d');
             $reajuste = ParametroGeneral::where('parametroGeneral', '=', 'PORCENTAJE DE AJUSTE ARRIENDO')->first();
             $subtotal = 0;
+            $garantiaRestante = 0;
             for($i = 1; $i <= $nuevoContrato->tiempoContrato; $i++){
                 $nuevosEstadosPagos = new EstadoPago();
                 $nuevosEstadosPagos->idContrato = $nuevoContrato->idContratoArriendo;
@@ -187,7 +188,7 @@ class ContratoArriendoController extends Controller
                     else
                     {
                         $nuevosEstadosPagos->arriendoMensual = $nuevoContrato->arriendoMensual;
-                        $subtotal = $subtotal;
+                        $subtotal = $nuevosEstadosPagos->arriendoMensual;
                     }
                     ////////////////////////////////////// FIN DIAS PROPORCIONALES
                 }
@@ -201,10 +202,20 @@ class ContratoArriendoController extends Controller
                 if($nuevoContrato->idTiempoPagoGarantia > 1)
                 {
                     $tiempoPagoGarantia = TiempoPagoGarantia::where('idTiempoPagoGarantia', '=', $nuevoContrato->idTiempoPagoGarantia)->first();
-                    if($i < $tiempoPagoGarantia->tiempo || $i == $tiempoPagoGarantia->tiempo)
+                    if($i == 1)
                     {
-                        $nuevosEstadosPagos->garantia = ($nuevoContrato->garantia / $tiempoPagoGarantia->tiempo);
-                        $subtotal = $subtotal + ($nuevoContrato->garantia / $tiempoPagoGarantia->tiempo) + $nuevosEstadosPagos->comision;
+                        $primeraGarantiaCalculada = ($nuevoContrato->garantia / $request->cantidadGarantias);
+                        $garantiaRestante = $nuevoContrato->garantia - $primeraGarantiaCalculada;
+                        $nuevosEstadosPagos->garantia = $primeraGarantiaCalculada;
+                        $subtotal = $subtotal + $primeraGarantiaCalculada + $nuevosEstadosPagos->comision;
+                    }
+                    else
+                    {
+                        if($i < ($tiempoPagoGarantia->tiempo + 1) || $i == ($tiempoPagoGarantia->tiempo + 1))
+                        {
+                            $nuevosEstadosPagos->garantia = ($garantiaRestante / $tiempoPagoGarantia->tiempo);
+                            $subtotal = $subtotal + ($garantiaRestante / $tiempoPagoGarantia->tiempo);
+                        }
                     }
                 }
                 else
@@ -240,7 +251,6 @@ class ContratoArriendoController extends Controller
             if($request->idTipoContrato == 1)
             {
                 $reserva = ReservaPropiedad::where('rut', $request->rutArrendatario)
-                ->where('idEstado', 48)
                 ->first();
                 if($reserva)
                 {
@@ -251,9 +261,9 @@ class ContratoArriendoController extends Controller
                     {
                         $comisionAnterior = $estadoPagoMenos->comision;
                         $pagadoAnterior = $estadoPagoMenos->totalPagado;
+                        $subtotalAnterior = $estadoPagoMenos->subtotal;
                         $estadoPagoMenos->comision = $comisionAnterior - $reserva->valorReserva;
-                        $estadoPagoMenos->totalPagado = $pagadoAnterior + $reserva->valorReserva;
-                        $estadoPagoMenos->saldo = $estadoPagoMenos->subtotal - $reserva->valorReserva;
+                        $estadoPagoMenos->subtotal = $subtotalAnterior - $reserva->valorReserva;
                         $estadoPagoMenos->save();
 
                         $logTransaccion = new LogTransaccion();
