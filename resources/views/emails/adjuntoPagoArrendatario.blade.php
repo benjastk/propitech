@@ -174,8 +174,8 @@
       <tr style="height: 13px;">
       <td style="width: 175px; height: 13px;">DESCUENTO A REALIZAR</td>
       <td style="width: 175px; height: 13px;"> - ${{ number_format($totalDescuento, 0, '', '.')}}</td>
-      <td style="width: 175px; height: 13px;"></td>
-      <td style="width: 175px; height: 13px;"></td>
+      <td style="width: 175px; height: 13px;">SALDO</td>
+      <td style="width: 175px; height: 13px;">@if($estadosDePago->saldo > 0) {{ number_format($estadosDePago->saldo, 0, '', '.')}} @else $0 @endif</td>
       </tr>
       <tr style="height: 13px;">
       <td style="width: 175px; height: 13px;">&nbsp;</td>
