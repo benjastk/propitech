@@ -160,4 +160,52 @@ class AlertaController extends Controller
             return response()->json($e->getMessage());
         }
     }
+    public function recordarPagoWhatsapp()
+    {
+        try{
+            setlocale(LC_TIME, 'es_ES', 'Spanish_Spain', 'Spanish');
+            $fechaActual = date('Y-m-d');
+            $anioActual = date('Y');
+            $mesActual = date('m');
+            $mesPalabras = strftime("%B");
+            $diasAlerta1 = ParametroGeneral::where('parametroGeneral', '=', "ALERTA YA SE ENCUENTRA TU PAGO")->first();
+
+            $estadosPagos = EstadoPago::select('estados_pagos.*', 'users.email', 'users.id as idUsuario', 'users.name', 'users.apellido', 'users.telefono')
+            ->join('contratos_arriendos', 'contratos_arriendos.idContratoArriendo', '=', 'estados_pagos.idContrato')
+            ->join('users', 'users.id', '=', 'contratos_arriendos.idUsuarioArrendatario')
+            ->whereIn('estados_pagos.idEstado', [47, 49, 50])
+            ->where('contratos_arriendos.idEstado', 61)
+            ->whereMonth('estados_pagos.fechaVencimiento', '=', $mesActual)
+            ->whereYear('estados_pagos.fechaVencimiento', '=', $anioActual)
+            ->get();
+            if(!$estadosPagos->isEmpty())
+            {
+                foreach ($estadosPagos as $estadoPago) 
+                { 
+                    $enviar = SMS::sendSMS();
+                    $var = $enviar['cliente']->messages->create( 'whatsapp:+56'. $estadoPago->telefono,
+                        ['from' => 'whatsapp:'.$enviar['numero'], 
+                        'messagingServiceSid ' => 'MGd211ce449e9d2c3193f109fd199e1a3a', 
+                        'body' => "¡Hola ".$estadoPago->name."👋!
+
+                        Ya se encuentra disponible el pago de tu arriendo del mes de ".$mesPalabras." de ".$anioActual.".
+                        Para realizar el pago sólo debes hacer clic en el siguiente enlace👇:
+                        https://www.propitech.cl/pago-online
+                        
+                        1.- Digita tu rut sin puntos y con guion.
+                        2.- Aparecerá la deuda actual
+                        3.- Se abrirá una nueva pestaña de nuestro proveedor otrospagos.com
+                        
+                        En caso de dudas o consultas puedes contactarnos directamente con tu ejecutivo o por el botón que se encuentra en nuestro sitio web.
+                        
+                        PROPITECH By Cirobu
+                        Hacemos tu sueño realidad. "] 
+                    );
+                }
+            }
+            return "listo";
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage());
+        }
+    }
 }
