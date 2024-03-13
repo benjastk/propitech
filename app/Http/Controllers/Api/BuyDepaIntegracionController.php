@@ -72,8 +72,8 @@ class BuyDepaIntegracionController extends Controller
                     $propiedadesDesde = $propiedades['properties'];
                     foreach ($propiedadesDesde as $key => $propiedad) 
                     {
+                        set_time_limit(60);
                         $propiedadAEditar = Propiedad::where('idBuyDepa', $propiedad['id'])
-                        ->where('idBuyDepa', $propiedad['id'])
                         ->first();
                         $comunaABuscar = Comuna::where('nombre', 'like', '%' . $propiedad['commune'] . '%')
                         ->first();
@@ -143,7 +143,7 @@ class BuyDepaIntegracionController extends Controller
                                 $propiedadAEditar->idBuyDepa = $propiedad['id'];
                                 $propiedadAEditar->skuBuyDepa = $propiedad['sku'];
                                 $propiedadAEditar->idBanco = null;
-                                $propiedadACrear->idUsuarioExpertoVendedor = 2;
+                                $propiedadAEditar->idUsuarioExpertoVendedor = 2;
                                 $propiedadAEditar->save();
                             }
                         }
