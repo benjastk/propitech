@@ -465,4 +465,39 @@ class PropertyController extends Controller
         ->get();
         return view('back-office.properties.suspendidas', compact('user', 'propiedades'));
     }
+    public function destroyCompleto(Request $request)
+    {
+        try {
+            $caracteristicaPropiedad = CaracteristicasPorPropiedades::where('idPropiedad','=', $request->id)->get();
+            if($caracteristicaPropiedad)
+            {
+                foreach ($caracteristicaPropiedad as $caracteristica) 
+                {
+                    $caracteristica->delete();
+                }
+            }
+            $fotos = Foto::where('idPropiedad', $request->id)->get();
+		    if($fotos)
+            {
+                foreach ($fotos as $foto) 
+                {
+                    File::delete(public_path('img/propiedad/' . $foto->nombreArchivo));
+            	    $foto->delete();
+                }
+            }
+            $propiedad = Propiedad::where('id', $request->id)->first();
+            $propiedad->delete();
+            toastr()->success('Propiedad eliminada exitosamente', 'Operación exitosa');
+            return back();
+		} catch (QueryException $e) {
+			toastr()->error('Error de conexion, favor intente nuevamente');
+			return back();
+		} catch (ModelNotFoundException $e) {
+			toastr()->error('Imagen no encontrada');
+			return back();
+		} catch (Exception $e) {
+			toastr()->error('Se ha producido un error, favor intente nuevamente');
+			return back();
+		}
+    }
 }
