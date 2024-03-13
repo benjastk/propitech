@@ -95,6 +95,9 @@ class Propiedad extends Model
         'captador',
         'comisionPropiedad',
         'valorCyber',
+        'esBuyDepa',
+        'idBuyDepa',
+        'skuBuyDepa',
         'created_at',
         'updated_at'
     ];

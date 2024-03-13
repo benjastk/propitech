@@ -84,6 +84,7 @@ Route::prefix('properties')->group(function () {
     Route::get('/edit/{propiedad}', 'PropertyController@edit');
     Route::post('/update/{propiedad}', 'PropertyController@update');
     Route::post('/destroy', 'PropertyController@destroy');
+    Route::post('/destroy-completo', 'PropertyController@destroyCompleto');
     
     Route::post('/img/subir/{id}', 'PropertyController@subirImagen');
     Route::post('/img/eliminar/{fileName}', 'PropertyController@eliminarImagen');

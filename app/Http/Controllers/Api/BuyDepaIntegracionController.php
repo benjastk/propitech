@@ -1,0 +1,280 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use App\CaracteristicasPorPropiedades;
+use App\Provincia;
+use App\Propiedad;
+use App\Comuna;
+use App\Region;
+use App\Pais;
+use App\Foto;
+use Image;
+
+class BuyDepaIntegracionController extends Controller
+{
+    public function getProperties()
+    {
+        try{
+            $urlBuyDepa = getenv("URL_BUY_DEPA");
+            $apiKeyBuyDepa = getenv("API_KEY_BUYDEPA");
+            $json = $urlBuyDepa.'/properties';
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $json);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'x-api-key: '.$apiKeyBuyDepa
+            ]);
+            $response = curl_exec($ch);
+            curl_close($ch);
+            $spam = json_decode($response);
+            return response()->json(['success' => true, 'data' => $response], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['success' => false, 'data' => $e->getMessage()], 500);
+        } catch (QueryException $e) {
+            return response()->json(['success' => false, 'data' => $e->getMessage()], 500);
+        } catch (DecryptException $e) {
+            return response()->json(['success' => false, 'data' => $e->getMessage()], 500);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'data' => $e->getMessage()], 500);
+        }
+    }
+    public function sincronizeProperties()
+    {
+        try{
+            $urlBuyDepa = getenv("URL_BUY_DEPA");
+            $apiKeyBuyDepa = getenv("API_KEY_BUYDEPA");
+            $json = $urlBuyDepa.'/properties';
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $json);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'x-api-key: '.$apiKeyBuyDepa
+            ]);
+            $response = curl_exec($ch);
+            curl_close($ch);
+            $spam = json_decode($response);
+
+            $propiedades = json_decode($response, true);
+            //return response()->json($propiedades);
+            // crear o actualizar propiedades
+            if($propiedades)
+            {
+                if($propiedades['properties'])
+                {
+                    $propiedadesDesde = $propiedades['properties'];
+                    foreach ($propiedadesDesde as $key => $propiedad) 
+                    {
+                        set_time_limit(60);
+                        $propiedadAEditar = Propiedad::where('idBuyDepa', $propiedad['id'])
+                        ->first();
+                        $comunaABuscar = Comuna::where('nombre', 'like', '%' . $propiedad['commune'] . '%')
+                        ->first();
+                        if($comunaABuscar)
+                        {
+                            $provinciaABuscar = Provincia::where('id', $comunaABuscar->idProvincia)
+                            ->first();
+                            $regionABuscar = Region::where('id', $provinciaABuscar->idRegion)
+                            ->first();
+                        }
+                        if($propiedadAEditar)
+                        {
+                            if($propiedad['images'])
+                            {
+                                $propiedadAEditar->idNivelUsoPropiedad = 1;
+                                $propiedadAEditar->idTipoComercial = 1;
+                                $propiedadAEditar->mostrarTituloAutomatico = 1;
+                                $propiedadAEditar->idTipoPropiedad = 2;
+                                $propiedadAEditar->nombrePropiedad = "Departamento en venta ".$propiedad['bedrooms']. " dormitorios ". $propiedad['bathrooms']. " Baños, comuna de ".$propiedad['commune'];
+                                $propiedadAEditar->precio = ($propiedad['selling_price'] > 0) ? $propiedad['final_selling_price'] : 0;
+                                $propiedadAEditar->valorArriendo = ($propiedad['rent_price_clp'] > 0) ? $propiedad['rent_price_clp'] : 0;
+                                $propiedadAEditar->gastosComunes = $propiedad['expenses_clp'];
+                                $propiedadAEditar->contribucion = $propiedad['contributions_clp'];
+                                $propiedadAEditar->idPais = $regionABuscar->idPais;
+                                $propiedadAEditar->idRegion = $regionABuscar->id;
+                                $propiedadAEditar->idProvincia = $provinciaABuscar->id;
+                                $propiedadAEditar->idComuna = $comunaABuscar->id;
+                                $propiedadAEditar->direccion = $propiedad['address'];
+                                $propiedadAEditar->numero = "";
+                                $propiedadAEditar->block = "";
+                                $propiedadAEditar->mTotal = $propiedad['interior_area'] + $propiedad['terrace_area'];
+                                $propiedadAEditar->mConstruido = $propiedad['interior_area'];
+                                $propiedadAEditar->mTerraza = $propiedad['terrace_area'];
+                                $propiedadAEditar->bano = $propiedad['bathrooms'];
+                                $propiedadAEditar->habitacion = $propiedad['bedrooms'];
+                                $propiedadAEditar->numeroPisos = $propiedad['floor'];
+                                $propiedadAEditar->latitud = $propiedad['latitude'];
+                                $propiedadAEditar->longitud = $propiedad['longitude'];
+                                $propiedadAEditar->descripcion = $propiedad['description'];
+                                $propiedadAEditar->descripcion2 = $propiedad['description'];
+                                $propiedadAEditar->notaInterna = 'CREADA AUTOMATICAMENTE DESDE BUYDEPA';
+                                $propiedadAEditar->idEstado = 42;
+                                $propiedadAEditar->creador = 'BUY DEPA';
+                                if($propiedadAEditar->fotoPrincipal)
+                                {
+
+                                }
+                                else
+                                {
+                                    foreach ($propiedad['images'][0] as $imagen) 
+                                    {
+                                        $path = $imagen;
+                                        $filename = basename($path);
+                                        Image::make($path)->save(public_path('img/propiedad/'.$filename));
+                                    }
+                                    $propiedadAEditar->fotoPrincipal = $filename;
+                                }
+                                $propiedadAEditar->estacionamiento = ($propiedad['garage']) ? 1 : null;
+                                $propiedadAEditar->usoGoceEstacionamiento = ($propiedad['garage']) ? 1 : 0;
+                                $propiedadAEditar->codigoEstacionamiento = ($propiedad['garage']) ? $propiedad['garage'] : null;
+                                $propiedadAEditar->bodega = ($propiedad['storage']) ? 1 : null;
+                                $propiedadAEditar->usoGoceBodega = ($propiedad['storage']) ? 1 : 0;
+                                $propiedadAEditar->codigoBodega = ($propiedad['storage']) ? $propiedad['storage'] : null;
+                                $propiedadAEditar->score = $propiedad['cap_rate'];
+                                $propiedadAEditar->orientacion = $propiedad['orientation'];
+                                $propiedadAEditar->esBuyDepa = 1;
+                                $propiedadAEditar->idBuyDepa = $propiedad['id'];
+                                $propiedadAEditar->skuBuyDepa = $propiedad['sku'];
+                                $propiedadAEditar->idBanco = null;
+                                $propiedadAEditar->idUsuarioExpertoVendedor = 2;
+                                $propiedadAEditar->save();
+                            }
+                        }
+                        else
+                        {
+                            if($propiedad['images'])
+                            {
+                                $path = $propiedad['images'][0];
+                                $filename = basename($path);
+                                Image::make($path)->save(public_path('img/propiedad/'.$filename));
+                                $primeraFoto = $propiedad['images'][0];
+                                $propiedadACrear = new Propiedad();
+                                $propiedadACrear->idNivelUsoPropiedad = 1;
+                                $propiedadACrear->idTipoComercial = 1;
+                                $propiedadACrear->mostrarTituloAutomatico = 1;
+                                $propiedadACrear->idTipoPropiedad = 2;
+                                $propiedadACrear->nombrePropiedad = "Departamento en venta ".$propiedad['bedrooms']. " dormitorios ". $propiedad['bathrooms']. " Baños - comuna de ".$propiedad['commune'];
+                                $propiedadACrear->precio = ($propiedad['selling_price'] > 0) ? $propiedad['final_selling_price'] : 0;
+                                $propiedadACrear->valorArriendo = ($propiedad['rent_price_clp'] > 0) ? $propiedad['rent_price_clp'] : 0;
+                                $propiedadACrear->gastosComunes = $propiedad['expenses_clp'];
+                                $propiedadACrear->contribucion = $propiedad['contributions_clp'];
+                                $propiedadACrear->idPais = $regionABuscar->idPais;
+                                $propiedadACrear->idRegion = $regionABuscar->id;
+                                $propiedadACrear->idProvincia = $provinciaABuscar->id;
+                                $propiedadACrear->idComuna = $comunaABuscar->id;
+                                $propiedadACrear->direccion = $propiedad['address'];
+                                $propiedadACrear->numero = "";
+                                $propiedadACrear->block = "";
+                                $propiedadACrear->mTotal = $propiedad['interior_area'] + $propiedad['terrace_area'];
+                                $propiedadACrear->mConstruido = $propiedad['interior_area'];
+                                $propiedadACrear->mTerraza = $propiedad['terrace_area'];
+                                $propiedadACrear->bano = $propiedad['bathrooms'];
+                                $propiedadACrear->habitacion = $propiedad['bedrooms'];
+                                $propiedadACrear->numeroPisos = $propiedad['floor'];
+                                $propiedadACrear->latitud = $propiedad['latitude'];
+                                $propiedadACrear->longitud = $propiedad['longitude'];
+                                $propiedadACrear->descripcion = $propiedad['description'];
+                                $propiedadACrear->descripcion2 = $propiedad['description'];
+                                $propiedadACrear->notaInterna = 'CREADA AUTOMATICAMENTE DESDE BUYDEPA';
+                                $propiedadACrear->idEstado = 42;
+                                $propiedadACrear->creador = 'BUY DEPA';
+                                $propiedadACrear->fotoPrincipal = $filename;
+                                $propiedadACrear->estacionamiento = ($propiedad['garage']) ? 1 : null;
+                                $propiedadACrear->usoGoceEstacionamiento = ($propiedad['garage']) ? 1 : 0;
+                                $propiedadACrear->codigoEstacionamiento = ($propiedad['garage']) ? $propiedad['garage'] : null;
+                                $propiedadACrear->bodega = ($propiedad['storage']) ? 1 : null;
+                                $propiedadACrear->usoGoceBodega = ($propiedad['storage']) ? 1 : 0;
+                                $propiedadACrear->codigoBodega = ($propiedad['storage']) ? $propiedad['storage'] : null;
+                                $propiedadACrear->score = $propiedad['cap_rate'];
+                                $propiedadACrear->orientacion = $propiedad['orientation'];
+                                $propiedadACrear->esBuyDepa = 1;
+                                $propiedadACrear->idBuyDepa = $propiedad['id'];
+                                $propiedadACrear->skuBuyDepa = $propiedad['sku'];
+                                $propiedadACrear->idBanco = null;
+                                $propiedadACrear->idUsuarioExpertoVendedor = 2;
+                                $propiedadACrear->save();
+                                if($propiedad['images'])
+                                {
+                                    foreach ($propiedad['images'] as $imagenes) 
+                                    {
+                                        if($imagenes == $primeraFoto)
+                                        {
+
+                                        }
+                                        else
+                                        {
+                                            $path = $imagenes;
+                                            $filenames = basename($path);
+                                            Image::make($path)->save(public_path('img/propiedad/'.$filenames));
+                                            $foto = new Foto();
+                                            $foto->idPropiedad = $propiedadACrear->id;
+                                            $foto->nombreArchivo = $filenames;
+                                            $foto->save();
+                                        }
+                                    }
+                                }
+                                $caracteristicaPropiedad = new CaracteristicasPorPropiedades;
+                                $caracteristicaPropiedad->idPropiedad = $propiedadACrear->id;
+                                $caracteristicaPropiedad->idCaracteristicaPropiedad = 8;
+                                $caracteristicaPropiedad->save();
+                            }
+                        }
+                    }
+                    $propiedadesEnSistema = Propiedad::where('esBuyDepa', 1)
+                    ->where('idEstado', 42)
+                    ->get();
+                    if($propiedadesEnSistema)
+                    {
+                        $sumarEncontrados = 1;
+                        foreach ($propiedadesEnSistema as $propiedadSistema) 
+                        {
+                            $searchResult = array_filter($propiedadesDesde, function ($propiedadDe) use($propiedadSistema)
+                            {
+                                return $propiedadDe['id'] === $propiedadSistema->idBuyDepa;
+                            });
+                            if($searchResult)
+                            {
+                                $sumarEncontrados = $sumarEncontrados + 1;
+                            }
+                            else
+                            {
+                                $fotos = Foto::where('idPropiedad', $propiedadSistema->id)->get();
+                                if($fotos)
+                                {
+                                    foreach ($fotos as $foto) {
+                                        File::delete(public_path('img/propiedad/' . $foto->nombreArchivo));
+                                        $foto->delete();
+                                    }
+                                }
+                                $caracteristicaPropiedad = CaracteristicasPorPropiedades::where('idPropiedad','=', $propiedadSistema->id)->get();
+                                if($caracteristicaPropiedad)
+                                {
+                                    foreach ($caracteristicaPropiedad as $caracteristicaDeLaPropiedad ) {
+                                        $caracteristicaDeLaPropiedad->delete();
+                                    }
+                                }
+                                $propiedadSistema->delete();
+                            }
+                        }
+                    }
+                }
+            }
+            return response()->json(['success' => true, 'data' => "OK"], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['success' => false, 'data' => $e->getMessage()], 500);
+        } catch (QueryException $e) {
+            return response()->json(['success' => false, 'data' => $e->getMessage()], 500);
+        } catch (DecryptException $e) {
+            return response()->json(['success' => false, 'data' => $e->getMessage()], 500);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'data' => $e->getMessage()], 500);
+        }
+    }
+}
