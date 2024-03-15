@@ -233,13 +233,16 @@
             <aside class="col-lg-4 pl-xl-4 primary-sidebar sidebar-sticky" id="sidebar" style="top: 15px;">
             <div class="primary-sidebar-inner">
                 <div class="bg-white rounded-lg py-lg-6 pl-lg-6 pr-lg-3 p-4">
-                @if($propiedad->valorCyber)
                 <div>
                     <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                     height="100px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve" style="float: right" >
                         <g>
                             <path fill-rule="evenodd" clip-rule="evenodd" class="oferta-rojo" d="M0,0h41.4L100,58.6V100L0,0z"/>
-                            <text x="20" y="38" transform="rotate(45 48 48)" class="texto-oferta-verde">ARRENDADA</text>  
+                            @if($propiedad->idTipoComercial == 2)
+                            <text x="20" y="38" transform="rotate(45 48 48)" class="texto-oferta-verde">OFERTA</text>
+                            @else
+                            <text x="20" y="38" transform="rotate(45 48 48)" class="texto-oferta-verde">VENDIDA</text>
+                            @endif  
                         </g>
                         <!--<g>  
                             <path fill-rule="evenodd" clip-rule="evenodd" class="triangulo" d="M100,0v59L41,0H100z"/>
@@ -248,7 +251,6 @@
                         </g>-->
                     </svg>
                 </div>
-                @endif
                 <ul class="list-inline d-sm-flex align-items-sm-center mb-2">
                     @if($propiedad->idDestacado > 0)
                         <li class="list-inline-item badge badge-orange mr-2">Destacada</li>
