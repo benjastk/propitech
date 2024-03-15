@@ -415,9 +415,18 @@ class InicioController extends Controller
         $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
         $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
         $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
-        return view('front-end.single-property', compact('propiedad', 'amenidades', 'propiedadesDestacadas1',
-        'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'invierteAqui'));
+        if($propiedad->idEstado == 42)
+        {
+            return view('front-end.single-property', compact('propiedad', 'amenidades', 'propiedadesDestacadas1',
+            'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'invierteAqui'));
+        }
+        else
+        {
+            return view('front-end.single-property-vendido', compact('propiedad', 'amenidades', 'propiedadesDestacadas1',
+            'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'invierteAqui'));
+        }
     }
+        
     public function singleBlog($urlNoticia)
     {
         $noticia = Noticia::select('noticias.*', 'users.name', 'users.apellido', 'users.avatarImg', 'roles.nombre')
