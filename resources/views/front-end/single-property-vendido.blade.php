@@ -239,7 +239,7 @@
                         <g>
                             <path fill-rule="evenodd" clip-rule="evenodd" class="oferta-rojo" d="M0,0h41.4L100,58.6V100L0,0z"/>
                             @if($propiedad->idTipoComercial == 2)
-                            <text x="20" y="38" transform="rotate(45 48 48)" class="texto-oferta-verde">OFERTA</text>
+                            <text x="20" y="38" transform="rotate(45 48 48)" class="texto-oferta-verde">ARRENDADA</text>
                             @else
                             <text x="20" y="38" transform="rotate(45 48 48)" class="texto-oferta-verde">VENDIDA</text>
                             @endif  
