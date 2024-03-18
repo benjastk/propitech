@@ -230,7 +230,7 @@ class BuyDepaIntegracionController extends Controller
                                 $caracteristicaPropiedad->idPropiedad = $propiedadACrear->id;
                                 $caracteristicaPropiedad->idCaracteristicaPropiedad = 8;
                                 $caracteristicaPropiedad->save();
-                                $propiedadesEliminadas = $propiedadesEliminadas + 1;
+                                $propiedadesCreadas = $propiedadesCreadas + 1;
                             }
                         }
                     }
