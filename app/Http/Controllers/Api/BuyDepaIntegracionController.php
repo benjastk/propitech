@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use App\CaracteristicasPorPropiedades;
+use App\ActualizacionBuyDepa;
 use App\Provincia;
 use App\Propiedad;
 use App\Comuna;
@@ -65,6 +66,9 @@ class BuyDepaIntegracionController extends Controller
             $propiedades = json_decode($response, true);
             //return response()->json($propiedades);
             // crear o actualizar propiedades
+            $propiedadesCreadas = 0;
+            $propiedadesActualizadas = 0;
+            $propiedadesEliminadas = 0;
             if($propiedades)
             {
                 if($propiedades['properties'])
@@ -145,6 +149,8 @@ class BuyDepaIntegracionController extends Controller
                                 $propiedadAEditar->idBanco = null;
                                 $propiedadAEditar->idUsuarioExpertoVendedor = 2;
                                 $propiedadAEditar->save();
+                                
+                                $propiedadesActualizadas = $propiedadesActualizadas + 1;
                             }
                         }
                         else
@@ -224,6 +230,7 @@ class BuyDepaIntegracionController extends Controller
                                 $caracteristicaPropiedad->idPropiedad = $propiedadACrear->id;
                                 $caracteristicaPropiedad->idCaracteristicaPropiedad = 8;
                                 $caracteristicaPropiedad->save();
+                                $propiedadesEliminadas = $propiedadesEliminadas + 1;
                             }
                         }
                     }
@@ -261,11 +268,17 @@ class BuyDepaIntegracionController extends Controller
                                     }
                                 }
                                 $propiedadSistema->delete();
+                                $propiedadesEliminadas = $propiedadesEliminadas + 1;
                             }
                         }
                     }
                 }
             }
+            $actualizacion = new ActualizacionBuyDepa();
+            $actualizacion->creadas = $propiedadesCreadas;
+            $actualizacion->actualizadas = $propiedadesActualizadas;
+            $actualizacion->eliminadas = $propiedadesEliminadas;
+            $actualizacion->save();
             return response()->json(['success' => true, 'data' => "OK"], 200);
         } catch (ModelNotFoundException $e) {
             return response()->json(['success' => false, 'data' => $e->getMessage()], 500);
