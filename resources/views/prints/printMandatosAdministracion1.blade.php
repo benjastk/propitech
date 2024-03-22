@@ -127,14 +127,8 @@
             <ol>
             <li><strong>Comisi&oacute;n de Corretaje</strong>: un <strong>pago &uacute;nico</strong> por un {{ $comisionCorretajePalabras }} por ciento del monto de un 
             mes de arriendo, m&aacute;s IVA;</li>
-            </ol>
-            <p>&nbsp;</p>
-            <ol>
             <li><strong>Comisi&oacute;n por Administraci&oacute;n</strong>: <strong>pagos mensuales</strong> de un {{ $porcentajeAdministracionPalabras }} por ciento del 
             arriendo, m&aacute;s IVA, por concepto de arrendamiento de(l) inmueble(es) materia de este contrato.</li>
-            </ol>
-            <p>&nbsp;</p>
-            <ol>
             <li><strong>Comisi&oacute;n por Venta</strong>: un monto del cuatro por ciento del valor de la propiedad, correspondiendo al 
             <strong>MANDANTE</strong> pagar un total del dos por ciento, y de su contraparte el saldo restante.</li>
             </ol>
@@ -146,11 +140,14 @@
             <a href="mailto:{{ $mandatoAdministracion->correoPropietario }}"><strong>{{ $mandatoAdministracion->correoPropietario }}</strong>,</a> 
             Rut., <strong>{{ $rutPropietario }}</strong>.-</p>
             <p>&nbsp;</p>
-            <p>Queda expresamente autorizado <strong>INVERSIONES Y SERVICIOS PROFESIONALES B&amp;C SpA</strong> para que, de las rentas o sumas que 
-            perciba, se reembolse de la comisi&oacute;n o retribuci&oacute;n se&ntilde;alada, y de todo gasto en que incurra en la administraci&oacute;n 
-            y/o reparaci&oacute;n de los bienes, como asimismo custodiar el monto de la garant&iacute;a entregado por el arrendatario para gestionar los 
-            arreglos necesarios para arrendar nuevamente la propiedad en &oacute;ptimas condiciones.</p>
+            <p>Queda expresamente autorizado a <strong>INVERSIONES Y SERVICIOS PROFESIONALES B&amp;C SpA</strong> para que, de las rentas o sumas que perciba, 
+            se reembolse de la comisi&oacute;n o retribuci&oacute;n se&ntilde;alada, y de todo gasto en que incurra en la administraci&oacute;n y/o reparaci&oacute;n 
+            de los bienes que sean de responsabilidad del propietario.</p>
             <p>&nbsp;</p>
+            <p>Adem&aacute;s, se deja constancia que la <strong>GARANT&Iacute;A</strong> entregada por el <strong>ARRENDATARIO</strong>, se ha entregado en su 
+            totalidad al <strong>MANDANTE</strong>, por lo cual, el <strong>MANDANTE</strong> deber&aacute; tener los fondos para el reembolso de la 
+            <strong>GARANT&Iacute;A</strong>, si &eacute;sta correspondiera, luego gestionar los pagos de servicios b&aacute;sicos y gastos comunes desfazados 
+            y los arreglos necesarios para arrendar nuevamente la propiedad en &oacute;ptimas condiciones.</p>   
             <p style="page-break-after: always;">
             <p><strong><u>QUINTO:</u></strong><strong> COMPETENCIA.</strong></p>
             <p>Las partes declaran que para todos los efectos legales derivados de este contrato fijan su domicilio en la comuna y ciudad de Santiago, 

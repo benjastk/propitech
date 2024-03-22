@@ -138,14 +138,8 @@
             <ol>
             <li><strong>Comisi&oacute;n de Corretaje</strong>: un <strong>pago &uacute;nico</strong> por un {{ $comisionCorretajePalabras }} por ciento del monto de un 
             mes de arriendo, m&aacute;s IVA;</li>
-            </ol>
-            <p>&nbsp;</p>
-            <ol>
             <li><strong>Comisi&oacute;n por Administraci&oacute;n</strong>: <strong>pagos mensuales</strong> de un {{ $porcentajeAdministracionPalabras }} por ciento 
             del arriendo, m&aacute;s IVA, por concepto de arrendamiento de(l) inmueble(es) materia de este contrato.</li>
-            </ol>
-            <p>&nbsp;</p>
-            <ol>
             <li><strong>Comisi&oacute;n por Venta</strong>: un monto del cuatro por ciento del valor de la propiedad, correspondiendo al 
             <strong>MANDATE</strong> pagar un total del dos por ciento, y de su contraparte el saldo restante.</li>
             </ol>
