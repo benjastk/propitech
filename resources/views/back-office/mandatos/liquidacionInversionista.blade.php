@@ -188,9 +188,9 @@
                                                 <th>Propiedad</th>
                                                 <th>Monto A Pagar</th>
                                                 <th>Cargos / Descuentos</th>
-                                                <th>Monto Pagado</th>
                                                 <th>Garantia</th>
                                                 <th>Comision de Corretaje</th>
+                                                <th>Monto Pagado</th>
                                                 <th>Comision</th>
                                                 <th>Saldos a favor</th>
                                                 <!--<th>Seguro de arriendo</th>-->
@@ -215,12 +215,12 @@
                                             <td>{{ $estadosDePagos->nombrePropietario}} {{$estadosDePagos->apellidoPropietario}}</td>
                                             <td>{{ $estadosDePagos->rutArrendatario}}</td>
                                             <td>{{ $estadosDePagos->nombreArrendatario}} {{$estadosDePagos->apellidoArrendatario}}</td>
-                                            <td>{{ $estadosDePagos->nombrePropiedad }} - {{ $estadosDePagos->block}}</td>
+                                            <td>{{ $estadosDePagos->direccion }} {{ $estadosDePagos->numero }} - {{ $estadosDePagos->block}}</td>
                                             <td>${{ number_format($estadosDePagos->montoAPagar, 0, '', '.')}}</td>
                                             <td>${{ number_format($estadosDePagos->cargosAbonos, 0, '', '.')}}</td>
-                                            <td>@if($estadosDePagos->tieneTraspasoSaldo == 1) <strong style="color: red">*</strong> @endif${{ number_format($estadosDePagos->montoPagado, 0, '', '.')}}</td>
                                             <td>${{ number_format($estadosDePagos->garantia, 0, '', '.')}}</td>
                                             <td>${{ number_format($estadosDePagos->comisionCorretaje, 0, '', '.')}}</td>
+                                            <td>@if($estadosDePagos->tieneTraspasoSaldo == 1) <strong style="color: red">*</strong> @endif${{ number_format($estadosDePagos->montoPagado, 0, '', '.')}}</td>
                                             <td>@if($estadosDePagos->montoComision < 0) 0 @else ${{ number_format($estadosDePagos->montoComision, 0, '', '.')}} @endif</td>
                                             <td>${{ number_format($estadosDePagos->saldoArrastre, 0, '', '.')}}</td>
                                             <!--<td>${{ number_format($estadosDePagos->valorSeguroArriendo, 0, '', '.')}}</td>-->

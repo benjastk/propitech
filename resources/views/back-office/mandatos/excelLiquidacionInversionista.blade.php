@@ -64,12 +64,12 @@
                 <td >{{ $estadoPagoMandato->rutArrendatario }}</td>
                 <td >{{ $estadoPagoMandato->montoAPagar }}</td>
                 <td >{{ $estadoPagoMandato->cargosAbonos }}</td>
+                <td >{{ $estadoPagoMandato->garantia }}</td>
+                <td >{{ $estadoPagoMandato->comisionCorretaje }}</td>
                 <td >{{ $estadoPagoMandato->montoPagado }}</td>
                 <td >{{ $estadoPagoMandato->pago }}</td>
                 <td >@if($estadoPagoMandato->fechaCreado) {{ date("d-m-Y", strtotime($estadoPagoMandato->fechaCreado)) }} @endif</td>
                 <td >{{ $estadoPagoMandato->metodoPago }}</td>
-                <td >{{ $estadoPagoMandato->garantia }}</td>
-                <td >{{ $estadoPagoMandato->comisionCorretaje }}</td>
                 <td >@if($estadoPagoMandato->montoComision < 0) 0 @else {{ $estadoPagoMandato->montoComision }} @endif</td>
                 <td >{{ $estadoPagoMandato->saldoArrastre }}</td>
                 <td style="background-color: green !important;" >{{ $estadoPagoMandato->montoALiquidarPropietario }}</td>
