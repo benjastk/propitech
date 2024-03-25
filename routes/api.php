@@ -29,11 +29,14 @@ Route::post('/storeCaracteristica', 'Api\CaracteristicaController@storeCaracteri
 Route::post('/updateCaracteristica/{propiedad}', 'Api\CaracteristicaController@updateCaracteristica');
 Route::post('/destroyCaracteristica', 'Api\CaracteristicaController@destroyCaracteristica');
 
+//INTEGRACION PROPPIT
 Route::get('/all-properties-for-propit','Api\DataGeneralController@allPropertiesForPropit');
+//CURSL PARA SPAM
 Route::get('/spam','Api\DataGeneralController@spam');
 
 Route::get('getPropiedad','Api\DataGeneralController@getPropiedad');
 
+//INTEGRACION OTROSPAGOS.COM
 Route::post('/otrospagos/condeu', 'PagoController@condeures');
 Route::post('/otrospagos/notpag', 'PagoController@notpagres');
 Route::post('/otrospagos/revpag', 'PagoController@revpag');
@@ -41,4 +44,8 @@ Route::post('/otrospagos/revpag', 'PagoController@revpag');
 Route::post('/pago-arriendo-exitoso', 'PagoController@pagoArriendoExitoso');
 Route::post('/pago-reserva-exitosa', 'PagoController@pagoReservaExitosa');
 
+//INTEGRACION BUYDEPA
 Route::get('/properties-sincronize','Api\BuyDepaIntegracionController@sincronizeProperties');
+
+//INTEGRACION MERCADO LIBRE
+Route::get('/applications','Api\MercadoLibreIntegrationController@applications');
