@@ -62,7 +62,7 @@ Route::get('/mailPorCorreo', 'AlertaController@mailPorCorreo');
 //Route::get('/morosos', 'EstadoPagoController@cambiarAMoroso');
 //Route::get('/vencidos', 'EstadoPagoController@cambiarAVencido');
 Route::get('/agregarPorcentajeAMorosos', 'EstadoPagoController@agregarPorcentajeAMorosos');
-//Route::get('/tokenizarEstadosPagos', 'EstadoPagoController@tokenizarEstadosPagos');
+Route::get('/recordarPagoWhatsapp', 'AlertaController@recordarPagoWhatsapp');
 Route::prefix('users')->group(function () {
     Route::get('/', 'UserController@index')->name('users');
     Route::get('/create', 'UserController@create');
@@ -84,6 +84,7 @@ Route::prefix('properties')->group(function () {
     Route::get('/edit/{propiedad}', 'PropertyController@edit');
     Route::post('/update/{propiedad}', 'PropertyController@update');
     Route::post('/destroy', 'PropertyController@destroy');
+    Route::post('/destroy-completo', 'PropertyController@destroyCompleto');
     
     Route::post('/img/subir/{id}', 'PropertyController@subirImagen');
     Route::post('/img/eliminar/{fileName}', 'PropertyController@eliminarImagen');
@@ -162,6 +163,7 @@ Route::prefix('mandatos')->group(function () {
     Route::get('/comision/{mes}/{anio}', 'MandatoAdministracionController@comisionMandato');
     Route::post('/editarEstadoPagoMandato', 'MandatoAdministracionController@editarEstadoPagoMandato')->name('editarEstadoPagoMandato');
     Route::post('/eliminarPagoMandato/{id}','MandatoAdministracionController@eliminarPagoMandato')->name('eliminarPagoMandato');
+    Route::get('/imprimir-estado-pago-inversionista/{id}', 'MandatoAdministracionController@imprimirPagoInversionista');
 
     Route::post('excelEstadosPagosMandatos', 'MandatoAdministracionController@exportLiquidacionInversionista')->name('excelEstadosPagosMandatos');
     Route::post('excelEstadosPagosMandatosSinPago', 'MandatoAdministracionController@excelEstadosPagosMandatosSinPago')->name('excelEstadosPagosMandatosSinPago');
@@ -187,5 +189,5 @@ Route::prefix('parametros')->group(function () {
     Route::get('/', 'ParametrosGeneralesController@index');
     Route::get('/edit/{parametro}', 'ParametrosGeneralesController@edit');
     Route::post('/update/{parametro}', 'ParametrosGeneralesController@update');
-
+    Route::post('/enviar-whatsapp', 'AlertaController@recordarPagoWhatsapp');
 });

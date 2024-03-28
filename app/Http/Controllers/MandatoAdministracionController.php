@@ -382,7 +382,7 @@ class MandatoAdministracionController extends Controller
         $comisionCorretajePalabras = NumerosEnLetras::convertir($mandatoAdministracion->comisionCorretaje,'',false,'');
         $porcentajeAdministracionPalabras = NumerosEnLetras::convertir(str_replace(',', '.', $mandatoAdministracion->comisionAdministracion),'coma', true,'');
         $diasEnPalabras = NumerosEnLetras::convertir($mandatoAdministracion->diaPago,'',false,'');
-        if($mandatoAdministracion->idPlan == 1)
+        if($mandatoAdministracion->idPlan == 2)
         {
             $pdf = \PDF::loadView('prints.printMandatosAdministracion1', compact('mandatoAdministracion', 'comisionCorretajePalabras', 'porcentajeAdministracionPalabras',
             'diasEnPalabras'));
@@ -406,7 +406,7 @@ class MandatoAdministracionController extends Controller
             'diasEnPalabras'));
             return $pdf->download('mandato-administracion.pdf');
         }
-        elseif($mandatoAdministracion->idPlan == 5)
+        elseif($mandatoAdministracion->idPlan == 1)
         {
             $pdf = \PDF::loadView('prints.printMandatosAdministracion4', compact('mandatoAdministracion', 'comisionCorretajePalabras', 'porcentajeAdministracionPalabras',
             'diasEnPalabras'));
@@ -468,7 +468,7 @@ class MandatoAdministracionController extends Controller
         $tipo = $request->tipo;
         if($request->tipo == 1)
         {
-            $estadosPagosMandatarios = EstadosPagosMandatarios::select('estados_pagos_mandatarios.*', 'estados.nombreEstado', 'propiedades.nombrePropiedad', 
+            $estadosPagosMandatarios = EstadosPagosMandatarios::select('estados_pagos_mandatarios.*', 'estados.nombreEstado', 'propiedades.direccion', 'propiedades.numero', 
             'mandatos_propiedad.rutPropietario', 'users.rut', 'propiedades.block', 'mandatos_propiedad.nombrePropietario', 'mandatos_propiedad.apellidoPropietario', 
             'mandatos_propiedad.nombreArrendatario', 'mandatos_propiedad.apellidoArrendatario', 'mandatos_propiedad.rutArrendatario')
             ->join('estados', 'estados_pagos_mandatarios.idEstado', '=', 'estados.idEstado')
@@ -484,7 +484,7 @@ class MandatoAdministracionController extends Controller
         }
         else
         {
-            $estadosPagosMandatarios = EstadosPagosMandatarios::select('estados_pagos_mandatarios.*', 'estados.nombreEstado', 'propiedades.nombrePropiedad', 
+            $estadosPagosMandatarios = EstadosPagosMandatarios::select('estados_pagos_mandatarios.*', 'estados.nombreEstado', 'propiedades.direccion', 'propiedades.numero', 
             'mandatos_propiedad.rutPropietario', 'users.rut', 'propiedades.block', 'mandatos_propiedad.nombrePropietario', 'mandatos_propiedad.apellidoPropietario', 
             'mandatos_propiedad.nombreArrendatario', 'mandatos_propiedad.apellidoArrendatario', 'mandatos_propiedad.rutArrendatario')
             ->join('estados', 'estados_pagos_mandatarios.idEstado', '=', 'estados.idEstado')
@@ -1359,4 +1359,28 @@ class MandatoAdministracionController extends Controller
 			return back();
 		}
 	}
+    public function imprimirPagoInversionista($id)
+    {
+        $estadoDePagoFinal = EstadosPagosMandatarios::select('estados_pagos_mandatarios.*', 'users.email as correo', 'users.name as nombre', 'users.apellido', 
+        'propiedades.direccion', 'propiedades.numero', 'propiedades.block', 'users.numero as numeroPropietario', 'users.telefono',
+        'users.rut as rutPropietario', 'comuna.nombre as nombreComuna', 'region.nombre as nombreRegion')
+        ->join('estados', 'estados_pagos_mandatarios.idEstado', '=', 'estados.idEstado')
+        ->join('mandatos_propiedad', 'estados_pagos_mandatarios.idMandatoPropiedad', '=', 'mandatos_propiedad.idMandatoPropiedad')
+        ->join('propiedades', 'mandatos_propiedad.idPropiedad', '=', 'propiedades.id')
+        ->join('users', 'mandatos_propiedad.idPropietario', '=', 'users.id')
+        ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
+        ->join('region', 'region.id', '=', 'propiedades.idRegion')
+        ->where('estados_pagos_mandatarios.idEstadoPagoMandato', '=', $id)
+        ->first();
+        $cargos = [];
+        $descuentos = [];
+        $deudas = [];
+        $documentos = '';
+        $estadoDePagoArrendatario = '';
+        $diasNoArrendado = '';
+        $mes = '';
+        $comisionCorretaje = '';
+        $pdf = \PDF::loadView('emails.adjuntoPagoInversionista', [ 'estadoPagoMandato' => $estadoDePagoFinal, 'cargos' => $cargos, 'descuentos' => $descuentos, 'deudas' => $deudas, 'documentos' => $documentos, 'estadoDePagoArrendatario' => $estadoDePagoArrendatario, 'diasNoArrendado' => $diasNoArrendado, 'mes' => $mes, 'comisionCorretaje' => $comisionCorretaje]);
+        return $pdf->download();
+    }
 }

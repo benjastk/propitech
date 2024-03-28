@@ -37,6 +37,10 @@
     {
         float: right;
     }
+    .select2-container
+    {
+        width: 100% !important;
+    }
 </style>
 @endsection
 @section('content')
@@ -49,6 +53,9 @@
                             <h4 class="mb-0 font-size-18">Parametros Generales de Sistema</h4>
 
                             <div class="page-title-right">
+                                <button type="button" class="btn btn-success waves-effect waves-light" data-toggle="modal" data-target=".bs-example-modal-lg">
+                                    <i class="fa fa-whatsapp"></i> Whatsapp de Cobro
+                                </button>
                                 <!--<ol class="breadcrumb m-0">
                                     <li class="breadcrumb-item"><a href="javascript: void(0);">Contactos</a></li>
                                     <li class="breadcrumb-item active">Lista de usuarios</li>
@@ -111,6 +118,41 @@
                     </div>
                 </div>
             </div> <!-- container-fluid -->
+        </div>
+        <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title mt-0" id="myLargeModalLabel">Enviar Whatsapp de Cobro</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-lg-12" style="padding:20px !important">
+                                <h5>Seleccione usuarios</h5>
+                                <form action="{{ url('/parametros/enviar-whatsapp') }}" method="POST" enctype="multipart/form-data">
+                                {{ csrf_field() }}
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <select class="form-control js-example-basic-multiple" name="usuarios[]" multiple='multiple' required>
+                                                @foreach ($usuarios as $usuario)
+                                                    <option value="{{ $usuario->id }}">{{ $usuario->name }} {{ $usuario->apellido}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <p style="margin-bottom: 5px">&nbsp;</p>
+                                            <button class="btn btn-success">Enviar</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- End Page-content -->
         <footer class="footer">
@@ -205,5 +247,8 @@
 			"order": [[ 0, "desc" ]]
 		});
 	} );
+    $(document).ready(function() {
+        $('.js-example-basic-multiple').select2({});
+    });
 </script>
 @endsection   

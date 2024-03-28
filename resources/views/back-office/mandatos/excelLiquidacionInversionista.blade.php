@@ -35,14 +35,14 @@
             <th>RUT ARRENDATARIO</th>
             <th>MONTO A PAGAR</th>
             <th>CARGOS O DESCUENTOS</th>
+            <th>GARANTIA</th>
+            <th>COMISION</th>
+            <th>SALDOS A FAVOR</th>
             <th>MONTO PAGADO</th>
             <th>PAGOS REALIZADOS</th>
             <th>FECHA DE PAGOS REALIZADOS</th>
             <th>METODO DE PAGO</th>
-            <th>GARANTIA</th>
             <th>COMISION CORRETAJE</th>
-            <th>COMISION</th>
-            <th>SALDOS A FAVOR</th>
             <th style="background-color: green !important;" >A LIQUIDAR PROPIETARIO</th>
             <th>ESTADO</th>
             <th>BANCO</th>
@@ -64,14 +64,14 @@
                 <td >{{ $estadoPagoMandato->rutArrendatario }}</td>
                 <td >{{ $estadoPagoMandato->montoAPagar }}</td>
                 <td >{{ $estadoPagoMandato->cargosAbonos }}</td>
+                <td >{{ $estadoPagoMandato->garantia }}</td>
+                <td >@if($estadoPagoMandato->montoComision < 0) 0 @else {{ $estadoPagoMandato->montoComision }} @endif</td>
+                <td >{{ $estadoPagoMandato->saldoArrastre }}</td>
                 <td >{{ $estadoPagoMandato->montoPagado }}</td>
                 <td >{{ $estadoPagoMandato->pago }}</td>
                 <td >@if($estadoPagoMandato->fechaCreado) {{ date("d-m-Y", strtotime($estadoPagoMandato->fechaCreado)) }} @endif</td>
                 <td >{{ $estadoPagoMandato->metodoPago }}</td>
-                <td >{{ $estadoPagoMandato->garantia }}</td>
                 <td >{{ $estadoPagoMandato->comisionCorretaje }}</td>
-                <td >@if($estadoPagoMandato->montoComision < 0) 0 @else {{ $estadoPagoMandato->montoComision }} @endif</td>
-                <td >{{ $estadoPagoMandato->saldoArrastre }}</td>
                 <td style="background-color: green !important;" >{{ $estadoPagoMandato->montoALiquidarPropietario }}</td>
                 <td >{{ $estadoPagoMandato->nombreEstado }}</td>
                 <td >{{ $estadoPagoMandato->nombreBanco }}</td>

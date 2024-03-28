@@ -24,7 +24,13 @@ class ParametrosGeneralesController extends Controller
     {
         $user = Auth::user();
         $parametrosGenerales = ParametroGeneral::get();
-        return view('back-office.parametros.index', compact('user', 'parametrosGenerales'));
+        $usuarios = User::select('users.id', 'users.rut', 'users.numeroSerie', 'users.name', 'users.apellido', 'users.email', 'users.telefono', 
+        'users.nacionalidad', 'users.estadoCivil', 'users.direccion', 'users.profesion', 'users.numero', 'region.nombre as nombreRegion', 
+        'comuna.nombre as nombreComuna')
+        ->leftjoin('region', 'region.id', '=', 'users.idRegion')
+        ->leftjoin('comuna', 'comuna.id', '=', 'users.idComuna')
+        ->get();
+        return view('back-office.parametros.index', compact('user', 'parametrosGenerales', 'usuarios'));
     }
 
     /**

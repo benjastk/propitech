@@ -60,7 +60,6 @@ class YaSeEncuentraDisponibleTuPagoJob implements ShouldQueue
         //Mail::to($estadoPago->email)
         Mail::to($estadoAPagar->email)
             ->cc(['administracion@propitech.cl'])
-            ->bcc(['admin@benjaminperez.cl'])
             ->send(new YaSeEncuentraDisponibleTuPago($estadoAPagar, $totalCargo, $totalDescuento));
     }
 }
