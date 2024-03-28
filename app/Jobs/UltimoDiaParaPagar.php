@@ -61,7 +61,6 @@ class UltimoDiaParaPagar implements ShouldQueue
         //Mail::to($estadoPago->email)
         Mail::to($estadoAPagar->email)
             ->cc(['administracion@propitech.cl'])
-            ->bcc(['admin@benjaminperez.cl'])
             ->send(new MailUltimoDiaParaPagar($estadoAPagar, $totalCargo, $totalDescuento));
     }
 }

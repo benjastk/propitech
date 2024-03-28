@@ -13,6 +13,7 @@ use App\ContratoArriendo;
 use App\FormularioCaptador;
 use App\FormularioContacto;
 use App\MandatoAdministracion;
+use App\ActualizacionBuyDepa;
 class HomeController extends Controller
 {
     /**
@@ -42,8 +43,10 @@ class HomeController extends Controller
         $contratosArriendos = ContratoArriendo::where('idEstado', 61)->count();
         $mandatosAdministracion = MandatoAdministracion::where('idEstadoMandato', 61)->count();
         $hora = Carbon::now();
+
+        $actulizacionBuyDepa = ActualizacionBuyDepa::orderBy('id', 'desc')->first();
         return view('back-office.home', compact('user', 'leadsContactos', 'propiedadesVenta', 'propiedadesArriendo', 'contratosArriendos', 
-        'mandatosAdministracion', 'hora'));
+        'mandatosAdministracion', 'hora', 'actulizacionBuyDepa'));
     }
     public function leads()
     {

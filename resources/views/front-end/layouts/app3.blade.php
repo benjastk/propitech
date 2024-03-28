@@ -112,6 +112,11 @@
             .cardPropiedades:hover {
                 box-shadow: 0 0 20px rgba(33,33,33,.5); 
             }
+            .oferta-rojo {
+                fill:#ff2d2d !important;
+                /*opacity:0.9;*/
+
+            }
         </style>
         <style>
             @font-face {

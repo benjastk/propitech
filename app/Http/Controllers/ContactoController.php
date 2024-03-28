@@ -27,8 +27,7 @@ class ContactoController extends Controller
             ->where('formulario_contacto.id', $formulario->id)
             ->first();
             
-            Mail::to(['beenjaahp@hotmail.com',
-                'beenjaahp@gmail.com', 'admin@benjaminperez.cl'])
+            Mail::to(['beenjaahp@hotmail.com','admin@benjaminperez.cl'])
             ->send(new MailFormulario($formularioDos));
             DB::commit();
             toastr()->success('Formulario enviado exitosamente, pronto lo contactaremos.', 'Operación exitosa');
@@ -64,8 +63,7 @@ class ContactoController extends Controller
             ->where('formulario_canjes.id', $formulario->id)
             ->first();
             
-            Mail::to(['beenjaahp@hotmail.com',
-                'beenjaahp@gmail.com', 'admin@benjaminperez.cl'])
+            Mail::to(['beenjaahp@hotmail.com','admin@benjaminperez.cl'])
             ->send(new MailFormularioCanje($formularioDos));
             DB::commit();
             toastr()->success('Formulario enviado exitosamente, pronto lo contactaremos.', 'Operación exitosa');
@@ -102,8 +100,7 @@ class ContactoController extends Controller
             ->where('formulario_captador.id', $formulario->id)
             ->first();
             
-            Mail::to(['beenjaahp@hotmail.com',
-                'beenjaahp@gmail.com', 'admin@benjaminperez.cl'])
+            Mail::to(['beenjaahp@hotmail.com','admin@benjaminperez.cl'])
             ->send(new MailFormularioCaptador($formularioDos));
             DB::commit();
             toastr()->success('Formulario enviado exitosamente, pronto lo contactaremos.', 'Operación exitosa');
@@ -187,8 +184,7 @@ class ContactoController extends Controller
             ->where('formulario_contacto.id', $formulario->id)
             ->first();
             
-            Mail::to(['beenjaahp@hotmail.com',
-                'beenjaahp@gmail.com', 'admin@benjaminperez.cl'])
+            Mail::to(['beenjaahp@hotmail.com','admin@benjaminperez.cl'])
             ->send(new MailFormulario($formularioDos));
             DB::commit();
             toastr()->success('Formulario enviado exitosamente, pronto lo contactaremos.', 'Operación exitosa');

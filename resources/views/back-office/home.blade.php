@@ -12,6 +12,11 @@
                                 <ol class="breadcrumb m-0">
                                     <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard - {{ $hora }}</a></li>
                                 </ol>
+                                @if($actulizacionBuyDepa)
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">ULTIMA ACTUALIZACION BUY DEPA - {{ $actulizacionBuyDepa->created_at }}</a></li>
+                                </ol>
+                                @endif
                             </div>
                             
                         </div>

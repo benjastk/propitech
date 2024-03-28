@@ -20,6 +20,7 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^2.5",
         "maatwebsite/excel": "^3.1",
+        "twilio/sdk": "^7.16",
         "yoeunes/toastr": "^2.3"
     },
     "require-dev": {
