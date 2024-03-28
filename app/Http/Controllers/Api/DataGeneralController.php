@@ -141,7 +141,6 @@ class DataGeneralController extends Controller
             ->join('niveles_uso_propiedad', 'propiedades.idNivelUsoPropiedad', '=', 'niveles_uso_propiedad.idNivelUsoPropiedad')
             ->leftjoin('users', 'users.id', '=', 'propiedades.idUsuarioExpertoVendedor')
             ->where('propiedades.idEstado', 42)
-            ->where('propiedades.esBuyDepa', 0)
             ->get();
             if($propiedades)
             {
