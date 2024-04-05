@@ -191,3 +191,7 @@ Route::prefix('parametros')->group(function () {
     Route::post('/update/{parametro}', 'ParametrosGeneralesController@update');
     Route::post('/enviar-whatsapp', 'AlertaController@recordarPagoWhatsapp');
 });
+
+Route::get('/yapo/auth', 'Api\IntegracionYapoController@auth');
+Route::get('/yapo/auth/get-token', 'Api\IntegracionYapoController@getToken');
+Route::get('/yapo/refresh-token', 'Api\IntegracionYapoController@refreshToken');

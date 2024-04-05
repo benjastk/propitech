@@ -17,6 +17,7 @@
         "intervention/image": "^2.7",
         "jailtonsc/laravel-response-xml": "^3.0",
         "laravel/framework": "^7.29",
+        "laravel/socialite": "^5.12",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^2.5",
         "maatwebsite/excel": "^3.1",

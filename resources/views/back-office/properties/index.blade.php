@@ -56,6 +56,9 @@
                                     <li class="breadcrumb-item"><a href="javascript: void(0);">Contactos</a></li>
                                     <li class="breadcrumb-item active">Lista de usuarios</li>
                                 </ol>-->
+                                <button type="button" class="btn btn-info waves-effect waves-light" data-toggle="modal" data-target=".bs-example-modal-lg">
+                                    <i class="bx bx-plus font-size-16 align-middle mr-2"></i> Iniciar Yapo.cl
+                                </button>
                                 <a href="/properties/suspendidas" class="btn btn-danger waves-effect waves-light" style="margin-right: 10px">
                                     <i class="fa fa-minus"></i> Propiedades Supendidas
                                 </a>
@@ -207,6 +210,15 @@
                 </div>
             </div>
         </footer>
+                <!--  Modal YAPO -->
+        <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                <iframe src="{{ $urlYapoFinal }}" style="height: 650px">
+                </iframe>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- end main content-->
 @endsection
