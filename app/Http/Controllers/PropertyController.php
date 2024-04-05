@@ -46,7 +46,11 @@ class PropertyController extends Controller
         ->join('estados', 'estados.idEstado', '=', 'propiedades.idEstado')
         ->where('propiedades.idEstado', '!=', 46)
         ->get();
-        return view('back-office.properties.index', compact('user', 'propiedades'));
+        $urlAuthYapo = getenv("YAPO_AUTH_URL");
+        $clientID = getenv("YAPO_CLIENT_ID");
+        $redirect_url = getenv("YAPO_REDIRECT_URL");
+        $urlYapoFinal = $urlAuthYapo.'/authorization?client_id='.$clientID.'&redirect_url='.$redirect_url;
+        return view('back-office.properties.index', compact('user', 'propiedades', 'urlYapoFinal'));
     }
 
     /**
