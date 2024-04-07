@@ -335,7 +335,7 @@
                     <form action="{{ route('formulario-contacto-propiedades')}}" method="post">
                     @csrf
                         <div class="input-group input-group-lg mb-6">
-                            <input type="text" name="email" required class="form-control bg-white shadow-none border-0 z-index-1" placeholder="Correo electronico">
+                            <input type="text" name="email" required class="form-control bg-white shadow-none border-0 z-index-1" placeholder="Correo electronico" required>
                             <input type="hidden" name="id_formulario" value="1">
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="submit">Suscribir</button>

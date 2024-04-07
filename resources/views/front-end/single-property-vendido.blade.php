@@ -388,7 +388,7 @@
                             <input type="tel" name="telefono" class="form-control form-control-lg border-0" placeholder="Tu Telefono" required>
                         </div>
                         <div class="form-group mb-2">
-                            <input type="email" name="email" class="form-control form-control-lg border-0" placeholder="Tu correo electronico">
+                            <input type="email" name="email" class="form-control form-control-lg border-0" placeholder="Tu correo electronico" required>
                         </div>
                         <div class="form-group mb-2">
                             <textarea class="form-control border-0" name="mensaje" rows="2">Hola, me gustaba la propiedad ubicada en {{ $propiedad->direccion }} {{ $propiedad->numero }}, {{ $propiedad->nombreComuna }} - ID:{{ $propiedad->id }}</textarea>
