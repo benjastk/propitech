@@ -199,19 +199,19 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <input type="text" placeholder="Nombre" class="form-control form-control-lg border-0" name="nombre">
+                        <input type="text" placeholder="Nombre" class="form-control form-control-lg border-0" name="nombre" required>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <input placeholder="Correo electronico" class="form-control form-control-lg border-0" type="email" name="email">
+                        <input placeholder="Correo electronico" class="form-control form-control-lg border-0" type="email" name="email" required>
                     </div>
                 </div>
                 <div class="col-md-6 px-2">
                     <div class="form-group">
-                        <input type="text" placeholder="Telefono" name="telefono" class="form-control form-control-lg border-0">
+                        <input type="text" placeholder="Telefono" name="telefono" class="form-control form-control-lg border-0" required>
                     </div>
                 </div>
             </div>

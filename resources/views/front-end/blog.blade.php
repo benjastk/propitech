@@ -69,12 +69,12 @@
             <div class="row">
             <div class="col-md-6">
                 <div class="form-group mb-4">
-                <input type="text" placeholder="Tu nombre" name="nombre" class="form-control form-control-lg border-0">
+                <input type="text" placeholder="Tu nombre" name="nombre" class="form-control form-control-lg border-0" required>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group mb-4">
-                <input placeholder="Tu correo electronico" class="form-control form-control-lg border-0" type="email" name="email">
+                <input placeholder="Tu correo electronico" class="form-control form-control-lg border-0" type="email" name="email" required>
                 </div>
             </div>
             </div>

@@ -199,15 +199,15 @@
                                         @csrf
                                             <div class="form-group mb-2">
                                                 <label for="name" class="sr-only">Nombre</label>
-                                                <input type="text" name="nombre" class="form-control form-control-lg border-0 shadow-none" id="nombre" placeholder="Nombre">
+                                                <input type="text" name="nombre" class="form-control form-control-lg border-0 shadow-none" id="nombre" placeholder="Nombre" required>
                                             </div>
                                             <div class="form-group mb-2">
                                                 <label for="phone" class="sr-only">Telefono</label>
-                                                <input type="text" name="telefono" class="form-control form-control-lg border-0 shadow-none" id="telefono" placeholder="Telefono">
+                                                <input type="text" name="telefono" class="form-control form-control-lg border-0 shadow-none" id="telefono" placeholder="Telefono" required>
                                             </div>
                                             <div class="form-group mb-2">
                                                 <label for="email" class="sr-only">Correo Electrónico</label>
-                                                <input type="text" name="email" class="form-control form-control-lg border-0 shadow-none" id="email" placeholder="Correo Electrónico">
+                                                <input type="text" name="email" class="form-control form-control-lg border-0 shadow-none" id="email" placeholder="Correo Electrónico" required>
                                             </div>
                                             <div class="form-group mb-4">
                                                 <label for="message" class="sr-only">Mensaje</label>
@@ -552,7 +552,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group mb-4">
-                                        <input type="text" placeholder="Nombre" class="form-control form-control border-0" name="nombre">
+                                        <input type="text" placeholder="Nombre" class="form-control form-control border-0" name="nombre" required>
                                     </div>
                                 </div>
                             </div>
@@ -608,7 +608,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group mb-4">
-                                        <input type="text" placeholder="Nombre" class="form-control form-control border-0" name="nombre">
+                                        <input type="text" placeholder="Nombre" class="form-control form-control border-0" name="nombre" required>
                                     </div>
                                 </div>
                             </div>

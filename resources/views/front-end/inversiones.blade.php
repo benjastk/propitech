@@ -339,7 +339,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group mb-4">
-                                            <input type="text" placeholder="Nombre" class="form-control form-control border-0" name="nombre">
+                                            <input type="text" placeholder="Nombre" class="form-control form-control border-0" name="nombre" required>
                                         </div>
                                     </div>
                                 </div>
@@ -393,7 +393,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group mb-4">
-                                            <input type="text" placeholder="Nombre" class="form-control form-control border-0" name="nombre">
+                                            <input type="text" placeholder="Nombre" class="form-control form-control border-0" name="nombre" required >
                                         </div>
                                     </div>
                                 </div>
