@@ -268,7 +268,7 @@ class IntegracionYapoController extends Controller
                             "price": "'.$precio.'",
                             "currency": "'.$moneda.'",
                             "externalAgentID": "'.$clientID.'",
-                            "title": "'.$nombrePropiedad.'",
+                            "title": "'.$propiedad->nombrePropiedad.'",
                             "images":'.$fotosss.'
                         }
                     }';
@@ -294,7 +294,7 @@ class IntegracionYapoController extends Controller
                             "price": "'.$precio.'",
                             "currency": "'.$moneda.'",
                             "externalAgentID": "'.$clientID.'",
-                            "title": "'.$nombrePropiedad.'",
+                            "title": "'.$propiedad->nombrePropiedad.'",
                             "images":'.$fotosss.'
                         }
                     }';
@@ -342,13 +342,13 @@ class IntegracionYapoController extends Controller
                 }
                 else
                 {
-                    toastr()->danger('Tenemos un problema al subir la publicacion', 'Algo Falló');
+                    toastr()->error('Tenemos un problema al subir la publicacion', 'Algo Falló');
                     return back();
                 }
             }
         } catch (\Exception $e) {
             Log::info('error', array('body' => $e->getMessage()));
-            toastr()->danger('Tenemos un problema al subir la publicacion', 'Algo Falló');
+            toastr()->error('Tenemos un problema al subir la publicacion', 'Algo Falló');
             return back();
         }
     }
@@ -457,7 +457,7 @@ class IntegracionYapoController extends Controller
                             "price": "'.$precio.'",
                             "currency": "'.$moneda.'",
                             "externalAgentID": "'.$clientID.'",
-                            "title": "'.$nombrePropiedad.'",
+                            "title": "'.$propiedad->nombrePropiedad.'",
                             "images":'.$fotosss.'
                         }
                     }';
@@ -483,7 +483,7 @@ class IntegracionYapoController extends Controller
                             "price": "'.$precio.'",
                             "currency": "'.$moneda.'",
                             "externalAgentID": "'.$clientID.'",
-                            "title": "'.$nombrePropiedad.'",
+                            "title": "'.$propiedad->nombrePropiedad.'",
                             "images":'.$fotosss.'            
                         }
                     }';
@@ -590,13 +590,13 @@ class IntegracionYapoController extends Controller
                 }
                 else
                 {
-                    toastr()->danger($responseDos, 'Algo Falló');
+                    toastr()->error($responseDos, 'Algo Falló');
                     return back();
                 }
             }
         } catch (\Exception $e) {
             Log::info('error', array('body' => $e->getMessage()));
-            toastr()->danger('Tenemos un problema al subir la publicacion'. $e->getMessage(), 'Algo Falló');
+            toastr()->error('Tenemos un problema al subir la publicacion'. $e->getMessage(), 'Algo Falló');
             return back();
         }
     }
