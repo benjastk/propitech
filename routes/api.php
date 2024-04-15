@@ -44,4 +44,5 @@ Route::post('/pago-reserva-exitosa', 'PagoController@pagoReservaExitosa');
 Route::get('/properties-sincronize','Api\BuyDepaIntegracionController@sincronizeProperties');
 
 Route::get('/yapo/auth', 'Api\IntegracionYapoController@auth');
+Route::get('/yapo/sync', 'Api\IntegracionYapoController@integracionMasivaYapoCL');
 

@@ -96,7 +96,7 @@ class BuyDepaIntegracionController extends Controller
                                 $propiedadAEditar->idTipoComercial = 1;
                                 $propiedadAEditar->mostrarTituloAutomatico = 1;
                                 $propiedadAEditar->idTipoPropiedad = 2;
-                                $propiedadAEditar->nombrePropiedad = "Departamento en venta ".$propiedad['bedrooms']. " dormitorios ". $propiedad['bathrooms']. " Baños, comuna de ".$propiedad['commune'];
+                                $propiedadAEditar->nombrePropiedad = "Dpto en venta ".$propiedad['bedrooms']. "hab+". $propiedad['bathrooms']. "Bañ, en ".$propiedad['commune'];
                                 $propiedadAEditar->precio = ($propiedad['selling_price'] > 0) ? $propiedad['final_selling_price'] : 0;
                                 $propiedadAEditar->valorArriendo = ($propiedad['rent_price_clp'] > 0) ? $propiedad['rent_price_clp'] : 0;
                                 $propiedadAEditar->gastosComunes = $propiedad['expenses_clp'];
@@ -166,7 +166,7 @@ class BuyDepaIntegracionController extends Controller
                                 $propiedadACrear->idTipoComercial = 1;
                                 $propiedadACrear->mostrarTituloAutomatico = 1;
                                 $propiedadACrear->idTipoPropiedad = 2;
-                                $propiedadACrear->nombrePropiedad = "Departamento en venta ".$propiedad['bedrooms']. " dormitorios ". $propiedad['bathrooms']. " Baños - comuna de ".$propiedad['commune'];
+                                $propiedadACrear->nombrePropiedad = "Dpto en venta ".$propiedad['bedrooms']. "hab+". $propiedad['bathrooms']. "Bañ, en ".$propiedad['commune'];
                                 $propiedadACrear->precio = ($propiedad['selling_price'] > 0) ? $propiedad['final_selling_price'] : 0;
                                 $propiedadACrear->valorArriendo = ($propiedad['rent_price_clp'] > 0) ? $propiedad['rent_price_clp'] : 0;
                                 $propiedadACrear->gastosComunes = $propiedad['expenses_clp'];
