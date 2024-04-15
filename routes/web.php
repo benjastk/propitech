@@ -195,3 +195,7 @@ Route::prefix('parametros')->group(function () {
 Route::get('/yapo/auth', 'Api\IntegracionYapoController@auth');
 Route::get('/yapo/auth/get-token', 'Api\IntegracionYapoController@getToken');
 Route::get('/yapo/refresh-token', 'Api\IntegracionYapoController@refreshToken');
+Route::get('/yapo/list', 'Api\IntegracionYapoController@listAds');
+Route::get('/yapo/add-property/{id}', 'Api\IntegracionYapoController@storeProperties');
+Route::get('/yapo/update-property/{id}', 'Api\IntegracionYapoController@updateProperties');
+Route::get('/yapo/delete-property/{id}', 'Api\IntegracionYapoController@deleteProperties');

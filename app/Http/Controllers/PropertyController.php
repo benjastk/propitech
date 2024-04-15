@@ -7,6 +7,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\ImageManager;
 use App\Exports\PropertiesExport;
+use App\Http\Controllers\Api\IntegracionYapoController;
 use App\CaracteristicasPorPropiedades;
 use App\CaracteristicasPropiedades;
 use App\NivelUsoPropiedad;
@@ -330,6 +331,8 @@ class PropertyController extends Controller
             ' Region: '. $request->idRegion. ' Comuna: '. $request->idComuna;
             $logTransaccion->save();
 
+            $actualizarEnYapo = new IntegracionYapoController();
+            $actualizarEnYapo->updateProperties($propiedad->id);
             DB::commit();
             toastr()->success('Propiedad actualizada exitosamente', 'Operación exitosa');
             return redirect('/properties');
