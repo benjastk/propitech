@@ -347,6 +347,7 @@ class IntegracionYapoController extends Controller
                 }
             }
         } catch (\Exception $e) {
+            Log::info('error', array('body' => $e->getMessage()));
             toastr()->danger('Tenemos un problema al subir la publicacion', 'Algo Falló');
             return back();
         }
@@ -533,6 +534,7 @@ class IntegracionYapoController extends Controller
                 }
             }
         } catch (\Exception $e) {
+            Log::info('error', array('body' => $e->getMessage()));
             return response()->json($e->getMessage());
         }
     }
@@ -593,6 +595,7 @@ class IntegracionYapoController extends Controller
                 }
             }
         } catch (\Exception $e) {
+            Log::info('error', array('body' => $e->getMessage()));
             toastr()->danger('Tenemos un problema al subir la publicacion'. $e->getMessage(), 'Algo Falló');
             return back();
         }
