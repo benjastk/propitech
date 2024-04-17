@@ -7,6 +7,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\ImageManager;
 use App\Exports\PropertiesExport;
+use App\Http\Controllers\Api\IntegracionYapoController;
 use App\CaracteristicasPorPropiedades;
 use App\CaracteristicasPropiedades;
 use App\NivelUsoPropiedad;
@@ -46,7 +47,11 @@ class PropertyController extends Controller
         ->join('estados', 'estados.idEstado', '=', 'propiedades.idEstado')
         ->where('propiedades.idEstado', '!=', 46)
         ->get();
-        return view('back-office.properties.index', compact('user', 'propiedades'));
+        $urlAuthYapo = getenv("YAPO_AUTH_URL");
+        $clientID = getenv("YAPO_CLIENT_ID");
+        $redirect_url = getenv("YAPO_REDIRECT_URL");
+        $urlYapoFinal = $urlAuthYapo.'/authorization?client_id='.$clientID.'&redirect_url='.$redirect_url;
+        return view('back-office.properties.index', compact('user', 'propiedades', 'urlYapoFinal'));
     }
 
     /**
@@ -326,6 +331,8 @@ class PropertyController extends Controller
             ' Region: '. $request->idRegion. ' Comuna: '. $request->idComuna;
             $logTransaccion->save();
 
+            $actualizarEnYapo = new IntegracionYapoController();
+            $actualizarEnYapo->updateProperties($propiedad->id);
             DB::commit();
             toastr()->success('Propiedad actualizada exitosamente', 'Operación exitosa');
             return redirect('/properties');
