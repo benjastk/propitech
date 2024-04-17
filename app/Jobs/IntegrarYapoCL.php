@@ -48,7 +48,7 @@ class IntegrarYapoCL implements ShouldQueue
             ->join('estados', 'estados.idEstado', '=', 'propiedades.idEstado')
             ->where('propiedades.idEstado', '=', 42)
             ->whereNull('urlYapo')
-            ->first();
+            ->get();
             if($propiedades)
             {
                 /*foreach ($propiedades as $propiedad) 
