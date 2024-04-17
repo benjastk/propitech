@@ -34,7 +34,10 @@ class PropertiesExport implements FromCollection,WithHeadings, ShouldAutoSize
             'BODEGA',
             'METROS TOTALES',
             'METROS CONSTRUIDOS',
-            'METROS TERRAZA'
+            'METROS TERRAZA',
+            'N CLIENTE LUZ',
+            'N CLIENTE AGUA',
+            'N CLIENTE GAS'
         ];
     }
     public function collection()
@@ -43,7 +46,7 @@ class PropertiesExport implements FromCollection,WithHeadings, ShouldAutoSize
         'tipos_comerciales.nombreTipoComercial', 'propiedades.direccion', 'propiedades.numero', 'propiedades.block', 'comuna.nombre as nombreComuna',
         'region.nombre as nombreRegion', 'provincia.nombre as nombreProvincia', 'propiedades.valorArriendo', 'propiedades.precio',
         'estadoPropiedad.nombreEstado', 'propiedades.habitacion', 'propiedades.bano', 'propiedades.usoGoceEstacionamiento', 'propiedades.usoGoceBodega',
-        'propiedades.mTotal', 'propiedades.mConstruido', 'propiedades.mTerraza')
+        'propiedades.mTotal', 'propiedades.mConstruido', 'propiedades.mTerraza', 'propiedades.numeroClienteLuz', 'propiedades.numeroClienteAgua', 'propiedades.numeroClienteGas')
        	->join('estados as estadoPropiedad', 'propiedades.idEstado', '=', 'estadoPropiedad.idEstado')
         ->join('tipos_comerciales', 'tipos_comerciales.idTipoComercial', '=', 'propiedades.idTipoComercial')
         ->join('tipos_propiedades', 'propiedades.idTipoPropiedad', '=', 'tipos_propiedades.idTipoPropiedad')
