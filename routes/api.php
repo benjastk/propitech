@@ -45,4 +45,5 @@ Route::get('/properties-sincronize','Api\BuyDepaIntegracionController@sincronize
 
 Route::get('/yapo/auth', 'Api\IntegracionYapoController@auth');
 Route::get('/yapo/sync', 'Api\IntegracionYapoController@integracionMasivaYapoCL');
+Route::get('/yapo/prueba', 'Api\IntegracionYapoController@prueba');
 
