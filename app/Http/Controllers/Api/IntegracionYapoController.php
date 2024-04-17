@@ -624,7 +624,7 @@ class IntegracionYapoController extends Controller
         ->first();
         if($propiedad)
         {
-            $fotos = Foto::where('idPropiedad', $id)->limit(20)->get();
+            $fotos = Foto::where('idPropiedad', $propiedad->id)->limit(20)->get();
             $fotosFinales = array();
             if($fotos)
             {
