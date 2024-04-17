@@ -245,7 +245,7 @@ class IntegracionYapoController extends Controller
                     $tipoPropiedad = 'local';
                 }
                 $fotosss = json_encode($fotosFinales);
-                $descripcion = json_encode($propiedad->descripcion, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE);
+                $descripcion = json_encode($propiedad->descripcion2, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE);
                 if($propiedad->usoGoceEstacionamiento > 0)
                 {
                     $request = '{"ad": {
@@ -434,7 +434,7 @@ class IntegracionYapoController extends Controller
                     $tipoPropiedad = 'local';
                 }
                 $fotosss = json_encode($fotosFinales);
-                $descripcion = json_encode($propiedad->descripcion, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE);
+                $descripcion = json_encode($propiedad->descripcion2, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE);
                 if($propiedad->usoGoceEstacionamiento > 0)
                 {
                     $request = '{"ad": {
@@ -612,7 +612,7 @@ class IntegracionYapoController extends Controller
     public function prueba()
     {
         $clientID = getenv("YAPO_CLIENT_ID");
-        $propiedad = Propiedad::select('propiedades.*', 'niveles_uso_propiedad.nombreNivelUsoPropiedad', 'tipos_propiedades.nombreTipoPropiedad',
+        $propiedades = Propiedad::select('propiedades.*', 'niveles_uso_propiedad.nombreNivelUsoPropiedad', 'tipos_propiedades.nombreTipoPropiedad',
         'paises.nombrePais', 'provincia.nombre as nombreProvincia', 'region.nombre as nombreRegion', 'comuna.nombre as nombreComuna', 'estados.nombreEstado')
         ->join('niveles_uso_propiedad', 'niveles_uso_propiedad.idNivelUsoPropiedad', '=', 'propiedades.idNivelUsoPropiedad')
         ->join('tipos_propiedades', 'tipos_propiedades.idTipoPropiedad', '=', 'propiedades.idTipoPropiedad')
@@ -622,129 +622,134 @@ class IntegracionYapoController extends Controller
         ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
         ->join('estados', 'estados.idEstado', '=', 'propiedades.idEstado')
         ->where('propiedades.idEstado', '=', 42)
-        ->first();
-        if($propiedad)
+        ->whereNull('urlYapo')
+        ->get();
+        $propiedadessssss = collect();
+        if($propiedades)
         {
-            $fotos = Foto::where('idPropiedad', $propiedad->id)->limit(20)->get();
-            $fotosFinales = array();
-            if($fotos)
+            foreach ($propiedades as $propiedad) 
             {
-                foreach ($fotos as $foto) 
+                $fotos = Foto::where('idPropiedad', $propiedad->id)->limit(20)->get();
+                $fotosFinales = array();
+                if($fotos)
                 {
-                    $url = 'https://propitech.cl/img/propiedad/'. $foto->nombreArchivo.'"';
-                    array_push($fotosFinales, $url);
+                    foreach ($fotos as $foto) 
+                    {
+                        $url = 'https://propitech.cl/img/propiedad/'. $foto->nombreArchivo.'"';
+                        array_push($fotosFinales, $url);
+                    }
+                    $fotosAPublicar = implode(", ", $fotosFinales);
                 }
-                $fotosAPublicar = implode(", ", $fotosFinales);
+                if($propiedad->idTipoComercial == 1)
+                {
+                    $tipoOperacion = 'venta';
+                    $moneda = 'uf';
+                    $precio = $propiedad->precio;
+                }
+                else
+                {
+                    $tipoOperacion = 'arriendo';
+                    $moneda = 'peso';
+                    $precio = $propiedad->valorArriendo;
+                }
+                if($propiedad->idTipoPropiedad == 1)
+                {
+                    $tipoPropiedad = 'casa';
+                }
+                elseif($propiedad->idTipoPropiedad == 2)
+                {
+                    $tipoPropiedad = 'departamento';
+                }
+                elseif($propiedad->idTipoPropiedad == 3)
+                {
+                    $tipoPropiedad = 'sitio';
+                }
+                elseif($propiedad->idTipoPropiedad == 4)
+                {
+                    $tipoPropiedad = '';
+                }
+                elseif($propiedad->idTipoPropiedad == 5)
+                {
+                    $tipoPropiedad = 'parcela';
+                }
+                elseif($propiedad->idTipoPropiedad == 6)
+                {
+                    $tipoPropiedad = '';
+                }
+                elseif($propiedad->idTipoPropiedad == 7)
+                {
+                    $tipoPropiedad = 'house';
+                }
+                elseif($propiedad->idTipoPropiedad == 8)
+                {
+                    $tipoPropiedad = 'oficina';
+                }
+                elseif($propiedad->idTipoPropiedad == 9)
+                {
+                    $tipoPropiedad = 'departamento';
+                }
+                elseif($propiedad->idTipoPropiedad == 10)
+                {
+                    $tipoPropiedad = 'local';
+                }
+                $fotosss = json_encode($fotosFinales);
+                $descripcion = json_encode($propiedad->descripcion2, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE);
+                
+                if($propiedad->usoGoceEstacionamiento > 0)
+                {
+                    $request = '{"ad": {
+                            "externalID": "'.$propiedad->id.'",
+                            "category": "'.$tipoOperacion.'",
+                            "subCategory": "'.$tipoPropiedad.'",
+                            "description": '.$descripcion.',
+                            "attributes": {
+                                "rooms": "'.$propiedad->habitacion.'",
+                                "bathrooms": "'.$propiedad->bano.'",
+                                "parkingLots": "'.$propiedad->usoGoceEstacionamiento.'",
+                                "size": "'.$propiedad->mConstruido.'",
+                                "utilSize": "'.$propiedad->mTotal.'"
+                            },
+                            "location": {
+                                "address": "'.$propiedad->direccion.' '.$propiedad->numero.'",
+                                "commune": "'.$propiedad->nombreComuna.'",
+                                "geoposition": "'.$propiedad->latitud.','.$propiedad->longitud.'"
+                            },
+                            "price": "'.$precio.'",
+                            "currency": "'.$moneda.'",
+                            "externalAgentID": "'.$clientID.'",
+                            "title": "'.$propiedad->nombrePropiedad.'",
+                            "images":'.$fotosss.'
+                        }
+                    }';
+                }   
+                else
+                {   
+                    $request = '{"ad": {
+                            "externalID": "'.$propiedad->id.'",
+                            "category": "'.$tipoOperacion.'",
+                            "subCategory": "'.$tipoPropiedad.'",
+                            "description": '.$descripcion.',
+                            "attributes": {
+                                "rooms": "'.$propiedad->habitacion.'",
+                                "bathrooms": "'.$propiedad->bano.'",
+                                "size": "'.$propiedad->mConstruido.'",
+                                "utilSize": "'.$propiedad->mTotal.'"
+                            },
+                            "location": {
+                                "address": "'.$propiedad->direccion.' '.$propiedad->numero.'",
+                                "commune": "'.$propiedad->nombreComuna.'",
+                                "geoposition": "'.$propiedad->latitud.','.$propiedad->longitud.'"
+                            },
+                            "price": "'.$precio.'",
+                            "currency": "'.$moneda.'",
+                            "externalAgentID": "'.$clientID.'",
+                            "title": "'.$propiedad->nombrePropiedad.'",
+                            "images":'.$fotosss.'
+                        }
+                    }';
+                }
+                $propiedadessssss->push(json_decode($request));
             }
-            if($propiedad->idTipoComercial == 1)
-            {
-                $tipoOperacion = 'venta';
-                $moneda = 'uf';
-                $precio = $propiedad->precio;
-            }
-            else
-            {
-                $tipoOperacion = 'arriendo';
-                $moneda = 'peso';
-                $precio = $propiedad->valorArriendo;
-            }
-            if($propiedad->idTipoPropiedad == 1)
-            {
-                $tipoPropiedad = 'casa';
-            }
-            elseif($propiedad->idTipoPropiedad == 2)
-            {
-                $tipoPropiedad = 'departamento';
-            }
-            elseif($propiedad->idTipoPropiedad == 3)
-            {
-                $tipoPropiedad = 'sitio';
-            }
-            elseif($propiedad->idTipoPropiedad == 4)
-            {
-                $tipoPropiedad = '';
-            }
-            elseif($propiedad->idTipoPropiedad == 5)
-            {
-                $tipoPropiedad = 'parcela';
-            }
-            elseif($propiedad->idTipoPropiedad == 6)
-            {
-                $tipoPropiedad = '';
-            }
-            elseif($propiedad->idTipoPropiedad == 7)
-            {
-                $tipoPropiedad = 'house';
-            }
-            elseif($propiedad->idTipoPropiedad == 8)
-            {
-                $tipoPropiedad = 'oficina';
-            }
-            elseif($propiedad->idTipoPropiedad == 9)
-            {
-                $tipoPropiedad = 'departamento';
-            }
-            elseif($propiedad->idTipoPropiedad == 10)
-            {
-                $tipoPropiedad = 'local';
-            }
-            $fotosss = json_encode($fotosFinales);
-            $descripcion = json_encode($propiedad->descripcion, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE);
-            $propiedadessssss = array();
-            if($propiedad->usoGoceEstacionamiento > 0)
-            {
-                $request = '{"ad": {
-                        "externalID": "'.$propiedad->id.'",
-                        "category": "'.$tipoOperacion.'",
-                        "subCategory": "'.$tipoPropiedad.'",
-                        "description": '.$descripcion.',
-                        "attributes": {
-                            "rooms": "'.$propiedad->habitacion.'",
-                            "bathrooms": "'.$propiedad->bano.'",
-                            "parkingLots": "'.$propiedad->usoGoceEstacionamiento.'",
-                            "size": "'.$propiedad->mConstruido.'",
-                            "utilSize": "'.$propiedad->mTotal.'"
-                        },
-                        "location": {
-                            "address": "'.$propiedad->direccion.' '.$propiedad->numero.'",
-                            "commune": "'.$propiedad->nombreComuna.'",
-                            "geoposition": "'.$propiedad->latitud.','.$propiedad->longitud.'"
-                        },
-                        "price": "'.$precio.'",
-                        "currency": "'.$moneda.'",
-                        "externalAgentID": "'.$clientID.'",
-                        "title": "'.$propiedad->nombrePropiedad.'",
-                        "images":'.$fotosss.'
-                    }
-                }';
-            }   
-            else
-            {   
-                $request = '{"ad": {
-                        "externalID": "'.$propiedad->id.'",
-                        "category": "'.$tipoOperacion.'",
-                        "subCategory": "'.$tipoPropiedad.'",
-                        "description": '.$descripcion.',
-                        "attributes": {
-                            "rooms": "'.$propiedad->habitacion.'",
-                            "bathrooms": "'.$propiedad->bano.'",
-                            "size": "'.$propiedad->mConstruido.'",
-                            "utilSize": "'.$propiedad->mTotal.'"
-                        },
-                        "location": {
-                            "address": "'.$propiedad->direccion.' '.$propiedad->numero.'",
-                            "commune": "'.$propiedad->nombreComuna.'",
-                            "geoposition": "'.$propiedad->latitud.','.$propiedad->longitud.'"
-                        },
-                        "price": "'.$precio.'",
-                        "currency": "'.$moneda.'",
-                        "externalAgentID": "'.$clientID.'",
-                        "title": "'.$propiedad->nombrePropiedad.'",
-                        "images":'.$fotosss.'
-                    }
-                }';
-            }
-            array_push($propiedadessssss, $request);
             return $propiedadessssss;
         }
     }
