@@ -620,8 +620,7 @@ class IntegracionYapoController extends Controller
         ->join('region', 'region.id', '=', 'propiedades.idRegion')
         ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
         ->join('estados', 'estados.idEstado', '=', 'propiedades.idEstado')
-        ->where('propiedades.idEstado', '!=', 46)
-        ->where('propiedades.id', '=', $id)
+        ->where('propiedades.idEstado', '=', 42)
         ->first();
         if($propiedad)
         {
