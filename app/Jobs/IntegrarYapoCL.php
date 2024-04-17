@@ -117,7 +117,7 @@ class IntegrarYapoCL implements ShouldQueue
                         $tipoPropiedad = 'local';
                     }
                     $fotosss = json_encode($fotosFinales);
-                    $descripcion =  json_encode($propiedad->descripcion2);
+                    $descripcion = json_encode($propiedad->descripcion, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE);
                     if($propiedad->usoGoceEstacionamiento > 0)
                     {
                         $request = '{"ad": {
