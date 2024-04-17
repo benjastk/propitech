@@ -689,7 +689,7 @@ class IntegracionYapoController extends Controller
                 $tipoPropiedad = 'local';
             }
             $fotosss = json_encode($fotosFinales);
-            $descripcion =  json_encode($propiedad->descripcion2);
+            $descripcion = json_encode($propiedad->descripcion, JSON_UNESCAPED_SLASHES);
             if($propiedad->usoGoceEstacionamiento > 0)
             {
                 $request = '{"ad": {
