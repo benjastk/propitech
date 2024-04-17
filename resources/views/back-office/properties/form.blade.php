@@ -3,9 +3,9 @@
         <div class="col-lg-5 col-md-5 col-sm-12">
             <label>Nombre de la Propiedad</label>
             @if(!isset($propiedad->nombrePropiedad))
-                <input type="text" name="nombrePropiedad" value="{{old('nombrePropiedad')}}" class="form-control" placeholder="Nombre propiedad" required>
+                <input type="text" name="nombrePropiedad" value="{{old('nombrePropiedad')}}" class="form-control" placeholder="Nombre propiedad" maxlength="49" required>
             @else
-                <input type="text" name="nombrePropiedad" value="{{ $propiedad->nombrePropiedad }}" class="form-control" placeholder="Nombre propiedad" required>
+                <input type="text" name="nombrePropiedad" value="{{ $propiedad->nombrePropiedad }}" class="form-control" placeholder="Nombre propiedad"  maxlength="49" required>
             @endif
         </div>
         <div class="col-lg-2 col-md-2 col-sm-12">

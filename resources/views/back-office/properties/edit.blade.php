@@ -14,6 +14,14 @@
                             <h4 class="mb-0 font-size-18">Editar Propiedad</h4>
                             <div class="page-title-right">
                                 <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item">
+                                        @if($propiedad->urlYapo)
+                                        <a href="/yapo/delete-property/{{$propiedad->id}}"><button class="btn btn-danger"><i class="bx bxs-trash-alt"></i> Eliminar de Yapo.cl</button></a>
+                                        <a href="/yapo/update-property/{{$propiedad->id}}"><button class="btn btn-primary"><i class="bx bxs-edit-alt"></i> Actualización de Yapo.cl</button></a>
+                                        @else
+                                        <a href="/yapo/add-property/{{$propiedad->id}}"><button class="btn btn-success"><i class="bx bx-plus"></i> Agregar a Yapo.cl</button></a>
+                                        @endif
+                                    </li>
                                     <li class="breadcrumb-item"><a href="javascript: void(0);">Propiedades</a></li>
                                     <li class="breadcrumb-item active">Editar Propiedad</li>
                                 </ol>
