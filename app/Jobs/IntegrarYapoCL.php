@@ -140,7 +140,7 @@ class IntegrarYapoCL implements ShouldQueue
                                 "price": "'.$precio.'",
                                 "currency": "'.$moneda.'",
                                 "externalAgentID": "'.$clientID.'",
-                                "title": "'.$nombrePropiedad.'",
+                                "title": "'.$propiedad->nombrePropiedad.'",
                                 "images":'.$fotosss.'
                             }
                         }';
@@ -166,7 +166,7 @@ class IntegrarYapoCL implements ShouldQueue
                                 "price": "'.$precio.'",
                                 "currency": "'.$moneda.'",
                                 "externalAgentID": "'.$clientID.'",
-                                "title": "'.$nombrePropiedad.'",
+                                "title": "'.$propiedad->nombrePropiedad.'",
                                 "images":'.$fotosss.'
                             }
                         }';
