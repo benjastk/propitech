@@ -210,14 +210,13 @@ class IntegrarYapoCL implements ShouldQueue
                         $propiedad->externalIDYapo = $responseDos['ad']['externalID'];
                         $propiedad->save();
                         Log::info('success', array('body' => 'listo'));
-                        return true;
                     }
                     else
                     {
                         Log::info('error', array('body' => 'Error yapo'));
-                        return true;
                     }
                 }
+                return true;
             }
         } catch (\Exception $e) {
             Log::info('error', array('body' => $e->getMessage()));
