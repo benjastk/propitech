@@ -7,12 +7,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use App\CaracteristicasPorPropiedades;
 use App\ActualizacionBuyDepa;
+use App\LogTransaccion;
 use App\Provincia;
 use App\Propiedad;
 use App\Comuna;
 use App\Region;
 use App\Pais;
 use App\Foto;
+use App\User;
 use Image;
 
 class BuyDepaIntegracionController extends Controller
@@ -130,8 +132,16 @@ class BuyDepaIntegracionController extends Controller
                                     foreach ($propiedad['images'][0] as $imagen) 
                                     {
                                         $path = $imagen;
-                                        $filename = basename($path);
-                                        Image::make($path)->save(public_path('img/propiedad/'.$filename));
+                                        if(str_contains($path, '.jpg') || str_contains($path, '.jpeg') || str_contains($path, '.png'))
+                                        {
+                                            $filename = basename($path);
+                                            Image::make($path)->save(public_path('img/propiedad/'.$filename));
+                                        }
+                                        else
+                                        {
+                                            $filename = basename($path).'.jpg';
+                                            Image::make($path)->save(public_path('img/propiedad/'.$filename));
+                                        }
                                     }
                                     $propiedadAEditar->fotoPrincipal = $filename;
                                 }
@@ -158,8 +168,16 @@ class BuyDepaIntegracionController extends Controller
                             if($propiedad['images'])
                             {
                                 $path = $propiedad['images'][0];
-                                $filename = basename($path);
-                                Image::make($path)->save(public_path('img/propiedad/'.$filename));
+                                if(str_contains($path, '.jpg') || str_contains($path, '.jpeg') || str_contains($path, '.png'))
+                                {
+                                    $filename = basename($path);
+                                    Image::make($path)->save(public_path('img/propiedad/'.$filename));
+                                }
+                                else
+                                {
+                                    $filename = basename($path).'.jpg';
+                                    Image::make($path)->save(public_path('img/propiedad/'.$filename));
+                                }
                                 $primeraFoto = $propiedad['images'][0];
                                 $propiedadACrear = new Propiedad();
                                 $propiedadACrear->idNivelUsoPropiedad = 1;
@@ -217,12 +235,24 @@ class BuyDepaIntegracionController extends Controller
                                         else
                                         {
                                             $path = $imagenes;
-                                            $filenames = basename($path);
-                                            Image::make($path)->save(public_path('img/propiedad/'.$filenames));
-                                            $foto = new Foto();
-                                            $foto->idPropiedad = $propiedadACrear->id;
-                                            $foto->nombreArchivo = $filenames;
-                                            $foto->save();
+                                            if(str_contains($path, '.jpg') || str_contains($path, '.jpeg') || str_contains($path, '.png'))
+                                            {
+                                                $filenames = basename($path);
+                                                Image::make($path)->save(public_path('img/propiedad/'.$filenames));
+                                                $foto = new Foto();
+                                                $foto->idPropiedad = $propiedadACrear->id;
+                                                $foto->nombreArchivo = $filenames;
+                                                $foto->save();
+                                            }
+                                            else
+                                            {
+                                                $filenames = basename($path).'.jpg';
+                                                Image::make($path)->save(public_path('img/propiedad/'.$filenames));
+                                                $foto = new Foto();
+                                                $foto->idPropiedad = $propiedadACrear->id;
+                                                $foto->nombreArchivo = $filenames;
+                                                $foto->save();
+                                            }
                                         }
                                     }
                                 }
@@ -267,6 +297,57 @@ class BuyDepaIntegracionController extends Controller
                                         $caracteristicaDeLaPropiedad->delete();
                                     }
                                 }
+                                $clientID = getenv("YAPO_CLIENT_ID");
+                                $propiedad = Propiedad::where('id', '=', $propiedadSistema->id)
+                                ->first();
+                                $users = User::select('users.*', 'roles.nombre', 'roles.id as idRol')
+                                ->join('rol_usuario', 'rol_usuario.id_usuario', '=', 'users.id')
+                                ->join('roles', 'roles.id', '=', 'rol_usuario.id_rol')
+                                ->whereIn('rol_usuario.id_rol', [1, 2])
+                                ->get();
+                                if($propiedadSistema->externalIDYapo > 1)
+                                {                
+                                    $tokenYapo = $users[0]->tokenYapo;
+                                    $clientID = getenv("YAPO_CLIENT_ID");
+                                    $secretClient = getenv("YAPO_SECRET_CLIENT");
+                                    $yapoApiUrl = getenv("YAPO_API_URL");
+                                    $curl = curl_init();
+                                    curl_setopt_array($curl, array(
+                                    CURLOPT_URL => $yapoApiUrl.'/ads',
+                                    CURLOPT_RETURNTRANSFER => true,
+                                    CURLOPT_ENCODING => '',
+                                    CURLOPT_MAXREDIRS => 10,
+                                    CURLOPT_TIMEOUT => 0,
+                                    CURLOPT_FOLLOWLOCATION => true,
+                                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                                    CURLOPT_CUSTOMREQUEST => 'DELETE',
+                                    CURLOPT_POSTFIELDS =>'{
+                                        "externalID": "'.$propiedadSistema->id.'"
+                                    }',
+                                    CURLOPT_HTTPHEADER => array(
+                                        'Content-Type: application/json',
+                                        'Authorization: Bearer '.$tokenYapo
+                                        ),
+                                    ));
+                                    $response = curl_exec($curl);
+                                    curl_close($curl);
+                                    $responseDos = json_decode($response, true);
+                                    
+                                    if($responseDos['status'] == 200)
+                                    {
+                                        $propiedad = Propiedad::where('id', $propiedadSistema->id)->first();
+                                        $propiedad->urlYapo = null;
+                                        $propiedad->internalIDYapo = null;
+                                        $propiedad->listIDYapo = null;
+                                        $propiedad->externalIDYapo = null;
+                                        $propiedad->save();
+                                    }
+                                }
+                                $logTransaccion = new LogTransaccion();
+                                $logTransaccion->tipoTransaccion = 'PROPIEDAD ELIMINADA EN BUYDEPA';
+                                $logTransaccion->idUsuario =  $users[0]->id;
+                                $logTransaccion->descripcionTransaccion = 'Propiedad eliminada en buydepa'. $propiedadSistema->direccion. ' '. $propiedadSistema->numero;
+                                $logTransaccion->save();
                                 $propiedadSistema->delete();
                                 $propiedadesEliminadas = $propiedadesEliminadas + 1;
                             }
