@@ -166,7 +166,8 @@ class IntegracionYapoController extends Controller
     public function storeProperties($id)
     {
         try {
-            $clientID = getenv("YAPO_CLIENT_ID");
+            $clientIDSell = getenv("YAPO_CLIENT_ID");
+            $clientIDRent = getenv("YAPO_CLIENT_ID_RENT");
             $propiedad = Propiedad::select('propiedades.*', 'niveles_uso_propiedad.nombreNivelUsoPropiedad', 'tipos_propiedades.nombreTipoPropiedad',
             'paises.nombrePais', 'provincia.nombre as nombreProvincia', 'region.nombre as nombreRegion', 'comuna.nombre as nombreComuna', 'estados.nombreEstado')
             ->join('niveles_uso_propiedad', 'niveles_uso_propiedad.idNivelUsoPropiedad', '=', 'propiedades.idNivelUsoPropiedad')
@@ -197,12 +198,14 @@ class IntegracionYapoController extends Controller
                     $tipoOperacion = 'venta';
                     $moneda = 'uf';
                     $precio = $propiedad->precio;
+                    $clientID = $clientIDSell;
                 }
                 else
                 {
                     $tipoOperacion = 'arriendo';
                     $moneda = 'peso';
                     $precio = $propiedad->valorArriendo;
+                    $clientID = $clientIDRent;
                 }
                 if($propiedad->idTipoPropiedad == 1)
                 {
@@ -306,7 +309,6 @@ class IntegracionYapoController extends Controller
                 ->whereIn('rol_usuario.id_rol', [1, 2])
                 ->get();
                 $tokenYapo = $users[0]->tokenYapo;
-                $clientID = getenv("YAPO_CLIENT_ID");
                 $secretClient = getenv("YAPO_SECRET_CLIENT");
                 $yapoApiUrl = getenv("YAPO_API_URL");
                 $curl = curl_init();
@@ -355,7 +357,8 @@ class IntegracionYapoController extends Controller
     public function updateProperties($id)
     {
         try {
-            $clientID = getenv("YAPO_CLIENT_ID");
+            $clientIDSell = getenv("YAPO_CLIENT_ID");
+            $clientIDRent = getenv("YAPO_CLIENT_ID_RENT");
             $propiedad = Propiedad::select('propiedades.*', 'niveles_uso_propiedad.nombreNivelUsoPropiedad', 'tipos_propiedades.nombreTipoPropiedad',
             'paises.nombrePais', 'provincia.nombre as nombreProvincia', 'region.nombre as nombreRegion', 'comuna.nombre as nombreComuna', 'estados.nombreEstado')
             ->join('niveles_uso_propiedad', 'niveles_uso_propiedad.idNivelUsoPropiedad', '=', 'propiedades.idNivelUsoPropiedad')
@@ -386,12 +389,14 @@ class IntegracionYapoController extends Controller
                     $tipoOperacion = 'venta';
                     $moneda = 'uf';
                     $precio = $propiedad->precio;
+                    $clientID = $clientIDSell;
                 }
                 else
                 {
                     $tipoOperacion = 'arriendo';
                     $moneda = 'peso';
                     $precio = $propiedad->valorArriendo;
+                    $clientID = $clientIDRent;
                 }
                 if($propiedad->idTipoPropiedad == 1)
                 {
@@ -495,7 +500,6 @@ class IntegracionYapoController extends Controller
                 ->whereIn('rol_usuario.id_rol', [1, 2])
                 ->get();
                 $tokenYapo = $users[0]->tokenYapo;
-                $clientID = getenv("YAPO_CLIENT_ID");
                 $secretClient = getenv("YAPO_SECRET_CLIENT");
                 $yapoApiUrl = getenv("YAPO_API_URL");
                 $curl = curl_init();
@@ -541,7 +545,6 @@ class IntegracionYapoController extends Controller
     public function deleteProperties($id)
     {
         try {
-            $clientID = getenv("YAPO_CLIENT_ID");
             $propiedad = Propiedad::where('id', '=', $id)
             ->first();
             if($propiedad)
@@ -552,7 +555,6 @@ class IntegracionYapoController extends Controller
                 ->whereIn('rol_usuario.id_rol', [1, 2])
                 ->get();
                 $tokenYapo = $users[0]->tokenYapo;
-                $clientID = getenv("YAPO_CLIENT_ID");
                 $secretClient = getenv("YAPO_SECRET_CLIENT");
                 $yapoApiUrl = getenv("YAPO_API_URL");
                 $curl = curl_init();
