@@ -118,8 +118,15 @@ class BuyDepaIntegracionController extends Controller
                                 $propiedadAEditar->numeroPisos = $propiedad['floor'];
                                 $propiedadAEditar->latitud = $propiedad['latitude'];
                                 $propiedadAEditar->longitud = $propiedad['longitude'];
-                                $propiedadAEditar->descripcion = $propiedad['description'];
-                                $propiedadAEditar->descripcion2 = $propiedad['description'];
+                                if($propiedadAEditar->descripcion)
+                                {
+
+                                }
+                                else
+                                {
+                                    $propiedadAEditar->descripcion = $propiedad['description'];
+                                    $propiedadAEditar->descripcion2 = $propiedad['description'];
+                                }
                                 $propiedadAEditar->notaInterna = 'CREADA AUTOMATICAMENTE DESDE BUYDEPA';
                                 $propiedadAEditar->idEstado = 42;
                                 $propiedadAEditar->creador = 'BUY DEPA';

@@ -257,8 +257,8 @@ class IntegracionYapoController extends Controller
                                 "rooms": "'.$propiedad->habitacion.'",
                                 "bathrooms": "'.$propiedad->bano.'",
                                 "parkingLots": "'.$propiedad->usoGoceEstacionamiento.'",
-                                "size": "'.$propiedad->mConstruido.'",
-                                "utilSize": "'.$propiedad->mTotal.'"
+                                "size": "'.round($propiedad->mConstruido).'",
+                                "utilSize": "'.round($propiedad->mTotal).'"
                             },
                             "location": {
                                 "address": "'.$propiedad->direccion.' '.$propiedad->numero.'",
@@ -283,8 +283,8 @@ class IntegracionYapoController extends Controller
                             "attributes": {
                                 "rooms": "'.$propiedad->habitacion.'",
                                 "bathrooms": "'.$propiedad->bano.'",
-                                "size": "'.$propiedad->mConstruido.'",
-                                "utilSize": "'.$propiedad->mTotal.'"
+                                "size": "'.round($propiedad->mConstruido).'",
+                                "utilSize": "'.round($propiedad->mTotal).'"
                             },
                             "location": {
                                 "address": "'.$propiedad->direccion.' '.$propiedad->numero.'",
@@ -446,8 +446,8 @@ class IntegracionYapoController extends Controller
                                 "rooms": "'.$propiedad->habitacion.'",
                                 "bathrooms": "'.$propiedad->bano.'",
                                 "parkingLots": "'.$propiedad->usoGoceEstacionamiento.'",
-                                "size": "'.$propiedad->mConstruido.'",
-                                "utilSize": "'.$propiedad->mTotal.'"
+                                "size": "'.round($propiedad->mConstruido).'",
+                                "utilSize": "'.round($propiedad->mTotal).'"
                             },
                             "location": {
                                 "address": "'.$propiedad->direccion.' '.$propiedad->numero.'",
@@ -472,8 +472,8 @@ class IntegracionYapoController extends Controller
                             "attributes": {
                                 "rooms": "'.$propiedad->habitacion.'",
                                 "bathrooms": "'.$propiedad->bano.'",
-                                "size": "'.$propiedad->mConstruido.'",
-                                "utilSize": "'.$propiedad->mTotal.'"
+                                "size": "'.round($propiedad->mConstruido).'",
+                                "utilSize": "'.round($propiedad->mTotal).'"
                             },
                             "location": {
                                 "address": "'.$propiedad->direccion.' '.$propiedad->numero.'",
