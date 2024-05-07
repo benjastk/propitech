@@ -1363,17 +1363,18 @@ class MandatoAdministracionController extends Controller
     {
         $estadoDePagoFinal = EstadosPagosMandatarios::select('estados_pagos_mandatarios.*', 'users.email as correo', 'users.name as nombre', 'users.apellido', 
         'propiedades.direccion', 'propiedades.numero', 'propiedades.block', 'users.numero as numeroPropietario', 'users.telefono',
-        'users.rut as rutPropietario', 'comuna.nombre as nombreComuna', 'region.nombre as nombreRegion')
+        'users.rut as rutPropietario', 'comuna.nombre as nombreComuna', 'region.nombre as nombreRegion', 'planes.comisionAdministracion')
         ->join('estados', 'estados_pagos_mandatarios.idEstado', '=', 'estados.idEstado')
         ->join('mandatos_propiedad', 'estados_pagos_mandatarios.idMandatoPropiedad', '=', 'mandatos_propiedad.idMandatoPropiedad')
         ->join('propiedades', 'mandatos_propiedad.idPropiedad', '=', 'propiedades.id')
         ->join('users', 'mandatos_propiedad.idPropietario', '=', 'users.id')
         ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
         ->join('region', 'region.id', '=', 'propiedades.idRegion')
+        ->join('planes', 'planes.id', '=', 'mandatos_propiedad.idPlan')
         ->where('estados_pagos_mandatarios.idEstadoPagoMandato', '=', $id)
         ->first();
         $cargos = [];
-        $descuentos = [];
+        $descuentos = Descuento::where('idEstadoPago', $estadoDePagoFinal->idEstadoPago)->get();
         $deudas = [];
         $documentos = '';
         $estadoDePagoArrendatario = '';

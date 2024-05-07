@@ -52,10 +52,10 @@
                                 <!--<ol class="breadcrumb m-0">
                                     <li class="breadcrumb-item"><a href="javascript: void(0);">Contactos</a></li>
                                     <li class="breadcrumb-item active">Lista de usuarios</li>
-                                </ol>
-                                <a href="/contratos/create" class="btn btn-info waves-effect waves-light" style="margin-right: 10px">
-                                    <i class="bx bx-user-plus font-size-16 align-middle mr-2"></i> Crear Contrato de arriendo
-                                </a>-->
+                                </ol>-->
+                                <a href="/mandatos/liquidacion-inversionista" class="btn btn-info waves-effect waves-light" style="margin-right: 10px">
+                                    <i class="bx bx-money font-size-16 align-middle mr-2"></i> Liquidacion de Inversionista
+                                </a>
                                 <a href="/mandatos/export" class="btn btn-success waves-effect waves-light" style="margin-right: 10px">
                                     <i class="far fa-file-excel"></i> Descargar Excel
                                 </a>
