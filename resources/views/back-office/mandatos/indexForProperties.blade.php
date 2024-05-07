@@ -53,6 +53,9 @@
                                     <li class="breadcrumb-item"><a href="javascript: void(0);">Contactos</a></li>
                                     <li class="breadcrumb-item active">Lista de usuarios</li>
                                 </ol>-->
+                                <a href="/mandatos/liquidacion-inversionista" class="btn btn-info waves-effect waves-light" style="margin-right: 10px">
+                                    <i class="bx bx-money font-size-16 align-middle mr-2"></i> Liquidacion de Inversionista
+                                </a>
                                 <a href="/mandatos/create?propiedad={{ $propiedad->id }}" class="btn btn-info waves-effect waves-light" style="margin-right: 10px">
                                     <i class="bx bx-user-plus font-size-16 align-middle mr-2"></i> Crear Mandato de Administracion
                                 </a>
