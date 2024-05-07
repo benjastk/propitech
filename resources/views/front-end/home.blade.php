@@ -753,20 +753,30 @@
         <div class="container container-xxl">
             <div class="py-lg-8 py-6 border-top">
                 <div class="slick-slider mx-0 partners"
-                    data-slick-options='{"slidesToShow": 3, "autoplay":true,"dots":false,"arrows":false,"responsive":[{"breakpoint": 1200,"settings": {"slidesToShow":4}},{"breakpoint": 992,"settings": {"slidesToShow":3}},{"breakpoint": 768,"settings": {"slidesToShow": 3}},{"breakpoint": 576,"settings": {"slidesToShow": 2}}]}'>
+                    data-slick-options='{"slidesToShow": 3, "infinite":true, "autoplay":true, "dots":false,"arrows":false,"responsive":[{"breakpoint": 1200,"settings": {"slidesToShow":4}},{"breakpoint": 992,"settings": {"slidesToShow":3}},{"breakpoint": 768,"settings": {"slidesToShow": 3}},{"breakpoint": 576,"settings": {"slidesToShow": 2}}]}'>
                     <div class="box d-flex align-items-center justify-content-center" data-animate="fadeInUp">
                         <a href="#" class="item">
-                            <img src="front/proppit.png" alt=" class="image">
+                            <img src="front/proppit.png" alt="" class="image">
                         </a>
                     </div>
                     <div class="box d-flex align-items-center justify-content-center" data-animate="fadeInUp">
                         <a href="#" class="item">
-                            <img src="front/otrospagos.jpg" alt=" class="image">
+                            <img src="front/otrospagos.jpg" alt="" class="image">
                         </a>
                     </div>
                     <div class="box d-flex align-items-center justify-content-center" data-animate="fadeInUp">
                         <a href="#" class="item">
-                            <img src="front/firmaVirtual.png" alt=" class="image">
+                            <img src="front/portal-firma.png" alt="" class="image">
+                        </a>
+                    </div>
+                    <div class="box d-flex align-items-center justify-content-center" data-animate="fadeInUp">
+                        <a href="#" class="item">
+                            <img src="front/yapo-logo.png" style="width: 70%" alt="" class="image">
+                        </a>
+                    </div>
+                    <div class="box d-flex align-items-center justify-content-center" data-animate="fadeInUp">
+                        <a href="#" class="item">
+                            <img src="front/buydepa.jpg" style="width: 80%" alt="" class="image">
                         </a>
                     </div>
                 </div>
