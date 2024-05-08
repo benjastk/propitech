@@ -240,6 +240,7 @@
                                                 <a class="dropdown-item" href="/mandatos/imprimir-estado-pago-inversionista/{{$estadosDePagos->idEstadoPagoMandato}}"><i class="fa fa-print"></i> Imprimir Comprobante A Inversionista</a>
                                                 <!--<a class="dropdown-item" href="descuentos/{{$estadosDePagos->idEstadoPago}}"><i class="fa fa-arrow-down"></i> Descuentos</a>-->
                                                 <a class="dropdown-item"  data-toggle="modal" data-target="#exampleModalCenterEliminar-{{ $estadosDePagos->idEstadoPagoMandato }}" href="#"><i class="fa fa-trash"></i> Eliminar</a>
+                                                <a class="dropdown-item" href="/mandatos/enviar-comprobante-inversionista/{{$estadosDePagos->idEstadoPagoMandato}}"><i class="fa fa-envelope"></i> Enviar Comprobante A Inversionista</a>
                                                 </div>
                                             </div>
                                             @else

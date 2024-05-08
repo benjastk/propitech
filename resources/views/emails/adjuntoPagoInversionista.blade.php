@@ -111,7 +111,7 @@
                 </tr>
                 <tr style="height: 13px;">
                     <td style="width: 175px; height: 13px;"><strong>COMISIÓN ADMINISTRACIÓN</strong></td>
-                    <td style="width: 175px; height: 13px;">%{{ $estadoPagoMandato->comisionAdministracion }}</td>
+                    <td style="width: 175px; height: 13px;">{{ $estadoPagoMandato->comisionAdministracion }}%</td>
                     <td style="width: 175px; height: 13px;"><strong>FECHA DE PAGO</strong></td>
                     <td style="width: 175px; height: 13px;">{{ $estadoPagoMandato->fechaDePago }}</td>
                 </tr>
@@ -134,26 +134,25 @@
                     <td style="width: 175px; height: 13px; text-align: right">${{ number_format( $estadoPagoMandato->montoAPagar, 0, '', '.')}}</td>
                 </tr>
                 <tr style="height: 13px;">
-                    <td style="width: 175px; height: 13px;"><strong>ABONOS</strong></td>
+                    <td style="width: 175px; height: 13px;"><strong>ABONOS (+)</strong></td>
                     <td style="width: 175px; height: 13px"></td>
                     <td style="width: 175px; height: 13px;"></td>
                     <td style="width: 175px; height: 13px; text-align: right">${{ number_format( $totalCargos, 0, '', '.')}}</td>
                 </tr>
                 <tr style="height: 13px;">
-                    <td style="width: 175px; height: 13px;"><strong>DESCUENTOS</strong></td>
+                    <td style="width: 175px; height: 13px;"><strong>DESCUENTOS (-)</strong></td>
                     <td style="width: 175px; height: 13px"></td>
                     <td style="width: 175px; height: 13px;"></td>
                     <td style="width: 175px; height: 13px; text-align: right">${{ number_format( $total, 0, '', '.')}}</td>
                 </tr>
-                <tr style="height: 13px;">
-                    <td style="width: 175px; height: 13px;"><strong>GARANTIA</strong></td>
+                <!--<tr style="height: 13px;">
+                    <td style="width: 175px; height: 13px;"><strong>GARANTIA (+)</strong></td>
                     <td style="width: 175px; height: 13px"></td>
                     <td style="width: 175px; height: 13px;"></td>
                     <td style="width: 175px; height: 13px; text-align: right">${{ number_format( $estadoPagoMandato->garantia, 0, '', '.')}}</td>
-                </tr>
+                </tr>-->
                 <tr style="height: 13px;">
-                    <td style="width: 175px; height: 13px;"><strong>HONORARIOS ADMINISTRACION</strong></td>
-                    <td style="width: 175px; height: 13px"></td>
+                    <td style="width: 175px; height: 13px;" colspan="2"><strong>HONORARIOS ADMINISTRACION (-)</strong></td>
                     <td style="width: 175px; height: 13px;"></td>
                     <td style="width: 175px; height: 13px; text-align: right">${{ number_format( $estadoPagoMandato->montoComision, 0, '', '.')}}</td>
                 </tr>
@@ -166,12 +165,18 @@
                     <td style="width: 175px; height: 13px;"></td>
                     <td style="width: 175px; height: 13px; text-align: right"><strong>${{ number_format( $estadoPagoMandato->montoALiquidarPropietario, 0, '', '.')}}</strong></td>
                 </tr>
+                <tr style="height: 13px;">
+                    <td style="width: 175px; height: 13px;"><strong>GARANTIA (+)</strong></td>
+                    <td style="width: 175px; height: 13px"></td>
+                    <td style="width: 175px; height: 13px;"></td>
+                    <td style="width: 175px; height: 13px; text-align: right">${{ number_format( $estadoPagoMandato->garantia, 0, '', '.')}}</td>
+                </tr>
             </tbody>
             </table>
             <table style="height: 21px; width: 720px;" >
             <tbody>
             <tr style="height: 13.4688px;">
-            <td style="height: 13.4688px; background-color: #808080;"><span style="background-color: #808080; color: #ffffff;">&nbsp; DETALLE DE CARGOS</span></td>
+            <td style="height: 13.4688px; background-color: #808080;"><span style="background-color: #808080; color: #ffffff;">&nbsp; DETALLE DE ABONOS</span></td>
             <td style="height: 13.4688px; background-color: #808080;"><span style="background-color: #808080;"></span></td>
             <td style="height: 13.4688px; background-color: #808080;"><span style="background-color: #808080;"></span></td>
             <td style="height: 13.4688px; background-color: #808080;"><span style="background-color: #808080;"></span></td>
@@ -180,9 +185,9 @@
             @foreach($cargos as $cargo)
             <tr style="height: 13.4688px;">
                 <td style="width: 175px; height: 13px;">DESCRIPCION</td>
-                <td style="width: 175px; height: 13px;"></td>
+                <td style="width: 175px; height: 13px;">{{$cargo->nombreCargo}}</td>
                 <td style="width: 175px; height: 13px;">MONTO</td>
-                <td style="width: 175px; height: 13px;"></td>
+                <td style="width: 175px; height: 13px;">${{ number_format($cargo->montoCargo, 0, '', '.')}}</td>
             </tr>
             @endforeach
             @else

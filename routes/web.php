@@ -164,6 +164,7 @@ Route::prefix('mandatos')->group(function () {
     Route::post('/editarEstadoPagoMandato', 'MandatoAdministracionController@editarEstadoPagoMandato')->name('editarEstadoPagoMandato');
     Route::post('/eliminarPagoMandato/{id}','MandatoAdministracionController@eliminarPagoMandato')->name('eliminarPagoMandato');
     Route::get('/imprimir-estado-pago-inversionista/{id}', 'MandatoAdministracionController@imprimirPagoInversionista');
+    Route::get('/enviar-comprobante-inversionista/{id}', 'MandatoAdministracionController@enviarComprobanteInversionista');
 
     Route::post('excelEstadosPagosMandatos', 'MandatoAdministracionController@exportLiquidacionInversionista')->name('excelEstadosPagosMandatos');
     Route::post('excelEstadosPagosMandatosSinPago', 'MandatoAdministracionController@excelEstadosPagosMandatosSinPago')->name('excelEstadosPagosMandatosSinPago');
