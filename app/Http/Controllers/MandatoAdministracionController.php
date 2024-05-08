@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Crypt;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Jobs\EnvioPagoInversionista;
 use App\Exports\LiquidacionInversionista;
 use App\Exports\MandatosExport;
 use App\EstadosPagosMandatarios;
@@ -699,7 +700,7 @@ class MandatoAdministracionController extends Controller
                                             }
                                             else
                                             {
-                                                $existe->montoComision = 0;
+                                                $existe->montoComision = ((($existe->montoAPagar * (float) str_replace(['.', ','], ['', '.'], $mandato->comisionAdministracion)) / 100) * 1.19);
                                                 $existe->comisionCorretaje = 0;
                                             }
                                         }
@@ -712,7 +713,7 @@ class MandatoAdministracionController extends Controller
                                             }
                                             else
                                             {
-                                                $existe->montoComision = 0;
+                                                $existe->montoComision = ((($existe->montoAPagar * (float) str_replace(['.', ','], ['', '.'], $mandato->comisionAdministracion)) / 100) * 1.19);
                                                 $existe->comisionCorretaje = 0;
                                             }
                                         }
@@ -725,7 +726,7 @@ class MandatoAdministracionController extends Controller
                                             }
                                             else
                                             {
-                                                $existe->montoComision = 0;
+                                                $existe->montoComision = ((($existe->montoAPagar * (float) str_replace(['.', ','], ['', '.'], $mandato->comisionAdministracion)) / 100) * 1.19);
                                                 $existe->comisionCorretaje = 0;
                                             }
                                            
@@ -1373,7 +1374,9 @@ class MandatoAdministracionController extends Controller
         ->join('planes', 'planes.id', '=', 'mandatos_propiedad.idPlan')
         ->where('estados_pagos_mandatarios.idEstadoPagoMandato', '=', $id)
         ->first();
-        $cargos = [];
+        $cargos = Cargo::where('idEstadoPago', $estadoDePagoFinal->idEstadoPago)
+        ->where('correspondeA', 1)
+        ->get();
         $descuentos = Descuento::where('idEstadoPago', $estadoDePagoFinal->idEstadoPago)->get();
         $deudas = [];
         $documentos = '';
@@ -1383,5 +1386,23 @@ class MandatoAdministracionController extends Controller
         $comisionCorretaje = '';
         $pdf = \PDF::loadView('emails.adjuntoPagoInversionista', [ 'estadoPagoMandato' => $estadoDePagoFinal, 'cargos' => $cargos, 'descuentos' => $descuentos, 'deudas' => $deudas, 'documentos' => $documentos, 'estadoDePagoArrendatario' => $estadoDePagoArrendatario, 'diasNoArrendado' => $diasNoArrendado, 'mes' => $mes, 'comisionCorretaje' => $comisionCorretaje]);
         return $pdf->download();
+    }
+    public function enviarComprobanteInversionista($id)
+    {
+        try {
+            EnvioPagoInversionista::dispatch($id);
+            toastr()->success('Comprobante enviado exitosamente', 'Operacion exitosa');
+            //return view('pagos.factura', compact('estadosDePago', 'cargos', 'descuentos', 'totalDescuento', 'totalCargo'));
+            return back();
+		} catch (QueryException $e) {
+			toastr()->error($e->getMessage());
+			return back();
+		} catch (ModelNotFoundException $e) {
+			toastr()->error('Imagen no encontrada');
+			return back();
+		} catch (Exception $e) {
+			toastr()->error('Se ha producido un error, favor intente nuevamente');
+			return back();
+		}
     }
 }
