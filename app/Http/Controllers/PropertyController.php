@@ -400,6 +400,7 @@ class PropertyController extends Controller
 
 		    $propiedad = Propiedad::where('id', '=', $id)->first();		    
 			$img = \Image::make($file);
+            $img->insert(public_path('front/logoopacity2.png'), 'center');
             // insertando logo a foto subida de la propiedad
 			/*$img->insert(public_path() . '/img/logos/otrologo_mini.png', 'center');*/
             // fin isertar marca de agua
@@ -506,5 +507,29 @@ class PropertyController extends Controller
 			toastr()->error('Se ha producido un error, favor intente nuevamente');
 			return back();
 		}
+    }
+    public function addMarkerFile()
+    {
+        $fotos = Foto::get();
+        if($fotos)
+        {
+            foreach ($fotos as $foto) 
+            {
+                $antiguo = $foto->nombreArchivo;
+                if(file_exists(('img/propiedad/' . $foto->nombreArchivo))) 
+                {
+                    $img = \Image::make(public_path('img/propiedad/' . $foto->nombreArchivo));
+                    /* insert watermark at bottom-right corner with 10px offset */
+                    $img->insert(public_path('front/logoopacity2.png'), 'center');
+                    $path = public_path() . '/img/propiedad/';
+        
+                    $fileName = uniqid().'.png';
+                    $img->save($path . $fileName);
+                    $foto->nombreArchivo = $fileName;
+                    $foto->save();
+                    File::delete(public_path('img/propiedad/' . $antiguo));
+                }
+            }
+        }
     }
 }
