@@ -534,7 +534,8 @@ class PropertyController extends Controller
                 }
             }
         }*/
-        $fotos = Propiedad::whereIn('propiedades.idEstado', [42, 43, 45])->get();
+        $fotos = Propiedad::whereIn('propiedades.idEstado', [42, 43, 45])
+        ->where('marcaDeAgua', 0)->get();
         if($fotos)
         {
             foreach ($fotos as $foto) 
