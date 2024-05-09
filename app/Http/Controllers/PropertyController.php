@@ -411,6 +411,7 @@ class PropertyController extends Controller
 		    $foto = new Foto();
 		    $foto->idPropiedad = $id;
 		    $foto->nombreArchivo = $fileName;
+            $foto->marcaDeAgua = 1;
 		    $foto->save();
 
 		} catch (QueryException $e) {
@@ -510,7 +511,7 @@ class PropertyController extends Controller
     }
     public function addMarkerFile()
     {
-        $fotos = Foto::get();
+        $fotos = Foto::where('marcaDeAgua', 0)->get();
         if($fotos)
         {
             foreach ($fotos as $foto) 
@@ -526,6 +527,7 @@ class PropertyController extends Controller
                     $fileName = uniqid().'.png';
                     $img->save($path . $fileName);
                     $foto->nombreArchivo = $fileName;
+                    $foto->marcaDeAgua = 1;
                     $foto->save();
                     File::delete(public_path('img/propiedad/' . $antiguo));
                 }

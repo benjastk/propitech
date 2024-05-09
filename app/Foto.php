@@ -11,6 +11,7 @@ class Foto extends Model
     protected $fillable = [
     	'idPropiedad',
     	'nombreArchivo',
+        'marcaDeAgua',
         'created_at',
         'updated_at'
     ];
