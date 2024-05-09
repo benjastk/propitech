@@ -539,13 +539,14 @@ class PropertyController extends Controller
         {
             foreach ($fotos as $foto) 
             {
+                return "fdsf";
                 $antiguo = $foto->fotoPrincipal;
                 if(file_exists(('img/propiedad/' . $foto->fotoPrincipal))) 
                 {
                     $img = \Image::make(public_path('img/propiedad/' . $foto->fotoPrincipal));
-                    /* insert watermark at bottom-right corner with 10px offset 
+                    /* insert watermark at bottom-right corner with 10px offset */
                     $img->insert(public_path('front/logoopacity2.png'), 'center');
-                    $path = public_path() . '/img/propiedad/';*/
+                    $path = public_path() . '/img/propiedad/';
         
                     $fileName = uniqid().'.png';
                     $img->save($path . $fileName);
