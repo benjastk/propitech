@@ -471,9 +471,10 @@ class MandatoAdministracionController extends Controller
         {
             $estadosPagosMandatarios = EstadosPagosMandatarios::select('estados_pagos_mandatarios.*', 'estados.nombreEstado', 'propiedades.direccion', 'propiedades.numero', 
             'mandatos_propiedad.rutPropietario', 'users.rut', 'propiedades.block', 'mandatos_propiedad.nombrePropietario', 'mandatos_propiedad.apellidoPropietario', 
-            'mandatos_propiedad.nombreArrendatario', 'mandatos_propiedad.apellidoArrendatario', 'mandatos_propiedad.rutArrendatario')
+            'mandatos_propiedad.nombreArrendatario', 'mandatos_propiedad.apellidoArrendatario', 'mandatos_propiedad.rutArrendatario', 'planes.comisionAdministracion')
             ->join('estados', 'estados_pagos_mandatarios.idEstado', '=', 'estados.idEstado')
             ->join('mandatos_propiedad', 'estados_pagos_mandatarios.idMandatoPropiedad', '=', 'mandatos_propiedad.idMandatoPropiedad')
+            ->join('planes', 'planes.id', '=', 'mandatos_propiedad.idPlan')
             ->join('propiedades', 'mandatos_propiedad.idPropiedad', '=', 'propiedades.id')
             ->join('users', 'mandatos_propiedad.idPropietario', '=', 'users.id')
             ->leftjoin('contratos_arriendos', 'estados_pagos_mandatarios.idContrato', '=', 'contratos_arriendos.idContratoArriendo')
@@ -487,9 +488,10 @@ class MandatoAdministracionController extends Controller
         {
             $estadosPagosMandatarios = EstadosPagosMandatarios::select('estados_pagos_mandatarios.*', 'estados.nombreEstado', 'propiedades.direccion', 'propiedades.numero', 
             'mandatos_propiedad.rutPropietario', 'users.rut', 'propiedades.block', 'mandatos_propiedad.nombrePropietario', 'mandatos_propiedad.apellidoPropietario', 
-            'mandatos_propiedad.nombreArrendatario', 'mandatos_propiedad.apellidoArrendatario', 'mandatos_propiedad.rutArrendatario')
+            'mandatos_propiedad.nombreArrendatario', 'mandatos_propiedad.apellidoArrendatario', 'mandatos_propiedad.rutArrendatario', 'planes.comisionAdministracion')
             ->join('estados', 'estados_pagos_mandatarios.idEstado', '=', 'estados.idEstado')
             ->join('mandatos_propiedad', 'estados_pagos_mandatarios.idMandatoPropiedad', '=', 'mandatos_propiedad.idMandatoPropiedad')
+            ->join('planes', 'planes.id', '=', 'mandatos_propiedad.idPlan')
             ->join('propiedades', 'mandatos_propiedad.idPropiedad', '=', 'propiedades.id')
             ->join('users', 'mandatos_propiedad.idPropietario', '=', 'users.id')
             ->leftjoin('contratos_arriendos', 'estados_pagos_mandatarios.idContrato', '=', 'contratos_arriendos.idContratoArriendo')
