@@ -41,9 +41,11 @@ class LiquidacionInversionista implements FromView, ShouldAutoSize, WithStyles, 
                     'estados_pagos_mandatarios.montoComision',  'estados_pagos_mandatarios.montoDeuda', 'estados_pagos_mandatarios.saldoArrastre', 
                     'estados_pagos_mandatarios.montoALiquidarPropietario', 'estados.nombreEstado','bancos.nombreBanco',
                     DB::raw('CONCAT(usuarios_cuentas_bancarias.numeroCuenta, ", ", bancos.nombreBanco) AS observaciones'), 'users.email', 
-                    'estados_pagos_mandatarios.fechaLiquidado' , 'estados_pagos_mandatarios.idEstadoPago', 'estados_pagos_mandatarios.comisionCorretaje')
+                    'estados_pagos_mandatarios.fechaLiquidado' , 'estados_pagos_mandatarios.idEstadoPago', 'estados_pagos_mandatarios.comisionCorretaje',
+                    'planes.comisionAdministracion')
                     ->join('estados', 'estados_pagos_mandatarios.idEstado', '=', 'estados.idEstado')
                     ->join('mandatos_propiedad', 'estados_pagos_mandatarios.idMandatoPropiedad', '=', 'mandatos_propiedad.idMandatoPropiedad')
+                    ->join('planes', 'planes.id', '=', 'mandatos_propiedad.idPlan')
                     ->join('propiedades', 'mandatos_propiedad.idPropiedad', '=', 'propiedades.id')
                     ->join('users', 'mandatos_propiedad.idPropietario', '=', 'users.id')
                     ->leftjoin('usuarios_cuentas_bancarias', 'mandatos_propiedad.idUsuarioCuentaBancaria', '=', 'usuarios_cuentas_bancarias.idUsuarioCuentaBancaria')
@@ -69,9 +71,10 @@ class LiquidacionInversionista implements FromView, ShouldAutoSize, WithStyles, 
                     'estados_pagos_mandatarios.montoALiquidarPropietario', 'estados.nombreEstado','bancos.nombreBanco',
                     DB::raw('CONCAT(usuarios_cuentas_bancarias.numeroCuenta, ", ", bancos.nombreBanco) AS observaciones'), 'users.email', 
                     'estados_pagos_mandatarios.fechaLiquidado' , 'estados_pagos_mandatarios.idEstadoPago', 'estados_pagos_mandatarios.comisionCorretaje',
-                    'propiedades.direccion', 'propiedades.numero', 'propiedades.block')
+                    'propiedades.direccion', 'propiedades.numero', 'propiedades.block', 'planes.comisionAdministracion')
                     ->join('estados', 'estados_pagos_mandatarios.idEstado', '=', 'estados.idEstado')
                     ->join('mandatos_propiedad', 'estados_pagos_mandatarios.idMandatoPropiedad', '=', 'mandatos_propiedad.idMandatoPropiedad')
+                    ->join('planes', 'planes.id', '=', 'mandatos_propiedad.idPlan')
                     ->join('propiedades', 'mandatos_propiedad.idPropiedad', '=', 'propiedades.id')
                     ->join('users', 'mandatos_propiedad.idPropietario', '=', 'users.id')
                     ->leftjoin('usuarios_cuentas_bancarias', 'mandatos_propiedad.idUsuarioCuentaBancaria', '=', 'usuarios_cuentas_bancarias.idUsuarioCuentaBancaria')
@@ -105,6 +108,7 @@ class LiquidacionInversionista implements FromView, ShouldAutoSize, WithStyles, 
             $nuevoDato->garantia = $estadoPagoMandatario->garantia;
             $nuevoDato->comisionCorretaje = $estadoPagoMandatario->comisionCorretaje;
             $nuevoDato->montoComision = $estadoPagoMandatario->montoComision;
+            $nuevoDato->comisionAdministracion = $estadoPagoMandatario->comisionAdministracion;
             $nuevoDato->montoDeuda = $estadoPagoMandatario->montoDeuda;
             $nuevoDato->saldoArrastre = $estadoPagoMandatario->saldoArrastre;
             $nuevoDato->montoALiquidarPropietario = $estadoPagoMandatario->montoALiquidarPropietario;
@@ -144,6 +148,7 @@ class LiquidacionInversionista implements FromView, ShouldAutoSize, WithStyles, 
                     $nuevosDato->garantia = "";
                     $nuevosDato->comisionCorretaje = "";
                     $nuevosDato->montoComision = "";
+                    $nuevosDato->comisionAdministracion = "";
                     $nuevosDato->montoDeuda = "";
                     $nuevosDato->saldoArrastre = "";
                     $nuevosDato->montoALiquidarPropietario = "";
@@ -260,9 +265,11 @@ class LiquidacionInversionista implements FromView, ShouldAutoSize, WithStyles, 
                     'estados_pagos_mandatarios.montoComision',  'estados_pagos_mandatarios.montoDeuda', 'estados_pagos_mandatarios.saldoArrastre', 
                     'estados_pagos_mandatarios.montoALiquidarPropietario', 'estados.nombreEstado','bancos.nombreBanco',
                     DB::raw('CONCAT(usuarios_cuentas_bancarias.numeroCuenta, ", ", bancos.nombreBanco) AS observaciones'), 'users.email', 
-                    'estados_pagos_mandatarios.fechaLiquidado' , 'estados_pagos_mandatarios.idEstadoPago', 'estados_pagos_mandatarios.comisionCorretaje')
+                    'estados_pagos_mandatarios.fechaLiquidado' , 'estados_pagos_mandatarios.idEstadoPago', 'estados_pagos_mandatarios.comisionCorretaje',
+                    'planes.comisionAdministracion')
                     ->join('estados', 'estados_pagos_mandatarios.idEstado', '=', 'estados.idEstado')
                     ->join('mandatos_propiedad', 'estados_pagos_mandatarios.idMandatoPropiedad', '=', 'mandatos_propiedad.idMandatoPropiedad')
+                    ->join('planes', 'planes.id', '=', 'mandatos_propiedad.idPlan')
                     ->join('propiedades', 'mandatos_propiedad.idPropiedad', '=', 'propiedades.id')
                     ->join('users', 'mandatos_propiedad.idPropietario', '=', 'users.id')
                     ->leftjoin('usuarios_cuentas_bancarias', 'mandatos_propiedad.idUsuarioCuentaBancaria', '=', 'usuarios_cuentas_bancarias.idUsuarioCuentaBancaria')
@@ -288,9 +295,10 @@ class LiquidacionInversionista implements FromView, ShouldAutoSize, WithStyles, 
                     'estados_pagos_mandatarios.montoALiquidarPropietario', 'estados.nombreEstado','bancos.nombreBanco',
                     DB::raw('CONCAT(usuarios_cuentas_bancarias.numeroCuenta, ", ", bancos.nombreBanco) AS observaciones'), 'users.email', 
                     'estados_pagos_mandatarios.fechaLiquidado' , 'estados_pagos_mandatarios.idEstadoPago', 'estados_pagos_mandatarios.comisionCorretaje',
-                    'propiedades.direccion', 'propiedades.numero', 'propiedades.block')
+                    'propiedades.direccion', 'propiedades.numero', 'propiedades.block', 'planes.comisionAdministracion')
                     ->join('estados', 'estados_pagos_mandatarios.idEstado', '=', 'estados.idEstado')
                     ->join('mandatos_propiedad', 'estados_pagos_mandatarios.idMandatoPropiedad', '=', 'mandatos_propiedad.idMandatoPropiedad')
+                    ->join('planes', 'planes.id', '=', 'mandatos_propiedad.idPlan')
                     ->join('propiedades', 'mandatos_propiedad.idPropiedad', '=', 'propiedades.id')
                     ->join('users', 'mandatos_propiedad.idPropietario', '=', 'users.id')
                     ->leftjoin('usuarios_cuentas_bancarias', 'mandatos_propiedad.idUsuarioCuentaBancaria', '=', 'usuarios_cuentas_bancarias.idUsuarioCuentaBancaria')
@@ -324,6 +332,7 @@ class LiquidacionInversionista implements FromView, ShouldAutoSize, WithStyles, 
             $nuevoDato->garantia = $estadoPagoMandatario->garantia;
             $nuevoDato->comisionCorretaje = $estadoPagoMandatario->comisionCorretaje;
             $nuevoDato->montoComision = $estadoPagoMandatario->montoComision;
+            $nuevoDato->comisionAdministracion = $estadoPagoMandatario->comisionAdministracion;
             $nuevoDato->montoDeuda = $estadoPagoMandatario->montoDeuda;
             $nuevoDato->saldoArrastre = $estadoPagoMandatario->saldoArrastre;
             $nuevoDato->montoALiquidarPropietario = $estadoPagoMandatario->montoALiquidarPropietario;
@@ -363,6 +372,7 @@ class LiquidacionInversionista implements FromView, ShouldAutoSize, WithStyles, 
                     $nuevosDato->garantia = "";
                     $nuevosDato->comisionCorretaje = "";
                     $nuevosDato->montoComision = "";
+                    $nuevosDato->comisionAdministracion = "";
                     $nuevosDato->montoDeuda = "";
                     $nuevosDato->saldoArrastre = "";
                     $nuevosDato->montoALiquidarPropietario = "";
