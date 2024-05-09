@@ -539,7 +539,6 @@ class PropertyController extends Controller
         {
             foreach ($fotos as $foto) 
             {
-                return "fdsf";
                 $antiguo = $foto->fotoPrincipal;
                 if(file_exists(('img/propiedad/' . $foto->fotoPrincipal))) 
                 {
