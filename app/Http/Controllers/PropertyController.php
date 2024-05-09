@@ -22,6 +22,7 @@ use App\Estado;
 use App\Pais;
 use App\Foto;
 use App\User;
+use App\Jobs\AddMarkerImage;
 use Session;
 use Image;
 use Auth;
@@ -511,7 +512,7 @@ class PropertyController extends Controller
     }
     public function addMarkerFile()
     {
-        set_time_limit(60);
+        /*set_time_limit(60);
         $fotos = Foto::where('marcaDeAgua', 0)->get();
         if($fotos)
         {
@@ -521,7 +522,7 @@ class PropertyController extends Controller
                 if(file_exists(('img/propiedad/' . $foto->nombreArchivo))) 
                 {
                     $img = \Image::make(public_path('img/propiedad/' . $foto->nombreArchivo));
-                    /* insert watermark at bottom-right corner with 10px offset */
+                    /* insert watermark at bottom-right corner with 10px offset 
                     $img->insert(public_path('front/logoopacity2.png'), 'center');
                     $path = public_path() . '/img/propiedad/';
         
@@ -533,6 +534,7 @@ class PropertyController extends Controller
                     File::delete(public_path('img/propiedad/' . $antiguo));
                 }
             }
-        }
+        }*/
+        AddMarkerImage::dispatch();
     }
 }
