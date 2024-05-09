@@ -511,6 +511,7 @@ class PropertyController extends Controller
     }
     public function addMarkerFile()
     {
+        set_time_limit(60);
         $fotos = Foto::where('marcaDeAgua', 0)->get();
         if($fotos)
         {
