@@ -32,7 +32,11 @@ class AddMarkerImage implements ShouldQueue
      */
     public function handle()
     {
-        $fotos = Foto::where('marcaDeAgua', 0)->get();
+        $fotos = Foto::select('fotos.*')
+        ->join('propiedades', 'propiedades.id', '=', 'fotos.idPropiedad')
+        ->where('fotos.marcaDeAgua', 0)
+        ->whereIn('propiedades.idEstado', [42, 43, 45])
+        ->get();
         if($fotos)
         {
             foreach ($fotos as $foto) 
