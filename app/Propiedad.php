@@ -98,6 +98,7 @@ class Propiedad extends Model
         'esBuyDepa',
         'idBuyDepa',
         'skuBuyDepa',
+        'marcaDeAgua',
         'created_at',
         'updated_at'
     ];
