@@ -512,8 +512,7 @@ class PropertyController extends Controller
     }
     public function addMarkerFile()
     {
-        /*set_time_limit(60);
-        $fotos = Foto::where('marcaDeAgua', 0)->get();
+        /*$fotos = Foto::where('marcaDeAgua', 0)->get();
         if($fotos)
         {
             foreach ($fotos as $foto) 
@@ -535,6 +534,27 @@ class PropertyController extends Controller
                 }
             }
         }*/
-        AddMarkerImage::dispatch();
+        $fotos = Propiedad::whereIn('propiedades.idEstado', [42, 43, 45])->get();
+        if($fotos)
+        {
+            foreach ($fotos as $foto) 
+            {
+                $antiguo = $foto->fotoPrincipal;
+                if(file_exists(('img/propiedad/' . $foto->fotoPrincipal))) 
+                {
+                    $img = \Image::make(public_path('img/propiedad/' . $foto->fotoPrincipal));
+                    /* insert watermark at bottom-right corner with 10px offset 
+                    $img->insert(public_path('front/logoopacity2.png'), 'center');
+                    $path = public_path() . '/img/propiedad/';*/
+        
+                    $fileName = uniqid().'.png';
+                    $img->save($path . $fileName);
+                    $foto->fotoPrincipal = $fileName;
+                    $foto->marcaDeAgua = 1;
+                    $foto->save();
+                    File::delete(public_path('img/propiedad/' . $antiguo));
+                }
+            }
+        }
     }
 }
