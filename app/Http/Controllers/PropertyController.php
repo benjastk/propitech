@@ -141,10 +141,22 @@ class PropertyController extends Controller
                 $file =  $request['foto'];
                 $nombreArchivo = time() . $file->getClientOriginalName();
                 $file->move(public_path() . '/img/propiedad/', $nombreArchivo);
-                $propiedad->fotoPrincipal = $nombreArchivo;
+
+                $antiguo = $nombreArchivo;
+                $img = \Image::make(public_path('img/propiedad/' . $antiguo));
+                /* insert watermark at bottom-right corner with 10px offset */
+                $img->insert(public_path('front/logoopacity2.png'), 'center');
+                $path = public_path() . '/img/propiedad/';
+    
+                $fileName = uniqid().'.png';
+                $img->save($path . $fileName);
+                $propiedad->fotoPrincipal = $fileName;
+                $propiedad->marcaDeAgua = 1;
+                File::delete(public_path('img/propiedad/' . $antiguo));
             }
             $propiedad->save();
-            if($request->comodidades != null) {
+            if($request->comodidades != null) 
+            {
                 $caracteristicaPropiedad = CaracteristicasPorPropiedades::where('idPropiedad','=', $propiedad->id)->get();
                 if($caracteristicaPropiedad)
                 {
@@ -292,7 +304,18 @@ class PropertyController extends Controller
                 $file =  $request['foto'];
                 $nombreArchivo = time() . $file->getClientOriginalName();
                 $file->move(public_path() . '/img/propiedad/', $nombreArchivo);
-                $propiedad->fotoPrincipal = $nombreArchivo;
+
+                $antiguo = $nombreArchivo;
+                $img = \Image::make(public_path('img/propiedad/' . $antiguo));
+                /* insert watermark at bottom-right corner with 10px offset */
+                $img->insert(public_path('front/logoopacity2.png'), 'center');
+                $path = public_path() . '/img/propiedad/';
+    
+                $fileName = uniqid().'.png';
+                $img->save($path . $fileName);
+                $propiedad->fotoPrincipal = $fileName;
+                $propiedad->marcaDeAgua = 1;
+                File::delete(public_path('img/propiedad/' . $antiguo));
             }
             $propiedad->save();
 
@@ -512,16 +535,16 @@ class PropertyController extends Controller
     }
     public function addMarkerFile()
     {
-        /*$fotos = Foto::where('marcaDeAgua', 0)->get();
-        if($fotos)
+        $fotosGrandes = Foto::where('marcaDeAgua', 0)->get();
+        if($fotosGrandes)
         {
-            foreach ($fotos as $foto) 
+            foreach ($fotosGrandes as $foto) 
             {
                 $antiguo = $foto->nombreArchivo;
                 if(file_exists(('img/propiedad/' . $foto->nombreArchivo))) 
                 {
                     $img = \Image::make(public_path('img/propiedad/' . $foto->nombreArchivo));
-                    /* insert watermark at bottom-right corner with 10px offset 
+                    /* insert watermark at bottom-right corner with 10px offset */
                     $img->insert(public_path('front/logoopacity2.png'), 'center');
                     $path = public_path() . '/img/propiedad/';
         
@@ -533,7 +556,7 @@ class PropertyController extends Controller
                     File::delete(public_path('img/propiedad/' . $antiguo));
                 }
             }
-        }*/
+        }
         $fotos = Propiedad::whereIn('propiedades.idEstado', [42, 43, 45])
         ->where('marcaDeAgua', 0)->get();
         if($fotos)
@@ -557,5 +580,146 @@ class PropertyController extends Controller
                 }
             }
         }
+    }
+    public function duplicarPropiedad(Request $request)
+    {
+        try {
+            $propiedadDuplicada = Propiedad::where('id', $request->id)->first();
+            $caracteristicaPropiedad = CaracteristicasPorPropiedades::where('idPropiedad','=', $request->id)->get();
+            $fotos = Foto::where('idPropiedad','=', $request->id)->get();
+            if($propiedadDuplicada->fotoPrincipal)
+            {
+                $path = public_path('/img/propiedad/'.$propiedadDuplicada->fotoPrincipal);
+                $filename = uniqid().'.png';
+                Image::make($path)->save(public_path('img/propiedad/'.$filename));
+            }
+            $propiedad = new Propiedad();
+            $propiedad->idNivelUsoPropiedad = $propiedadDuplicada->idNivelUsoPropiedad;
+            $propiedad->idTipoComercial = $propiedadDuplicada->idTipoComercial;
+            $propiedad->mostrarTituloAutomatico = $propiedadDuplicada->mostrarTituloAutomatico;
+            $propiedad->nombrePropiedad = $propiedadDuplicada->nombrePropiedad;
+            $propiedad->rut = $propiedadDuplicada->rut;
+            $propiedad->numeroClienteAgua = $propiedadDuplicada->numeroClienteAgua;
+            $propiedad->numeroClienteLuz = $propiedadDuplicada->numeroClienteLuz;
+            $propiedad->numeroClienteGas = $propiedadDuplicada->numeroClienteGas;
+            $propiedad->idTipoPropiedad = $propiedadDuplicada->idTipoPropiedad;
+            $propiedad->rolPropiedad = $propiedadDuplicada->rolPropiedad;
+            $propiedad->precio = $propiedadDuplicada->precio;
+            $propiedad->valorArriendo = $propiedadDuplicada->valorArriendo;
+            $propiedad->tasacion = $propiedadDuplicada->tasacion;
+            $propiedad->tasacionFinal = $propiedadDuplicada->tasacionFinal;
+            $propiedad->gastosComunes = $propiedadDuplicada->gastosComunes;
+            $propiedad->contribucion = $propiedadDuplicada->contribucion;
+            $propiedad->tieneDeuda = $propiedadDuplicada->tieneDeuda;
+            $propiedad->mDeuda = $propiedadDuplicada->mDeuda;
+            $propiedad->valorHipoteca = $propiedadDuplicada->valorHipoteca;
+            $propiedad->idBanco = $propiedadDuplicada->idBanco;
+            $propiedad->banco = $propiedadDuplicada->banco;
+            $propiedad->idPais = $propiedadDuplicada->idPais;
+            $propiedad->idRegion = $propiedadDuplicada->idRegion;
+            $propiedad->idProvincia = $propiedadDuplicada->idProvincia;
+            $propiedad->idComuna = $propiedadDuplicada->idComuna;
+            $propiedad->direccion = $propiedadDuplicada->direccion;
+            $propiedad->numero = $propiedadDuplicada->numero;
+            //$propiedad->block = $propiedadDuplicada->block;
+            $propiedad->mostrarDireccionExacta = $propiedadDuplicada->mostrarDireccionExacta;
+            $propiedad->mTotal = $propiedadDuplicada->mTotal;
+            $propiedad->mConstruido = $propiedadDuplicada->mConstruido;
+            $propiedad->mTerraza = $propiedadDuplicada->mTerraza;
+            $propiedad->bano = $propiedadDuplicada->bano;
+            $propiedad->habitacion = $propiedadDuplicada->habitacion;
+            $propiedad->numeroPisos = $propiedadDuplicada->numeroPisos;
+            $propiedad->latitud = $propiedadDuplicada->latitud;
+            $propiedad->longitud = $propiedadDuplicada->longitud;
+            $propiedad->POI = $propiedadDuplicada->POI;
+            $propiedad->descripcion = $propiedadDuplicada->descripcion;
+            $propiedad->descripcion2 = $propiedadDuplicada->descripcion2;
+            $propiedad->notaInterna = $propiedadDuplicada->notaInterna;
+            $propiedad->idEstado = 91;
+            $propiedad->creador = $propiedadDuplicada->creador;
+            $propiedad->fecha = $propiedadDuplicada->fecha;
+            if($propiedadDuplicada->fotoPrincipal)
+            {
+                $propiedad->fotoPrincipal = $filename;
+            }
+            //$propiedad->fotoPrincipalDetalle = $propiedadDuplicada->idNivelUsoPropiedad;
+            $propiedad->estacionamiento = $propiedadDuplicada->estacionamiento;
+            $propiedad->usoGoceEstacionamiento = $propiedadDuplicada->usoGoceEstacionamiento;
+            $propiedad->codigoEstacionamiento = $propiedadDuplicada->codigoEstacionamiento;
+            $propiedad->tandem = $propiedadDuplicada->tandem;
+            $propiedad->usoGoceTandem = $propiedadDuplicada->usoGoceTandem;
+            $propiedad->bodega = $propiedadDuplicada->bodega;
+            $propiedad->usoGoceBodega = $propiedadDuplicada->usoGoceBodega;
+            $propiedad->codigoBodega = $propiedadDuplicada->codigoBodega;
+            $propiedad->score = $propiedadDuplicada->score;
+            $propiedad->urlMatterport = $propiedadDuplicada->urlMatterport;
+            $propiedad->urlVideo = $propiedadDuplicada->urlVideo;
+            $propiedad->idDestacado = $propiedadDuplicada->idDestacado;
+            $propiedad->publicarEnTiendaEvento = $propiedadDuplicada->publicarEnTiendaEvento;
+            $propiedad->idCorredor = $propiedadDuplicada->idCorredor;
+            $propiedad->idUsuarioExpertoVendedor = $propiedadDuplicada->idUsuarioExpertoVendedor;
+            $propiedad->idProyecto = $propiedadDuplicada->idProyecto;
+            $propiedad->idConDescuento = $propiedadDuplicada->idConDescuento;
+            $propiedad->cantidadDescuento = $propiedadDuplicada->cantidadDescuento;
+            $propiedad->idConDescuento2 = $propiedadDuplicada->idConDescuento2;
+            $propiedad->cantidadDescuento2 = $propiedadDuplicada->cantidadDescuento2;
+            $propiedad->codigoEmpresa = $propiedadDuplicada->codigoEmpresa;
+            $propiedad->notaEnTienda = $propiedadDuplicada->notaEnTienda;
+            $propiedad->contratoConExclusividad = $propiedadDuplicada->contratoConExclusividad;
+            $propiedad->idTipoCustodia = $propiedadDuplicada->idTipoCustodia;
+            $propiedad->nombreNotariaCustodia = $propiedadDuplicada->nombreNotariaCustodia;
+            $propiedad->fechaRecepcionPropiedad = $propiedadDuplicada->fechaRecepcionPropiedad;
+            $propiedad->idMoneda = $propiedadDuplicada->idMoneda;
+            $propiedad->antiguedad = $propiedadDuplicada->antiguedad;
+            $propiedad->idTipoOrientacion = $propiedadDuplicada->idTipoOrientacion;
+            $propiedad->mascotas = $propiedadDuplicada->mascotas;
+            $propiedad->nombreEdificioComunidad = $propiedadDuplicada->nombreEdificioComunidad;
+            $propiedad->orientacion = $propiedadDuplicada->orientacion;
+            $propiedad->marcaDeAgua = 1;
+            $propiedad->save();
+            if($caracteristicaPropiedad) 
+            {
+                foreach ($caracteristicaPropiedad as $idCaracteristica) 
+                {
+                    $caracteristicaPropiedad = new CaracteristicasPorPropiedades;
+                    $caracteristicaPropiedad->idPropiedad = $propiedad->id;
+                    $caracteristicaPropiedad->idCaracteristicaPropiedad = $idCaracteristica->idCaracteristicaPropiedad;
+                    $caracteristicaPropiedad->save();
+                }
+            }
+            if($fotos) 
+            {
+                foreach ($fotos as $fotoOld) 
+                {
+                    $path = public_path('/img/propiedad/'.$fotoOld->nombreArchivo);
+                    $filenameDos = uniqid().'.png';
+                    Image::make($path)->save(public_path('img/propiedad/'.$filenameDos));
+
+                    $foto = new Foto();
+                    $foto->idPropiedad = $propiedad->id;
+                    $foto->nombreArchivo = $filenameDos;
+                    $foto->marcaDeAgua = 1;
+                    $foto->save();
+                }
+            }
+            $logTransaccion = new LogTransaccion();
+            $logTransaccion->tipoTransaccion = 'Duplicar propiedad';
+            $logTransaccion->idUsuario =  Auth::user()->id;
+            $logTransaccion->webclient = $request->userAgent();
+            $logTransaccion->descripcionTransaccion = 'Duplicar propiedad con direccion en: '. $propiedad->direccion. ' numero: '.$propiedad->numero.
+            ' Region: '. $propiedad->idRegion. ' Comuna: '. $propiedad->idComuna;
+            $logTransaccion->save();
+            toastr()->success('Propiedad duplicada exitosamente', 'Operación exitosa');
+            return back();
+		} catch (QueryException $e) {
+			toastr()->error('Error de conexion, favor intente nuevamente');
+			return back();
+		} catch (ModelNotFoundException $e) {
+			toastr()->error('Imagen no encontrada');
+			return back();
+		} catch (Exception $e) {
+			toastr()->error('Se ha producido un error, favor intente nuevamente');
+			return back();
+		}
     }
 }
