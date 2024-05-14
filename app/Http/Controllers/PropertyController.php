@@ -535,7 +535,11 @@ class PropertyController extends Controller
     }
     public function addMarkerFile()
     {
-        $fotosGrandes = Foto::where('marcaDeAgua', 0)->get();
+        $fotosGrandes = Foto::select('fotos.*')
+        ->join('propiedades', 'propiedades.id', '=', 'fotos.idPropiedad')
+        ->where('fotos.marcaDeAgua', 0)
+        ->whereIn('propiedades.idEstado', [42, 43, 45])
+        ->get();
         if($fotosGrandes)
         {
             foreach ($fotosGrandes as $foto) 
