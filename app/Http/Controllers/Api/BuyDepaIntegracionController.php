@@ -78,8 +78,6 @@ class BuyDepaIntegracionController extends Controller
                     $propiedadesDesde = $propiedades['properties'];
                     foreach ($propiedadesDesde as $key => $propiedad) 
                     {
-                    if($key == 1)
-                    {
                         set_time_limit(60);
                         $propiedadAEditar = Propiedad::where('idBuyDepa', $propiedad['id'])
                         ->first();
@@ -286,7 +284,6 @@ class BuyDepaIntegracionController extends Controller
                                 $propiedadesCreadas = $propiedadesCreadas + 1;
                             }
                         }
-                    }
                     }
                     $propiedadesEnSistema = Propiedad::where('esBuyDepa', 1)
                     ->where('idEstado', 42)
