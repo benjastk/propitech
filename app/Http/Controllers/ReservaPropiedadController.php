@@ -12,6 +12,7 @@ use App\ReservaPropiedad;
 use App\NumerosEnLetras;
 use App\LogTransaccion;
 use App\Propiedad;
+use App\MetodoPago;
 use Carbon\Carbon;
 use App\Pais;
 use App\Region;
@@ -41,7 +42,8 @@ class ReservaPropiedadController extends Controller
         ->leftjoin('propiedades', 'reservas_propiedades.idPropiedad', '=', 'propiedades.id')
         ->join('estados', 'estados.idEstado', '=', 'reservas_propiedades.idEstado')
         ->get();
-        return view('back-office.reservas.index', compact('user', 'reservas'));
+        $metodosPagos = MetodoPago::get();
+        return view('back-office.reservas.index', compact('user', 'reservas', 'metodosPagos'));
     }
 
     /**
