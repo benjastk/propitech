@@ -8,7 +8,11 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use App\Jobs\EnvioPagoArriendo;
+use App\Jobs\EnviarPagoReserva;
 use Illuminate\Http\Request;
+use App\LogTransaccionPagos;
+use App\ReservaPropiedad;
+use App\DocumentoReserva;
 use App\ParametroGeneral;
 use App\ContratoArriendo;
 use App\LogTransaccion;
@@ -974,6 +978,89 @@ class EstadoPagoController extends Controller
         } catch (ModelNotFoundException $e) {
             toastr()->error('Usuario no encontrado');
             DB::rollback();
+            return back();
+        } catch (QueryException $e) {
+            toastr()->warning('Ha ocurrido un error, favor intente nuevamente' . $e->getMessage());
+            DB::rollback();
+            return back();
+        } catch (DecryptException $e) {
+            toastr()->info('Ocurrio un error al intentar acceder al recurso solicitado');
+            DB::rollback();
+            return back();
+        } catch (\Exception $e) {
+            toastr()->warning($e->getMessage());
+            DB::rollback();
+            return back();
+        }
+    }
+    public function pagoReserva(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            $reserva = ReservaPropiedad::where('idReserva', '=', $request->idReserva)
+            ->where('idEstado', 47)
+            ->first();
+            if($reserva)
+            {
+                $reserva->idEstado = 48;
+                $reserva->save();
+
+                $nuevoPago = new Pago();
+                $nuevoPago->tokenReserva = $reserva->token;
+                $nuevoPago->montoPago = $reserva->valorReserva;
+                $nuevoPago->numeroTransaccion = $request->numeroTransaccion;
+                $nuevoPago->secuenciaTransaccion = $request->numeroTransaccion;
+                $nuevoPago->comentarios = $request->comentarios;
+                $nuevoPago->idMetodoPago = $request->idMetodoPago;
+                $nuevoPago->tokenPago = uniqid();
+                $nuevoPago->creadoPor = Auth::user()->name.' '.Auth::user()->apellido;
+                $nuevoPago->save();
+
+                if($request->file('documento'))
+                {
+                    $nombreArchivo = "";
+                    $file =  $request['documento'];
+                    $nombreArchivo = time() . $file->getClientOriginalName();
+                    $file->move(public_path() . '/documentosPagosReservas/', $nombreArchivo);
+
+                    $nuevoDocumento = new DocumentoReserva();
+                    $nuevoDocumento->idReserva = $reserva->idReserva;
+                    $nuevoDocumento->tokenReserva = $reserva->token;
+                    $nuevoDocumento->idPago = $nuevoPago->idPago;
+                    $nuevoDocumento->idTipoDocumento = 49;
+                    $nuevoDocumento->rutaDocumento = $nombreArchivo;
+                    $nuevoDocumento->subidoPor = Auth::user()->name.' '.Auth::user()->apellido;
+                    $nuevoDocumento->save();
+                }
+
+                $nuevoLogTransaccion = new LogTransaccion();
+                $nuevoLogTransaccion->tipoTransaccion = 'PAGO RESERVA MANUAL : '.$reserva->idReserva;
+                $nuevoLogTransaccion->webClient = $request->userAgent();
+                $nuevoLogTransaccion->idUsuario =  Auth::user()->id;
+                $nuevoLogTransaccion->descripcionTransaccion = 'PAGO MANUAL DE RESERVA: '.$reserva->idReserva;
+                $nuevoLogTransaccion->save();
+                
+                $logPago = new LogTransaccionPagos();
+                $logPago->idPago = $nuevoPago->idPago;
+                $logPago->nombreTransaccion = 'PAGO RESERVA MANUAL';
+                $logPago->numeroTransaccion = $request->numeroTransaccion;
+                $logPago->montoTransaccion = $reserva->valorReserva;
+                $logPago->webClient = $request->userAgent();
+                $logPago->idMetodoPago = $request->idMetodoPago;
+                $logPago->save();
+                EnviarPagoReserva::dispatch( $nuevoPago->idPago);
+                DB::commit();
+                toastr()->success('Reserva aplicada exitosamente', 'Operación exitosa');
+                return redirect('/reservas');
+            }
+            else
+            {
+                DB::rollback();
+                toastr()->warning('Reserva no encontrada', 'Operación Fallida');
+                return redirect('/reservas');
+            }
+        } catch (ModelNotFoundException $e) {
+            toastr()->error('Usuario no encontrado');
             return back();
         } catch (QueryException $e) {
             toastr()->warning('Ha ocurrido un error, favor intente nuevamente' . $e->getMessage());

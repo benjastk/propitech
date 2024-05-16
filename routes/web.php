@@ -186,6 +186,7 @@ Route::prefix('estados-pagos')->group(function () {
     Route::post('/pago-manual', 'EstadoPagoController@pagoManual')->name('pagoManual');
     Route::post('/pago-manual-index', 'EstadoPagoController@pagoManualDesdeIndex')->name('pagoManualIndex');
     Route::post('/pagos/deletePago', 'EstadoPagoController@deletePago');
+    Route::post('/pago-manual-reserva', 'EstadoPagoController@pagoReserva')->name('pagoManualReserva');
 });
 Route::prefix('parametros')->group(function () {
     Route::get('/', 'ParametrosGeneralesController@index');

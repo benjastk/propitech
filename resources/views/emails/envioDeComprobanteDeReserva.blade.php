@@ -30,7 +30,7 @@
                     <br/>
                 </p>
                 <p class="s2" style="padding-left: 26pt;text-indent: 0pt;text-align: left;">Recibimos el pago de reserva de la propiedad ubicada en {{ $informacion->direccion }} {{ $informacion->numero }} 
-                @if($informacion->departamento) departamento {{ $informacion->departamento}} @endif, comuna de <!--{{ $informacion->nombreComuna }}-->, Región <!--{{ $informacion->nombreRegion}} -->
+                @if($informacion->departamento) departamento {{ $informacion->departamento}} @endif, comuna de {{ $informacion->nombreComuna }}, Región {{ $informacion->nombreRegion}}
                 y está todo <span class="s4">👌</span>
                 </p>
                 <p style="text-indent: 0pt;text-align: left;">
