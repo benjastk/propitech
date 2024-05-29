@@ -265,6 +265,7 @@ class PropertyController extends Controller
             $sanitizarTexto = str_replace("</p>", "<br>", $sanitizarTexto);
             $sanitizarTexto = str_replace("<br><br>", "<br>", $sanitizarTexto);
             $sanitizarTexto = str_replace("<br><br><br>", "<br>", $sanitizarTexto);
+            $sanitizarTexto = str_replace("</li>", "<br>", $sanitizarTexto);
             $sanitizarTexto = strip_tags($sanitizarTexto, '<br>');
             $propiedad->descripcion2 = $sanitizarTexto;
             if($request->usoGoceEstacionamiento1)
