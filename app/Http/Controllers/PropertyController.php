@@ -727,4 +727,35 @@ class PropertyController extends Controller
 			return back();
 		}
     }
+    public function sanitizarDescripciones()
+    {
+        try {
+            $propiedades = Propiedad::get();
+            if($propiedades)
+            {
+                foreach ($propiedades as $propiedad) 
+                {
+                    $sanitizarTexto = $propiedad->descripcion;
+                    $sanitizarTexto = str_replace("</p>", "<br>", $sanitizarTexto);
+                    $sanitizarTexto = str_replace("<br><br>", "<br>", $sanitizarTexto);
+                    $sanitizarTexto = str_replace("<br><br><br>", "<br>", $sanitizarTexto);
+                    $sanitizarTexto = str_replace("</li>", "<br>", $sanitizarTexto);
+                    $sanitizarTexto = strip_tags($sanitizarTexto, '<br>');
+                    $propiedad->descripcion2 = $sanitizarTexto;
+                    $propiedad->save();
+                }
+            }
+            toastr()->success('Propiedad sanitizada exitosamente', 'Operación exitosa');
+            return back();
+		} catch (QueryException $e) {
+			toastr()->error('Error de conexion, favor intente nuevamente');
+			return back();
+		} catch (ModelNotFoundException $e) {
+			toastr()->error('Imagen no encontrada');
+			return back();
+		} catch (Exception $e) {
+			toastr()->error('Se ha producido un error, favor intente nuevamente');
+			return back();
+		}
+    }
 }

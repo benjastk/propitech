@@ -61,6 +61,7 @@ Route::get('/ultimoDiaParaPagar', 'AlertaController@ultimoDiaParaPagar');
 Route::get('/mailPorCorreo', 'AlertaController@mailPorCorreo');
 //Route::get('/morosos', 'EstadoPagoController@cambiarAMoroso');
 //Route::get('/vencidos', 'EstadoPagoController@cambiarAVencido');
+Route::get('/sanitizarTexto', 'PropertyController@sanitizarDescripciones');
 Route::get('/agregarPorcentajeAMorosos', 'EstadoPagoController@agregarPorcentajeAMorosos');
 Route::get('/recordarPagoWhatsapp', 'AlertaController@recordarPagoWhatsapp');
 Route::prefix('users')->group(function () {
@@ -202,5 +203,3 @@ Route::get('/yapo/list', 'Api\IntegracionYapoController@listAds');
 Route::get('/yapo/add-property/{id}', 'Api\IntegracionYapoController@storeProperties');
 Route::get('/yapo/update-property/{id}', 'Api\IntegracionYapoController@updateProperties');
 Route::get('/yapo/delete-property/{id}', 'Api\IntegracionYapoController@deleteProperties');
-
-Route::get('/addMarker', 'PropertyController@addMarkerFile');

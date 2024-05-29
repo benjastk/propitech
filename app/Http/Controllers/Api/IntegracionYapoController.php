@@ -530,7 +530,8 @@ class IntegracionYapoController extends Controller
                     $propiedad->listIDYapo = $responseDos['ad']['listID'];
                     $propiedad->externalIDYapo = $responseDos['ad']['externalID'];
                     $propiedad->save();
-                    return response()->json($responseDos);
+                    toastr()->success('Actualizada completamente de Yapo.cl', 'Operación Exitosa');
+                    return back();
                 }
                 else
                 {
