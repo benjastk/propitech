@@ -62,7 +62,7 @@
                             setlocale(LC_TIME, 'es_ES', 'Spanish_Spain', 'Spanish');
                             $fecha = strftime("%d de %B de %Y", strtotime($contratoArriendo->created_at));
                         ?>
-                        <p>{{ $fecha }}</p>
+                        <p></p>
                     </td>
                 </tr>
             </tbody>
@@ -83,11 +83,7 @@
                         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp; Direcci&oacute;n:</p>
                     </td> 
                     <td width="225">
-                        <p>{{ $contratoArriendo->direccion }} {{ $contratoArriendo->numero }}
-                            @if($contratoArriendo->block)
-                            , Departamento {{ $contratoArriendo->block }}
-                            @endif
-                            {{ $contratoArriendo->nombreComuna }}
+                        <p>
                         </p>
                     </td>
                 </tr>
@@ -96,7 +92,7 @@
                         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
                     </td> 
                     <td width="225">
-                        <p>Región {{ $contratoArriendo->nombreRegion }}</p>
+                        <p>Región </p>
                     </td>
                 </tr>
                 <tr>
@@ -105,11 +101,7 @@
                     </td> 
                     <td width="225">
                         <p>
-                            @if($contratoArriendo->block)
-                            Departamento {{ $contratoArriendo->block }}
-                            @else
-                            N/A
-                            @endif
+                            Departamento
                         </p>
                     </td>
                 </tr>
@@ -119,11 +111,7 @@
                     </td> 
                     <td width="225">
                         <p>
-                            @if($contratoArriendo->usoGoceBodega)
-                             {{ $contratoArriendo->codigoBodega }}
-                            @else
-                            NO
-                            @endif
+                            
                         </p>
                     </td>
                 </tr>
@@ -133,11 +121,7 @@
                     </td> 
                     <td width="225">
                         <p>
-                            @if($contratoArriendo->usoGoceEstacionamiento)
-                             {{ $contratoArriendo->codigoEstacionamiento }}
-                            @else
-                            NO
-                            @endif
+                            
                         </p>
                     </td>
                 </tr>
@@ -154,7 +138,7 @@
                         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp; N&deg; de Habitaciones:</p>
                     </td> 
                     <td width="225">
-                        <p>{{ $contratoArriendo->habitacion }}</p>
+                        <p></p>
                     </td>
                 </tr>
                 <tr>
@@ -162,7 +146,7 @@
                         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp; N&deg; de Ba&ntilde;os:</p>
                     </td> 
                     <td width="225">
-                        <p>{{ $contratoArriendo->bano }}</p>
+                        <p></p>
                     </td>
                 </tr>
                 <tr>
@@ -170,7 +154,7 @@
                         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp; N&deg; de personas que habitaran:</p>
                     </td> 
                     <td width="225">
-                        <p>{{ $contratoArriendo->maximoHabitantes }}</p>
+                        <p></p>
                     </td>
                 </tr>
             </tbody>
@@ -191,7 +175,7 @@
                         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp; Nombre Completo:</p>
                     </td> 
                     <td width="225">
-                        <p>{{ $contratoArriendo->nombrePropietario }} {{ $contratoArriendo->apellidoPropietario }}</p>
+                        <p></p>
                     </td>
                 </tr>
                 <tr>
@@ -199,11 +183,7 @@
                     <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp; RUT</p>
                     </td> 
                     <td width="225">
-                        @php
-                        $rutPropietario1 = explode( "-", $contratoArriendo->rutPropietario );
-                        $rutPropietario = number_format( $rutPropietario1[0], 0, "", ".") . '-' . $rutPropietario1[1];
-                        @endphp
-                        <p>{{ $rutPropietario }}</p>
+                        <p></p>
                     </td>
                 </tr>
                 <tr>
@@ -211,7 +191,7 @@
                         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp; Domicilio:</p>
                     </td> 
                     <td width="225">
-                        <p>{{ $contratoArriendo->direccionPropietario }} {{ $contratoArriendo->numeroPropietario }}, {{ $contratoArriendo->comunaPropietario }}</p>
+                        <p></p>
                     </td>
                 </tr>
                 <tr>
@@ -286,7 +266,7 @@
                         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp; Nombre Completo:</p>
                     </td> 
                     <td width="225">
-                        <p>{{ $contratoArriendo->nombreArrendatario }} {{ $contratoArriendo->apellidoArrendatario }}</p>
+                        <p></p>
                     </td>
                 </tr>
                 <tr>
@@ -294,11 +274,8 @@
                     <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp; RUT</p>
                     </td> 
                     <td width="225">
-                        @php
-                        $rutArrendatario1 = explode( "-", $contratoArriendo->rutArrendatario );
-                        $rutArrendatario = number_format( $rutArrendatario1[0], 0, "", ".") . '-' . $rutArrendatario1[1];
-                        @endphp
-                        <p>{{ $rutArrendatario }}</p>
+                        
+                        <p></p>
                     </td>
                 </tr>
                 <tr>
@@ -306,7 +283,7 @@
                         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp; Domicilio:</p>
                     </td> 
                     <td width="225">
-                        <p>{{ $contratoArriendo->direccionArrendatario }} {{ $contratoArriendo->numeroArrendatario }}, {{ $contratoArriendo->comunaArrendatario }}</p>
+                        <p></p>
                     </td>
                 </tr>
                 <tr>
@@ -314,7 +291,7 @@
                         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp; Telefono:</p>
                     </td> 
                     <td width="225">
-                        <p>{{ $contratoArriendo->telefonoArrendatario }}</p>
+                        <p></p>
                     </td>
                 </tr>
                 <tr>
@@ -322,7 +299,7 @@
                         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp; Correo:</p>
                     </td> 
                     <td width="225">
-                        <p>{{ $contratoArriendo->correoArrendatario }}</p>
+                        <p></p>
                     </td>
                 </tr>
                 <tr>
@@ -338,7 +315,7 @@
                         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp; Nombre Completo:</p>
                     </td> 
                     <td width="225">
-                        <p>{{ $contratoArriendo->nombreCodeudor }} {{ $contratoArriendo->apellidoCodeudor }}</p>
+                        <p></p>
                     </td>
                 </tr>
                 <tr>
@@ -346,13 +323,7 @@
                     <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp; RUT</p>
                     </td> 
                     <td width="225">
-                        @if($contratoArriendo->idUsuarioCodeudor)
-                        @php
-                        $rutCodeudor1 = explode( "-", $contratoArriendo->rutCodeudor );
-                        $rutCodeudor = number_format( $rutCodeudor1[0], 0, "", ".") . '-' . $rutCodeudor1[1];
-                        @endphp
-                        <p>{{ $rutCodeudor }}</p>
-                        @endif
+                        <p></p>
                     </td>
                 </tr>
                 <tr>
@@ -360,9 +331,8 @@
                         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp; Domicilio:</p>
                     </td> 
                     <td width="225">
-                        @if($contratoArriendo->idUsuarioCodeudor)
-                        <p>{{ $contratoArriendo->direccionCodeudor }} {{ $contratoArriendo->numeroCodeudor }}, {{ $contratoArriendo->comunaCodeudor }}</p>
-                        @endif
+                        
+                        <p></p>
                     </td>
                 </tr>
                 <tr>
@@ -370,7 +340,7 @@
                         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp; Telefono:</p>
                     </td> 
                     <td width="225">
-                        <p>{{ $contratoArriendo->telefonoCodeudor }}</p>
+                        <p></p>
                     </td>
                 </tr>
                 <tr>
@@ -378,7 +348,7 @@
                         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp; Correo:</p>
                     </td> 
                     <td width="225">
-                        <p>{{ $contratoArriendo->correoCodeudor }}</p>
+                        <p></p>
                     </td>
                 </tr>
             </tbody>
@@ -392,7 +362,7 @@
                     <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Habitar la propiedad:</strong></p>
                     </td>
                     <td width="225">
-                        <p>{{ $contratoArriendo->maximoHabitantes }}</p>
+                        <p></p>
                     </td>
                 </tr>
             </tbody>
@@ -406,8 +376,7 @@
                     <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; de contrato:</strong></p>
                     </td>
                     <td width="225">
-                        @php(setlocale(LC_TIME, 'spanish'))
-                        <p>{{ strftime("%d de %B de %Y", strtotime($contratoArriendo->desde)) }}</p>
+                        <p></p>
                     </td>
                 </tr>
             </tbody>
@@ -420,7 +389,7 @@
                     <p>VII.&nbsp;&nbsp; <strong>Duraci&oacute;n de contrato:</strong></p>
                     </td>
                     <td width="225">
-                        <p>{{ $contratoArriendo->tiempoContrato }}</p>
+                        <p></p>
                     </td>
                 </tr>
             </tbody>
@@ -434,8 +403,8 @@
                     <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; O por periodos de:</p>
                     </td>
                     <td width="225">
-                        <p>@if($contratoArriendo->renovacionAutomatica == 1) Si @else No @endif</p>
-                        <p>{{ $contratoArriendo->tiempoContrato }} meses.</p>
+                        <p></p>
+                        <p> meses.</p>
                     </td>
                 </tr>
             </tbody>
@@ -448,8 +417,7 @@
                     <p>IX.&nbsp;&nbsp; <strong>Fecha de termino de contrato:</strong></p>
                     </td>
                     <td width="225">
-                        @php(setlocale(LC_TIME, 'spanish'))
-                        <p>{{ strftime("%d de %B de %Y", strtotime($contratoArriendo->hasta)) }}</p>
+                        <p></p>
                     </td>
                 </tr>
             </tbody>
@@ -465,7 +433,7 @@
                     </td>
                     <td width="225">
                         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-                        <p>${{ number_format($contratoArriendo->arriendoMensual, 0, '', '.')}}</p>
+                        <p>$</p>
                         <p>Semestral según IPC</p>
                     </td>
                 </tr>
@@ -493,7 +461,7 @@
                         <p>XII.&nbsp; <strong>Garant&iacute;a:</strong></p>
                     </td>
                     <td width="225">
-                        <p>${{ number_format($contratoArriendo->garantia, 0, '', '.')}}</p>
+                        <p>$</p>
                     </td>
                 </tr>
             </tbody>
@@ -520,7 +488,7 @@
                         <p>XIV.&nbsp; <strong>Prohibiciones:</strong></p>
                     </td>
                     <td width="225">
-                        <p>{{ $contratoArriendo->prohibiciones }}</p>
+                        <p></p>
                     </td>
                 </tr>
             </tbody>
@@ -593,37 +561,37 @@
             </table>
 
             <p>&nbsp;</p>
-            <p>Don <strong>{{ $contratoArriendo->nombrePropietario }} {{ $contratoArriendo->apellidoPropietario }}</strong><strong>, </strong>
-            Rut {{ $rutPropietario }}, Estado civil {{ $contratoArriendo->estadoCivilPropietario }}<strong>, </strong>
-            de profesi&oacute;n {{ $contratoArriendo->profesionPropietario }}, domiciliado en {{ $contratoArriendo->direccionPropietario }}, 
-            Comuna {{ $contratoArriendo->comunaPropietario }}, en adelante el <strong>ARRENDADOR </strong>o la parte arrendadora y por la otra, 
-            Don <strong>{{ $contratoArriendo->nombreArrendatario }} {{ $contratoArriendo->apellidoArrendatario }}</strong>, Rut {{ $rutArrendatario }}, 
-            Estado civil {{ $contratoArriendo->estadoCivilArrendatario }}, con domicilio actual en {{ $contratoArriendo->direccionArrendatario }}, {{ $contratoArriendo->numeroArrendatario }}, 
-            comuna de {{ $contratoArriendo->comunaArrendatario }}, de profesi&oacute;n {{ $contratoArriendo->profesionArrendatario }} @if($contratoArriendo->idUsuarioCodeudor) 
-            y su <strong>CODEUDOR</strong>, Don {{ $contratoArriendo->nombreCodeudor }}, Rut {{ $rutCodeudor }}, Estado civil {{ $contratoArriendo->estadoCivilCodeudor }}, 
-            con domicilio actual {{ $contratoArriendo->domicilioCodeudor }} comuna {{ $contratoArriendo->comunaCodeudor }}, de profesi&oacute;n {{ $contratoArriendo->profesionCodeudor }} @endif, 
+            <p>Don <strong></strong><strong>, </strong>
+            Rut , Estado civil <strong>, </strong>
+            de profesi&oacute;n , domiciliado en , 
+            Comuna , en adelante el <strong>ARRENDADOR </strong>o la parte arrendadora y por la otra, 
+            Don <strong></strong>, Rut , 
+            Estado civil , con domicilio actual en, 
+            comuna de , de profesi&oacute;n
+            y su <strong>CODEUDOR</strong>, Don , Rut , Estado civil , 
+            con domicilio actual en , comuna , de profesi&oacute;n  , 
             quienes har&aacute; uso de la propiedad, en calidad de en adelante el <strong>ARRENDATARIO</strong> o <strong>PARTE ARRENDATARIA</strong>, quienes acreditan
              su identidad con las respectivas c&eacute;dulas, y que han convenido en el siguiente contrato:</p>
             <p><strong>&nbsp;</strong></p>
             <p><strong><u>PRIMERO</u></strong><strong>: PROPIEDAD: </strong>Por el presente instrumento, el arrendador da en arrendamiento al arrendatario, 
             quien arrienda para s&iacute;, sin facultad de subarrendar, con destino Habitacional, la propiedad ubicada con frente a calle 
-            <strong>{{ $contratoArriendo->direccion }} {{ $contratoArriendo->numero }} @if($contratoArriendo->block )depto. {{ $contratoArriendo->block}} @endif</strong>,
-             del conjunto habitacional denominado &ldquo;<strong>EDIFICIO {{ $contratoArriendo->nombreEdificioComunidad }}</strong>&rdquo; ubicado en la comuna de <strong> {{ $contratoArriendo->nombreComuna}}</strong>,
-            Regi&oacute;n {{ $contratoArriendo->nombreRegion }}. Rol aval&uacute;o n&uacute;mero<strong> {{ $contratoArriendo->rolPropiedad }}</strong>. 
-            @if($contratoArriendo->idNivelUsoPropiedad == 2) El inmueble se entrega nuevo sin uso por parte del arrendador. @endif</p>
+            <strong> depto. </strong>,
+             del conjunto habitacional denominado &ldquo;<strong>EDIFICIO</strong>&rdquo; ubicado en la comuna de <strong> </strong>,
+            Regi&oacute;n . Rol aval&uacute;o n&uacute;mero<strong> </strong>. 
+           El inmueble se entrega nuevo sin uso por parte del arrendador. </p>
             <p><strong>&nbsp;</strong></p>
             <p><strong><u>SEGUNDO</u></strong><strong>:</strong> <strong>PLAZO<em>:</em></strong> El presente contrato rige a contar del d&iacute;a 
-            @php(setlocale(LC_TIME, 'spanish')) {{ strftime("%d de %B de %Y", strtotime($contratoArriendo->desde)) }} al {{ strftime("%d de %B de %Y", strtotime($contratoArriendo->hasta)) }} 
-            y tendr&aacute; Vigencia {{ $contratoArriendo->tiempoContrato }} meses. Confirmando las partes que contin&uacute;an con la relaci&oacute;n 
+             al  
+            y tendr&aacute; Vigencia meses. Confirmando las partes que contin&uacute;an con la relaci&oacute;n 
             comercial, se renueva autom&aacute;ticamente, a menos que alguna de las partes, manifieste a la otra su intenci&oacute;n de no perseverar en 
             el contrato mediante aviso enviado por carta certificada o carta simple, (correo electr&oacute;nico individualizado en condiciones particulares), 
-            enviada a lo menos {{ $contratoArriendo->diaNotificacionFinContrato }} d&iacute;as de anticipaci&oacute;n al vencimiento del plazo o cualquiera de sus prorrogas. Las partes podr&aacute;n de 
+            enviada a lo menos XX d&iacute;as de anticipaci&oacute;n al vencimiento del plazo o cualquiera de sus prorrogas. Las partes podr&aacute;n de 
             com&uacute;n acuerdo en cualquier momento durante la vigencia del contrato, acordar su pr&oacute;rroga por los periodos y t&eacute;rminos que 
             en cada oportunidad establezca.</p>
             <p style="page-break-after: always;">
             <p><strong><u>TERCERO</u></strong><strong>: RENTA </strong></p>
-            <p>La renta de arriendo se pagar&aacute; mensualmente, de manera anticipada, a m&aacute;s tardar el d&iacute;a {{ $contratoArriendo->diaPago }} 
-            de cada mes y tendr&aacute; un valor de <strong>${{ number_format($contratoArriendo->arriendoMensual, 0, '', '.')}}.- ({{ $arriendoEnLetra }}) pesos chilenos.</strong></p>
+            <p>La renta de arriendo se pagar&aacute; mensualmente, de manera anticipada, a m&aacute;s tardar el d&iacute;a  
+            de cada mes y tendr&aacute; un valor de <strong>$.- () pesos chilenos.</strong></p>
             <p>&nbsp;</p>
             <p>En caso de mora o simple retardo en el pago de la renta de arrendamiento, se deber&aacute; pagar el equivalente al 1% de la renta pactada por 
             cada d&iacute;a de atraso. Si como consecuencia del retardo, se le encarga a un abogado la cobranza judicial, el &ldquo;Arrendatario&rdquo; 
@@ -661,7 +629,7 @@
             <p>Destino del Inmueble y N&uacute;mero de Residentes. El arrendatario declara que el inmueble arrendado deber&aacute; ser destinado y usado 
                 exclusivamente con destino habitacional por el arrendatario, durante el periodo que dure este contrato. El hecho de destinarse la referida propiedad a 
                 una finalidad diferente a la pactada, faculta al arrendador para poner t&eacute;rmino ipso facto al presente Contrato.</p>
-            <p>El arrendatario se obliga a no superar el n&uacute;mero de personas ({{ $contratoArriendo->maximoHabitantes }}) indicadas en las condiciones particulares, como residentes de la vivienda 
+            <p>El arrendatario se obliga a no superar el n&uacute;mero de personas () indicadas en las condiciones particulares, como residentes de la vivienda 
                 objeto del arrendamiento. El incumplimiento de esta cl&aacute;usula, lo cual podr&aacute; ser revisada con el administrador donde se ubica 
                 el inmueble, o mediante una inspecci&oacute;n personal por parte del arrendador o mandatario designado, constituir&aacute; prueba suficiente, 
                 salvo autorizaci&oacute;n escrita por parte del arrendador, ser&aacute; origen de justa causa de desahucio, por convenirlo as&iacute; ambas 
@@ -708,8 +676,8 @@
             <p>&nbsp;</p>
             
             <p><strong><u>DECIMO</u></strong><strong>: GARANT&Iacute;A DE ARRIENDO. </strong>El <strong>&ldquo;Arrendatario&rdquo; </strong>entrega en este 
-            acto la suma de &nbsp;<strong>${{ number_format($contratoArriendo->garantia, 0, '', '.')}}.- ({{ $garantiaEnLetra }}) pesos chilenos,</strong> 
-            que corresponde a&nbsp; {{ $contratoArriendo->cantidadGarantias }} de garant&iacute;a, a fin de garantizar la conservaci&oacute;n de la propiedad y su restituci&oacute;n en el 
+            acto la suma de &nbsp;<strong>$.- () pesos chilenos,</strong> 
+            que corresponde a&nbsp; XX de garant&iacute;a, a fin de garantizar la conservaci&oacute;n de la propiedad y su restituci&oacute;n en el 
             mismo estado en que la recibe; la devoluci&oacute;n y conservaci&oacute;n de las especies y artefactos que se indicar&aacute;n en el inventario; 
             el pago de los perjuicios y deterioros que se causen en la propiedad arrendada, sus servicios e instalaciones y en general, para responder 
             del fiel cumplimiento de las estipulaciones de este contrato de arrendamiento. El &ldquo;<strong>Arrendador&rdquo;</strong> se obliga a devolver 
@@ -767,20 +735,18 @@
             <p style="text-align: center;">&nbsp;</p>
             <p style="text-align: center;">&nbsp;</p>
             <p style="text-align: center;"><strong>__________________________________________</strong></p>
-            <p style="text-align: center;"><strong>{{ $contratoArriendo->nombreArrendatario }} {{ $contratoArriendo->apellidoArrendatario }}</strong></p>
+            <p style="text-align: center;"><strong></strong></p>
             <p style="text-align: center;"><strong>ARRENDATARIO</strong></p>
-            <p style="text-align: center;"><strong>RUT {{ $rutArrendatario }}</strong></p>
+            <p style="text-align: center;"><strong>RUT </strong></p>
             <!-- firma -->
-            @if($contratoArriendo->idUsuarioCodeudor)
             <p style="text-align: center;">&nbsp;</p>
             <p style="text-align: center;">&nbsp;</p>
             <p style="text-align: center;">&nbsp;</p>
             <p style="text-align: center;">&nbsp;</p>
             <p style="text-align: center;"><strong>__________________________________________</strong></p>
-            <p style="text-align: center;"><strong>{{ $contratoArriendo->nombreCodeudor }} {{ $contratoArriendo->apellidoCodeudor }}</strong></p>
+            <p style="text-align: center;"><strong></strong></p>
             <p style="text-align: center;"><strong>CODEUDOR</strong></p>
-            <p style="text-align: center;"><strong>RUT {{ $rutCodeudor }}</strong></p>
-            @endif
+            <p style="text-align: center;"><strong>RUT </strong></p>
         </main>
     </body>
 </html>
