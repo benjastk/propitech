@@ -52,6 +52,9 @@
                                 <a href="/contratos/export" class="btn btn-success waves-effect waves-light" style="margin-right: 10px">
                                     <i class="far fa-file-excel"></i> Descargar Excel
                                 </a>
+                                <a href="/contratos/export-demo" class="btn btn-success waves-effect waves-light" style="margin-right: 10px">
+                                    <i class="far fa-file-excel"></i> Descargar DEMO
+                                </a>
                                 <!--<ol class="breadcrumb m-0">
                                     <li class="breadcrumb-item"><a href="javascript: void(0);">Contactos</a></li>
                                     <li class="breadcrumb-item active">Lista de usuarios</li>
