@@ -626,7 +626,7 @@
             <p>&nbsp;</p>
             <p>En caso de mora o simple retardo en el pago de la renta de arrendamiento, se deber&aacute; pagar el equivalente al 1% de la renta pactada por 
             cada d&iacute;a de atraso. Si como consecuencia del retardo, se le encarga a un abogado la cobranza judicial, el &ldquo;Arrendatario&rdquo; 
-            deber&aacute; pagar, adem&aacute;s, el honorario de esta cobranza.</p>
+            deber&aacute; pagar, adem&aacute;s, el honorario de esta cobranza. Ademas, el "Arrendatario" será publicado en equifax por dicha morosidad. (Ley n°19.628 Art. 2°)</p>
             <p>&nbsp;</p>
             <p>Sin perjuicio de lo anterior, en el evento que el Arrendatario se retrase el pago de dos o m&aacute;s rentas de arrendamiento, sean o&nbsp;
             no consecutivas en una a&ntilde;o calendario, el Arrendador podr&aacute; poner t&eacute;rmino ipso facto al presente contrato, exigir el pago 
