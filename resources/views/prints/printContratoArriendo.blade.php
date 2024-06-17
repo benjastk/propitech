@@ -681,10 +681,12 @@
             equivalente a un mes de renta de arrendamiento a favor del arrendador, que las partes aval&uacute;an anticipadamente por concepto de los perjuicios 
             ocasionados por dicha contravenci&oacute;n. &ndash;</p>
             <p>&nbsp;</p>
-            <p><strong><u>SEPTIMO</u></strong><strong>: VISITAS AL INMUEBLE</strong>: La arrendataria se obliga a otorgar las facilidades necesarias para que 
-            el arrendador sea personalmente o a trav&eacute;s de mandatarios designados PROPITECH a visitar el inmueble cuando lo desee. Asimismo, 
-            en caso de que su propietario desee vender el inmueble, se obliga a permitir sus visitas, a lo menos tres d&iacute;as en cada mes, durante dos 
-            horas, en horario comprendido entre las diecis&eacute;is: cero cero y las dieciocho: cero cero horas, a su elecci&oacute;n.</p>
+            <p><strong><u>SEPTIMO</u></strong><strong>: VISITAS AL INMUEBLE</strong>: El arrendador o su representante podr&aacute; realizar dos visitas al a&ntilde;o 
+            al inmueble para su inspecci&oacute;n, previo aviso y en horario y dia a convenir entre las partes. En caso de venta del inmueble, se podr&aacute;n 
+            realizar visitas adicionales para mostrarlo a potenciales compradores, con un m&aacute;ximo de tres por mes, bajo las mismas condiciones de aviso y 
+            horario. El arrendatario no podr&aacute; negarse injustificadamente a las visitas y estas deber&aacute;n realizarse en presencia de un mayor de edad. 
+            El arrendador o su representante no podr&aacute; ingresar a habitaciones privadas sin consentimiento y deber&aacute; respetar la privacidad del 
+            arrendatario y su familia.</p>
             <p>&nbsp;</p>
             <p><strong><u>OCTAVO</u></strong><strong>: MEJORAS</strong>: El arrendador no tendr&aacute; obligaci&oacute;n de hacer mejoras &uacute;tiles en 
             la propiedad arrendada. Las mejoras que pueda efectuar el arrendatario quedar&aacute;n a beneficio de la propiedad desde el momento mismo en que 
@@ -733,16 +735,17 @@
             higi&eacute;nicas, ambientales, municipales o reglamentarias.</p>
             <p>&nbsp;</p>
             <p><strong><u>D&Eacute;CIMO TERCERO:</u></strong><strong> RESTITUCION DEL INMUEBLE</strong>: El arrendatario se obliga a restituir la propiedad 
-            inmediatamente que expire o termine este contrato, en el mismo estado que la recibi&oacute;, tomando en consideraci&oacute;n el uso y desgaste 
-            natural de la propiedad. Se obliga a efectuar su restituci&oacute;n mediante la desocupaci&oacute;n total de la propiedad, poni&eacute;ndola a 
-            disposici&oacute;n del arrendador y entreg&aacute;ndole las llaves. Se obliga, asimismo, a entregar al arrendador en la misma oportunidad los 
-            recibos o comprobantes que acrediten que la propiedad no registra deudas, por concepto de gastos comunes o servicios especiales, como 
-            tambi&eacute;n suministros de energ&iacute;a el&eacute;ctrica, agua potable, gas, extracci&oacute;n de basura y otros similares no incluidos en 
-            los gastos comunes o servicios especiales. La falta de entrega oportuna por parte del arrendatario har&aacute; devengar a favor del arrendador, 
-            adem&aacute;s de la renta del mes completo, una multa moratoria equivalente al cincuenta por ciento de la suma referida, sin perjuicio de los 
-            derechos del arrendador para iniciar las acciones legales que procedan en su contra a fin de exigir la restituci&oacute;n del inmueble. Asimismo, 
-            el arrendatario se obliga a comunicar por escrito el d&iacute;a y la hora en que abandonar&aacute; la propiedad, ya sea en forma voluntaria o 
-            mediante notificaci&oacute;n judicial del desalojo.</p>
+            inmediatamente que expire o termine este contrato, en el mismo estado que la recibi&oacute;, tomando en consideraci&oacute;n el uso y desgaste natural 
+            de la propiedad. Se obliga a efectuar su restituci&oacute;n mediante la desocupaci&oacute;n total de la propiedad, poni&eacute;ndola a disposici&oacute;n 
+            del arrendador y entreg&aacute;ndole las llaves. Se obliga, asimismo, a entregar al arrendador en la misma oportunidad los recibos o comprobantes que 
+            acrediten que la propiedad no registra deudas, por concepto de gastos comunes o servicios especiales, como tambi&eacute;n suministros de energ&iacute;a 
+            el&eacute;ctrica, agua potable, gas, extracci&oacute;n de basura y otros similares no incluidos en los gastos comunes o servicios especiales. La falta 
+            de entrega oportuna por parte del arrendatario har&aacute; devengar a favor del arrendador, adem&aacute;s de la renta del mes completo, una multa 
+            moratoria equivalente al cincuenta por ciento de la suma referida, sin perjuicio de los derechos del arrendador para iniciar las acciones legales que 
+            procedan en su contra a fin de exigir la restituci&oacute;n del inmueble. Asimismo, el arrendatario se obliga a comunicar por escrito el d&iacute;a y 
+            la hora en que abandonar&aacute; la propiedad, ya sea en forma voluntaria o mediante notificaci&oacute;n judicial del desalojo. Entre las partes, 
+            celebran el contrato por un a&ntilde;o, en caso de desistimiento anticipado ante del t&eacute;rmino de los doce meses, deber&aacute; cancelar multa de 
+            un mes arriendo, por concepto de indemnizaci&oacute;n.</p>
             <p>&nbsp;</p>
             <p><strong><u>DECIMO CUARTO:</u></strong><strong> SOLVENCIA.</strong> La parte arrendataria declara expresamente contar con la renta necesaria 
             para pagar la renta pactada y gastos adicionales como los gastos comunes y de servicios y sus reajustes.</p>

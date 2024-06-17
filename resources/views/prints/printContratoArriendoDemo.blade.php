@@ -646,10 +646,12 @@
             equivalente a un mes de renta de arrendamiento a favor del arrendador, que las partes aval&uacute;an anticipadamente por concepto de los perjuicios 
             ocasionados por dicha contravenci&oacute;n. &ndash;</p>
             <p>&nbsp;</p>
-            <p><strong><u>SEPTIMO</u></strong><strong>: VISITAS AL INMUEBLE</strong>: La arrendataria se obliga a otorgar las facilidades necesarias para que 
-            el arrendador sea personalmente o a trav&eacute;s de mandatarios designados PROPITECH a visitar el inmueble cuando lo desee. Asimismo, 
-            en caso de que su propietario desee vender el inmueble, se obliga a permitir sus visitas, a lo menos tres d&iacute;as en cada mes, durante dos 
-            horas, en horario comprendido entre las diecis&eacute;is: cero cero y las dieciocho: cero cero horas, a su elecci&oacute;n.</p>
+            <p><strong><u>SEPTIMO</u></strong><strong>: VISITAS AL INMUEBLE</strong>: El arrendador o su representante podr&aacute; realizar dos visitas al a&ntilde;o 
+            al inmueble para su inspecci&oacute;n, previo aviso y en horario y dia a convenir entre las partes. En caso de venta del inmueble, se podr&aacute;n 
+            realizar visitas adicionales para mostrarlo a potenciales compradores, con un m&aacute;ximo de tres por mes, bajo las mismas condiciones de aviso y 
+            horario. El arrendatario no podr&aacute; negarse injustificadamente a las visitas y estas deber&aacute;n realizarse en presencia de un mayor de edad. 
+            El arrendador o su representante no podr&aacute; ingresar a habitaciones privadas sin consentimiento y deber&aacute; respetar la privacidad del 
+            arrendatario y su familia.</p>
             <p>&nbsp;</p>
             <p><strong><u>OCTAVO</u></strong><strong>: MEJORAS</strong>: El arrendador no tendr&aacute; obligaci&oacute;n de hacer mejoras &uacute;tiles en 
             la propiedad arrendada. Las mejoras que pueda efectuar el arrendatario quedar&aacute;n a beneficio de la propiedad desde el momento mismo en que 
