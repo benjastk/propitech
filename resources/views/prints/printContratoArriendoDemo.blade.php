@@ -700,16 +700,17 @@
             higi&eacute;nicas, ambientales, municipales o reglamentarias.</p>
             <p>&nbsp;</p>
             <p><strong><u>D&Eacute;CIMO TERCERO:</u></strong><strong> RESTITUCION DEL INMUEBLE</strong>: El arrendatario se obliga a restituir la propiedad 
-            inmediatamente que expire o termine este contrato, en el mismo estado que la recibi&oacute;, tomando en consideraci&oacute;n el uso y desgaste 
-            natural de la propiedad. Se obliga a efectuar su restituci&oacute;n mediante la desocupaci&oacute;n total de la propiedad, poni&eacute;ndola a 
-            disposici&oacute;n del arrendador y entreg&aacute;ndole las llaves. Se obliga, asimismo, a entregar al arrendador en la misma oportunidad los 
-            recibos o comprobantes que acrediten que la propiedad no registra deudas, por concepto de gastos comunes o servicios especiales, como 
-            tambi&eacute;n suministros de energ&iacute;a el&eacute;ctrica, agua potable, gas, extracci&oacute;n de basura y otros similares no incluidos en 
-            los gastos comunes o servicios especiales. La falta de entrega oportuna por parte del arrendatario har&aacute; devengar a favor del arrendador, 
-            adem&aacute;s de la renta del mes completo, una multa moratoria equivalente al cincuenta por ciento de la suma referida, sin perjuicio de los 
-            derechos del arrendador para iniciar las acciones legales que procedan en su contra a fin de exigir la restituci&oacute;n del inmueble. Asimismo, 
-            el arrendatario se obliga a comunicar por escrito el d&iacute;a y la hora en que abandonar&aacute; la propiedad, ya sea en forma voluntaria o 
-            mediante notificaci&oacute;n judicial del desalojo.</p>
+            inmediatamente que expire o termine este contrato, en el mismo estado que la recibi&oacute;, tomando en consideraci&oacute;n el uso y desgaste natural 
+            de la propiedad. Se obliga a efectuar su restituci&oacute;n mediante la desocupaci&oacute;n total de la propiedad, poni&eacute;ndola a disposici&oacute;n 
+            del arrendador y entreg&aacute;ndole las llaves. Se obliga, asimismo, a entregar al arrendador en la misma oportunidad los recibos o comprobantes que 
+            acrediten que la propiedad no registra deudas, por concepto de gastos comunes o servicios especiales, como tambi&eacute;n suministros de energ&iacute;a 
+            el&eacute;ctrica, agua potable, gas, extracci&oacute;n de basura y otros similares no incluidos en los gastos comunes o servicios especiales. La falta 
+            de entrega oportuna por parte del arrendatario har&aacute; devengar a favor del arrendador, adem&aacute;s de la renta del mes completo, una multa 
+            moratoria equivalente al cincuenta por ciento de la suma referida, sin perjuicio de los derechos del arrendador para iniciar las acciones legales que 
+            procedan en su contra a fin de exigir la restituci&oacute;n del inmueble. Asimismo, el arrendatario se obliga a comunicar por escrito el d&iacute;a y 
+            la hora en que abandonar&aacute; la propiedad, ya sea en forma voluntaria o mediante notificaci&oacute;n judicial del desalojo. Entre las partes, 
+            celebran el contrato por un a&ntilde;o, en caso de desistimiento anticipado ante del t&eacute;rmino de los doce meses, deber&aacute; cancelar multa de 
+            un mes arriendo, por concepto de indemnizaci&oacute;n.</p>
             <p>&nbsp;</p>
             <p><strong><u>DECIMO CUARTO:</u></strong><strong> SOLVENCIA.</strong> La parte arrendataria declara expresamente contar con la renta necesaria 
             para pagar la renta pactada y gastos adicionales como los gastos comunes y de servicios y sus reajustes.</p>
