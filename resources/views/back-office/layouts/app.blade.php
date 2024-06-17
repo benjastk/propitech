@@ -23,7 +23,6 @@
         <link href="{!! asset('/css/app.min.css') !!}" rel="stylesheet" type="text/css" />
         @endif
         <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
-        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> 
         <link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="{{ url('font-awesome/css/font-awesome.min.css') }}">
         <style>
