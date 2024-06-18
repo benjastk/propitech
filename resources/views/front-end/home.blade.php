@@ -605,7 +605,7 @@
         </div>
     </div>
 </section>
-<section class="bg-gray-02">
+<section class="bg-gray-02" style="background-color: #fff !important" >
     <div class="container">
         <h1 class="fs-30 lh-1 mb-0 text-heading font-weight-600 mb-6">Planes</h1>
     </div>

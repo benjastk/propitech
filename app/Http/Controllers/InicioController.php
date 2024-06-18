@@ -99,6 +99,8 @@ class InicioController extends Controller
         }
         $caracteristicasPlanes = CaracteristicaPlan::get();
         $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+        $telefonoWhatsapp2 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 2')->first();
+        $telefonoWhatsapp3 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 3')->first();
         $correoHome = ParametroGeneral::where('parametroGeneral', 'CORREO HOME')->first();
         $direccionHome = ParametroGeneral::where('parametroGeneral', 'DIRECCION HOME')->first();
         $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
@@ -108,7 +110,7 @@ class InicioController extends Controller
         $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
         return view('front-end.home', compact('propiedadesEnArriendo', 'propiedadesEnVenta', 'propiedadesDestacadas', 'comunas', 'paises', 
         'regiones', 'provincias', 'habitaciones', 'noticias', 'planes', 'caracteristicasPlanes',
-        'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'isCyber', 'invierteAqui'));
+        'telefonoWhatsapp', 'telefonoWhatsapp2', 'telefonoWhatsapp3', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'isCyber', 'invierteAqui'));
     }
     public function list(Request $request)
     {
@@ -124,6 +126,8 @@ class InicioController extends Controller
         $regiones = Region::get();
         $provincias = Provincia::get();
         $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+        $telefonoWhatsapp2 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 2')->first();
+        $telefonoWhatsapp3 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 3')->first();
         $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
         if($request->tipoVenta == 1)
         {
@@ -164,7 +168,7 @@ class InicioController extends Controller
             }   
             $propiedadesEnVenta = $propiedadesEnVenta1->get();
             return view('front-end.mapa-catalogo-venta', compact('propiedadesEnVenta','comunas', 'paises', 'regiones', 'provincias', 'habitaciones',
-                'telefonoWhatsapp', 'coordenada', 'invierteAqui'));
+                'telefonoWhatsapp', 'telefonoWhatsapp2', 'telefonoWhatsapp3', 'coordenada', 'invierteAqui'));
         }
         else if($request->tipoVenta == 2)
         {
@@ -204,7 +208,7 @@ class InicioController extends Controller
                 $coordenada = '[-70.64827, -33.45694]';
             }   
             return view('front-end.mapa-catalogo-arriendo', compact('propiedadesEnArriendo','comunas', 'paises', 'regiones', 'provincias', 
-                'habitaciones', 'telefonoWhatsapp', 'coordenada', 'invierteAqui'));
+                'habitaciones', 'telefonoWhatsapp', 'telefonoWhatsapp2', 'telefonoWhatsapp3', 'coordenada', 'invierteAqui'));
         }
         else
         {
@@ -244,7 +248,7 @@ class InicioController extends Controller
             }
             $propiedadesEnArriendo = $propiedadesEnArriendo1->get();
             return view('front-end.mapa-catalogo-arriendo', compact('propiedadesEnArriendo','comunas', 'paises', 'regiones', 'provincias', 
-                'habitaciones', 'telefonoWhatsapp', 'coordenada', 'invierteAqui'));
+                'habitaciones', 'telefonoWhatsapp', 'telefonoWhatsapp2', 'telefonoWhatsapp3', 'coordenada', 'invierteAqui'));
         }
     }
     public function mapaCatalogoPropiedades(Request $request)
@@ -324,8 +328,10 @@ class InicioController extends Controller
         }   
         $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
         $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+        $telefonoWhatsapp2 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 2')->first();
+        $telefonoWhatsapp3 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 3')->first();
         return view('front-end.mapa-catalogo-arriendo', compact('propiedadesEnArriendo','comunas', 'paises', 'regiones', 'provincias', 'habitaciones',
-        'telefonoWhatsapp', 'coordenada', 'invierteAqui'));
+        'telefonoWhatsapp', 'telefonoWhatsapp2', 'telefonoWhatsapp3', 'coordenada', 'invierteAqui'));
     }
     public function mapaCatalogoPropiedadesVenta(Request $request)
     {
@@ -394,9 +400,11 @@ class InicioController extends Controller
             $coordenada = '[-70.64827, -33.45694]';
         }   
         $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+        $telefonoWhatsapp2 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 2')->first();
+        $telefonoWhatsapp3 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 3')->first();
         $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
         return view('front-end.mapa-catalogo-venta', compact('propiedadesEnVenta','comunas', 'paises', 'regiones', 'provincias', 'habitaciones', 
-        'telefonoWhatsapp', 'coordenada', 'invierteAqui'));
+        'telefonoWhatsapp', 'telefonoWhatsapp2', 'telefonoWhatsapp3', 'coordenada', 'invierteAqui'));
     }
     public function singleProperty($id)
     {
@@ -439,6 +447,8 @@ class InicioController extends Controller
         ->get();
 
         $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+        $telefonoWhatsapp2 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 2')->first();
+        $telefonoWhatsapp3 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 3')->first();
         $correoHome = ParametroGeneral::where('parametroGeneral', 'CORREO HOME')->first();
         $direccionHome = ParametroGeneral::where('parametroGeneral', 'DIRECCION HOME')->first();
         $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
@@ -448,12 +458,12 @@ class InicioController extends Controller
         if($propiedad->idEstado == 42)
         {
             return view('front-end.single-property', compact('propiedad', 'amenidades', 'propiedadesDestacadas1',
-            'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'invierteAqui'));
+            'telefonoWhatsapp', 'telefonoWhatsapp2', 'telefonoWhatsapp3', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'invierteAqui'));
         }
         else
         {
             return view('front-end.single-property-vendido', compact('propiedad', 'amenidades', 'propiedadesDestacadas1',
-            'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'invierteAqui'));
+            'telefonoWhatsapp', 'telefonoWhatsapp2', 'telefonoWhatsapp3', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'invierteAqui'));
         }
     }
         
@@ -471,6 +481,8 @@ class InicioController extends Controller
         ->get();
 
         $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+        $telefonoWhatsapp2 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 2')->first();
+        $telefonoWhatsapp3 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 3')->first();
         $correoHome = ParametroGeneral::where('parametroGeneral', 'CORREO HOME')->first();
         $direccionHome = ParametroGeneral::where('parametroGeneral', 'DIRECCION HOME')->first();
         $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
@@ -478,7 +490,7 @@ class InicioController extends Controller
         $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
         $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
         return view('front-end.blog', compact('noticia', 'noticias',
-        'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'invierteAqui'));
+        'telefonoWhatsapp', 'telefonoWhatsapp2', 'telefonoWhatsapp3', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'invierteAqui'));
     }
     public function servicios()
     {
@@ -507,6 +519,8 @@ class InicioController extends Controller
         $caracteristicasPlanes = CaracteristicaPlan::get();
 
         $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+        $telefonoWhatsapp2 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 2')->first();
+        $telefonoWhatsapp3 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 3')->first();
         $correoHome = ParametroGeneral::where('parametroGeneral', 'CORREO HOME')->first();
         $direccionHome = ParametroGeneral::where('parametroGeneral', 'DIRECCION HOME')->first();
         $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
@@ -514,49 +528,57 @@ class InicioController extends Controller
         $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
         $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
         return view('front-end.servicios', compact('planes', 'caracteristicasPlanes',
-        'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'invierteAqui'));
+        'telefonoWhatsapp', 'telefonoWhatsapp2', 'telefonoWhatsapp3', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'invierteAqui'));
     }
     public function nosotros()
     {
         $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+        $telefonoWhatsapp2 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 2')->first();
+        $telefonoWhatsapp3 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 3')->first();
         $correoHome = ParametroGeneral::where('parametroGeneral', 'CORREO HOME')->first();
         $direccionHome = ParametroGeneral::where('parametroGeneral', 'DIRECCION HOME')->first();
         $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
         $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
         $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
         $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
-        return view('front-end.nosotros', compact('telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'invierteAqui'));
+        return view('front-end.nosotros', compact('telefonoWhatsapp', 'telefonoWhatsapp2', 'telefonoWhatsapp3', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'invierteAqui'));
     }
     public function preguntasFrecuentes()
     {
         $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+        $telefonoWhatsapp2 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 2')->first();
+        $telefonoWhatsapp3 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 3')->first();
         $correoHome = ParametroGeneral::where('parametroGeneral', 'CORREO HOME')->first();
         $direccionHome = ParametroGeneral::where('parametroGeneral', 'DIRECCION HOME')->first();
         $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
         $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
         $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
         $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
-        return view('front-end.preguntasFrecuentes', compact('telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'invierteAqui'));
+        return view('front-end.preguntasFrecuentes', compact('telefonoWhatsapp', 'telefonoWhatsapp2', 'telefonoWhatsapp3', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'invierteAqui'));
     }
     public function terminosYCondiciones()
     {
         $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+        $telefonoWhatsapp2 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 2')->first();
+        $telefonoWhatsapp3 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 3')->first();
         $correoHome = ParametroGeneral::where('parametroGeneral', 'CORREO HOME')->first();
         $direccionHome = ParametroGeneral::where('parametroGeneral', 'DIRECCION HOME')->first();
         $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
         $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
         $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
         $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
-        return view('front-end.terminosYCondiciones', compact('telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'invierteAqui'));
+        return view('front-end.terminosYCondiciones', compact('telefonoWhatsapp', 'telefonoWhatsapp2', 'telefonoWhatsapp3', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'invierteAqui'));
     }
     public function publicaTuPropiedad()
     {
         $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+        $telefonoWhatsapp2 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 2')->first();
+        $telefonoWhatsapp3 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 3')->first();
         $correoHome = ParametroGeneral::where('parametroGeneral', 'CORREO HOME')->first();
         $direccionHome = ParametroGeneral::where('parametroGeneral', 'DIRECCION HOME')->first();
         $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
         $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
-        $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();$telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+        $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
         $correoHome = ParametroGeneral::where('parametroGeneral', 'CORREO HOME')->first();
         $direccionHome = ParametroGeneral::where('parametroGeneral', 'DIRECCION HOME')->first();
         $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
@@ -567,11 +589,13 @@ class InicioController extends Controller
         $tiposPropiedades = TipoPropiedad::get();
         $tiposComerciales = TipoComercial::get();
         return view('front-end.publica-tu-propiedad', compact('tiposPropiedades', 'tiposComerciales', 
-        'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'invierteAqui'));
+        'telefonoWhatsapp', 'telefonoWhatsapp2', 'telefonoWhatsapp3', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'invierteAqui'));
     }
     public function trabajaConNosotros()
     {
         $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+        $telefonoWhatsapp2 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 2')->first();
+        $telefonoWhatsapp3 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 3')->first();
         $correoHome = ParametroGeneral::where('parametroGeneral', 'CORREO HOME')->first();
         $direccionHome = ParametroGeneral::where('parametroGeneral', 'DIRECCION HOME')->first();
         $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
@@ -588,7 +612,7 @@ class InicioController extends Controller
         $tiposPropiedades = TipoPropiedad::get();
         $tiposComerciales = TipoComercial::get();
         return view('front-end.trabaja-con-nosotros', compact('tiposPropiedades', 'tiposComerciales', 
-        'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram',
+        'telefonoWhatsapp', 'telefonoWhatsapp2', 'telefonoWhatsapp3', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram',
         'telefonoContacto', 'telefonoContacto2', 'correoContacto', 'horarioSemana', 'horarioFinDeSemana', 'invierteAqui'));
     }
     public function pagoOnline(Request $request)
@@ -604,6 +628,8 @@ class InicioController extends Controller
             ->orderBy('estados_pagos.fechaVencimiento', 'asc')
             ->first();
             $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+            $telefonoWhatsapp2 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 2')->first();
+            $telefonoWhatsapp3 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 3')->first();
             $correoHome = ParametroGeneral::where('parametroGeneral', 'CORREO HOME')->first();
             $direccionHome = ParametroGeneral::where('parametroGeneral', 'DIRECCION HOME')->first();
             $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
@@ -611,12 +637,14 @@ class InicioController extends Controller
             $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
             $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
             $rut = $request->rut;
-            return view('front-end.pago-online', compact('estadoPago', 'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 
+            return view('front-end.pago-online', compact('estadoPago', 'telefonoWhatsapp', 'telefonoWhatsapp2', 'telefonoWhatsapp3', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 
             'rut', 'invierteAqui'));
         }
         else
         {
             $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+            $telefonoWhatsapp2 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 2')->first();
+            $telefonoWhatsapp3 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 3')->first();
             $correoHome = ParametroGeneral::where('parametroGeneral', 'CORREO HOME')->first();
             $direccionHome = ParametroGeneral::where('parametroGeneral', 'DIRECCION HOME')->first();
             $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
@@ -626,7 +654,7 @@ class InicioController extends Controller
             $rut = '';
             $estadoPago = '';
         }
-        return view('front-end.pago-online', compact('estadoPago', 'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 
+        return view('front-end.pago-online', compact('estadoPago', 'telefonoWhatsapp', 'telefonoWhatsapp2', 'telefonoWhatsapp3', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 
         'rut', 'invierteAqui'));
     }
     public function pagarOnline(Request $request)
@@ -661,6 +689,8 @@ class InicioController extends Controller
             else
             {
                 $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+                $telefonoWhatsapp2 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 2')->first();
+                $telefonoWhatsapp3 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 3')->first();
                 $correoHome = ParametroGeneral::where('parametroGeneral', 'CORREO HOME')->first();
                 $direccionHome = ParametroGeneral::where('parametroGeneral', 'DIRECCION HOME')->first();
                 $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
@@ -669,13 +699,15 @@ class InicioController extends Controller
                 $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
                 $rut = '';
                 $estadoPago = '';
-                return view('front-end.pago-online', compact('estadoPago', 'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 
+                return view('front-end.pago-online', compact('estadoPago', 'telefonoWhatsapp', 'telefonoWhatsapp2', 'telefonoWhatsapp3', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 
                 'rut', 'invierteAqui'));
             }
         }
         else
         {
             $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+            $telefonoWhatsapp2 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 2')->first();
+            $telefonoWhatsapp3 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 3')->first();
             $correoHome = ParametroGeneral::where('parametroGeneral', 'CORREO HOME')->first();
             $direccionHome = ParametroGeneral::where('parametroGeneral', 'DIRECCION HOME')->first();
             $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
@@ -684,7 +716,7 @@ class InicioController extends Controller
             $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
             $rut = '';
             $estadoPago = '';
-            return view('front-end.pago-online', compact('estadoPago', 'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 
+            return view('front-end.pago-online', compact('estadoPago', 'telefonoWhatsapp', 'telefonoWhatsapp2', 'telefonoWhatsapp3', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 
             'rut', 'invierteAqui'));
         }
     }
@@ -697,6 +729,8 @@ class InicioController extends Controller
             ->where('idEstado', 47)
             ->first();
             $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+            $telefonoWhatsapp2 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 2')->first();
+            $telefonoWhatsapp3 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 3')->first();
             $correoHome = ParametroGeneral::where('parametroGeneral', 'CORREO HOME')->first();
             $direccionHome = ParametroGeneral::where('parametroGeneral', 'DIRECCION HOME')->first();
             $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
@@ -704,12 +738,14 @@ class InicioController extends Controller
             $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
             $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
             $rut = $request->rut;
-            return view('front-end.pago-online-reserva', compact('reserva', 'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 
+            return view('front-end.pago-online-reserva', compact('reserva', 'telefonoWhatsapp', 'telefonoWhatsapp2', 'telefonoWhatsapp3', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 
             'rut', 'invierteAqui'));
         }
         else
         {
             $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+            $telefonoWhatsapp2 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 2')->first();
+            $telefonoWhatsapp3 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 3')->first();
             $correoHome = ParametroGeneral::where('parametroGeneral', 'CORREO HOME')->first();
             $direccionHome = ParametroGeneral::where('parametroGeneral', 'DIRECCION HOME')->first();
             $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
@@ -719,7 +755,7 @@ class InicioController extends Controller
             $rut = '';
             $reserva = '';
         }
-        return view('front-end.pago-online-reserva', compact('reserva', 'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 
+        return view('front-end.pago-online-reserva', compact('reserva', 'telefonoWhatsapp', 'telefonoWhatsapp2', 'telefonoWhatsapp3', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 
         'rut', 'invierteAqui'));
     }
     public function pagarReservaOnline(Request $request)
@@ -739,6 +775,8 @@ class InicioController extends Controller
             else
             {
                 $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+                $telefonoWhatsapp2 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 2')->first();
+                $telefonoWhatsapp3 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 3')->first();
                 $correoHome = ParametroGeneral::where('parametroGeneral', 'CORREO HOME')->first();
                 $direccionHome = ParametroGeneral::where('parametroGeneral', 'DIRECCION HOME')->first();
                 $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
@@ -747,13 +785,15 @@ class InicioController extends Controller
                 $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
                 $rut = '';
                 $reserva = '';
-                return view('front-end.pago-online-reserva', compact('reserva', 'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 
+                return view('front-end.pago-online-reserva', compact('reserva', 'telefonoWhatsapp', 'telefonoWhatsapp2', 'telefonoWhatsapp3', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 
                 'instagram', 'rut', 'invierteAqui'));
             }
         }
         else
         {
             $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+            $telefonoWhatsapp2 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 2')->first();
+            $telefonoWhatsapp3 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 3')->first();
             $correoHome = ParametroGeneral::where('parametroGeneral', 'CORREO HOME')->first();
             $direccionHome = ParametroGeneral::where('parametroGeneral', 'DIRECCION HOME')->first();
             $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
@@ -762,13 +802,15 @@ class InicioController extends Controller
             $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
             $rut = '';
             $estadoPago = '';
-            return view('front-end.pago-online-reserva', compact('reserva', 'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 
+            return view('front-end.pago-online-reserva', compact('reserva', 'telefonoWhatsapp', 'telefonoWhatsapp2', 'telefonoWhatsapp3', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 
             'rut', 'invierteAqui'));
         }
     }
     public function proyectosEnVenta(Request $request)
     {
         $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+        $telefonoWhatsapp2 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 2')->first();
+        $telefonoWhatsapp3 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 3')->first();
         $correoHome = ParametroGeneral::where('parametroGeneral', 'CORREO HOME')->first();
         $direccionHome = ParametroGeneral::where('parametroGeneral', 'DIRECCION HOME')->first();
         $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
@@ -791,7 +833,7 @@ class InicioController extends Controller
         ->where('proyectos.idDestacado', 1)
         ->get();
         //$proyectosDestacados = [];
-        return view('front-end.inversiones', compact('telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 
+        return view('front-end.inversiones', compact('telefonoWhatsapp', 'telefonoWhatsapp2', 'telefonoWhatsapp3', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 
         'rentas', 'proyectosDestacados', 'proyectos', 'invierteAqui', 'valorUF'));
     }
     public function singleProyectos($id)
@@ -828,6 +870,8 @@ class InicioController extends Controller
         $fotosCercanas = FotoCercana::where('idProyecto', $id)->get();
         $rentas = RentaMensual::get();
         $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
+        $telefonoWhatsapp2 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 2')->first();
+        $telefonoWhatsapp3 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 3')->first();
         $correoHome = ParametroGeneral::where('parametroGeneral', 'CORREO HOME')->first();
         $direccionHome = ParametroGeneral::where('parametroGeneral', 'DIRECCION HOME')->first();
         $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
@@ -837,6 +881,6 @@ class InicioController extends Controller
         $valorUF = ParametroGeneral::where('parametroGeneral', 'VALOR UF MES')->first();
         $calcularDividendo = ParametroGeneral::where('parametroGeneral', 'CALCULAR DIVIDENDO')->first();
         return view('front-end.single-inversiones', compact('proyecto', 'amenidades', 'tipologias', 'fotos', 'fotosCercanas', 'otrosProyectos',
-        'telefonoWhatsapp', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'rentas', 'invierteAqui', 'valorUF', 'calcularDividendo'));
+        'telefonoWhatsapp', 'telefonoWhatsapp2', 'telefonoWhatsapp3', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'rentas', 'invierteAqui', 'valorUF', 'calcularDividendo'));
     }
 }
