@@ -21,6 +21,7 @@
         <link rel="stylesheet" href="/front/vendors/mapbox-gl/mapbox-gl.min.css">
         <!-- Themes core CSS -->
         <link rel="stylesheet" href="/front/css/themes.css">
+        <link rel="stylesheet" href="/front/css/btn-whatsapp.css">
         <!-- Favicons -->
         <link rel="icon" href="/front/favicon.ico">
         <!-- Google tag (gtag.js) -->
@@ -133,10 +134,55 @@
         @yield('css')
     </head>
     <body>
-        <a href="https://wa.me/{{ $telefonoWhatsapp->valorParametro}}?text=Hola,%20Estoy%20interesado%20en%20saber%20mas%20de%20el%20servicio" 
+        <!--<a href="https://wa.me/{{ $telefonoWhatsapp->valorParametro}}?text=Hola,%20Estoy%20interesado%20en%20saber%20mas%20de%20el%20servicio" 
             class="whatsapp" target="_blank"> 
             <i class="fab fa-whatsapp" style="margin-top: 9px; font-size: 40px;"></i>
+        </a>-->
+        <!---------------------------------------------INICIO NUEVO BOTON DE WHATSAPP ------------------------------------------------------------------->
+        <div id='whatsapp-chat' class='hide'>
+        <div class='header-chat'>
+        <div class='head-home'><h3 style="color:white !important">Bienvenido!</h3>
+        <p>Selecciona a unos de nuestros ejecutivos</p></div>
+        <div class='get-new hide'><div id='get-label'></div><div id='get-nama'></div></div></div>
+        <div class='home-chat'>
+        <!-- Info Contact Start -->
+        <a class='informasi' href="https://wa.me/{{ $telefonoWhatsapp->valorParametro }}?text=Hola,%20Estoy%20interesado%20en%20comprar%20una%20propiedad" title='Chat Whatsapp'>
+        <div class='info-avatar'>
+            <img src='/front/supportmale.png'/>
+        </div>
+        <div class='info-chat'>
+        <span class='chat-label'>Ventas</span>
+        <span class='chat-nama'>Ejecutivo de Ventas</span>
+        </div>
         </a>
+        <!-- Info Contact End -->
+        <!-- Info Contact Start -->
+        <a class='informasi' href="https://wa.me/{{ $telefonoWhatsapp2->valorParametro}}?text=Hola,%20Estoy%20interesado%20en%20arrendar%20una%20propiedad" title='Chat Whatsapp'>
+        <div class='info-avatar'><img src='/front/supportmale.png'/></div>
+        <div class='info-chat'>
+        <span class='chat-label'>Arriendos</span>
+        <span class='chat-nama'>Ejecutivo de Arriendos</span>
+        </div>
+        </a>
+        <!-- Info Contact End -->
+        <!-- Info Contact Start -->
+        <a class='informasi' href="https://wa.me/{{ $telefonoWhatsapp3->valorParametro}}" title='Chat Whatsapp'>
+        <div class='info-avatar'><img src='/front/supportfemale.png'/></div>
+        <div class='info-chat'>
+        <span class='chat-label'>Operaciones</span>
+        <span class='chat-nama'>Ejecutivo de Operaciones</span>
+        </div>
+        </a>
+        <!-- Info Contact End -->
+        <div class='blanter-msg'>O Envianos un correo a <b>contacto@propitech.cl</b></div></div>
+            <div class='start-chat hide'>
+                <div class='first-msg'><span>Hello! What can I do for you?</span></div>
+                <div class='blanter-msg'><textarea id='chat-input' placeholder='Write a response' maxlength='120' row='1'></textarea>
+                <a href='javascript:void;' id='send-it'>Send</a></div></div>
+                <div id='get-number'></div><a class='close-chat' href='javascript:void'>×</a>
+        </div>
+        <a class='blantershow-chat' href='javascript:void' title='Show Chat'><i class='fab fa-whatsapp'></i>¡CONTÁCTANOS!</a>
+        <!---------------------------------------------FIN NUEVO BOTON DE WHATSAPP ------------------------------------------------------------------->
         <header class="main-header navbar-dark bg-secondary pb-lg-9 header-sticky header-sticky-smart header-mobile-lg" style="padding-bottom: 0px !important">
         <div class="sticky-area bg-secondary">
             <div class="container">
@@ -307,8 +353,9 @@
                     <div class="lh-26 font-weight-500">
                     <p class="mb-0">{{ $direccionHome->valorParametro }}</p>
                     <a class="d-block text-muted hover-white" href="mailto:{{ $correoHome->valorParametro }} ">{{ $correoHome->valorParametro }}</a>
-                    <a class="d-block text-lighter font-weight-bold fs-15 hover-white"
-                            href="tel:{{ $telefonoWhatsapp->valorParametro }}">{{ $telefonoWhatsapp->valorParametro }}</a>
+                    <a class="d-block text-lighter font-weight-bold fs-15 hover-white" href="tel:{{ $telefonoWhatsapp->valorParametro }}">VENTAS - {{ $telefonoWhatsapp->valorParametro }}</a>
+                    <a class="d-block text-lighter font-weight-bold fs-15 hover-white" href="tel:{{ $telefonoWhatsapp2->valorParametro }}">ARRIENDOS - {{ $telefonoWhatsapp2->valorParametro }}</a>
+                    <a class="d-block text-lighter font-weight-bold fs-15 hover-white" href="tel:{{ $telefonoWhatsapp3->valorParametro }}">OPERACIONES - {{ $telefonoWhatsapp3->valorParametro }}</a>
                     <!--<a class="d-block text-muted hover-white" href=".">www.homeid.com</a>-->
                     </div>
                 </div>
@@ -474,6 +521,7 @@
         @yield('jss')
         <!-- Theme scripts -->
         <script src="/front/js/theme.js"></script>
+        <script src="/front/js/btn-whatsapp.js"></script>
         <svg aria-hidden="true" style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1"
             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
             <defs>
