@@ -271,15 +271,30 @@ class InicioController extends Controller
 
         if($request->tipoPropiedad)
         {
-            $propiedadesEnArriendo = Propiedad::select('propiedades.*', 'comuna.nombre as nombreComuna', 'provincia.nombre as nombreProvincia',
-            'region.nombre as nombreRegion')
-            ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
-            ->join('provincia', 'provincia.id', '=', 'propiedades.idProvincia')
-            ->join('region', 'region.id', '=', 'propiedades.idRegion')
-            ->where('propiedades.idEstado', 42)
-            ->where('propiedades.idTipoComercial', 2)
-            ->where('idTipoPropiedad', $request->tipoPropiedad)
-            ->get();
+            if($request->tipoPropiedad == 2)
+            {
+                $propiedadesEnArriendo = Propiedad::select('propiedades.*', 'comuna.nombre as nombreComuna', 'provincia.nombre as nombreProvincia',
+                'region.nombre as nombreRegion')
+                ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
+                ->join('provincia', 'provincia.id', '=', 'propiedades.idProvincia')
+                ->join('region', 'region.id', '=', 'propiedades.idRegion')
+                ->where('propiedades.idEstado', 42)
+                ->where('propiedades.idTipoComercial', 2)
+                ->whereIn('idTipoPropiedad', [2, 9])
+                ->get();
+            }
+            else
+            {
+                $propiedadesEnArriendo = Propiedad::select('propiedades.*', 'comuna.nombre as nombreComuna', 'provincia.nombre as nombreProvincia',
+                'region.nombre as nombreRegion')
+                ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
+                ->join('provincia', 'provincia.id', '=', 'propiedades.idProvincia')
+                ->join('region', 'region.id', '=', 'propiedades.idRegion')
+                ->where('propiedades.idEstado', 42)
+                ->where('propiedades.idTipoComercial', 2)
+                ->where('idTipoPropiedad', $request->tipoPropiedad)
+                ->get();
+            }
         }
         else
         {
@@ -327,15 +342,30 @@ class InicioController extends Controller
         $provincias = Provincia::get();
         if($request->tipoPropiedad)
         {
-            $propiedadesEnVenta = Propiedad::select('propiedades.*', 'comuna.nombre as nombreComuna', 'provincia.nombre as nombreProvincia',
-            'region.nombre as nombreRegion')
-            ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
-            ->join('provincia', 'provincia.id', '=', 'propiedades.idProvincia')
-            ->join('region', 'region.id', '=', 'propiedades.idRegion')
-            ->where('propiedades.idEstado', 42)
-            ->where('propiedades.idTipoComercial', 1)
-            ->where('idTipoPropiedad', $request->tipoPropiedad)
-            ->get(); //venta
+            if($request->tipoPropiedad == 2)
+            {
+                $propiedadesEnVenta = Propiedad::select('propiedades.*', 'comuna.nombre as nombreComuna', 'provincia.nombre as nombreProvincia',
+                'region.nombre as nombreRegion')
+                ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
+                ->join('provincia', 'provincia.id', '=', 'propiedades.idProvincia')
+                ->join('region', 'region.id', '=', 'propiedades.idRegion')
+                ->where('propiedades.idEstado', 42)
+                ->where('propiedades.idTipoComercial', 1)
+                ->whereIn('idTipoPropiedad', [2, 9])
+                ->get(); //venta
+            }
+            else
+            {
+                $propiedadesEnVenta = Propiedad::select('propiedades.*', 'comuna.nombre as nombreComuna', 'provincia.nombre as nombreProvincia',
+                'region.nombre as nombreRegion')
+                ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
+                ->join('provincia', 'provincia.id', '=', 'propiedades.idProvincia')
+                ->join('region', 'region.id', '=', 'propiedades.idRegion')
+                ->where('propiedades.idEstado', 42)
+                ->where('propiedades.idTipoComercial', 1)
+                ->where('idTipoPropiedad', $request->tipoPropiedad)
+                ->get(); //venta
+            }
         }
         else
         {
