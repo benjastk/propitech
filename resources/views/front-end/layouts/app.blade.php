@@ -344,7 +344,6 @@
                     <a class="d-block text-lighter font-weight-bold fs-15 hover-white" href="tel:{{ $telefonoWhatsapp->valorParametro }}">VENTAS - {{ $telefonoWhatsapp->valorParametro }}</a>
                     <a class="d-block text-lighter font-weight-bold fs-15 hover-white" href="tel:{{ $telefonoWhatsapp2->valorParametro }}">ARRIENDOS - {{ $telefonoWhatsapp2->valorParametro }}</a>
                     <a class="d-block text-lighter font-weight-bold fs-15 hover-white" href="tel:{{ $telefonoWhatsapp3->valorParametro }}">OPERACIONES - {{ $telefonoWhatsapp3->valorParametro }}</a>
-                    
                     <!--<a class="d-block text-muted hover-white" href=".">www.homeid.com</a>-->
                     </div>
                 </div>
