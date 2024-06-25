@@ -76,10 +76,7 @@
         @yield('css')
     </head>
     <body>
-        <!--<a href="https://wa.me/{{ $telefonoWhatsapp->valorParametro}}?text=Hola,%20Estoy%20interesado%20en%20saber%20mas%20de%20el%20servicio" 
-            class="whatsapp" target="_blank"> 
-            <i class="fab fa-whatsapp" style="margin-top: 9px; font-size: 40px;"></i>
-        </a>--->
+        @if($nuevo->valorParametro == 1)
         <!---------------------------------------------INICIO NUEVO BOTON DE WHATSAPP ------------------------------------------------------------------->
         <div id='whatsapp-chat' class='hide'>
         <div class='header-chat'>
@@ -125,6 +122,12 @@
         </div>
         <a class='blantershow-chat' href='javascript:void' title='Show Chat'><i class='fab fa-whatsapp'></i>¡CONTÁCTANOS!</a>
         <!---------------------------------------------FIN NUEVO BOTON DE WHATSAPP ------------------------------------------------------------------->
+        @else
+        <a href="https://wa.me/{{ $telefonoWhatsapp->valorParametro}}?text=Hola,%20Estoy%20interesado%20en%20saber%20mas%20de%20el%20servicio" 
+            class="whatsapp" target="_blank"> 
+            <i class="fab fa-whatsapp" style="margin-top: 9px; font-size: 40px;"></i>
+        </a>
+        @endif
         <header class="main-header position-absolute fixed-top m-0 header-sticky header-sticky-smart header-mobile-lg navbar-dark">
         <div class="sticky-area bg-secondary">
             <div class="container">
@@ -260,9 +263,13 @@
                     <div class="lh-26 font-weight-500">
                     <p class="mb-0">{{ $direccionHome->valorParametro }}</p>
                     <a class="d-block text-muted hover-white" href="mailto:{{ $correoHome->valorParametro }} ">{{ $correoHome->valorParametro }}</a>
+                    @if($nuevo->valorParametro == 1)
                     <a class="d-block text-lighter font-weight-bold fs-15 hover-white" href="tel:{{ $telefonoWhatsapp->valorParametro }}">VENTAS - {{ $telefonoWhatsapp->valorParametro }}</a>
                     <a class="d-block text-lighter font-weight-bold fs-15 hover-white" href="tel:{{ $telefonoWhatsapp2->valorParametro }}">ARRIENDOS - {{ $telefonoWhatsapp2->valorParametro }}</a>
                     <a class="d-block text-lighter font-weight-bold fs-15 hover-white" href="tel:{{ $telefonoWhatsapp3->valorParametro }}">OPERACIONES - {{ $telefonoWhatsapp3->valorParametro }}</a>
+                    @else
+                    <a class="d-block text-lighter font-weight-bold fs-15 hover-white" href="tel:{{ $telefonoWhatsapp->valorParametro }}">{{ $telefonoWhatsapp->valorParametro }}</a>
+                    @endif
                     <!--<a class="d-block text-muted hover-white" href=".">www.homeid.com</a>-->
                     </div>
                 </div>

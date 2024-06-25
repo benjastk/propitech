@@ -129,10 +129,7 @@
         @yield('css')
     </head>
     <body>
-        <!--<a href="https://wa.me/{{ $telefonoWhatsapp->valorParametro}}?text=Hola,%20Estoy%20interesado%20en%20saber%20mas%20de%20el%20servicio" 
-            class="whatsapp" target="_blank"> 
-            <i class="fab fa-whatsapp" style="margin-top: 9px; font-size: 40px;"></i>
-        </a>-->
+        @if($nuevo->valorParametro == 1)
         <!---------------------------------------------INICIO NUEVO BOTON DE WHATSAPP ------------------------------------------------------------------->
         <div id='whatsapp-chat' class='hide'>
         <div class='header-chat'>
@@ -178,6 +175,12 @@
         </div>
         <a class='blantershow-chat' href='javascript:void' title='Show Chat'><i class='fab fa-whatsapp'></i>¡CONTÁCTANOS!</a>
         <!---------------------------------------------FIN NUEVO BOTON DE WHATSAPP ------------------------------------------------------------------->
+        @else
+        <a href="https://wa.me/{{ $telefonoWhatsapp->valorParametro}}?text=Hola,%20Estoy%20interesado%20en%20saber%20mas%20de%20el%20servicio" 
+            class="whatsapp" target="_blank"> 
+            <i class="fab fa-whatsapp" style="margin-top: 9px; font-size: 40px;"></i>
+        </a>
+        @endif
         <header class="main-header navbar-dark position-absolute fixed-top m-0 header-sticky header-sticky-smart header-mobile-lg" style="padding-bottom: 0px !important;">
         <div class="sticky-area">
             <div class="container">
