@@ -15,6 +15,7 @@ class PropertiesExport implements FromCollection,WithHeadings, ShouldAutoSize
     public function headings(): array
     {
         return [
+            'ID',
             'NOMBRE PROPIEDAD',
             'TIPO PROPIEDAD',
             'PROYECTO ASIGNADO',
@@ -42,7 +43,7 @@ class PropertiesExport implements FromCollection,WithHeadings, ShouldAutoSize
     }
     public function collection()
     {
-        $propiedades = Propiedad::select('propiedades.nombrePropiedad', 'tipos_propiedades.nombreTipoPropiedad', 'propiedades.nombreEdificioComunidad', 
+        $propiedades = Propiedad::select('propiedades.id', 'propiedades.nombrePropiedad', 'tipos_propiedades.nombreTipoPropiedad', 'propiedades.nombreEdificioComunidad', 
         'tipos_comerciales.nombreTipoComercial', 'propiedades.direccion', 'propiedades.numero', 'propiedades.block', 'comuna.nombre as nombreComuna',
         'region.nombre as nombreRegion', 'provincia.nombre as nombreProvincia', 'propiedades.valorArriendo', 'propiedades.precio',
         'estadoPropiedad.nombreEstado', 'propiedades.habitacion', 'propiedades.bano', 'propiedades.usoGoceEstacionamiento', 'propiedades.usoGoceBodega',
