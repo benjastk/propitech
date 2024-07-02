@@ -53,6 +53,16 @@
                                     <li class="breadcrumb-item"><a href="javascript: void(0);">Contactos</a></li>
                                     <li class="breadcrumb-item active">Lista de usuarios</li>
                                 </ol>-->
+                                <div class="btn dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="far fa-file"></i>  Mandatos Demo <i class="mdi mdi-chevron-down"></i>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="/mandatos/demo/1">Raulí 5,6</a>
+                                        <a class="dropdown-item" href="/mandatos/demo/2">Araucaria 7,5</a>
+                                        <a class="dropdown-item" href="/mandatos/demo/3">Roble 9,5</a>
+                                    </div>
+                                </div>
                                 <a href="/mandatos/liquidacion-inversionista" class="btn btn-info waves-effect waves-light" style="margin-right: 10px">
                                     <i class="bx bx-money font-size-16 align-middle mr-2"></i> Liquidacion de Inversionista
                                 </a>

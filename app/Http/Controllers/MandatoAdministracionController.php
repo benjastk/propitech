@@ -431,6 +431,22 @@ class MandatoAdministracionController extends Controller
             return redirect('/mandatos');
         }
     }
+    public function imprimirMandatoDemo($id)
+    {
+        if($id == 1)
+        {
+            $pdf = \PDF::loadView('prints.mandatoDemo1');
+        }
+        elseif($id == 2)
+        {
+            $pdf = \PDF::loadView('prints.mandatoDemo2');
+        }
+        elseif($id == 3)
+        {
+            $pdf = \PDF::loadView('prints.mandatoDemo3');
+        }
+        return $pdf->download('mandato-demo.pdf');
+    }
     public function exportExcel()
     {
 		try {
