@@ -521,7 +521,7 @@ class IntegracionYapoController extends Controller
                 $response = curl_exec($curl);
                 curl_close($curl);
                 $responseDos = json_decode($response, true);
-                
+                return response()->json($responseDos);
                 if($responseDos['status'] == 200)
                 {
                     $propiedad = Propiedad::where('id', $id)->first();
