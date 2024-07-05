@@ -58,6 +58,7 @@ class MandatoAdministracion extends Model
         'conTraspaso',
         'mandatoMesVencido',
         'idPlan',
+        'isAqua',
         'created_at',
         'updated_at'
     ];

@@ -383,52 +383,61 @@ class MandatoAdministracionController extends Controller
         $comisionCorretajePalabras = NumerosEnLetras::convertir($mandatoAdministracion->comisionCorretaje,'',false,'');
         $porcentajeAdministracionPalabras = NumerosEnLetras::convertir(str_replace(',', '.', $mandatoAdministracion->comisionAdministracion),'coma', true,'');
         $diasEnPalabras = NumerosEnLetras::convertir($mandatoAdministracion->diaPago,'',false,'');
-        if($mandatoAdministracion->idPlan == 2)
+        if($mandatoAdministracion->isAqua == 1)
         {
-            $pdf = \PDF::loadView('prints.printMandatosAdministracion1', compact('mandatoAdministracion', 'comisionCorretajePalabras', 'porcentajeAdministracionPalabras',
-            'diasEnPalabras'));
-            return $pdf->download('mandato-administracion.pdf');
-        }
-        elseif($mandatoAdministracion->idPlan == 2)
-        {
-            $pdf = \PDF::loadView('prints.printMandatosAdministracion2', compact('mandatoAdministracion', 'comisionCorretajePalabras', 'porcentajeAdministracionPalabras',
-            'diasEnPalabras'));
-            return $pdf->download('mandato-administracion.pdf');
-        }
-        elseif($mandatoAdministracion->idPlan == 3)
-        {
-            $pdf = \PDF::loadView('prints.printMandatosAdministracion3', compact('mandatoAdministracion', 'comisionCorretajePalabras', 'porcentajeAdministracionPalabras',
-            'diasEnPalabras'));
-            return $pdf->download('mandato-administracion.pdf');
-        }
-        elseif($mandatoAdministracion->idPlan == 4)
-        {
-            $pdf = \PDF::loadView('prints.printMandatosAdministracion4', compact('mandatoAdministracion', 'comisionCorretajePalabras', 'porcentajeAdministracionPalabras',
-            'diasEnPalabras'));
-            return $pdf->download('mandato-administracion.pdf');
-        }
-        elseif($mandatoAdministracion->idPlan == 1)
-        {
-            $pdf = \PDF::loadView('prints.printMandatosAdministracion4', compact('mandatoAdministracion', 'comisionCorretajePalabras', 'porcentajeAdministracionPalabras',
-            'diasEnPalabras'));
-            return $pdf->download('mandato-administracion.pdf');
-        }
-        elseif($mandatoAdministracion->idPlan == 6)
-        {
-            $pdf = \PDF::loadView('prints.printMandatosAdministracion4', compact('mandatoAdministracion', 'comisionCorretajePalabras', 'porcentajeAdministracionPalabras',
-            'diasEnPalabras'));
-            return $pdf->download('mandato-administracion.pdf');
-        }
-        elseif($mandatoAdministracion->idPlan == 10)
-        {
-            $pdf = \PDF::loadView('prints.printMandatosAdministracion4', compact('mandatoAdministracion', 'comisionCorretajePalabras', 'porcentajeAdministracionPalabras',
-            'diasEnPalabras'));
-            return $pdf->download('mandato-administracion.pdf');
+            $pdf = \PDF::loadView('prints.printMandatosAdministracionAQUA', compact('mandatoAdministracion', 'comisionCorretajePalabras', 'porcentajeAdministracionPalabras',
+                'diasEnPalabras'));
+            return $pdf->download('mandato-administracion-especial.pdf');
         }
         else
         {
-            toastr()->error('No existe documento para imprimir Mandato, Favor contacte a Administrador');
-            return redirect('/mandatos');
+            if($mandatoAdministracion->idPlan == 2)
+            {
+                $pdf = \PDF::loadView('prints.printMandatosAdministracionAQUA', compact('mandatoAdministracion', 'comisionCorretajePalabras', 'porcentajeAdministracionPalabras',
+                'diasEnPalabras'));
+                return $pdf->download('mandato-administracion.pdf');
+            }
+            elseif($mandatoAdministracion->idPlan == 2)
+            {
+                $pdf = \PDF::loadView('prints.printMandatosAdministracion2', compact('mandatoAdministracion', 'comisionCorretajePalabras', 'porcentajeAdministracionPalabras',
+                'diasEnPalabras'));
+                return $pdf->download('mandato-administracion.pdf');
+            }
+            elseif($mandatoAdministracion->idPlan == 3)
+            {
+                $pdf = \PDF::loadView('prints.printMandatosAdministracion3', compact('mandatoAdministracion', 'comisionCorretajePalabras', 'porcentajeAdministracionPalabras',
+                'diasEnPalabras'));
+                return $pdf->download('mandato-administracion.pdf');
+            }
+            elseif($mandatoAdministracion->idPlan == 4)
+            {
+                $pdf = \PDF::loadView('prints.printMandatosAdministracion4', compact('mandatoAdministracion', 'comisionCorretajePalabras', 'porcentajeAdministracionPalabras',
+                'diasEnPalabras'));
+                return $pdf->download('mandato-administracion.pdf');
+            }
+            elseif($mandatoAdministracion->idPlan == 1)
+            {
+                $pdf = \PDF::loadView('prints.printMandatosAdministracion4', compact('mandatoAdministracion', 'comisionCorretajePalabras', 'porcentajeAdministracionPalabras',
+                'diasEnPalabras'));
+                return $pdf->download('mandato-administracion.pdf');
+            }
+            elseif($mandatoAdministracion->idPlan == 6)
+            {
+                $pdf = \PDF::loadView('prints.printMandatosAdministracion4', compact('mandatoAdministracion', 'comisionCorretajePalabras', 'porcentajeAdministracionPalabras',
+                'diasEnPalabras'));
+                return $pdf->download('mandato-administracion.pdf');
+            }
+            elseif($mandatoAdministracion->idPlan == 10)
+            {
+                $pdf = \PDF::loadView('prints.printMandatosAdministracion4', compact('mandatoAdministracion', 'comisionCorretajePalabras', 'porcentajeAdministracionPalabras',
+                'diasEnPalabras'));
+                return $pdf->download('mandato-administracion.pdf');
+            }
+            else
+            {
+                toastr()->error('No existe documento para imprimir Mandato, Favor contacte a Administrador');
+                return redirect('/mandatos');
+            }
         }
     }
     public function imprimirMandatoDemo($id)
