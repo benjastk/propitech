@@ -124,7 +124,7 @@
             mes de arriendo, m&aacute;s IVA;</li>
             <li><strong>Comisi&oacute;n por Administraci&oacute;n</strong>: <strong>pagos mensuales</strong> de un {{ $porcentajeAdministracionPalabras }} por ciento del 
             arriendo, m&aacute;s IVA, por concepto de administración del inmueble(es) materia de este contrato.</li>
-            <li><strong>Comisión por Venta: un monto del dos por ciento del valor de la propiedad más IVA.</li>
+            <li><strong>Comisión por Venta: un monto del cuatro por ciento del valor de la propiedad más IVA.</li>
             </ol>
             <p>&nbsp;</p>
             <p>El pago de la remuneraci&oacute;n por concepto de administración se efectuar&aacute; al<strong> MANDANTE </strong>dentro de los <strong>primeros {{ $diasEnPalabras }} d&iacute;as hábiles 
