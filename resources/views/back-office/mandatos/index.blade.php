@@ -110,6 +110,11 @@
                                                         <a href="#" class="badge badge-soft-primary font-size-11 m-1">{{ $mandato->nombreEstado }}</a>
                                                         @endif
                                                     </div>
+                                                    <div>
+                                                        @if($mandato->isAqua == 1)
+                                                        <a href="#" class="badge badge-soft-info font-size-11 m-1">AQUA</a>
+                                                        @endif
+                                                    </div>
                                                 </td>
                                                 <td>{{ $mandato->comisionAdministracion }}%</td>
                                                 <td>
