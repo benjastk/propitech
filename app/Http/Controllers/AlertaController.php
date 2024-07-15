@@ -154,9 +154,9 @@ class AlertaController extends Controller
         $var = $enviar['cliente']->messages->create( 'whatsapp:+56989583599',
             ['from' => 'whatsapp:'.$enviar['numero'], 
             'messagingServiceSid ' => 'MGd211ce449e9d2c3193f109fd199e1a3a', 
-            'body' => "¡Hola Benjamin👋!
+            'body' => "¡Estimado Benjamin👋!
 
-            Ya se encuentra disponible el pago de tu arriendo del mes de Agosto de 2024.
+            Recuerda que el pago de tu arriendo del mes de Agosto de 2024 ya venció. Evita generar más intereses.
             Para realizar el pago sólo debes hacer clic en el siguiente enlace👇:
             https://www.propitech.cl/pago-online
             
@@ -167,10 +167,11 @@ class AlertaController extends Controller
             * Al momento de realizar tu pago exitoso, recibirás tu comprobante automáticamente desde la casilla contacto@propitech.cl (recuerda revisar tu Spam)
             * Evita fraudes pagando directamente en nuestro link de pago y transferencias directas a nuestra empresa sin intermediarios
 
-            En caso de dudas o consultas puedes contactarnos directamente con tu ejecutivo o por el botón que se encuentra en nuestro sitio web.
+            En caso de dudas o consultas puedes contactarnos directamente con tu ejecutivo o por el botón que se encuentra en nuestro 
+            RECUERDA que este mensaje es automático y no se reciben respuestas a este chat.
 
             PROPITECH By Cirobu
-            Hacemos tu sueño realidad. "] 
+            Hacemos tu sueño realidad."] 
         );
         $nuevoLogCorreo = new LogCorreoEnviado();
         $nuevoLogCorreo->nombre_tipo_correo = 'ULTIMO DIA RECORDATORIO PAGO DE ARRIENDO POR WHATSAPP';
