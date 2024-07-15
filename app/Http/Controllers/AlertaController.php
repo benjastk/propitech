@@ -47,11 +47,14 @@ class AlertaController extends Controller
                             https://www.propitech.cl/pago-online
                             
                             1.- Digita tu rut sin puntos y con guion.
-                            2.- Aparecerá la deuda actual
+                            2.- Aparecerá tu deuda actual
                             3.- Se abrirá una nueva pestaña de nuestro proveedor otrospagos.com
-                            
+
+                            * Al momento de realizar tu pago exitoso, recibirás tu comprobante automáticamente desde la casilla contacto@propitech.cl (recuerda revisar tu Spam)
+                            * Evita fraudes pagando directamente en nuestro link de pago y transferencias directas a nuestra empresa sin intermediarios
+
                             En caso de dudas o consultas puedes contactarnos directamente con tu ejecutivo o por el botón que se encuentra en nuestro sitio web.
-                            
+
                             PROPITECH By Cirobu
                             Hacemos tu sueño realidad. "] 
                         );
@@ -95,16 +98,19 @@ class AlertaController extends Controller
                         'messagingServiceSid ' => 'MGd211ce449e9d2c3193f109fd199e1a3a', 
                         'body' => "¡Hola ".$estadoPago->name. "👋!
                         
-                        Recuerda que tu arriendo del mes de ".$mesPalabras." de ".$anioActual." vence hoy. Evita generar intereses
+                        Recuerda que el pago de tu arriendo del mes de ".$mesPalabras." de ".$anioActual." vence hoy. Evita generar intereses
                         Para realizar el pago sólo debes hacer clic en el siguiente enlace👇:
                         https://www.propitech.cl/pago-online
                         
                         1.- Digita tu rut sin puntos y con guion.
-                        2.- Aparecerá la deuda actual
+                        2.- Aparecerá tu deuda actual
                         3.- Se abrirá una nueva pestaña de nuestro proveedor otrospagos.com
-                        
+
+                        * Al momento de realizar tu pago exitoso, recibirás tu comprobante automáticamente desde la casilla contacto@propitech.cl (recuerda revisar tu Spam)
+                        * Evita fraudes pagando directamente en nuestro link de pago y transferencias directas a nuestra empresa sin intermediarios
+
                         En caso de dudas o consultas puedes contactarnos directamente con tu ejecutivo o por el botón que se encuentra en nuestro sitio web.
-                        
+
                         PROPITECH By Cirobu
                         Hacemos tu sueño realidad. "] 
                     );
@@ -119,7 +125,7 @@ class AlertaController extends Controller
     }
     public function pruebaMail()
     {
-        $fechaActual = date('Y-m-d');
+        /*$fechaActual = date('Y-m-d');
         $anioActual = date('Y');
         $mesActual = date('m');
         $diasAlerta1 = ParametroGeneral::where('parametroGeneral', '=', "ALERTA YA SE ENCUENTRA TU PAGO")->first();
@@ -140,10 +146,36 @@ class AlertaController extends Controller
                 $nuevoLogCorreo = new LogCorreoEnviado();
                 $nuevoLogCorreo->nombre_tipo_correo = 'RECORDATORIO PAGO DE ARRIENDO MANUAL';
                 $nuevoLogCorreo->usuario = 'URL MANUAL';
-                $nuevoLogCorreo->save();*/
+                $nuevoLogCorreo->save();
                 dd();
             }
-        }
+        }*/
+        $enviar = SMS::sendSMS();
+        $var = $enviar['cliente']->messages->create( 'whatsapp:+56989583599',
+            ['from' => 'whatsapp:'.$enviar['numero'], 
+            'messagingServiceSid ' => 'MGd211ce449e9d2c3193f109fd199e1a3a', 
+            'body' => "¡Hola Benjamin👋!
+            
+            Recuerda que el pago de tu arriendo del mes de Agosto de 2024 vence hoy. Evita generar intereses
+            Para realizar el pago sólo debes hacer clic en el siguiente enlace👇:
+            https://www.propitech.cl/pago-online
+            
+            1.- Digita tu rut sin puntos y con guion.
+            2.- Aparecerá tu deuda actual
+            3.- Se abrirá una nueva pestaña de nuestro proveedor otrospagos.com
+
+            * Al momento de realizar tu pago exitoso, recibirás tu comprobante automáticamente desde la casilla contacto@propitech.cl (recuerda revisar tu Spam)
+            * Evita fraudes pagando directamente en nuestro link de pago y transferencias directas a nuestra empresa sin intermediarios
+
+            En caso de dudas o consultas puedes contactarnos directamente con tu ejecutivo o por el botón que se encuentra en nuestro sitio web.
+
+            PROPITECH By Cirobu
+            Hacemos tu sueño realidad. "] 
+        );
+        $nuevoLogCorreo = new LogCorreoEnviado();
+        $nuevoLogCorreo->nombre_tipo_correo = 'ULTIMO DIA RECORDATORIO PAGO DE ARRIENDO POR WHATSAPP';
+        $nuevoLogCorreo->usuario = 'CRON AUTOMATIZADO - TELEFONO: 989583599';
+        $nuevoLogCorreo->save();
         return "listo";
     }
     public function mailPorCorreo(Request $request)
@@ -234,17 +266,20 @@ class AlertaController extends Controller
                                     'messagingServiceSid ' => 'MGd211ce449e9d2c3193f109fd199e1a3a', 
                                     'body' => "¡Estimado ".$estadoPago->name. "👋!
 
-                                    Recuerda que tu arriendo del mes de ".$mesPalabras." de ".$anioActual." ya venció. Evita generar más intereses.
+                                    Recuerda que el pago de tu arriendo del mes de ".$mesPalabras." de ".$anioActual." ya venció. Evita generar más intereses.
                                     Para realizar el pago sólo debes hacer clic en el siguiente enlace👇:
                                     https://www.propitech.cl/pago-online
                                     
                                     1.- Digita tu rut sin puntos y con guion.
-                                    2.- Aparecerá la deuda actual
+                                    2.- Aparecerá tu deuda actual
                                     3.- Se abrirá una nueva pestaña de nuestro proveedor otrospagos.com
-                                    
-                                    En caso de dudas o consultas puedes contactarnos directamente con tu ejecutivo o por el botón que se encuentra en nuestro sitio web.
-                                    Este mensaje es automático y no se reciben respuestas a este chat.
-                                    
+
+                                    * Al momento de realizar tu pago exitoso, recibirás tu comprobante automáticamente desde la casilla contacto@propitech.cl (recuerda revisar tu Spam)
+                                    * Evita fraudes pagando directamente en nuestro link de pago y transferencias directas a nuestra empresa sin intermediarios
+
+                                    En caso de dudas o consultas puedes contactarnos directamente con tu ejecutivo o por el botón que se encuentra en nuestro 
+                                    RECUERDA que este mensaje es automático y no se reciben respuestas a este chat.
+
                                     PROPITECH By Cirobu
                                     Hacemos tu sueño realidad."] 
                                 );
