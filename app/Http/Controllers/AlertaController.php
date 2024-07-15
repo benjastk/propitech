@@ -155,8 +155,8 @@ class AlertaController extends Controller
             ['from' => 'whatsapp:'.$enviar['numero'], 
             'messagingServiceSid ' => 'MGd211ce449e9d2c3193f109fd199e1a3a', 
             'body' => "¡Hola Benjamin👋!
-            
-            Recuerda que el pago de tu arriendo del mes de Agosto de 2024 vence hoy. Evita generar intereses
+
+            Ya se encuentra disponible el pago de tu arriendo del mes de Agosto de 2024.
             Para realizar el pago sólo debes hacer clic en el siguiente enlace👇:
             https://www.propitech.cl/pago-online
             
