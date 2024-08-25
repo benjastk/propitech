@@ -40,149 +40,193 @@
 </style>
 @endsection
 @section('content')
-    <div class="main-content">
-        <div class="page-content">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="page-title-box d-flex align-items-center justify-content-between">
-                            <h4 class="mb-0 font-size-18">Lista de Contratos de arriendo</h4>
-
-                            <div class="page-title-right">
-                                <a href="/contratos/export" class="btn btn-success waves-effect waves-light" style="margin-right: 10px">
-                                    <i class="far fa-file-excel"></i> Descargar Excel
-                                </a>
-                                <a href="/contratos/export-demo" class="btn btn-primary waves-effect waves-light" style="margin-right: 10px">
-                                    <i class="far fa-file"></i> Descargar DEMO
-                                </a>
-                                <!--<ol class="breadcrumb m-0">
-                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Contactos</a></li>
-                                    <li class="breadcrumb-item active">Lista de usuarios</li>
-                                </ol>
-                                <a href="/contratos/create" class="btn btn-info waves-effect waves-light" style="margin-right: 10px">
-                                    <i class="bx bx-user-plus font-size-16 align-middle mr-2"></i> Crear Contrato de arriendo
-                                </a>-->
-                            </div>
+<div class="main-content">
+    <div class="page-content">
+        <div class="container-fluid">
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-flex align-items-center justify-content-between">
+                        <h4 class="mb-0 font-size-18">PANEL DE VENTAS</h4>
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">VENTAS</a></li>
+                                <li class="breadcrumb-item active">PANEL DE VENTAS</li>
+                            </ol>
                         </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table id="tabla-ingresos" class="table table-centered table-hover">
-                                        <thead class="thead-light">
-                                            <tr>
-                                                <th scope="col">Fecha de contrato</th>
-                                                <th scope="col">Fecha de Termino</th>
-                                                <th scope="col" style="width: 100px; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;">Arrendatario</th>
-                                                <th scope="col" style="width: 100px; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;">Propiedad</th>
-                                                <th scope="col">Valor Mensual</th>
-                                                <th scope="col">Estado</th>
-                                                <!--<th scope="col">Nota</th>-->
-                                                <th scope="col">Acciones</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @php(setlocale(LC_TIME, 'spanish'))
-                                            @foreach($contratosArriendos as $contrato )
-                                            <tr>
-                                                <td>
-                                                    {{ strftime("%d de %B de %Y", strtotime($contrato->desde)) }}
-                                                </td>
-                                                <td>
-                                                    {{ strftime("%d de %B de %Y", strtotime($contrato->hasta)) }}
-                                                </td>
-                                                <td style="width: 100px; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;">{{ $contrato->nombreArrendatario }} {{ $contrato->apellidoArrendatario }}</td>
-                                                <td style="width: 100px; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;" >{{ $contrato->direccion }} {{ $contrato->numero }}
-                                                     @if($contrato->block) , Dpto. {{ $contrato->block }} @endif
-                                                </td>
-                                                <td>${{ number_format($contrato->arriendoMensual, 0, '', '.')}}</td>
-                                                <td>
-                                                    <div>
-                                                        @if($contrato->idEstado == 61)
-                                                        <a href="#" class="badge badge-soft-success font-size-11 m-1">{{ $contrato->nombreEstado }}</a>
-                                                        @elseif($contrato->idEstado == 62)
-                                                        <a href="#" class="badge badge-soft-danger font-size-11 m-1">{{ $contrato->nombreEstado }}</a>
-                                                        @else
-                                                        <a href="#" class="badge badge-soft-primary font-size-11 m-1">{{ $contrato->nombreEstado }}</a>
-                                                        @endif
-                                                    </div>
-                                                </td>
-                                                <!--<td>{{ $contrato->nota }}</td>-->
-                                                <td>
-                                                    <ul class="list-inline font-size-20 contact-links mb-0">
-                                                        <!--<li class="list-inline-item px-2">
-                                                            <a href="" data-toggle="tooltip" data-placement="top" title="Message"><i class="bx bx-message-square-dots"></i></a>
-                                                        </li>
-                                                        <li class="list-inline-item px-2">
-                                                            <a href="" data-toggle="tooltip" data-placement="top" title="Profile"><i class="bx bx-user-circle"></i></a>
-                                                        </li>-->
-                                                        <li class="list-inline-item">
-                                                            <form id="form1" action="{{ url('/contratos/reimpresionSalvoconductoArriendo') }}" method="post">
-                                                                {{ csrf_field() }}
-                                                                <input type="hidden" name="id" value="{{ $contrato->idContratoArriendo }}"/>
-                                                                <button style="border: 0px; background-color: transparent;" type="submit"><i class="bx bxs-file-doc" title="Imprimir Salvoconducto" ></i></button>
-                                                            </form>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <form id="form2" action="{{ url('/contratos/reimpresionContratoArriendo') }}" method="post">
-                                                                {{ csrf_field() }}
-                                                                <input type="hidden" name="id" value="{{ $contrato->idContratoArriendo }}"/>
-                                                                <button style="border: 0px; background-color: transparent;" type="submit"><i class="bx bxs-printer" title="Imprimir Contrato de Arriendo"></i></button>
-                                                            </form>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <a href="/estados-pagos/mostrar/{{ $contrato->idContratoArriendo }}" data-toggle="tooltip" data-placement="top" title="Estados de pago"><i class="bx bxs-dollar-circle"></i></a>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <a href="/contratos/edit/{{ $contrato->idContratoArriendo }}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bx bxs-edit-alt"></i></a>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <form id="form3" action="{{ url('/contratos/destroy') }}" method="post">
-                                                                {{ csrf_field() }}
-                                                                <input type="hidden" name="id" value="{{ $contrato->idContratoArriendo }}"/>
-                                                                <button style="border: 0px; background-color: transparent;" type="submit"><i class="bx bxs-trash-alt"></i></button>
-                                                            </form>
-                                                            <!--<a href="/contratos/edit/{{ $contrato->idContratoArriendo }}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bx bxs-trash-alt"></i></a>-->
-                                                        </li>
-                                                    </ul>
-                                                </td>
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div style="text-align:center">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> <!-- container-fluid -->
-        </div>
-        <!-- End Page-content -->
-        <footer class="footer">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <script>document.write(new Date().getFullYear())</script> © Propitech.
-                    </div>
-                    <div class="col-sm-6">
-                        <!--<div class="text-sm-right d-none d-sm-block">
-                            Design & Develop by Themesbrand
-                        </div>-->
                     </div>
                 </div>
             </div>
-        </footer>
+            <!-- end page title -->
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="dropdown float-right">
+                                <!--<a href="#" class="dropdown-toggle arrow-none" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="mdi mdi-dots-vertical m-0 text-muted h5"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="#">Edit</a>
+                                    <a class="dropdown-item" href="#">Delete</a>
+                                </div>-->
+                            </div> <!-- end dropdown -->
+                            <h4 class="card-title mb-4">ENTRANTES</h4>
+                            <div id="upcoming-task" class="pb-1 task-list">
+                                <div class="text-center">
+                                    <a href="/ventas/create" class="btn btn-primary btn-block mt-1 waves-effect waves-light"><i class="mdi mdi-plus mr-1"></i> Agregar nueva</a>
+                                </div>
+                                <br>
+                                @if($entrantes)
+                                @foreach($entrantes as $entrante)
+                                <div class="card task-box">
+                                    <div class="card-body">
+                                        <div class="float-right ml-2">
+                                            <span class="badge badge-pill badge-soft-secondary font-size-12">Entrante</span>
+                                            <br>
+                                            <a href="/ventas/edit/{{ $entrante->idVenta }}"><i class="bx bxs-edit-alt"></i></a>
+                                        </div>
+                                        <div>
+                                            <h5 class="font-size-15"><a href="javascript: void(0);" class="text-dark">{{ $entrante->direccion }} {{ $entrante->numero }} @if($entrante->block) Dpto. {{ $entrante->block }}@endif</a></h5>
+                                            <p class="text-muted mb-4">{{ strftime("%d-%m-%Y", strtotime( $entrante->fechaInicio )) }}</p>
+                                        </div>
+                                        <div class="team float-left">
+                                            {{ $entrante->name }} {{ $entrante->apellido }}
+                                        </div>
+                                        <div class="text-right">
+                                            <h5 class="font-size-15 mb-1">${{ number_format($entrante->precioVenta, 0, ",", ".") }}</h5>
+                                            <p class="mb-0 text-muted">Budget</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforeach
+                                @endif
+                                <!-- end task card -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end col -->
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="dropdown float-right">
+                                <!--<a href="#" class="dropdown-toggle arrow-none" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="mdi mdi-dots-vertical m-0 text-muted h5"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="#">Edit</a>
+                                    <a class="dropdown-item" href="#">Delete</a>
+                                </div>-->
+                            </div> <!-- end dropdown -->
+                            <h4 class="card-title mb-4">EN PROCESO</h4>
+                            <div id="inprogress-task" class="pb-1 task-list">
+                                <div class="text-center">
+                                    <a href="/ventas/create" class="btn btn-primary btn-block mt-1 waves-effect waves-light"><i class="mdi mdi-plus mr-1"></i> Agregar nueva</a>
+                                </div>
+                                <br>
+                                @if($enProgreso)
+                                @foreach($enProgreso as $enProgresos)
+                                <div class="card task-box">
+                                    <div class="card-body">
+                                        <div class="float-right ml-2">
+                                            <span class="badge badge-pill badge-soft-info font-size-12">En Progreso</span>
+                                            <br>
+                                            <a href="/ventas/edit/{{ $enProgresos->idVenta }}"><i class="bx bxs-edit-alt"></i></a>
+                                        </div>
+                                        <div>
+                                            <h5 class="font-size-15"><a href="javascript: void(0);" class="text-dark">{{ $enProgresos->direccion }} {{ $enProgresos->numero }} @if($enProgresos->block) Dpto. {{ $enProgresos->block }}@endif</a></h5>
+                                            <p class="text-muted mb-4">{{ strftime("%d-%m-%Y", strtotime( $enProgresos->fechaInicio )) }}</p>
+                                        </div>
+                                        <div class="team float-left">
+                                            {{ $enProgresos->name }} {{ $enProgresos->apellido }}
+                                        </div>
+                                        <div class="text-right">
+                                            <h5 class="font-size-15 mb-1">${{ number_format($enProgresos->precioVenta, 0, ",", ".") }}</h5>
+                                            <p class="mb-0 text-muted">Budget</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforeach
+                                @endif
+                                <!-- end task card -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end col -->
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="dropdown float-right">
+                                <!--<a href="#" class="dropdown-toggle arrow-none" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="mdi mdi-dots-vertical m-0 text-muted h5"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="#">Edit</a>
+                                    <a class="dropdown-item" href="#">Delete</a>
+                                </div>-->
+                            </div> <!-- end dropdown -->
+                            <h4 class="card-title mb-4">FINALIZADAS</h4>
+                            <div id="complete-task" class="pb-1 task-list">
+                                <div class="text-center">
+                                    <a href="/ventas/create" class="btn btn-primary btn-block mt-1 waves-effect waves-light"><i class="mdi mdi-plus mr-1"></i> Agregar nueva</a>
+                                </div>
+                                <br>
+                                @if($finalizadas)
+                                @foreach($finalizadas as $finalizada)
+                                <div class="card task-box">
+                                    <div class="card-body">
+                                        <div class="float-right ml-2">
+                                            <span class="badge badge-pill badge-soft-success font-size-12">Finalizada</span>
+                                            <br>
+                                            <a href="/ventas/edit/{{ $finalizada->idVenta }}"><i class="bx bxs-edit-alt"></i></a>
+                                        </div>
+                                        <div>
+                                            <h5 class="font-size-15"><a href="javascript: void(0);" class="text-dark">{{ $finalizada->direccion }} {{ $finalizada->numero }} @if($finalizada->block) Dpto. {{ $finalizada->block }}@endif</a></h5>
+                                            <p class="text-muted mb-4">{{ strftime("%d-%m-%Y", strtotime( $finalizada->fechaInicio )) }}</p>
+                                        </div>
+                                        <div class="team float-left">
+                                            {{ $finalizada->name }} {{ $finalizada->apellido }}
+                                        </div>
+                                        <div class="text-right">
+                                            <h5 class="font-size-15 mb-1">${{ number_format($finalizada->precioVenta, 0, ",", ".") }}</h5>
+                                            <p class="mb-0 text-muted">Budget</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforeach
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end col -->
+            </div>
+            <!-- end row -->
+        </div> <!-- container-fluid -->
     </div>
-    <!-- end main content-->
+    <!-- End Page-content -->
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    <script>document.write(new Date().getFullYear())</script> © Propitech.
+                </div>
+                <div class="col-sm-6">
+                    <div class="text-sm-right d-none d-sm-block">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
 @endsection
 @section('script')
 <script src="{{ url('js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ url('js/dataTables.bootstrap.min.js') }}"></script>
+<script src="{{ url('js/dragula/dragula.min.js') }}"></script>
+<script src="{{ url('js/pages/task-kanban.init.js') }}"></script>
 <script>
 	$(document).ready( function () {
 		$('#tabla-ingresos').DataTable( {
