@@ -1,4 +1,8 @@
 @extends('back-office.layouts.app')
+@section('css')
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+@endsection
 @section('content')
     <div class="main-content">
         <div class="page-content">
@@ -6,11 +10,11 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="page-title-box d-flex align-items-center justify-content-between">
-                            <h4 class="mb-0 font-size-18">Editar Contrato de arriendo</h4>
+                            <h4 class="mb-0 font-size-18">Editar Venta</h4>
                             <div class="page-title-right">
                                 <ol class="breadcrumb m-0">
-                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Contratos</a></li>
-                                    <li class="breadcrumb-item active">Editar Contrato de arriendo</li>
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Ventas</a></li>
+                                    <li class="breadcrumb-item active">Editar Venta</li>
                                 </ol>
                             </div>
                         </div>
@@ -19,9 +23,9 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="card">
-                            <form action="{{ url('/contratos/update/'.$contrato->idContratoArriendo) }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ url('/ventas/update/'.$venta->idVenta) }}" method="POST" enctype="multipart/form-data">
                                 {{ csrf_field() }}
-                                @include('back-office.contratos.form')
+                                @include('back-office.ventas.form')
                             </form>
                         </div>
                     </div>
@@ -43,146 +47,113 @@
     </div>
 @endsection
 @section('script')
-<script>
-  $(document).ready(function(){
-        @if( $contrato->rutCodeudor )
-        if({{ $contrato->rutCodeudor }})
-        {
-            document.getElementById("formularioCodeudor").style.display = "inline";
-            $('#codeudor').prop('checked', true);
-        }
-        @endif
-        if({{ $contrato->reajustePesos }} > 0)
-        {
-            $('#elegirReajuste').val(2)
-            document.getElementById("reajustePesos").style.display = "inline";
-            document.getElementById("reajustePorcentaje").style.display = "none";
-            document.getElementById("antesDeReajuste").style.display = "none";
-        }
-        else
-        {
-            $('#elegirReajuste').val(1)
-            document.getElementById("reajustePesos").style.display = "none";
-            document.getElementById("reajustePorcentaje").style.display = "inline";
-            document.getElementById("antesDeReajuste").style.display = "none";
-        }
-        $("#rutArrendatario").change(function(){
-            var rut = $(this).val();
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.js-example-basic-multiple').select2({});
+        });
+        $('#summernote').summernote({
+            placeholder: '',
+            tabsize: 2,
+            height: 200,
+            dialogsInBody: true,
+            dialogsFade: true,
+            toolbar: [
+                // [groupName, [list of button]]
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['font', ['strikethrough', 'superscript', 'subscript']],
+                ['fontsize', ['fontsize']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['picture', ['picture']],
+                ['table', ['table']]
+            ]
+        });
+    </script>
+    <script>
+        $(document).ready(function(){
+            $("#idPropiedad").change(function(){
+                var idPropiedad = $("#idPropiedad").val();        
+                $.ajax({
+                    type: "GET",
+                    url : "{{url('api/getPropiedad')}}",
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    dataType: 'json',
+                    data : { 'id' : idPropiedad },
+                    success : function(respuesta)
+                    {
+                        document.getElementById("direccion").value = respuesta['direccion'];
+                        document.getElementById("numero").value = respuesta['numero'];
+                        document.getElementById("departamento").value = respuesta['block'];
+                        document.getElementById("idPais").value = respuesta['idPais'];
+                        document.getElementById("idProvincia").value = respuesta['idProvincia'];
+                        document.getElementById("idRegion").value = respuesta['idRegion'];
+                        document.getElementById("idComuna").value = respuesta['idComuna'];
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        /*$("#idPais").change(function(){
+            var idPais = $("#idPais").val();          
             $.ajax({
-                url: '/api/buscarUsuario',
-                method:'POST',
+                type: "GET",
+                url : "{{url('api/getRegion')}}",
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
                 dataType: 'json',
-                data:     { data: rut },
-                success: function (respuesta) {
-                    console.log(respuesta);
-                    document.getElementById("nombreArrendatario").value = respuesta['name'];
-                    document.getElementById("apellidoArrendatario").value = respuesta['apellido'];
-                    document.getElementById("correoArrendatario").value = respuesta['email'];
-                    document.getElementById("numeroTelefonoArrendatario").value = respuesta['telefono'];
-                    document.getElementById("nacionalidadArrendatario").value = respuesta['nacionalidad'];
-                    document.getElementById("estadoCivilArrendatario").value = respuesta['estadoCivil'];
-                    document.getElementById("direccionArrendatario").value = respuesta['direccion'];
-                    document.getElementById("nombreComunaArrendatario").value = respuesta['nombreComuna'];
-                    document.getElementById("nombreRegionArrendatario").value = respuesta['nombreRegion'];
-                },
-                error: function(err) {
-                    alert("Usuario no encontrado");
+                data : { 'id' : idPais},
+                success : function(respuesta){
+                    var select_region = '<option value="">Seleccione Region</option>'
+                    for (var i=0; i<respuesta.length;i++){
+                        select_region+='<option value="'+respuesta[i].id +'">'+respuesta[i].nombre+'</option>';
+                    }
+                    $("#idRegion").html(select_region);
                 }
             });
         });
-    });
-</script>
-<script>
-  $(document).ready(function(){
-        $("#rutPropietario").change(function(){
-        var rut = $(this).val();
-        $.ajax({
-            url: '/api/buscarUsuario',
-            method:'POST',
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-              },
-            dataType: 'json',
-            data:     { data: rut },
-            success: function (respuesta) {
-                console.log(respuesta);
-                document.getElementById("nombrePropietario").value = respuesta['name'];
-                document.getElementById("apellidoPropietario").value = respuesta['apellido'];
-                document.getElementById("correoPropietario").value = respuesta['email'];
-                document.getElementById("numeroPropietario").value = respuesta['telefono'];
-                document.getElementById("direccionPropietario").value = respuesta['direccion'];
-            },
-            error: function(err) {
-                alert("Usuario no encontrado");
-            }
+        $("#idRegion").change(function(){
+            var idRegion = $("#idRegion").val();          
+            $.ajax({
+                type: "GET",
+                url : "{{url('api/getProvincia')}}",
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                dataType: 'json',
+                data : { 'id' : idRegion},
+                success : function(respuesta){
+                    var select_provincia = '<option value="">Seleccione Provincia</option>'
+                    for (var i=0; i<respuesta.length;i++){
+                        select_provincia+='<option value="'+respuesta[i].id +'">'+respuesta[i].nombre+'</option>';
+                    }
+                    $("#idProvincia").html(select_provincia);
+                }
+            });
         });
-        });
-    });
-</script>
-<script>
-  $(document).ready(function(){
-        $("#rutCodeudor").change(function(){
-        var rut = $(this).val();
-        $.ajax({
-            url: '/api/buscarUsuario',
-            method:'POST',
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-              },
-            dataType: 'json',
-            data:     { data: rut },
-            success: function (respuesta) {
-                console.log(respuesta);
-                document.getElementById("nombreCodeudor").value = respuesta['name'];
-                document.getElementById("apellidoCodeudor").value = respuesta['apellido'];
-                document.getElementById("correoCodeudor").value = respuesta['email'];
-                document.getElementById("telefonoCodeudor").value = respuesta['telefono'];
-                document.getElementById("direccionCodeudor").value = respuesta['direccion'];
-                document.getElementById("nacionalidadCodeudor").value = respuesta['nacionalidad'];
-            },
-            error: function(err) {
-                alert("Usuario no encontrado");
-            }
-        });
-        });
-    });
-</script>
-<script type="text/javascript">
-    $('input[type="checkbox"][name="codeudor"]').change(function() {
-        if(this.checked) {
-            document.getElementById("formularioCodeudor").style.display = "inline";
-        }else{
-            document.getElementById("formularioCodeudor").style.display = "none";
-            document.getElementById("rutCodeudor").value = "";
-            document.getElementById("nombreCodeudor").value = "";
-            document.getElementById("apellidoCodeudor").value = "";
-            document.getElementById("correoCodeudor").value = "";
-            document.getElementById("telefonoCodeudor").value = "";
-            document.getElementById("direccionCodeudor").value = "";
-            document.getElementById("nacionalidadCodeudor").value = "";
-        }
-    });
-    $('#elegirReajuste').change(function() {
-        if(this.value == 1) {
-            document.getElementById("reajustePesos").style.display = "none";
-            document.getElementById("reajustePorcentaje").style.display = "inline";
-            document.getElementById("antesDeReajuste").style.display = "none";
-        }
-        else if(this.value == 2)
-        {
-            document.getElementById("reajustePesos").style.display = "inline";
-            document.getElementById("reajustePorcentaje").style.display = "none";
-            document.getElementById("antesDeReajuste").style.display = "none";
-        }
-        else
-        {
-            document.getElementById("reajustePesos").style.display = "none";
-            document.getElementById("reajustePorcentaje").style.display = "none";
-            document.getElementById("antesDeReajuste").style.display = "inline";
-        }
-    });
-</script>
+        $("#idProvincia").change(function(){
+            var idProvincia = $("#idProvincia").val();          
+            $.ajax({
+                type: "GET",
+                url : "{{url('api/getComuna')}}",
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                dataType: 'json',
+                data : { 'id' : idProvincia},
+                success : function(respuesta){
+                    var select_comuna = '<option value="">Seleccione Comuna</option>'
+                    for (var i=0; i<respuesta.length;i++){
+                        select_comuna+='<option value="'+respuesta[i].id +'">'+respuesta[i].nombre+'</option>';
+                    }
+                    $("#idComuna").html(select_comuna);
+                }
+            });
+        });*/
+    </script>
 @endsection
