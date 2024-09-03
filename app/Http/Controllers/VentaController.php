@@ -46,7 +46,7 @@ class VentaController extends Controller
         ->leftjoin('users', 'users.id', '=', 'ventas_propiedades.idUsuarioVendedor')
         ->where('ventas_propiedades.idEstado', 60)
         ->get();
-        return view ('back-office.ventas.index', compact('user', 'entrantes', 'enProgreso', 'finalizadas'));
+        return view ('back-office.ventas.indexFinal', compact('user', 'entrantes', 'enProgreso', 'finalizadas'));
     }
 
     /**
