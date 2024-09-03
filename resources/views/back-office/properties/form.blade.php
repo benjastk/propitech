@@ -618,6 +618,17 @@
     </div>
     <br>
     <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <label>Correo Administracion</label>
+            @if(!isset($propiedad->correoPropiedad))
+                <input type="text" name="correoPropiedad" value="{{old('correoPropiedad')}}" class="form-control" placeholder="Correo Administracion" >
+            @else
+                <input type="text" name="correoPropiedad" value="{{ $propiedad->correoPropiedad }}" class="form-control" placeholder="Correo Administracion" >
+            @endif
+        </div>
+    </div>
+    <br>
+    <div class="row">
         <div class="col-12" style="text-align:center">
             <a href="/properties" class="btn btn-danger waves-effect waves-light" style="margin-right: 10px">
                 <i class="bx bx-arrow-back font-size-16 align-middle mr-2"></i> Volver

@@ -99,6 +99,7 @@ class Propiedad extends Model
         'idBuyDepa',
         'skuBuyDepa',
         'marcaDeAgua',
+        'correoPropiedad',
         'created_at',
         'updated_at'
     ];
