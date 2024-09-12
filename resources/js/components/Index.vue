@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="text-center px-3" style="background-color: rgb(208 226 120);padding: 20px;border-radius: 7px;">
+            <div class="text-center px-3" style="background-color: rgb(233 230 4);padding: 20px;border-radius: 7px;">
                 <h4 class="mb-2 text-gray-700 font-semibold font-sans tracking-wide">EN PROCESO</h4>
                 <draggable id="proceso" tag="ul" group="all-users" class="draggable-list" ghost-class="moving-card" filter=".action-button" :list="ventasProceso" :animation="200" :move="checkMove">
                     <user-card v-for="venta in ventasProceso" :venta="venta" :key="venta.id" @on-edit="onEdit" @on-delete="onDelete" ></user-card>

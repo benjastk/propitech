@@ -44,7 +44,13 @@
                 <li>
                     <a href="/mandatos" class="waves-effect">
                         <i class="bx bxs-home-circle"></i>
-                        <span>Mandatos de Administracion</span>
+                        <span>Mandatos Propiedades</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/ventas" class="waves-effect">
+                        <i class="bx bxs-pen"></i>
+                        <span>Ventas de propiedades</span>
                     </a>
                 </li>
                 <li>
