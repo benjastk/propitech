@@ -13,6 +13,7 @@ class VentaController extends Controller
         {
             $entrantes = Venta::select('ventas_propiedades.*', 'users.name', 'users.apellido', 'users.avatarImg')
             ->leftjoin('users', 'users.id', '=', 'ventas_propiedades.idUsuarioVendedor')
+            ->where('ventas_propiedades.eliminado', 0)
             ->get();
             return response()->json($entrantes);
         } catch (QueryException $e) {
