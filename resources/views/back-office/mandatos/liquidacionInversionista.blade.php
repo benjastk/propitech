@@ -402,6 +402,28 @@
             </div>
             @endforeach
         @endif
+        <div class="modal fade" id="validar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">VALIDAR PAGOS</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" action="{{ route('validarPagosMandatos') }}" >
+                        @csrf
+                        <strong style="color: red">*Al validar la informacion, se procedera a enviar los pagos correspondientes</strong>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-success">VALIDAR</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- End Page-content -->
         <footer class="footer">
             <div class="container-fluid">
