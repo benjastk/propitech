@@ -191,6 +191,14 @@ Route::prefix('estados-pagos')->group(function () {
     Route::post('/pagos/deletePago', 'EstadoPagoController@deletePago');
     Route::post('/pago-manual-reserva', 'EstadoPagoController@pagoReserva')->name('pagoManualReserva');
 });
+Route::prefix('ventas')->group(function () {
+    Route::get('/', 'VentaController@index');
+    Route::get('/create', 'VentaController@create');
+    Route::post('/store', 'VentaController@store');
+    Route::get('/edit/{venta}', 'VentaController@edit');
+    Route::post('/update/{venta}', 'VentaController@update');
+    Route::post('/destroy', 'VentaController@destroy');
+});
 Route::prefix('parametros')->group(function () {
     Route::get('/', 'ParametrosGeneralesController@index');
     Route::get('/edit/{parametro}', 'ParametrosGeneralesController@edit');
