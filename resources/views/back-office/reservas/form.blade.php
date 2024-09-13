@@ -166,6 +166,9 @@
                     <select name="idRegion" id="idRegion" class="form-control" required >
                     @if(!isset($reserva->idRegion))
                         <option value="" >Region</option>
+                        @foreach ($regiones as $region)
+                            <option value="{{ $region->id }}" >{{ $region->nombre}}</option>
+                        @endforeach
                     @else
                         @foreach ($regiones as $region)
                             <option value="{{ $region->id }}" {{ ($region->id == $reserva->idRegion) ? 'selected' : ''}}>{{ $region->nombre}}</option>
@@ -182,6 +185,9 @@
                     <select name="idProvincia" id="idProvincia" class="form-control" required>
                         @if(!isset($reserva->idProvincia))
                             <option value="" >Provincia</option>
+                            @foreach ($provincias as $provincia)
+                                <option value="{{ $provincia->id }}" >{{ $provincia->nombre}}</option>
+                            @endforeach
                         @else
                             @foreach ($provincias as $provincia)
                                 <option value="{{ $provincia->id }}" {{ ($provincia->id == $reserva->idProvincia) ? 'selected' : ''}}>{{ $provincia->nombre}}</option>
@@ -198,6 +204,9 @@
                     <select name="idComuna" id="idComuna" class="form-control" required>
                         @if(!isset($reserva->idComuna))
                             <option value="" >Comuna</option>
+                            @foreach ($comunas as $comuna)
+                                <option value="{{ $comuna->id }}" >{{ $comuna->nombre}}</option>
+                            @endforeach
                         @else
                             @foreach ($comunas as $comuna)
                                 <option value="{{ $comuna->id }}" {{ ($comuna->id == $reserva->idComuna) ? 'selected' : ''}}>{{ $comuna->nombre}}</option>
