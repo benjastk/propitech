@@ -108,6 +108,7 @@
                                                                 <input type="hidden" name="idPago" value="{{ $pago->idPago }}"/>
                                                                 <button style="border: 0px; background-color: white;" type="submit"><i class="bx bxs-trash-alt"></i></button>
                                                             </form>
+                                                            <a href="/estados-pagos/pagos/print/{{ $pago->idPago }}/{{ $estadoPago->idEstadoPago }}" data-toggle="tooltip" data-placement="top" title="Imprimir"><i class="bx bxs-printer"></i></a>
                                                             <!--<a href="/planes/edit/{{ $estadoPago->idEstadoPago }}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bx bxs-trash-alt"></i></a>-->
                                                         </li>
                                                     </ul>

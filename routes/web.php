@@ -190,6 +190,8 @@ Route::prefix('estados-pagos')->group(function () {
     Route::post('/pago-manual-index', 'EstadoPagoController@pagoManualDesdeIndex')->name('pagoManualIndex');
     Route::post('/pagos/deletePago', 'EstadoPagoController@deletePago');
     Route::post('/pago-manual-reserva', 'EstadoPagoController@pagoReserva')->name('pagoManualReserva');
+
+    Route::get('/pagos/print/{id}/{estadoPago}', 'EstadoPagoController@printPago');
 });
 Route::prefix('ventas')->group(function () {
     Route::get('/', 'VentaController@index');
