@@ -412,7 +412,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form method="POST" action="{{ route('validarPagosMandatos') }}" >
+                        <form method="POST" >
                         @csrf
                         <strong style="color: red">*Al validar la informacion, se procedera a enviar los pagos correspondientes</strong>
                     </div>
