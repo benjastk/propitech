@@ -359,7 +359,7 @@
         <script src="/libs/node-waves/waves.min.js"></script>
 
         <!-- App js -->
-        <script src="/js/app.js"></script>
+        <script src="/js/app2.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/i18n/es.js"></script>
         @jquery
