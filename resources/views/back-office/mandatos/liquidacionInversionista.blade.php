@@ -412,13 +412,14 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form method="POST" >
-                        @csrf
-                        <strong style="color: red">*Al validar la informacion, se procedera a enviar los pagos correspondientes</strong>
+                        <strong style="color: red">*Al validar la informacion, se marcaran como pagos validados.</strong>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-success">VALIDAR</button>
+                        <form method="POST" action="{{ url('/mandatos/validarPagosMandatos') }}" >
+                        @csrf
+                            <input type="hidden" name="pagosAenviar" id="pagosAenviar" >
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-success">VALIDAR</button>
                         </form>
                     </div>
                 </div>
@@ -450,7 +451,18 @@
 		$('#tabla-ingresos').DataTable( {
 			"order": [[ 0, "desc" ]]
 		});
-	} );
+        /*$(".check").on('click', function(event){
+            console.log(event.target.value);
+        });*/
+        $("#validar").click(function(event){
+            var checked = []
+            $("input[name='pagos[]']:checked").each(function ()
+            {
+                checked.push(parseInt($(this).val()));
+            });
+            $('#pagosAenviar').val(checked);
+        });
+	});
 </script>
 @endsection
         
