@@ -1438,4 +1438,36 @@ class MandatoAdministracionController extends Controller
 			return back();
 		}
     }
+    public function validarPagosMandatos(Request $request)
+    {
+        try {
+            if($request->pagosAenviar)
+            {
+                $ids = explode(',', $request->pagosAenviar);
+                foreach ($ids as $pago) 
+                {
+                    $validar = EstadosPagosMandatarios::where('idEstadoPagoMandato', '=', $pago)->first();
+                    $validar->idEstado = 69;
+                    $validar->fechaLiquidado = date("Y-m-d");;
+                    $validar->save();
+                }
+                toastr()->success('Pagos Validados Correctamente', 'Operacion exitosa');
+                return back();
+            }
+            else
+            {
+                toastr()->error('No hay pagos seleccionados', 'Operacion fallida');
+                return back();
+            }
+		} catch (QueryException $e) {
+			toastr()->error($e->getMessage());
+			return back();
+		} catch (ModelNotFoundException $e) {
+			toastr()->error('Se ha producido un error, favor intente nuevamente', 'Operacion fallida');
+			return back();
+		} catch (Exception $e) {
+			toastr()->error('Se ha producido un error, favor intente nuevamente', 'Operacion fallida');
+			return back();
+		}
+    }
 }
