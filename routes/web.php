@@ -161,6 +161,7 @@ Route::prefix('mandatos')->group(function () {
     Route::post('/reimpresionMandatoAdministracion', 'MandatoAdministracionController@imprimirMandatoAdministracion');
     Route::get('/export', 'MandatoAdministracionController@exportExcel')->name('export-mandatos');
     Route::get('/demo/{id}', 'MandatoAdministracionController@imprimirMandatoDemo');
+    Route::post('/validarPagosMandatos', 'MandatoAdministracionController@validarPagosMandatos');
 
     Route::get('/liquidacion-inversionista', 'MandatoAdministracionController@liquidacionInversionista');
     Route::get('buscarPagosMandatosMes', 'MandatoAdministracionController@buscarPagosMandatosMes')->name('buscarPagosMandatosMes');
