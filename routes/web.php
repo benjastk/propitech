@@ -64,6 +64,7 @@ Route::get('/mailPorCorreo', 'AlertaController@mailPorCorreo');
 Route::get('/sanitizarTexto', 'PropertyController@sanitizarDescripciones');
 Route::get('/agregarPorcentajeAMorosos', 'EstadoPagoController@agregarPorcentajeAMorosos');
 Route::get('/recordarPagoWhatsapp', 'AlertaController@recordarPagoWhatsapp');
+Route::get('/recordarPagoWhatsappMes', 'AlertaController@recordarPagoArrendatariosMensual');
 Route::prefix('users')->group(function () {
     Route::get('/', 'UserController@index')->name('users');
     Route::get('/create', 'UserController@create');
