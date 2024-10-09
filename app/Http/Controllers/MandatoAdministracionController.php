@@ -1305,6 +1305,7 @@ class MandatoAdministracionController extends Controller
             $estadoPago->montoALiquidarPropietario = $request->montoALiquidarPropietario;
             $estadoPago->editadoManual = 1;
             $estadoPago->idEstado = $request->idEstado;
+            $estadoPago->comisionCorretaje = $request->comisionCorretaje;
             $estadoPago->fechaLiquidado = $request->fechaLiquidado;
             $estadoPago->save();
             DB::commit();
