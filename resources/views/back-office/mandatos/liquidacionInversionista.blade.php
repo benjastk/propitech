@@ -191,7 +191,7 @@
                                                 <th>Garantia</th>
                                                 <th>Monto Pagado</th>
                                                 <th>Comision</th>
-                                                <th>Comision %</th>
+                                                <th>%</th>
                                                 <th>Saldos a favor</th>
                                                 <th>Comision de Corretaje</th>
                                                 <!--<th>Seguro de arriendo</th>-->
@@ -323,6 +323,14 @@
                                 </div>
                                 <div class="form-group col-lg-8 col-md-8 col-sm-8">
                                     <input type="text" class="form-control" name="montoComision" value="{{$estadoPagoModal->montoComision}}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-lg-4 col-md-4 col-sm-4">
+                                    <label>Comision Corretaje</label>
+                                </div>
+                                <div class="form-group col-lg-8 col-md-8 col-sm-8">
+                                    <input type="text" class="form-control" name="comisionCorretaje" value="{{$estadoPagoModal->comisionCorretaje}}">
                                 </div>
                             </div>
                             <div class="row">
