@@ -55,11 +55,11 @@ class IntegracionPortalController extends Controller
             $user = User::where('id', 1)->first();
             if($user)
             {
-                $user->tokenPortal = $responseDos->access_token;
-                $user->tokenType = $responseDos->token_type;
-                $user->tiempoSesionPortal = $responseDos->expires_in;
-                $user->userIDPortal = $responseDos->user_id;
-                $user->refreshTokenPortal = $responseDos->refresh_token;
+                $user->tokenPortal = $responseDos['access_token'];
+                $user->tokenType = $responseDos['token_type'];
+                $user->tiempoSesionPortal = $responseDos['expires_in'];
+                $user->userIDPortal = $responseDos['user_id'];
+                $user->refreshTokenPortal = $responseDos['refresh_token'];
                 $user->save();
             }
             toastr()->success('Sesion inicidada correctamente en PORTALINMOBILIARIO', 'Operacion exitosa');
