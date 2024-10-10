@@ -47,6 +47,7 @@ Route::get('/yapo/auth', 'Api\IntegracionYapoController@auth');
 Route::get('/yapo/sync', 'Api\IntegracionYapoController@integracionMasivaYapoCL');
 Route::get('/yapo/prueba', 'Api\IntegracionYapoController@prueba');
 
+Route::get('/portalinmobiliario/redirect', 'Api\IntegracionPortalController@redirect');
 Route::get('/portalinmobiliario/auth', 'Api\IntegracionPortalController@auth');
 
 Route::get('indexVentas','Api\VentaController@indexVentas');
