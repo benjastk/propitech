@@ -33,6 +33,7 @@ class Kernel extends ConsoleKernel
         $schedule->call('App\Http\Controllers\AlertaController@ultimoDiaParaPagar')->dailyAt('11:00');
         $schedule->call('App\Http\Controllers\Api\BuyDepaIntegracionController@sincronizeProperties')->dailyAt('09:00');
         $schedule->call('App\Http\Controllers\Api\IntegracionYapoController@refreshToken')->everyFourHours();
+        $schedule->call('App\Http\Controllers\Api\IntegracionPortalController@refreshToken')->everyFourHours();
         //$schedule->call('App\Http\Controllers\AlertaController@pruebaMail')->dailyAt('13:45');
     }
 
