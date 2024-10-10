@@ -52,7 +52,7 @@ class IntegracionPortalController extends Controller
             $response = curl_exec($curl);
             curl_close($curl);
             $responseDos = json_decode($response, true);
-            $user = User::where('id', 1)->first();
+            /*$user = User::where('id', 1)->first();
             if($user)
             {
                 $user->tokenPortal = $responseDos['access_token'];
@@ -63,8 +63,8 @@ class IntegracionPortalController extends Controller
                 $user->save();
             }
             toastr()->success('Sesion inicidada correctamente en PORTALINMOBILIARIO', 'Operacion exitosa');
-            return redirect('/properties');
-            //return response()->json($responseDos);
+            return redirect('/properties');*/
+            return response()->json($responseDos);
         } catch (\Exception $e) {
             return response()->json($e->getMessage());
         }
