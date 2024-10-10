@@ -21,6 +21,7 @@ class IntegracionPortalController extends Controller
     {
         try
         {
+            return $request->code;
             $urlAuthPortal = getenv("PORTALINMOBILIARIO_AUTH_URL");
             $clientIDPortal = getenv("PORTALINMOBILIARIO_CLIENT_ID");
             $redirectUrlPortal = getenv("PORTALINMOBILIARIO_REDIRECT_URL");
