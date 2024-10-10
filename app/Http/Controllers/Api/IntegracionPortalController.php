@@ -15,6 +15,7 @@ class IntegracionPortalController extends Controller
         $urlAuthPortal = "https://auth.mercadolibre.cl/authorization?response_type=code&client_id=";
         $clientID = getenv("PORTALINMOBILIARIO_CLIENT_ID");
         $redirect_url = getenv("PORTALINMOBILIARIO_REDIRECT_URL");
+        return $urlAuthPortal.$clientID.'&redirect_uri='.$redirect_url;
         return redirect()->to($urlAuthPortal.$clientID.'&redirect_uri='.$redirect_url);
     }
     public function auth(Request $request)
