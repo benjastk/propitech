@@ -52,7 +52,7 @@ class IntegracionPortalController extends Controller
             $response = curl_exec($curl);
             curl_close($curl);
             $responseDos = json_decode($response, true);
-            $user = User::where('id', Auth::user()->id)->first();
+            $user = User::where('id', 1)->first();
             if($user)
             {
                 $user->tokenPortal = $responseDos->access_token;
