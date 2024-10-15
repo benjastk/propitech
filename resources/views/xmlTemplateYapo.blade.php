@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
     <import>
         <settings>
-            <type><![CDATA[ xyz ]]></type>
-            <language><![CDATA[ xx ]]></language>
+            <language><![CDATA[ es ]]></language>
         </settings>
         <items>
             @foreach($propiedades as $propiedad)
@@ -56,7 +55,6 @@
                             <categoryid><![CDATA[159]]></categoryid>
                             @endif
                         @endif
-                        <!--<regionid><![CDATA[FIELD_VALUE]]></regionid>-->
                         @if($propiedad->idTipoComercial == 1)
                             @if($propiedad->idTipoPropiedad == 1)
                             <type><![CDATA[property]]></type>
