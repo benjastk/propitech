@@ -56,7 +56,7 @@
                             <categoryid><![CDATA[159]]></categoryid>
                             @endif
                         @endif
-                        <regionid><![CDATA[FIELD_VALUE]]></regionid>
+                        <!--<regionid><![CDATA[FIELD_VALUE]]></regionid>-->
                         @if($propiedad->idTipoComercial == 1)
                             @if($propiedad->idTipoPropiedad == 1)
                             <type><![CDATA[property]]></type>
