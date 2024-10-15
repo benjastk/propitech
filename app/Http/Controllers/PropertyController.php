@@ -356,8 +356,8 @@ class PropertyController extends Controller
             ' Region: '. $request->idRegion. ' Comuna: '. $request->idComuna;
             $logTransaccion->save();
 
-            $actualizarEnYapo = new IntegracionYapoController();
-            $actualizarEnYapo->updateProperties($propiedad->id);
+            /*$actualizarEnYapo = new IntegracionYapoController();
+            $actualizarEnYapo->updateProperties($propiedad->id);*/
             DB::commit();
             toastr()->success('Propiedad actualizada exitosamente', 'Operación exitosa');
             return redirect('/properties');
