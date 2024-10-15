@@ -46,6 +46,7 @@ Route::get('/properties-sincronize','Api\BuyDepaIntegracionController@sincronize
 Route::get('/yapo/auth', 'Api\IntegracionYapoController@auth');
 Route::get('/yapo/sync', 'Api\IntegracionYapoController@integracionMasivaYapoCL');
 Route::get('/yapo/prueba', 'Api\IntegracionYapoController@prueba');
+Route::get('/all-properties-for-yapo','Api\DataGeneralController@allPropertiesForYapo');
 
 Route::get('/portalinmobiliario/redirect', 'Api\IntegracionPortalController@redirect');
 Route::get('/portalinmobiliario/auth', 'Api\IntegracionPortalController@auth');

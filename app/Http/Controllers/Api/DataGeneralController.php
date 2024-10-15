@@ -192,4 +192,70 @@ class DataGeneralController extends Controller
             return false;
         }
     }
+    public function allPropertiesForYapo()
+    {
+        try
+        {
+            $propiedades = Propiedad::select('propiedades.*', 'comuna.nombre as nombreComuna', 'provincia.nombre as nombreProvincia',
+            'region.nombre as nombreRegion', 'tipos_propiedades.nombreTipoPropiedad', 'niveles_uso_propiedad.nombreNivelUsoPropiedad', 'users.name',
+            'users.email', 'users.telefono')
+            ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
+            ->join('provincia', 'provincia.id', '=', 'propiedades.idProvincia')
+            ->join('region', 'region.id', '=', 'propiedades.idRegion')
+            ->join('tipos_propiedades', 'propiedades.idTipoPropiedad', '=', 'tipos_propiedades.idTipoPropiedad')
+            ->join('niveles_uso_propiedad', 'propiedades.idNivelUsoPropiedad', '=', 'niveles_uso_propiedad.idNivelUsoPropiedad')
+            ->leftjoin('users', 'users.id', '=', 'propiedades.idUsuarioExpertoVendedor')
+            ->where('propiedades.idEstado', 42)
+            ->where('descripcion', "!=", "")
+            ->limit(2)
+            ->get();
+            if($propiedades)
+            {
+                foreach ($propiedades as $propiedad) 
+                {
+                    $fotos = Foto::where('idPropiedad', $propiedad->id)->get();
+                    if($fotos)
+                    {
+                        $propiedad->fotos = $fotos;
+                    }
+                    else
+                    {
+                        $propiedad->fotos = [];
+                    }
+                }
+                foreach ($propiedades as $propiedad2) 
+                {
+                    $amenidades = CaracteristicasPorPropiedades::select('caracteristicas_propiedades.*')
+                    ->join('propiedades', 'propiedades.id', '=', 'caracteristicas_por_propiedades.idPropiedad')
+                    ->join('caracteristicas_propiedades', 'caracteristicas_propiedades.idCaracteristicaPropiedad', '=', 'caracteristicas_por_propiedades.idCaracteristicaPropiedad')
+                    ->where('caracteristicas_por_propiedades.idPropiedad', $propiedad2->id)
+                    ->get();
+                    if($amenidades)
+                    {
+                        $propiedad->amenidades = $amenidades;
+                    }
+                    else
+                    {
+                        $propiedad->amenidades = [];
+                    }
+                }
+            }
+            return response()->view('xmlTemplateYapo', compact('propiedades'))->header('Content-Type', 'text/xml');
+        } catch (QueryException $e) {
+            Mail::to(['beenjaahp@hotmail.com',
+                'beenjaahp@gmail.com'])
+            ->send(new MailAlertaApi());
+            return false;
+        } catch (ModelNotFoundException $e) {
+            Mail::to(['beenjaahp@hotmail.com',
+                'beenjaahp@gmail.com'])
+            ->send(new MailAlertaApi());
+            return false;
+        } catch (Exception $e) {
+            /*Mail::to(['beenjaahp@hotmail.com',
+                'beenjaahp@gmail.com'])
+            ->send(new MailAlertaApi());*/
+            return false;
+        }
+    }
 }
