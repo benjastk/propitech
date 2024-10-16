@@ -117,6 +117,8 @@
                         <square><![CDATA[ {{ $propiedad->mTotal }}]]></square>
                         @if($propiedad->usoGoceEstacionamiento == 1)
                         <parking><![CDATA[1]]></parking>
+                        @else
+                        <parking><![CDATA[0]]></parking>
                         @endif
                     </ad>
                         <contact>
