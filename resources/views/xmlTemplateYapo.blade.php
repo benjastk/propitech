@@ -110,7 +110,7 @@
                         @if($propiedad->idTipoComercial == 1)
                         <price><![CDATA[{{ $propiedad->precio }}]]></price>
                         @else
-                        <price><![CDATA[{{ $propiedad->valorArriendo }}]]></price>
+                        <rent><![CDATA[{{ $propiedad->valorArriendo }}]]></rent>
                         @endif
                         <rooms><![CDATA[ {{$propiedad->habitacion}} ]]></rooms>
                         <bath><![CDATA[ {{ $propiedad->bano}} ]]></bath>
