@@ -131,7 +131,7 @@
                 </required>
                 <optional>
                     <ad>
-                        <descr><![CDATA[{!! $propiedad->descripcion !!}]]></descr>
+                        <descr><![CDATA[{!! $propiedad->descripcion2 !!}]]></descr>
                         <picture><![CDATA[https://propitech.cl/img/propiedad/{{ $propiedad->fotoPrincipal }}]]></picture>
                         @foreach($propiedad->fotos as $foto)
                         <picture><![CDATA[https://propitech.cl/img/propiedad/{{ $foto->nombreArchivo }}]]></picture>
