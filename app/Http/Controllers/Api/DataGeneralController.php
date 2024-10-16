@@ -207,7 +207,6 @@ class DataGeneralController extends Controller
             ->leftjoin('users', 'users.id', '=', 'propiedades.idUsuarioExpertoVendedor')
             ->where('propiedades.idEstado', 42)
             ->where('descripcion', "!=", "")
-            ->limit(5)
             ->get();
             if($propiedades)
             {
