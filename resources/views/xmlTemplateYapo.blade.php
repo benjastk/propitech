@@ -55,6 +55,7 @@
                             <categoryid><![CDATA[159]]></categoryid>
                             @endif
                         @endif
+                        <regionid><![CDATA[{{ $propiedad->codigoComuna }}]]></regionid>
                         @if($propiedad->idTipoComercial == 1)
                             @if($propiedad->idTipoPropiedad == 1)
                             <type><![CDATA[property]]></type>
