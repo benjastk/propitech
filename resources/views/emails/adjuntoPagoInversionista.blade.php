@@ -162,6 +162,12 @@
                     <td style="width: 175px; height: 13px;"></td>
                     <td style="width: 175px; height: 13px; text-align: right">${{ number_format( $estadoPagoMandato->comisionCorretaje, 0, '', '.')}}</td>
                 </tr>
+                <tr style="height: 13px;">
+                    <td style="width: 175px; height: 13px;"><strong>GARANTIA (+)</strong></td>
+                    <td style="width: 175px; height: 13px"></td>
+                    <td style="width: 175px; height: 13px;"></td>
+                    <td style="width: 175px; height: 13px; text-align: right">${{ number_format( $estadoPagoMandato->garantia, 0, '', '.')}}</td>
+                </tr>
                 <tr style="height: 13.4688px;">
                     <td colspan="4" style="width: 720px; height: 13.4688px;"><hr></td>
                 </tr>
@@ -169,14 +175,9 @@
                     <td style="width: 175px; height: 13px;"><strong>MONTO A LIQUIDAR</strong></td>
                     <td style="width: 175px; height: 13px"></td>
                     <td style="width: 175px; height: 13px;"></td>
-                    <td style="width: 175px; height: 13px; text-align: right"><strong>${{ number_format( $estadoPagoMandato->montoALiquidarPropietario, 0, '', '.')}}</strong></td>
+                    <td style="width: 175px; height: 13px; text-align: right"><strong>${{ number_format( $estadoPagoMandato->montoALiquidarPropietario + $estadoPagoMandato->garantia, 0, '', '.')}}</strong></td>
                 </tr>
-                <tr style="height: 13px;">
-                    <td style="width: 175px; height: 13px;"><strong>GARANTIA (+)</strong></td>
-                    <td style="width: 175px; height: 13px"></td>
-                    <td style="width: 175px; height: 13px;"></td>
-                    <td style="width: 175px; height: 13px; text-align: right">${{ number_format( $estadoPagoMandato->garantia, 0, '', '.')}}</td>
-                </tr>
+                
             </tbody>
             </table>
             <table style="height: 21px; width: 720px;" >
