@@ -120,13 +120,13 @@
                         @else
                         <parking><![CDATA[0]]></parking>
                         @endif
+                        <advertiser><![CDATA[Agente]]></advertiser>
                     </ad>
                         <contact>
                         <email><![CDATA[gcisternas@propitech.cl]]></email>
                         <phone><![CDATA[956790356]]></phone>
                         <contact><![CDATA[Gustavo Cisternas]]></contact>
                         <city><![CDATA[Santiago, Región Metropolitana]]></city>
-                        <advertiser><![CDATA[Agente]]></advertiser>
                     </contact>
                 </required>
                 <optional>
