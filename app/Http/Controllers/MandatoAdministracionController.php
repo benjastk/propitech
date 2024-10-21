@@ -786,6 +786,7 @@ class MandatoAdministracionController extends Controller
                                     {
                                         $existe->montoALiquidarPropietario = $existe->montoALiquidarPropietario;
                                     }
+                                    $existe->montoALiquidarPropietario = $existe->montoALiquidarPropietario + $existe->garantia;
                                     $existe->editadoManual = 0;
                                     $existe->save();
                                     DB::commit();
@@ -945,6 +946,7 @@ class MandatoAdministracionController extends Controller
                             {
                                 $estadoPagoMandato->montoALiquidarPropietario = $estadoPagoMandato->montoALiquidarPropietario;
                             }
+                            $estadoPagoMandato->montoALiquidarPropietario = $estadoPagoMandato->montoALiquidarPropietario + $estadoPagoMandato->garantia;
                             $estadoPagoMandato->editadoManual = 0;
                             //solo al crear se debe colocar la fecha
                             $estadoPagoMandato->fechaDePago = "".$anio."-".$mes."-".$mandato->diaPago."";
@@ -1114,6 +1116,7 @@ class MandatoAdministracionController extends Controller
                                     {
                                         $existe->montoALiquidarPropietario = $existe->montoALiquidarPropietario;
                                     }
+                                    $existe->montoALiquidarPropietario = $existe->montoALiquidarPropietario + $existe->garantia;
                                     $existe->editadoManual = 0;
                                     $existe->save();
                                     DB::commit();
@@ -1273,6 +1276,7 @@ class MandatoAdministracionController extends Controller
                             {
                                 $estadoPagoMandato->montoALiquidarPropietario = $estadoPagoMandato->montoALiquidarPropietario;
                             }
+                            $estadoPagoMandato->montoALiquidarPropietario = $estadoPagoMandato->montoALiquidarPropietario + $estadoPagoMandato->garantia;
                             $estadoPagoMandato->editadoManual = 0;
                             //solo al crear se debe colocar la fecha
                             $estadoPagoMandato->fechaDePago = "".$anio."-".$mes."-".$mandato->diaPago."";
@@ -1411,7 +1415,9 @@ class MandatoAdministracionController extends Controller
         $cargos = Cargo::where('idEstadoPago', $estadoDePagoFinal->idEstadoPago)
         ->where('correspondeA', 1)
         ->get();
-        $descuentos = Descuento::where('idEstadoPago', $estadoDePagoFinal->idEstadoPago)->get();
+        $descuentos = Descuento::where('idEstadoPago', $estadoDePagoFinal->idEstadoPago)
+        ->where('correspondeADescuentos', 1)
+        ->get();
         $deudas = [];
         $documentos = '';
         $estadoDePagoArrendatario = '';

@@ -526,8 +526,12 @@ class EstadoPagoController extends Controller
                     ->join('metodos_pagos', 'metodos_pagos.idMetodosPagos', '=', 'pagos.idMetodoPago')
                     ->where('pagos.idPago', '=', $nuevoPago->idPago)->first();
 
-            $descuentos = Descuento::where('idEstadoPago', '=', $idEstadoDelPago)->get();
-            $cargos = Cargo::where('idEstadoPago', '=', $idEstadoDelPago)->get();
+            $descuentos = Descuento::where('idEstadoPago', '=', $idEstadoDelPago)
+            ->where('correspondeADescuentos', 2)
+            ->get();
+            $cargos = Cargo::where('idEstadoPago', '=', $idEstadoDelPago)
+            ->where('correspondeA', 2)
+            ->get();
             $totalDescuento = 0;
             $totalCargo = 0;
             if(isset($descuentos))
@@ -677,8 +681,12 @@ class EstadoPagoController extends Controller
                     ->join('metodos_pagos', 'metodos_pagos.idMetodosPagos', '=', 'pagos.idMetodoPago')
                     ->where('pagos.idPago', '=', $nuevoPago->idPago)->first();
 
-            $descuentos = Descuento::where('idEstadoPago', '=', $idEstadoDelPago)->get();
-            $cargos = Cargo::where('idEstadoPago', '=', $idEstadoDelPago)->get();
+            $descuentos = Descuento::where('idEstadoPago', '=', $idEstadoDelPago)
+            ->where('correspondeADescuentos', 2)
+            ->get();
+            $cargos = Cargo::where('idEstadoPago', '=', $idEstadoDelPago)
+            ->where('correspondeA', 2)
+            ->get();
             $totalDescuento = 0;
             $totalCargo = 0;
             if(isset($descuentos))
@@ -1078,8 +1086,12 @@ class EstadoPagoController extends Controller
     }
     public function printPago($id, $idEstadoPago)
     {
-        $descuentos = Descuento::where('idEstadoPago', '=', $idEstadoPago)->get();
-        $cargos = Cargo::where('idEstadoPago', '=', $idEstadoPago)->get();
+        $descuentos = Descuento::where('idEstadoPago', '=', $idEstadoPago)
+        ->where('correspondeADescuentos', 2)
+        ->get();
+        $cargos = Cargo::where('idEstadoPago', '=', $idEstadoPago)
+        ->where('correspondeA', 2)
+        ->get();
         $totalDescuento = 0;
         $totalCargo = 0;
         if(isset($descuentos))
