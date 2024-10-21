@@ -217,3 +217,8 @@ Route::get('/yapo/list', 'Api\IntegracionYapoController@listAds');
 Route::get('/yapo/add-property/{id}', 'Api\IntegracionYapoController@storeProperties');
 Route::get('/yapo/update-property/{id}', 'Api\IntegracionYapoController@updateProperties');
 Route::get('/yapo/delete-property/{id}', 'Api\IntegracionYapoController@deleteProperties');
+
+Route::get('/portalinmobiliario/list', 'Api\IntegracionPortalController@listAds');
+Route::get('/portalinmobiliario/add/{id}', 'Api\IntegracionPortalController@storeProperties');
+Route::get('/portalinmobiliario/update/{id}', 'Api\IntegracionPortalController@updateProperties');
+Route::get('/portalinmobiliario/delete/{id}', 'Api\IntegracionPortalController@deleteProperties');
