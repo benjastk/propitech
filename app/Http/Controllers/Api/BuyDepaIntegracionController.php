@@ -318,7 +318,7 @@ class BuyDepaIntegracionController extends Controller
                                         $caracteristicaDeLaPropiedad->delete();
                                     }
                                 }
-                                $clientID = getenv("YAPO_CLIENT_ID");
+                                //$clientID = getenv("YAPO_CLIENT_ID");
                                 $propiedad = Propiedad::where('id', '=', $propiedadSistema->id)
                                 ->first();
                                 $users = User::select('users.*', 'roles.nombre', 'roles.id as idRol')
@@ -326,7 +326,7 @@ class BuyDepaIntegracionController extends Controller
                                 ->join('roles', 'roles.id', '=', 'rol_usuario.id_rol')
                                 ->whereIn('rol_usuario.id_rol', [1, 2])
                                 ->get();
-                                if($propiedadSistema->externalIDYapo > 1)
+                                /*if($propiedadSistema->externalIDYapo > 1)
                                 {                
                                     $tokenYapo = $users[0]->tokenYapo;
                                     $clientID = getenv("YAPO_CLIENT_ID");
@@ -363,7 +363,7 @@ class BuyDepaIntegracionController extends Controller
                                         $propiedad->externalIDYapo = null;
                                         $propiedad->save();
                                     }
-                                }
+                                }*/
                                 $logTransaccion = new LogTransaccion();
                                 $logTransaccion->tipoTransaccion = 'PROPIEDAD ELIMINADA EN BUYDEPA';
                                 $logTransaccion->idUsuario =  $users[0]->id;
