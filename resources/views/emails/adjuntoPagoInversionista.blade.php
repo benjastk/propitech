@@ -175,7 +175,7 @@
                     <td style="width: 175px; height: 13px;"><strong>MONTO A LIQUIDAR</strong></td>
                     <td style="width: 175px; height: 13px"></td>
                     <td style="width: 175px; height: 13px;"></td>
-                    <td style="width: 175px; height: 13px; text-align: right"><strong>${{ number_format( $estadoPagoMandato->montoALiquidarPropietario + $estadoPagoMandato->garantia, 0, '', '.')}}</strong></td>
+                    <td style="width: 175px; height: 13px; text-align: right"><strong>${{ number_format( $estadoPagoMandato->montoALiquidarPropietario, 0, '', '.')}}</strong></td>
                 </tr>
                 
             </tbody>
