@@ -435,8 +435,12 @@ class PagoController extends Controller
                                 $logPago->idMetodoPago = 3;
                                 $logPago->save();
 
-                                $descuentos = Descuento::where('idEstadoPago', '=', $estadosDePago->idEstadoPago)->get();
-                                $cargos = Cargo::where('idEstadoPago', '=', $estadosDePago->idEstadoPago)->get();
+                                $descuentos = Descuento::where('idEstadoPago', '=', $estadosDePago->idEstadoPago)
+                                ->where('correspondeADescuentos', 2)
+                                ->get();
+                                $cargos = Cargo::where('idEstadoPago', '=', $estadosDePago->idEstadoPago)
+                                ->where('correspondeA', 2)
+                                ->get();
                                 $totalDescuento = 0;
                                 $totalCargo = 0;
                                 if(isset($descuentos))
