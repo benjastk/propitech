@@ -556,38 +556,38 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-lg-4 col-md-4 col-sm-12">
+        <div class="col-lg-6 col-md-6 col-sm-12">
             <label>Edificio o Comunidad</label>
         </div>
-        <div class="col-lg-4 col-md-4 col-sm-12">
+        <div class="col-lg-6 col-md-6 col-sm-12">
             <label>URL Portal Inmobiliario</label>
         </div>
-        <div class="col-lg-4 col-md-4 col-sm-12">
+        <!--<div class="col-lg-4 col-md-4 col-sm-12">
             <label>URL Yapo</label>
-        </div>
+        </div>-->
     </div>
     <div class="row">
-        <div class="col-lg-4 col-md-4 col-sm-12">
+        <div class="col-lg-6 col-md-6 col-sm-12">
             @if(!isset($propiedad->nombreEdificioComunidad))
                 <input type="text" name="nombreEdificioComunidad" value="{{old('nombreEdificioComunidad')}}" class="form-control" placeholder="Edificio o comunidad">
             @else
                 <input type="text" name="nombreEdificioComunidad" value="{{ $propiedad->nombreEdificioComunidad }}" class="form-control" placeholder="Edificio o comunidad">
             @endif
         </div>
-        <div class="col-lg-4 col-md-4 col-sm-12">
+        <div class="col-lg-6 col-md-6 col-sm-12">
             @if(!isset($propiedad->urlPortalInmobiliario))
                 <input type="text" name="urlPortalInmobiliario" value="{{old('urlPortalInmobiliario')}}" class="form-control" placeholder="URL Portal Inmobiliario">
             @else
                 <input type="text" name="urlPortalInmobiliario" value="{{ $propiedad->urlPortalInmobiliario }}" class="form-control" placeholder="URL Portal Inmobiliario">
             @endif
         </div>
-        <div class="col-lg-4 col-md-4 col-sm-12">
+        <!--<div class="col-lg-4 col-md-4 col-sm-12">
             @if(!isset($propiedad->urlYapo))
                 <input type="text" name="urlYapo" value="{{old('urlYapo')}}" class="form-control" placeholder="URL Yapo">
             @else
                 <input type="text" name="urlYapo" value="{{ $propiedad->urlYapo }}" class="form-control" placeholder="URL Yapo">
             @endif
-        </div>
+        </div>-->
     </div>
     <br>
     <div class="row">

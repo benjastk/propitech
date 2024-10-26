@@ -106,8 +106,8 @@
                                                 @if($propiedad->urlPortalInmobiliario)
                                                     <span class="badge badge-info" style="color:black;"><i class="mdi mdi-star mr-1"></i>Portal Inmobiliario</span>
                                                 @endif
-                                                @if($propiedad->urlYapo)
-                                                    <span class="badge badge-success" style="color:black; background-color: orange"><i class="mdi mdi-star mr-1"></i>Yapo</span>
+                                                @if($propiedad->esBuyDepa == 1)
+                                                    <span class="badge badge-primary" style="color:white; background-color: blue"><i class="mdi mdi-star mr-1"></i>BuyDepa</span>
                                                 @endif
                                                 <p class="text-muted mb-0">{{ $propiedad->direccion }} {{ $propiedad->numero }}, {{ $propiedad->nombreComuna }}, {{ $propiedad->nombreRegion }}</p>
                                                 @if($propiedad->idExterno)
