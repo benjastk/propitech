@@ -14,14 +14,21 @@
                             <h4 class="mb-0 font-size-18">Editar Propiedad</h4>
                             <div class="page-title-right">
                                 <ol class="breadcrumb m-0">
+                                    @if($propiedad->esBuyDepa == 1)
+                                    @else
                                     <li class="breadcrumb-item">
-                                        @if($propiedad->urlYapo)
-                                        <a href="/yapo/delete-property/{{$propiedad->id}}"><button class="btn btn-danger"><i class="bx bxs-trash-alt"></i> Eliminar de Yapo.cl</button></a>
-                                        <a href="/yapo/update-property/{{$propiedad->id}}"><button class="btn btn-primary"><i class="bx bxs-edit-alt"></i> Actualización de Yapo.cl</button></a>
+                                        @if($propiedad->itemIDPortal)
+                                            @if($propiedad->eliminadoPortalInmobiliario == 0)
+                                            <a href="/portalinmobiliario/desactivate/{{$propiedad->id}}"><button class="btn btn-danger"><i class="bx bxs-trash-alt"></i> Desactivar PORTALINMOBILIARIO</button></a>
+                                            <a href="/portalinmobiliario/update/{{$propiedad->id}}"><button class="btn btn-primary"><i class="bx bxs-edit-alt"></i> Actualización PORTALINMOBILIARIO</button></a>
+                                            @else
+                                            <a href="/portalinmobiliario/delete/{{$propiedad->id}}"><button class="btn btn-danger"><i class="bx bxs-trash-alt"></i> Eliminar PORTALINMOBILIARIO</button></a>
+                                            @endif
                                         @else
-                                        <a href="/yapo/add-property/{{$propiedad->id}}"><button class="btn btn-success"><i class="bx bx-plus"></i> Agregar a Yapo.cl</button></a>
+                                        <a href="/portalinmobiliario/add/{{$propiedad->id}}"><button class="btn btn-success"><i class="bx bx-plus"></i> Agregar PORTALINMOBILIARIO</button></a>
                                         @endif
                                     </li>
+                                    @endif
                                     <li class="breadcrumb-item"><a href="javascript: void(0);">Propiedades</a></li>
                                     <li class="breadcrumb-item active">Editar Propiedad</li>
                                 </ol>
