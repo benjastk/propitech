@@ -191,7 +191,7 @@ class IntegracionPortalController extends Controller
                     elseif($propiedad->idTipoPropiedad == 5)
                     {
                         $tipoPropiedad = 'parcela';
-                        $categoriaSelect = 'MLC50548';
+                        $categoriaSelect = 'MLC6405';
                     }
                     elseif($propiedad->idTipoPropiedad == 6)
                     {
@@ -206,7 +206,7 @@ class IntegracionPortalController extends Controller
                     elseif($propiedad->idTipoPropiedad == 8)
                     {
                         $tipoPropiedad = 'oficina';
-                        $categoriaSelect = 'MLC50540';
+                        $categoriaSelect = 'MLC157413';
                     }
                     elseif($propiedad->idTipoPropiedad == 9)
                     {
@@ -216,7 +216,7 @@ class IntegracionPortalController extends Controller
                     elseif($propiedad->idTipoPropiedad == 10)
                     {
                         $tipoPropiedad = 'local';
-                        $categoriaSelect = 'MLC79244';
+                        $categoriaSelect = 'MLC50612';
                     }
                 }
                 else
@@ -237,7 +237,7 @@ class IntegracionPortalController extends Controller
                     elseif($propiedad->idTipoPropiedad == 3)
                     {
                         $tipoPropiedad = 'sitio';
-                        $categoriaSelect = 'MLC1494';
+                        $categoriaSelect = 'MLC6404';
                     }
                     elseif($propiedad->idTipoPropiedad == 4)
                     {
@@ -247,7 +247,7 @@ class IntegracionPortalController extends Controller
                     elseif($propiedad->idTipoPropiedad == 5)
                     {
                         $tipoPropiedad = 'parcela';
-                        $categoriaSelect = 'MLC1494';
+                        $categoriaSelect = 'MLC6404';
                     }
                     elseif($propiedad->idTipoPropiedad == 6)
                     {
@@ -262,7 +262,7 @@ class IntegracionPortalController extends Controller
                     elseif($propiedad->idTipoPropiedad == 8)
                     {
                         $tipoPropiedad = 'oficina';
-                        $categoriaSelect = 'MLC50539';
+                        $categoriaSelect = 'MLC183187';
                     }
                     elseif($propiedad->idTipoPropiedad == 9)
                     {
@@ -272,7 +272,7 @@ class IntegracionPortalController extends Controller
                     elseif($propiedad->idTipoPropiedad == 10)
                     {
                         $tipoPropiedad = 'local';
-                        $categoriaSelect = 'MLC79243';
+                        $categoriaSelect = 'MLC50611';
                     }
                 }
                 if($propiedad->usoGoceEstacionamiento == 1)
