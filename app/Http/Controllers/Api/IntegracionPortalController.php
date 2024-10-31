@@ -227,7 +227,7 @@ class IntegracionPortalController extends Controller
                     if($propiedad->idTipoPropiedad == 1)
                     {
                         $tipoPropiedad = 'casa';
-                        $categoriaSelect = 'MLC1467';
+                        $categoriaSelect = 'MLC183184';
                     }
                     elseif($propiedad->idTipoPropiedad == 2)
                     {
