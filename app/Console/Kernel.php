@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
         $schedule->call('App\Http\Controllers\EstadoPagoController@cambiarAVencido')->dailyAt('1:00');
         $schedule->call('App\Http\Controllers\EstadoPagoController@agregarPorcentajeAMorosos')->dailyAt('1:30');
         $schedule->call('App\Http\Controllers\AlertaController@recordarPagoArrendatariosMensual')->dailyAt('10:00');
-        $schedule->call('App\Http\Controllers\AlertaController@ultimoDiaParaPagar')->dailyAt('11:40');
+        $schedule->call('App\Http\Controllers\AlertaController@ultimoDiaParaPagar')->dailyAt('11:41');
         $schedule->call('App\Http\Controllers\Api\BuyDepaIntegracionController@sincronizeProperties')->dailyAt('09:00');
         //$schedule->call('App\Http\Controllers\Api\IntegracionYapoController@refreshToken')->everyFourHours();
         $schedule->call('App\Http\Controllers\Api\IntegracionPortalController@refreshToken')->everyFourHours();
@@ -48,5 +48,3 @@ class Kernel extends ConsoleKernel
         require base_path('routes/console.php');
     }
 }
-
-- 
