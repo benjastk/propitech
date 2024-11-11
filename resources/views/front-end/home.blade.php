@@ -286,7 +286,7 @@
                             <div class="rounded-lg ml-lg-n1 mb-xl-15" data-animate="flipInX">
                                 <div class="" style="text-align:center">
                                     <!--<span class="badge badge-orange">Featured</span>-->
-                                    <a href="#" class="btn" style="background-color:#2690d696; border-color: #2690d6; color: white; font-size: 20px;" >¡Busca tu arriendo aquí!</a>
+                                    <a href="https://propitech.cl/catalogo-propiedades" class="btn" style="background-color:#2690d696; border-color: #2690d6; color: white; font-size: 20px;" >¡Busca tu arriendo aquí!</a>
                                 </div>
                             </div>
                         </div>
@@ -302,7 +302,7 @@
                             <div class="rounded-lg ml-lg-n1 mb-xl-15" data-animate="flipInX">
                                 <div class="" style="text-align:center">
                                     <!--<span class="badge badge-orange">Featured</span>-->
-                                    <a href="#" class="btn" style="background-color:#2690d696; border-color: #2690d6; color: white; font-size: 20px;" >¡Invierte presionando aquí!</a>
+                                    <a href="https://propitech.cl/proyectos-venta" class="btn" style="background-color:#2690d696; border-color: #2690d6; color: white; font-size: 20px;" >¡Invierte en propiedades aquí!</a>
                                 </div>
                             </div>
                         </div>
@@ -318,7 +318,7 @@
                             <div class="rounded-lg ml-lg-n1 mb-xl-15" data-animate="flipInX">
                                 <div class="" style="text-align:center">
                                     <!--<span class="badge badge-orange">Featured</span>-->
-                                    <a href="#" class="btn" style="background-color:#2690d696; border-color: #2690d6; color: white; font-size: 20px;" >Dejanos tu propiedad aquí!</a>
+                                    <a href="https://propitech.cl/publica-tu-propiedad" class="btn" style="background-color:#2690d696; border-color: #2690d6; color: white; font-size: 20px;" >¡Dejanos tu propiedad aquí!</a>
                                 </div>
                             </div>
                         </div>
