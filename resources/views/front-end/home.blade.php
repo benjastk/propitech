@@ -277,69 +277,56 @@
     </div>
 </section>
 <section>
-    <!--<div class="slick-slider mx-0" data-slick-options='{"slidesToShow": 1, "autoplay":true,"dots":false,"arrows":false}'>
-        @if(count($propiedadesDestacadas))
-        @foreach($propiedadesDestacadas as $destacada)
-        
+    <div class="slick-slider mx-0" data-slick-options='{"slidesToShow": 1, "autoplay":true,"dots":false,"arrows":false, "infinite": true}'>
         <div class="box px-0 d-flex flex-column">
-        <div class="bg-cover custom-vh-04 d-flex align-items-center" style="background-image: url('/img/propiedad/{{ $destacada->fotoPrincipal }}')">
+            <div class="bg-cover custom-vh-04 d-flex" style="background-image: url('front/arrienda.jpg'); align-items: end;">
                 <div class="container">
                     <div class="row">
-                        <div class="col-lg-5 offset-lg-7 col-md-6 offset-md-3 col-sm-8 offset-sm-2 mt-xl-1 py-8 pt-lg-12">
-                            <div class="bg-white  px-7 pt-6 pb-4 rounded-lg ml-lg-n1 mb-xl-15" data-animate="flipInX">
-                                <div class="mt-n7 position-absolute">
-                                    @if($destacada->idTipoComercial == 2)
-                                    <span class="badge badge-primary">Arriendo</span>
-                                    @elseif($destacada->idTipoComercial == 1)
-                                    <span class="badge badge-orange">Venta</span>
-                                    @else
-                                    @endif
+                        <div class="col-lg-12 col-md-12 col-sm-12 mt-xl-1 py-8 pt-lg-12">
+                            <div class="rounded-lg ml-lg-n1 mb-xl-15" data-animate="flipInX">
+                                <div class="" style="text-align:center">
+                                    <!--<span class="badge badge-orange">Featured</span>-->
+                                    <a href="#" class="btn" style="background-color:#2690d696; border-color: #2690d6; color: white; font-size: 20px;" >¡Busca tu arriendo aquí!</a>
                                 </div>
-                                @if($destacada->idTipoComercial == 2)
-                                <h2 class="my-0"><a href="/propiedad-arriendo/{{ $destacada->id }}" class="fs-30 lh-12 text-dark hover-primary">{{ $destacada->nombrePropiedad }}</a></h2>
-                                @else
-                                <h2 class="my-0"><a href="/propiedad-venta/{{ $destacada->id }}" class="fs-30 lh-12 text-dark hover-primary">{{ $destacada->nombrePropiedad }}</a></h2>
-                                @endif
-                                <p class="my-3 font-weight-500 text-gray-light lh-15">{{ $destacada->direccion }} {{ $destacada->numero }}, {{ $destacada->nombreComuna }}, {{ $destacada->nombreRegion }}</p>
-                                <p class="fs-14 font-weight-500 letter-spacing-087 text-primary text-uppercase lh-15 mb-1">
-                                    For Sale</p>
-                                @if($destacada->idTipoComercial == 2)
-                                <p class="fs-22 font-weight-bold text-heading"s style="font-family: 'Gordita'; font-size: 30px ! important; color:grey !important;">$ {{ number_format($destacada->valorArriendo, 0, ",", ".") }}</p>
-                                @elseif($destacada->idTipoComercial == 1)
-                                <p class="fs-22 font-weight-bold text-heading" style="font-family: 'Gordita'; font-size: 30px ! important; color:grey !important;">UF {{ number_format($destacada->precio, 0, ",", ".") }}</p>
-                                @else
-                                @endif
-                                <ul class="list-inline d-flex mb-0 flex-wrap border-top justify-content-between pt-4 mr-n2">
-                                    <li class="list-inline-item text-gray font-weight-500 fs-13 d-flex align-items-center mr-2" data-toggle="tooltip" title="Habitaciones">
-                                    <svg class="icon icon-bedroom fs-18 text-primary mr-2">
-                                        <use xlink:href="#icon-bedroom"></use>
-                                    </svg>
-                                    {{ $destacada->habitacion }} Habitaciones
-                                    </li>
-                                    <li class="list-inline-item text-gray font-weight-500 fs-13 d-flex align-items-center mr-2" data-toggle="tooltip" title="Baños">
-                                    <svg class="icon icon-shower fs-18 text-primary mr-2">
-                                        <use xlink:href="#icon-shower"></use>
-                                    </svg>
-                                    {{ $destacada->bano }} Baños
-                                    </li>
-                                    <li class="list-inline-item text-gray font-weight-500 fs-13 d-flex align-items-center mr-2" data-toggle="tooltip" title="Metros">
-                                    <svg class="icon icon-square fs-18 text-primary mr-2">
-                                        <use xlink:href="#icon-square"></use>
-                                    </svg>
-                                    {{ $destacada->mTotal }} Mts. Totales
-                                    </li>
-                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        @endforeach
-        @endif
-    </div>-->
-    <img class="d-none d-xl-block d-md-block" style="width: 100%" src="/front/fondo1copia.jpg">
-    <img class="d-sm-block d-xl-none d-md-none d-lg-none" src="/front/fondo1.jpg">
+        <div class="box px-0 d-flex flex-column">
+            <div class="bg-cover custom-vh-04 d-flex" style="background-image: url('front/201696.jpg'); align-items: end">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 mt-xl-1 py-8 pt-lg-12">
+                            <div class="rounded-lg ml-lg-n1 mb-xl-15" data-animate="flipInX">
+                                <div class="" style="text-align:center">
+                                    <!--<span class="badge badge-orange">Featured</span>-->
+                                    <a href="#" class="btn" style="background-color:#2690d696; border-color: #2690d6; color: white; font-size: 20px;" >¡Invierte presionando aquí!</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box px-0 d-flex flex-column">
+            <div class="bg-cover custom-vh-04 d-flex" style="background-image: url('front/194327.jpg'); align-items: end">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 mt-xl-1 py-8 pt-lg-12">
+                            <div class="rounded-lg ml-lg-n1 mb-xl-15" data-animate="flipInX">
+                                <div class="" style="text-align:center">
+                                    <!--<span class="badge badge-orange">Featured</span>-->
+                                    <a href="#" class="btn" style="background-color:#2690d696; border-color: #2690d6; color: white; font-size: 20px;" >Dejanos tu propiedad aquí!</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 @endif
 <section class="pt-9 pb-9 pb-lg-11" style="padding-bottom: 0px !important;">
