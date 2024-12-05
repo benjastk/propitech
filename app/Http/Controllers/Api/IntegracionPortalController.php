@@ -850,4 +850,61 @@ class IntegracionPortalController extends Controller
             return back();
         }
     }
+    public function updateDescription($id)
+    {
+        try {
+            $clientIDPortal = getenv("PORTALINMOBILIARIO_CLIENT_ID");
+            $urlPortal = getenv("PORTALINMOBILIARIO_API_URL");
+
+            $users = User::select('users.*', 'roles.nombre', 'roles.id as idRol')
+            ->join('rol_usuario', 'rol_usuario.id_usuario', '=', 'users.id')
+            ->join('roles', 'roles.id', '=', 'rol_usuario.id_rol')
+            ->whereIn('rol_usuario.id_rol', [1, 2])
+            ->get();
+
+            $propiedad = Propiedad::where('id', $id)->first();
+            $publicacionAEditar = $propiedad->itemIDPortal;
+            $tokenPortal = $users[0]->tokenPortal;
+            $text = str_replace(['<br>', '<br/>', '<br />', '</p>', '</h1>'], '\n', $propiedad->descripcion2);
+            $textoPlano = strip_tags($text);
+            $textoPlano = html_entity_decode($textoPlano);
+            $textoPlano = trim($textoPlano);
+            $requestDos = '{
+                "plain_text": "'.$textoPlano.'"
+            }';
+            $curlTres = curl_init();
+            curl_setopt_array($curlTres, array(
+            CURLOPT_URL => $urlPortal.'/items/'.$publicacionAEditar.'/description',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'PUT',
+            CURLOPT_POSTFIELDS => $requestDos,
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+                'Authorization: Bearer '.$tokenPortal
+                ),
+            ));
+            $responsesCuatro = curl_exec($curlTres);
+            $httpcodeDos = curl_getinfo($curlTres, CURLINFO_HTTP_CODE);
+            curl_close($curlTres);
+            if($httpcodeDos > 199 && $httpcodeDos < 300)
+            {
+                toastr()->success('Descripcion actualizada en portalinmobiliario.cl', 'Operación Exitosa');
+                return redirect('/properties/edit/'.$propiedad->id);
+            }
+            else
+            {
+                Log::info('error', array('body' => $responsesCuatro));
+                toastr()->error($responsesCuatro['message'], 'PUBLICACION CON PARAMETROS INVALIDOS');
+                return redirect('/properties/edit/'.$propiedad->id);
+            }
+        } catch (\Exception $e) {
+            Log::info('error', array('body' => $e->getMessage()));
+            toastr()->error('Tenemos un problema al eliminar la publicacion', 'Algo Falló');
+            return back();
+        }
+    }
 }

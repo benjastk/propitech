@@ -487,10 +487,16 @@
     <br>
     <div class="row">
         <div class="col-12">
-            <label>Descripción de la Propiedad</label>
             @if(!isset($propiedad->descripcion))
+                <label>Descripción de la Propiedad</label>
                 <textarea class="form-control" name="descripcion" id="summernote" rows="4" placeholder="Ingrese descripción de la propiedad" >{{ old('descripcion') }}</textarea>
             @else
+                <label>Descripción de la Propiedad</label> 
+                @if($propiedad->itemIDPortal)
+                <a class="btn btn-primary" style="float:right" href="/portalinmobiliario/updateDescription/{{$propiedad->id}}"><i class="bx bx-home font-size-16 align-middle mr-2"></i>Actualizar descripcion PI</a>
+                @endif
+                <br>
+                <br>
                 <textarea class="form-control" name="descripcion" id="summernote" rows="4" placeholder="Ingrese descripción de la propiedad" >{{ $propiedad->descripcion }}</textarea>
             @endif
         </div>

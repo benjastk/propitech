@@ -224,3 +224,4 @@ Route::get('/portalinmobiliario/update/{id}', 'Api\IntegracionPortalController@u
 Route::get('/portalinmobiliario/desactivate/{id}', 'Api\IntegracionPortalController@desativateProperties');
 Route::get('/portalinmobiliario/delete/{id}', 'Api\IntegracionPortalController@deleteProperties');
 Route::get('/portalinmobiliario/deletePI/{code}', 'Api\IntegracionPortalController@deletePropertiesPortal');
+Route::get('/portalinmobiliario/updateDescription/{id}', 'Api\IntegracionPortalController@updateDescription');
