@@ -870,7 +870,7 @@ class IntegracionPortalController extends Controller
             $textoPlano = html_entity_decode($textoPlano);
             $textoPlano = trim($textoPlano);
             $requestDos = '{
-                "plain_text": "'.$textoPlano.'"
+                "plain_text": "'.$propiedad->descripcion2.'"
             }';
             $curlTres = curl_init();
             curl_setopt_array($curlTres, array(
