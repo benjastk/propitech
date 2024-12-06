@@ -262,12 +262,15 @@ class PropertyController extends Controller
             $propiedad->fill($request->all());
             $propiedad->descripcion = $request->descripcion;
             $sanitizarTexto = $request->descripcion;
+            $sanitizarTexto = strip_tags($sanitizarTexto);
             $sanitizarTexto = str_replace("</p>", "<br>", $sanitizarTexto);
             $sanitizarTexto = str_replace("<br><br>", "<br>", $sanitizarTexto);
             $sanitizarTexto = str_replace("<br><br><br>", "<br>", $sanitizarTexto);
             $sanitizarTexto = str_replace("</li>", "<br>", $sanitizarTexto);
-            $sanitizarTexto = strip_tags($sanitizarTexto, '<br>');
             $propiedad->descripcion2 = $sanitizarTexto;
+            $descripcionPlano = strip_tags($request->descripcion); // Elimina las etiquetas HTML
+            $descripcionPlano = str_replace("<br>", "\n", $descripcionPlano);
+            $propiedad->descripcion3 = $descripcionPlano;
             if($request->usoGoceEstacionamiento1)
             {
                 $propiedad->usoGoceEstacionamiento = 1;
