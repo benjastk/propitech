@@ -125,7 +125,7 @@
                         <contact>
                         <email><![CDATA[gcisternas@propitech.cl]]></email>
                         <phone><![CDATA[956790356]]></phone>
-                        <contact><![CDATA[Gustavo Cisternas]]></contact>
+                        <contact><![CDATA[Propitech By Cirobu]]></contact>
                         <city><![CDATA[Santiago, Región Metropolitana]]></city>
                     </contact>
                 </required>
