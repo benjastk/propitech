@@ -891,7 +891,16 @@ class EstadoPagoController extends Controller
                 }
             }
         }
-        return 'finalizo';
+        return $estadosDePago;
+    }
+    public function cambiarAMorosoDOS()
+    {
+        $fechaActual = date('Y-m-d');
+        $estadosDePago = EstadoPago::join('contratos_arriendos', 'estados_pagos.idContrato', '=', 'contratos_arriendos.idContratoArriendo')
+                    ->where('contratos_arriendos.idEstado', '=',61)
+                    ->where('estados_pagos.idEstado', '=', 47)
+                    ->get();
+        return $estadosDePago;
     }
     public function cambiarAVencido()
     {

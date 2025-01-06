@@ -59,7 +59,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/leads', 'HomeController@leads')->name('leads');
 Route::get('/ultimoDiaParaPagar', 'AlertaController@ultimoDiaParaPagar');
 Route::get('/mailPorCorreo', 'AlertaController@mailPorCorreo');
-//Route::get('/morosos', 'EstadoPagoController@cambiarAMoroso');
+Route::get('/morosos', 'EstadoPagoController@cambiarAMorosoDOS');
 //Route::get('/vencidos', 'EstadoPagoController@cambiarAVencido');
 Route::get('/sanitizarTexto', 'PropertyController@sanitizarDescripciones');
 Route::get('/agregarPorcentajeAMorosos', 'EstadoPagoController@agregarPorcentajeAMorosos');
