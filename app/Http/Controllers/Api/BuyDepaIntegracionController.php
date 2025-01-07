@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Intervention\Image\Exception\NotReadableException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use App\CaracteristicasPorPropiedades;
@@ -142,16 +143,28 @@ class BuyDepaIntegracionController extends Controller
                                         if(str_contains($path, '.jpg') || str_contains($path, '.jpeg') || str_contains($path, '.png'))
                                         {
                                             $filename = basename($path);
-                                            $img = Image::make($path);
-                                            $img->insert(public_path('front/logoopacity2.png'), 'center');
-                                            $img->save(public_path('img/propiedad/'.$filename));
+                                            try{
+                                                $img = Image::make($path);
+                                                $img->insert(public_path('front/logoopacity2.png'), 'center');
+                                                $img->save(public_path('img/propiedad/'.$filename));
+                                            }
+                                            catch(NotReadableException $e)
+                                            {
+                                                continue;
+                                            }
                                         }
                                         else
                                         {
-                                            $filename = basename($path).'.jpg';
-                                            $img = Image::make($path);
-                                            $img->insert(public_path('front/logoopacity2.png'), 'center');
-                                            $img->save(public_path('img/propiedad/'.$filename));
+                                            try{
+                                                $filename = basename($path).'.jpg';
+                                                $img = Image::make($path);
+                                                $img->insert(public_path('front/logoopacity2.png'), 'center');
+                                                $img->save(public_path('img/propiedad/'.$filename));
+                                            }
+                                            catch(NotReadableException $e)
+                                            {
+                                                continue;
+                                            }
                                         }
                                     }
                                     $propiedadAEditar->fotoPrincipal = $filename;
@@ -182,16 +195,28 @@ class BuyDepaIntegracionController extends Controller
                                 if(str_contains($path, '.jpg') || str_contains($path, '.jpeg') || str_contains($path, '.png'))
                                 {
                                     $filename = basename($path);
-                                    $img = Image::make($path);
-                                    $img->insert(public_path('front/logoopacity2.png'), 'center');
-                                    $img->save(public_path('img/propiedad/'.$filename));
+                                    try{
+                                        $img = Image::make($path);
+                                        $img->insert(public_path('front/logoopacity2.png'), 'center');
+                                        $img->save(public_path('img/propiedad/'.$filename));
+                                    }
+                                    catch(NotReadableException $e)
+                                    {
+                                        continue;
+                                    }
                                 }
                                 else
                                 {
-                                    $filename = basename($path).'.jpg';
-                                    $img = Image::make($path);
-                                    $img->insert(public_path('front/logoopacity2.png'), 'center');
-                                    $img->save(public_path('img/propiedad/'.$filename));
+                                    try{
+                                        $filename = basename($path).'.jpg';
+                                        $img = Image::make($path);
+                                        $img->insert(public_path('front/logoopacity2.png'), 'center');
+                                        $img->save(public_path('img/propiedad/'.$filename));
+                                    }
+                                    catch(NotReadableException $e)
+                                    {
+                                        continue;
+                                    }
                                 }
                                 $primeraFoto = $propiedad['images'][0];
                                 $propiedadACrear = new Propiedad();
@@ -252,27 +277,39 @@ class BuyDepaIntegracionController extends Controller
                                             $path = $imagenes;
                                             if(str_contains($path, '.jpg') || str_contains($path, '.jpeg') || str_contains($path, '.png'))
                                             {
-                                                $filenames = basename($path);
-                                                $img = Image::make($path);
-                                                $img->insert(public_path('front/logoopacity2.png'), 'center');
-                                                $img->save(public_path('img/propiedad/'.$filenames));
-                                                $foto = new Foto();
-                                                $foto->idPropiedad = $propiedadACrear->id;
-                                                $foto->nombreArchivo = $filenames;
-                                                $foto->marcaDeAgua = 1;
-                                                $foto->save();
+                                                try{
+                                                    $filenames = basename($path);
+                                                    $img = Image::make($path);
+                                                    $img->insert(public_path('front/logoopacity2.png'), 'center');
+                                                    $img->save(public_path('img/propiedad/'.$filenames));
+                                                    $foto = new Foto();
+                                                    $foto->idPropiedad = $propiedadACrear->id;
+                                                    $foto->nombreArchivo = $filenames;
+                                                    $foto->marcaDeAgua = 1;
+                                                    $foto->save();
+                                                }
+                                                catch(NotReadableException $e)
+                                                {
+                                                    continue;
+                                                }
                                             }
                                             else
                                             {
-                                                $filenames = basename($path).'.jpg';
-                                                $img = Image::make($path);
-                                                $img->insert(public_path('front/logoopacity2.png'), 'center');
-                                                $img->save(public_path('img/propiedad/'.$filenames));
-                                                $foto = new Foto();
-                                                $foto->idPropiedad = $propiedadACrear->id;
-                                                $foto->nombreArchivo = $filenames;
-                                                $foto->marcaDeAgua = 1;
-                                                $foto->save();
+                                                try{
+                                                    $filenames = basename($path).'.jpg';
+                                                    $img = Image::make($path);
+                                                    $img->insert(public_path('front/logoopacity2.png'), 'center');
+                                                    $img->save(public_path('img/propiedad/'.$filenames));
+                                                    $foto = new Foto();
+                                                    $foto->idPropiedad = $propiedadACrear->id;
+                                                    $foto->nombreArchivo = $filenames;
+                                                    $foto->marcaDeAgua = 1;
+                                                    $foto->save();
+                                                }
+                                                catch(NotReadableException $e)
+                                                {
+                                                    continue;
+                                                }
                                             }
                                         }
                                     }
