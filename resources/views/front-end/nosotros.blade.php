@@ -92,7 +92,7 @@
         <h2 class="text-dark lh-1625 text-center mb-2 fs-22 fs-md-32">Nuestro equipo</h2>
         <p class="mxw-751 text-center mb-1 px-8">Tenemos al mejor equipo de expertos en asesoría inmobiliaria</p>
         <div class="row">
-            <div class="col-lg-4 col-sm-12 mb-sm-0 mb-7">
+            <div class="col-lg-6 col-sm-12 mb-sm-0 mb-7">
                 <div class="card border-0 our-team text-center">
                 <div class="rounded overflow-hidden bg-hover-overlay d-inline-block">
                     <img class="card-img" src="/front/GUSTAVO1.png"
@@ -127,7 +127,7 @@
                 </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-sm-12 mb-sm-0 mb-7">
+            <div class="col-lg-6 col-sm-12 mb-sm-0 mb-7">
                 <div class="card border-0 our-team text-center">
                 <div class="rounded overflow-hidden bg-hover-overlay d-inline-block">
                     <img class="card-img" src="/front/TRIANA33.png"
@@ -160,42 +160,6 @@
                     <a href="https://www.linkedin.com/in/triana-bustos-11a349176/" class="text-heading hover-primary">Triana Bustos</a>
                     </h3>
                     <p>Líder de Operaciones Inmobiliarias</p>
-                </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-sm-12 mb-sm-0 mb-7">
-                <div class="card border-0 our-team text-center">
-                <div class="rounded overflow-hidden bg-hover-overlay d-inline-block">
-                    <img class="card-img" src="/front/ISABEL2.jpg"
-                                alt="Isabel Sainz">
-                    <ul class="list-inline text-gray-lighter position-absolute w-100 m-0 p-0 z-index-2">
-                        <!--<li class="list-inline-item m-0">
-                            <a href="#"
-                                        class="w-32px h-32 rounded shadow-xxs-3 bg-hover-primary bg-white hover-white text-body d-flex align-items-center justify-content-center"><i
-                                            class="fab fa-twitter"></i></a>
-                        </li>
-                        <li class="list-inline-item mr-0 ml-2">
-                            <a href="#"
-                                        class="w-32px h-32 rounded shadow-xxs-3 bg-hover-primary bg-white hover-white text-body d-flex align-items-center justify-content-center"><i
-                                            class="fab fa-facebook-f"></i></a>
-                        </li>
-                        <li class="list-inline-item mr-0 ml-2">
-                            <a href="#"
-                                        class="w-32px h-32 rounded shadow-xxs-3 bg-hover-primary bg-white hover-white text-body d-flex align-items-center justify-content-center"><i
-                                            class="fab fa-instagram"></i></a>
-                        </li>-->
-                        <li class="list-inline-item mr-0 ml-2">
-                            <a href="https://www.linkedin.com/in/isabelmargaritasainz/"
-                                        class="w-32px h-32 rounded shadow-xxs-3 bg-hover-primary bg-white hover-white text-body d-flex align-items-center justify-content-center"><i
-                                            class="fab fa-linkedin-in"></i></a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="card-body pt-5">
-                    <h3 class="fs-16 text-heading mb-1 lh-2">
-                    <a href="https://www.linkedin.com/in/isabelmargaritasainz/" class="text-heading hover-primary">Isabel Sainz</a>
-                    </h3>
-                    <p>Líder de Administración Inmobiliaria</p>
                 </div>
                 </div>
             </div>
