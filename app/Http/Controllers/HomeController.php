@@ -33,7 +33,9 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $oneYearAgo = Carbon::now()->subYear();
         $leadsContactos = FormularioContacto::select(DB::raw('count(*) as cantidadLeads'), DB::raw("DATE_FORMAT(created_at, '%d-%m-%Y') as fecha"))
+        ->where('created_at', '>=', $oneYearAgo)
         ->groupBy(DB::raw("DATE_FORMAT(created_at, '%d-%m-%Y')"))
         ->orderBy('created_at', 'asc')
         ->get();

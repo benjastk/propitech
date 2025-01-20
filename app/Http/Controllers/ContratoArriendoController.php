@@ -47,6 +47,7 @@ class ContratoArriendoController extends Controller
         $contratosArriendos = ContratoArriendo::select('contratos_arriendos.*', 'estados.nombreEstado', 'propiedades.direccion', 'propiedades.numero', 'propiedades.block')
         ->join('propiedades', 'contratos_arriendos.idPropiedad', '=', 'propiedades.id')
         ->join('estados', 'estados.idEstado', '=', 'contratos_arriendos.idEstado')
+        ->orderBy('contratos_arriendos.idEstado', 'asc')
         ->get();
         return view('back-office.contratos.index', compact('user', 'contratosArriendos'));
     }

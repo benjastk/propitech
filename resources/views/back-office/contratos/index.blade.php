@@ -186,7 +186,7 @@
 <script>
 	$(document).ready( function () {
 		$('#tabla-ingresos').DataTable( {
-			"order": [[ 0, "desc" ]]
+			"order": [[ 6, "asc" ]]
 		});
 	} );
 </script>
