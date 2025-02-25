@@ -9,16 +9,16 @@ class Proyecto extends Model
     protected $table = 'proyectos';
     protected $primaryKey = 'idProyecto';
     protected $fillable = [
-        'nombreProyecto',
+        'nombreProyecto', // title
         'valorUFDesde',
         'valorUFHasta',
         'dormitoriosDesde',
         'dormitoriosHasta',
         'baniosDesde',
         'baniosHasta',
-        'tipoPropiedad',
-        'latitud',
-        'longitud',
+        'tipoPropiedad', //type->name
+        'latitud', //latitude
+        'longitud',//longitude
         'idTipologia',
         'cantidadDepartamentos',
         'metrosDesde',
@@ -28,10 +28,10 @@ class Proyecto extends Model
         'numero',
         'idPais',
         'idProvincia',
-        'idRegion',
-        'idComuna',
+        'idRegion',//
+        'idComuna',//zone->name
         'introduccion',
-        'descripcion',
+        'descripcion', //description
         'descripcion2',
         'entregaInmediata',
         'idDestacado',
