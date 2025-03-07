@@ -27,6 +27,7 @@
     },
     "dependencies": {
         "@swc/helpers": "^0.5.1",
+        "cropperjs": "^2.0.0",
         "moment": "^2.30.1",
         "vue-feather-icons": "^5.1.0",
         "vuedraggable": "^2.24.3"

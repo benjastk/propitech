@@ -563,4 +563,17 @@ class ContratoArriendoController extends Controller
 			return back();
 		}
 	}
+    public function vencidos(Request $request)
+    {
+        $user = Auth::user();
+        $contratosArriendos = [];
+        if($request)
+        {
+            return view ('back-office.contratos.vencidos', compact('contratosArriendos', 'user'));
+        }
+        else
+        {
+            return view ('back-office.contratos.vencidos', compact('contratosArriendos', 'user'));
+        }
+    }
 }

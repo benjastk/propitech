@@ -1,7 +1,7 @@
 @extends('back-office.layouts.app')
 @section('css')
 <link href="https://unpkg.com/dropzone/dist/dropzone.css" rel="stylesheet"/>
-<link href="https://unpkg.com/cropperjs/dist/cropper.css" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/cropperjs/dist/cropper.min.css" rel="stylesheet"/>
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 @endsection
 @section('content')
