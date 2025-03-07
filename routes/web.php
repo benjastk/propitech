@@ -141,6 +141,7 @@ Route::prefix('contratos')->group(function () {
     Route::post('/reimpresionSalvoconductoArriendo', 'ContratoArriendoController@imprimirSalvoconducto');
     Route::get('/export', 'ContratoArriendoController@exportExcel')->name('export-contratos');
     Route::get('/export-demo', 'ContratoArriendoController@imprimirContratoArriendoDemo')->name('export-demo');
+    Route::get('/vencidos', 'ContratoArriendoController@vencidos')->name('vencidos');
 });
 Route::prefix('reservas')->group(function () {
     Route::get('/', 'ReservaPropiedadController@index');
