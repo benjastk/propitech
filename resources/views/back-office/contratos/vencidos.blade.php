@@ -46,7 +46,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="page-title-box d-flex align-items-center justify-content-between">
-                            <h4 class="mb-0 font-size-18">Contratos vencidos</h4>
+                            <h4 class="mb-0 font-size-18">Contratos vencidos / Reajustes</h4>
 
                             <div class="page-title-right">
                                 <!--<ol class="breadcrumb m-0">
@@ -61,19 +61,63 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-12">
+                        <form method="POST" action="{{ route('buscarVencidos') }}" >
+                        @csrf
+                            <div class="form-row">
+                                <div class="form-group col-md-3">
+                                    <label>Desde</label>
+                                    @if($desde)
+                                        <input type="date" name="desde" id="desde" value="{{$desde}}" class="form-control" required >
+                                    @else
+                                        <input type="date" name="desde" id="desde"class="form-control"  required>
+                                    @endif
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label>Hasta</label>
+                                    @if($desde)
+                                        <input type="date" name="hasta" id="hasta" value="{{$hasta}}" class="form-control" required >
+                                    @else
+                                        <input type="date" name="hasta" id="hasta"class="form-control"  required>
+                                    @endif
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label>Tipo Consulta</label>
+                                    <select name="tipo" class="form-control" required>
+                                        @if($tipo)
+                                        <option value="" >Seleccione opcion</option>
+                                        <option value="2" {{ ($tipo == 2 ) ? 'selected' :'' }} >Contratos vencidos</option>
+                                        <option value="1" {{ ($tipo == 1 ) ? 'selected' :'' }}>Reajustes</option>
+                                        @else
+                                        <option value="" >Seleccione opcion</option>
+                                        <option value="2">Contratos vencidos</option>
+                                        <option value="1">Reajustes</option>
+                                        @endif
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label>&nbsp;</label>
+                                    <center><button style="width: 100%;" type="submit" class="btn btn-block btn-primary btn-sm"><i class="fa fa-search"></i> Buscar</button></center>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table id="tabla-ingresos" class="table table-centered table-hover">
+                                        @if($tipo == 2)
                                         <thead class="thead-light">
                                             <tr>
-                                                <th scope="col">Fecha de contrato</th>
-                                                <th scope="col">Fecha de Termino</th>
-                                                <th scope="col" style="width: 100px; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;">Arrendatario</th>
-                                                <th scope="col" style="width: 100px; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;">Propiedad</th>
+                                                <th scope="col">Rut</th>
+                                                <th scope="col">Arrendatario</th>
+                                                <th scope="col">Propiedad</th>
                                                 <th scope="col">Valor Mensual</th>
-                                                <th scope="col">Estado</th>
+                                                <th scope="col">Fecha de Inicio</th>
+                                                <th scope="col">Fecha de Termino</th>
                                                 <!--<th scope="col">Nota</th>-->
                                                 <th scope="col">Acciones</th>
                                             </tr>
@@ -83,28 +127,20 @@
                                             @foreach($contratosArriendos as $contrato )
                                             <tr>
                                                 <td>
+                                                    {{ $contrato->rutArrendatario }}
+                                                </td>
+                                                <td >{{ $contrato->nombreArrendatario }} {{ $contrato->apellidoArrendatario }}</td>
+                                                <td >{{ $contrato->direccion }} {{ $contrato->numero }}
+                                                     @if($contrato->block), Dpto. {{ $contrato->block }} @endif
+                                                </td>
+                                                <td>${{ number_format($contrato->arriendoMensual, 0, '', '.')}}</td>
+                                                <!--<td>{{ $contrato->nota }}</td>-->
+                                                <td>
                                                     {{ strftime("%d de %B de %Y", strtotime($contrato->desde)) }}
                                                 </td>
                                                 <td>
                                                     {{ strftime("%d de %B de %Y", strtotime($contrato->hasta)) }}
                                                 </td>
-                                                <td style="width: 100px; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;">{{ $contrato->nombreArrendatario }} {{ $contrato->apellidoArrendatario }}</td>
-                                                <td style="width: 100px; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;" >{{ $contrato->direccion }} {{ $contrato->numero }}
-                                                     @if($contrato->block) , Dpto. {{ $contrato->block }} @endif
-                                                </td>
-                                                <td>${{ number_format($contrato->arriendoMensual, 0, '', '.')}}</td>
-                                                <td>
-                                                    <div>
-                                                        @if($contrato->idEstado == 61)
-                                                        <a href="#" class="badge badge-soft-success font-size-11 m-1">{{ $contrato->nombreEstado }}</a>
-                                                        @elseif($contrato->idEstado == 62)
-                                                        <a href="#" class="badge badge-soft-danger font-size-11 m-1">{{ $contrato->nombreEstado }}</a>
-                                                        @else
-                                                        <a href="#" class="badge badge-soft-primary font-size-11 m-1">{{ $contrato->nombreEstado }}</a>
-                                                        @endif
-                                                    </div>
-                                                </td>
-                                                <!--<td>{{ $contrato->nota }}</td>-->
                                                 <td>
                                                     <ul class="list-inline font-size-20 contact-links mb-0">
                                                         <!--<li class="list-inline-item px-2">
@@ -114,38 +150,60 @@
                                                             <a href="" data-toggle="tooltip" data-placement="top" title="Profile"><i class="bx bx-user-circle"></i></a>
                                                         </li>-->
                                                         <li class="list-inline-item">
-                                                            <form id="form1" action="{{ url('/contratos/reimpresionSalvoconductoArriendo') }}" method="post">
-                                                                {{ csrf_field() }}
-                                                                <input type="hidden" name="id" value="{{ $contrato->idContratoArriendo }}"/>
-                                                                <button style="border: 0px; background-color: transparent;" type="submit"><i class="bx bxs-file-doc" title="Imprimir Salvoconducto" ></i></button>
-                                                            </form>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <form id="form2" action="{{ url('/contratos/reimpresionContratoArriendo') }}" method="post">
-                                                                {{ csrf_field() }}
-                                                                <input type="hidden" name="id" value="{{ $contrato->idContratoArriendo }}"/>
-                                                                <button style="border: 0px; background-color: transparent;" type="submit"><i class="bx bxs-printer" title="Imprimir Contrato de Arriendo"></i></button>
-                                                            </form>
-                                                        </li>
-                                                        <li class="list-inline-item">
                                                             <a href="/estados-pagos/mostrar/{{ $contrato->idContratoArriendo }}" data-toggle="tooltip" data-placement="top" title="Estados de pago"><i class="bx bxs-dollar-circle"></i></a>
                                                         </li>
                                                         <li class="list-inline-item">
-                                                            <a href="/contratos/edit/{{ $contrato->idContratoArriendo }}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bx bxs-edit-alt"></i></a>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <form id="form3" action="{{ url('/contratos/destroy') }}" method="post">
-                                                                {{ csrf_field() }}
-                                                                <input type="hidden" name="id" value="{{ $contrato->idContratoArriendo }}"/>
-                                                                <button style="border: 0px; background-color: transparent;" type="submit"><i class="bx bxs-trash-alt"></i></button>
-                                                            </form>
-                                                            <!--<a href="/contratos/edit/{{ $contrato->idContratoArriendo }}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bx bxs-trash-alt"></i></a>-->
+                                                            <a href="/contratos/create?propiedad={{ $contrato->idPropiedad }}" data-toggle="tooltip" data-placement="top" title="Renovar"><i class="bx bx-bookmarks"></i></a>
                                                         </li>
                                                     </ul>
                                                 </td>
                                             </tr>
                                             @endforeach
                                         </tbody>
+                                        @else
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col">Rut</th>
+                                                <th scope="col">Arrendatario</th>
+                                                <th scope="col">Email</th>
+                                                <th scope="col">Propiedad</th>
+                                                <th scope="col">Valor Mensual</th>
+                                                <th scope="col">Fecha Proximo Vencimiento</th>
+                                                <th scope="col">Proxima Cuota</th>
+                                                <!--<th scope="col">Nota</th>-->
+                                                <th scope="col">Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @php(setlocale(LC_TIME, 'spanish'))
+                                            @foreach($estadosPagos as $estadoPago )
+                                            <tr>
+                                                <td>
+                                                    {{ $estadoPago->rut }}
+                                                </td>
+                                                <td >{{ $estadoPago->nombreArrendatario }} {{ $estadoPago->apellidoArrendatario }}</td>
+                                                <td >{{ $estadoPago->email }}</td>
+                                                <td >{{ $estadoPago->direccion }} {{ $estadoPago->numero }}
+                                                     @if($estadoPago->block), Dpto. {{ $estadoPago->block }} @endif
+                                                </td>
+                                                <td>${{ number_format($estadoPago->arriendoMensual, 0, '', '.')}}</td>
+                                                <td>
+                                                    {{ strftime("%d de %B de %Y", strtotime($estadoPago->fechaVencimiento)) }}
+                                                </td>
+                                                <td>
+                                                    {{ $estadoPago->numeroCuota }}
+                                                </td>
+                                                <td>
+                                                    <ul class="list-inline font-size-20 contact-links mb-0">
+                                                        <li class="list-inline-item">
+                                                            <a href="/estados-pagos/mostrar/{{ $estadoPago->idContrato }}" data-toggle="tooltip" data-placement="top" title="Estados de pago"><i class="bx bxs-dollar-circle"></i></a>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                        @endif
                                     </table>
                                 </div>
                                 <div style="text-align:center">
@@ -185,4 +243,3 @@
 	} );
 </script>
 @endsection
-        
