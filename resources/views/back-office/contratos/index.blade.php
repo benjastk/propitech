@@ -49,6 +49,9 @@
                             <h4 class="mb-0 font-size-18">Lista de Contratos de arriendo</h4>
 
                             <div class="page-title-right">
+                                <a href="/contratos/vencidos" class="btn btn-danger waves-effect waves-light" style="margin-right: 10px">
+                                    <i class="fa fa-gear"></i> Vencimientos / Reajustes
+                                </a>
                                 <a href="/contratos/export" class="btn btn-success waves-effect waves-light" style="margin-right: 10px">
                                     <i class="far fa-file-excel"></i> Descargar Excel
                                 </a>

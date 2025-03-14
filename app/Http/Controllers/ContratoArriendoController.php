@@ -567,13 +567,76 @@ class ContratoArriendoController extends Controller
     {
         $user = Auth::user();
         $contratosArriendos = [];
+        $estadosPagos = [];
+        $desde = '';
+        $hasta = '';
+        $tipo = '';
         if($request)
         {
-            return view ('back-office.contratos.vencidos', compact('contratosArriendos', 'user'));
+            return view ('back-office.contratos.vencidos', compact('contratosArriendos', 'user', 'desde', 'hasta', 'tipo', 'estadosPagos'));
         }
         else
         {
-            return view ('back-office.contratos.vencidos', compact('contratosArriendos', 'user'));
+            return view ('back-office.contratos.vencidos', compact('contratosArriendos', 'user', 'desde', 'hasta', 'tipo', 'estadosPagos'));
         }
+    }
+    public function buscarVencidos(Request $request)
+    {
+        try {
+            $user = Auth::user();
+            $contratosArriendos = [];
+            $estadosPagos = [];
+            $desde = $request->desde;
+            $hasta = $request->hasta;
+            $tipo = $request->tipo;
+            if($request->tipo == 2)
+            {
+                $contratosArriendos = ContratoArriendo::select('contratos_arriendos.*', 'propiedades.id', 'estados.nombreEstado', 'estados.idEstado',
+                'propiedades.direccion', 'propiedades.numero', 'propiedades.block', 'region.nombre as nombreRegion', 'comuna.nombre as nombreComuna', 
+                'propiedades.usoGoceBodega', 'propiedades.codigoBodega', 'propiedades.usoGoceEstacionamiento', 'propiedades.codigoEstacionamiento',
+                'propiedades.habitacion', 'propiedades.bano', 'user1.name as nombreArrendatario', 'user1.apellido as apellidoArrendatario', 'user1.rut as rutArrendatario',
+                'user1.direccion as direccionArrendatario', 'user1.numero as numeroArrendatario', 'comuna1.nombre as comunaArrendatario', 'user1.telefono as telefonoArrendatario', 'user1.email as correoArrendatario',
+                'user3.name as nombreCodeudor', 'user3.apellido as apellidoCodeudor', 'user3.rut as rutCodeudor','user3.direccion as direccionCodeudor', 
+                'user3.numero as numeroCodeudor', 'user3.email as correoCodeudor', 'user1.estadoCivil as estadoCivilArrendatario',
+                'user1.profesion as profesionArrendatario', 'user3.estadoCivil as estadoCivilCodeudor', 'user3.profesion as profesionCodeudor', 'propiedades.nombreEdificioComunidad')
+                ->join('propiedades', 'contratos_arriendos.idPropiedad', '=', 'propiedades.id')
+                ->join('region', 'region.id', '=', 'propiedades.idRegion')
+                ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
+                ->join('estados', 'estados.idEstado', '=', 'contratos_arriendos.idEstado')
+                ->join('users as user1', 'user1.id', '=', 'contratos_arriendos.idUsuarioArrendatario')
+                ->join('comuna as comuna1', 'comuna1.id', '=', 'user1.idComuna')
+                ->leftjoin('users as user3', 'user3.id', '=', 'contratos_arriendos.idUsuarioCodeudor')
+                ->where('contratos_arriendos.idEstado', '=', 61)
+                ->whereBetween('hasta', [$request->desde, $request->hasta])
+                ->get();
+                return view ('back-office.contratos.vencidos', compact('contratosArriendos', 'user', 'desde', 'hasta', 'tipo', 'estadosPagos'));
+            }
+            else
+            {
+                $estadosPagos = EstadoPago::select('estados_pagos.*', 'contratos_arriendos.desde', 'contratos_arriendos.hasta', 'propiedades.direccion', 
+                'propiedades.block', 'propiedades.numero', 'comuna.nombre as nombreComuna', 'region.nombre as nombreRegion', 'users.name as nombreArrendatario', 
+                'users.apellido', 'users.rut', 'users.email', 'users.telefono')
+                ->join('estados', 'estados_pagos.idEstado', '=', 'estados.idEstado')
+                ->join('contratos_arriendos', 'estados_pagos.idContrato', '=', 'contratos_arriendos.idContratoArriendo')
+                ->join('propiedades', 'contratos_arriendos.idPropiedad', '=', 'propiedades.id')
+                ->join('users', 'contratos_arriendos.idUsuarioArrendatario', '=', 'users.id')
+                ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
+                ->join('region', 'region.id', '=', 'propiedades.idRegion')
+                ->whereBetween('estados_pagos.fechaVencimiento', [$request->desde, $request->hasta])
+                ->where('contratos_arriendos.idEstado', '=', 61)
+                ->where('estados_pagos.numeroCuota', 7)
+                ->get();
+                return view ('back-office.contratos.vencidos', compact('contratosArriendos', 'user', 'desde', 'hasta', 'tipo', 'estadosPagos'));
+            }
+		} catch (QueryException $e) {
+			toastr()->error($e->getMessage());
+			return back();
+		} catch (ModelNotFoundException $e) {
+			toastr()->error('No encontrado');
+			return back();
+		} catch (Exception $e) {
+			toastr()->error('Se ha producido un error, favor intente nuevamente');
+			return back();
+		}
     }
 }
