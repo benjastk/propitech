@@ -604,7 +604,7 @@ class IntegracionPortalController extends Controller
                             },
                             {
                                 "id": "HAS_INTERNET_ACCESS",
-                                "value_name": "242084"
+                                "value_name": "Sí"
                             }
                         ]
                         }';
