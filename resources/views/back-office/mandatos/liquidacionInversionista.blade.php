@@ -243,6 +243,7 @@
                                                 <!--<a class="dropdown-item" href="descuentos/{{$estadosDePagos->idEstadoPago}}"><i class="fa fa-arrow-down"></i> Descuentos</a>-->
                                                 <a class="dropdown-item"  data-toggle="modal" data-target="#exampleModalCenterEliminar-{{ $estadosDePagos->idEstadoPagoMandato }}" href="#"><i class="fa fa-trash"></i> Eliminar</a>
                                                 <a class="dropdown-item" href="/mandatos/enviar-comprobante-inversionista/{{$estadosDePagos->idEstadoPagoMandato}}"><i class="fa fa-envelope"></i> Enviar Comprobante A Inversionista</a>
+                                                <a class="dropdown-item"  data-toggle="modal" data-target="#exampleModalCargoDescuento-{{ $estadosDePagos->idEstadoPagoMandato }}" href="#"><i class="fa fa-money"></i> Cargo/Descuento</a>
                                                 </div>
                                             </div>
                                             @else
@@ -403,6 +404,60 @@
                         @csrf
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                         <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        @endif
+        @if($estadosPagosMandatarios)
+            @foreach ($estadosPagosMandatarios as $estadoPagoModalCargo)    
+            <div class="modal fade" id="exampleModalCargoDescuento-{{$estadoPagoModalCargo->idEstadoPagoMandato}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Crear Cargo/Descuento</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" action="{{ route('createCargoDescuentoPropietario') }}" >
+                        @csrf
+                        <div class="row">
+                            <div class="col-12">
+                                <label>Tipo</label>
+                                <select name="tipo" class="form-control" required>
+                                    <option value="">Seleccione</option>
+                                    <option value="1">Cargo</option>
+                                    <option value="2">Descuento</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <label>Nombre Cargo o Descuento</label>
+                                <input type="text" name="nombre" class="form-control" required >
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <label>Monto</label>
+                                <input type="number" name="monto" class="form-control" required >
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <label>Descripcion</label>
+                                <textarea class="form-control" id="descripcion" name="descripcion" rows="2" placeholder="Descripcion"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="idEstadoPago" id="idEstadoPago" value="{{ Crypt::encrypt($estadoPagoModalCargo->idEstadoPagoMandato) }}" >
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-success">Guardar</button>
                         </form>
                     </div>
                     </div>

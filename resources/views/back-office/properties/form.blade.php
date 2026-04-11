@@ -1,5 +1,16 @@
 <div class="card-body">
     <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <label>Titulo Extendido</label>
+            @if(!isset($propiedad->tituloExtendido))
+                <input type="text" name="tituloExtendido" value="{{old('tituloExtendido')}}" class="form-control" placeholder="Titulo Extendido" required>
+            @else
+                <input type="text" name="tituloExtendido" value="{{ $propiedad->tituloExtendido }}" class="form-control" placeholder="Titulo Extendido" required>
+            @endif
+        </div>
+    </div>
+    <br>
+    <div class="row">
         <div class="col-lg-5 col-md-5 col-sm-12">
             <label>Nombre de la Propiedad</label>
             @if(!isset($propiedad->nombrePropiedad))

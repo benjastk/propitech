@@ -12,7 +12,7 @@ class PropertiesExport implements FromCollection,WithHeadings, ShouldAutoSize
     /**
     * @return \Illuminate\Support\Collection
     */
-    public function headings(): array
+    /*public function headings(): array
     {
         return [
             'ID',
@@ -64,5 +64,5 @@ class PropertiesExport implements FromCollection,WithHeadings, ShouldAutoSize
                 $listadoPropiedades->push($propiedad);
         }
         return $listadoPropiedades;
-    }
+    }*/
 }

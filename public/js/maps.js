@@ -15,10 +15,12 @@ $(document).ready(function(){
                 dataType: 'json',
                 success: function (respuesta) {
                     console.log(respuesta);
-                    document.getElementById("latitud").value = respuesta['results'][0]['geometry']['location']['lat'];
-                    document.getElementById("longitud").value = respuesta['results'][0]['geometry']['location']['lng'];
+                    //document.getElementById("latitud").value = respuesta['results'][0]['geometry']['location']['lat'];
+                    //document.getElementById("longitud").value = respuesta['results'][0]['geometry']['location']['lng'];
+                    document.getElementById("latitud").value = respuesta[0]['lat'];
+                    document.getElementById("longitud").value = respuesta[0]['lon'];
                     var map;
-                    var latlng = new google.maps.LatLng( respuesta['results'][0]['geometry']['location']['lat'] , respuesta['results'][0]['geometry']['location']['lng']);
+                    var latlng = new google.maps.LatLng( respuesta[0]['lat'] , respuesta[0]['lon']);
                     map = new google.maps.Map(document.getElementById('map'), {
                         zoom: 14,
                         center: latlng,
@@ -26,7 +28,7 @@ $(document).ready(function(){
                         mapTypeId: google.maps.MapTypeId.ROADMAP,
                         disableDefaultUI: true
                     });
-                    var myLatlng = new google.maps.LatLng( respuesta['results'][0]['geometry']['location']['lat'], respuesta['results'][0]['geometry']['location']['lng']);
+                    var myLatlng = new google.maps.LatLng( respuesta[0]['lat'] , respuesta[0]['lon']);
                     var marker = new google.maps.Marker({
                         position: myLatlng
                     });
@@ -53,10 +55,12 @@ $(document).ready(function(){
                 method:'GET',
                 dataType: 'json',
                 success: function (respuesta) {
-                    console.log(respuesta['results'][0]['geometry']['location']['lat']);
-                    document.getElementById("latitud").value = respuesta['results'][0]['geometry']['location']['lat'];
-                    document.getElementById("longitud").value = respuesta['results'][0]['geometry']['location']['lng'];
-                    var latlng = new google.maps.LatLng( respuesta['results'][0]['geometry']['location']['lat'] , respuesta['results'][0]['geometry']['location']['lng']);
+                    console.log(respuesta[0]['lat']);
+                    //document.getElementById("latitud").value = respuesta['results'][0]['geometry']['location']['lat'];
+                    //document.getElementById("longitud").value = respuesta['results'][0]['geometry']['location']['lng'];
+                    document.getElementById("latitud").value = respuesta[0]['lat'];
+                    document.getElementById("longitud").value = respuesta[0]['lon'];
+                    var latlng = new google.maps.LatLng( respuesta[0]['lat'] , respuesta[0]['lon']);
                     map = new google.maps.Map(document.getElementById('map'), {
                         zoom: 14,
                         center: latlng,
@@ -64,7 +68,7 @@ $(document).ready(function(){
                         mapTypeId: google.maps.MapTypeId.ROADMAP,
                         disableDefaultUI: true
                     });
-                    var myLatlng = new google.maps.LatLng( respuesta['results'][0]['geometry']['location']['lat'], respuesta['results'][0]['geometry']['location']['lng']);
+                    var myLatlng = new google.maps.LatLng( respuesta[0]['lat'] , respuesta[0]['lon']);
                     var marker = new google.maps.Marker({
                         position: myLatlng
                     });

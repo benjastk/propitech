@@ -155,6 +155,9 @@
             en el inmueble y tampoco las cuentas b&aacute;sicas adeudadas por el arrendatario. El<strong> MANDATARIO</strong>, no estar&aacute; 
             obligado a cubrir las rentas de arrendamiento cuando el inmueble se encuentre desocupado, es decir sin arrendatarios.</p>
             <p>&nbsp;</p>
+            <p>En los casos de propiedades recibidas por traspaso, la situación de los arrendatarios existentes será evaluada por el MANDATARIO para determinar si el beneficio de "Arriendo Seguro" puede ser aplicado, 
+            de acuerdo con el plan adjudicado por el MANDANTE. El beneficio no podrá ser activado si la documentación del arrendatario existente no cumple con los requisitos necesarios de calificación.</p>
+            <p>&nbsp;</p>
             <p><strong><u>SEXTO:</u></strong><strong> COMPETENCIA.</strong></p>
             <p>Las partes declaran que para todos los efectos legales derivados de este contrato fijan su domicilio en la comuna y ciudad de Santiago, 
             otorgando competencia a los respectivos Tribunales Civiles.</p>
@@ -188,7 +191,6 @@
             En caso contrario, se entender&aacute; como correcta la notificaci&oacute;n y/o comunicaci&oacute;n que se realice, liberando de cualquier 
             responsabilidad que se genere por la incorrecta notificaci&oacute;n.</p>
             <p><strong>&nbsp;</strong></p>
-            <p style="page-break-after: always;">
             <p><strong><u>NOVENO</u></strong><strong>: DECLARACI&Oacute;N.</strong></p>
             <p>El <strong>MANDANTE</strong> declara haber le&iacute;do los T&eacute;rminos y Condiciones y Pol&iacute;ticas de Privacidad contenidas 
             en la p&aacute;gina web <a href="http://www.propitech.cl">www.propitech.cl</a>, y estar de acuerdo con cada una de las cl&aacute;usulas contenidas en ellas.</p>

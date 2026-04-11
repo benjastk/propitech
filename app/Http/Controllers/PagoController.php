@@ -59,7 +59,14 @@ class PagoController extends Controller
         }
         $digitoVerificador = substr($request->p_idcli, -1);
         $rutSinDigito = substr($request->p_idcli, 0, -1);
-        $rutUsuario = $rutSinDigito.'-'.$digitoVerificador;
+        if($request->p_tiidc == "01")
+        {
+            $rutUsuario = $rutSinDigito.'-'.$digitoVerificador;
+        }
+        else
+        {
+            $rutUsuario = $request->p_idcli;
+        }
 
         $reserva = ReservaPropiedad::where('rut', $rutUsuario)
         ->where('idEstado', 47) // cambiar
@@ -116,7 +123,7 @@ class PagoController extends Controller
             ->whereIn('estados_pagos.idEstado', [ 47, 49, 50])
             ->orderBy('estados_pagos.fechaVencimiento', 'ASC')
             ->first();
-    
+            Log::info('Info', array('rut' => $rutUsuario));
             if($estadoDePago)
             {
                 $convenio = getenv("OTROS_PAGOS_COVENIO");

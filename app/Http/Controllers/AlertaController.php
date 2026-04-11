@@ -9,6 +9,7 @@ use App\LogCorreoEnviado;
 use App\ParametroGeneral;
 use App\Jobs\YaSeEncuentraDisponibleTuPagoJob;
 use App\Jobs\UltimoDiaParaPagar;
+use Illuminate\Support\Facades\Http;
 class AlertaController extends Controller
 {
     public function recordarPagoArrendatariosMensual()
@@ -28,6 +29,12 @@ class AlertaController extends Controller
         ->whereMonth('estados_pagos.fechaVencimiento', '=', $mesActual)
         ->whereYear('estados_pagos.fechaVencimiento', '=', $anioActual)
         ->get();
+        
+        $account_sid = getenv("TWILIO_SID");
+        $auth_token = getenv("TWILIO_TOKEN");
+        $twilio_number = getenv("TWILIO_FROM");
+        $contentSid = 'HX42744a248a17cdac3c711513da0cc82f'; // Reemplaza con tu SID de contenido
+        $from = 'MGd211ce449e9d2c3193f109fd199e1a3a';     // Reemplaza con tu Messaging Service SID
         if(!$estadosPagos->isEmpty())
         {
             foreach ($estadosPagos as $estadoPago) 
@@ -36,7 +43,7 @@ class AlertaController extends Controller
                 {
                     if(date("Y-m-d",strtotime($estadoPago->fechaVencimiento."- ".$diasAlerta1->valorParametro." days")) == $fechaActual)
                     {
-                        $enviar = SMS::sendSMS();
+                        /*$enviar = SMS::sendSMS();
                         $var = $enviar['cliente']->messages->create( 'whatsapp:+56'. $estadoPago->telefono,
                             ['from' => 'whatsapp:'.$enviar['numero'], 
                             'messagingServiceSid ' => 'MGd211ce449e9d2c3193f109fd199e1a3a', 
@@ -57,6 +64,19 @@ class AlertaController extends Controller
 
                             PROPITECH By Cirobu
                             Hacemos tu sueño realidad. "] 
+                        );*/
+                        $enviar = SMS::sendSMS();
+                        $var = $enviar['cliente']->messages->create(
+                            'whatsapp:+56'.$estadoPago->telefono,
+                            [
+                                "from" => 'whatsapp:'.$twilio_number, // Messaging Service SID
+                                "contentSid" => $contentSid, // Content Template SID
+                                "contentVariables" => json_encode([
+                                    '1' => $estadoPago->name,
+                                    '2' => $mesPalabras,
+                                    '3' => $anioActual
+                                ])
+                            ]
                         );
                         $nuevoLogCorreo = new LogCorreoEnviado();
                         $nuevoLogCorreo->nombre_tipo_correo = 'RECORDATORIO PAGO DE ARRIENDO DIAS ANTES POR WHATSAPP';
@@ -66,6 +86,7 @@ class AlertaController extends Controller
                 }
             }
         }
+        
         return "listo";
     }
     public function ultimoDiaParaPagar()
@@ -75,7 +96,13 @@ class AlertaController extends Controller
         $mesActual = date('m');
         setlocale(LC_TIME, 'es_ES', 'Spanish_Spain', 'Spanish');
         $mesPalabras = strftime("%B");
-
+        
+        $account_sid = getenv("TWILIO_SID");
+        $auth_token = getenv("TWILIO_TOKEN");
+        $twilio_number = getenv("TWILIO_FROM");
+        $contentSid = 'HX4266c8ace7ef8e4902863abbbbe37ded'; // Reemplaza con tu SID de contenido
+        $from = 'MGd211ce449e9d2c3193f109fd199e1a3a';     // Reemplaza con tu Messaging Service SID
+        
         $estadosPagos = EstadoPago::select('estados_pagos.*', 'users.email', 'users.id as idUsuario', 'users.name', 'users.apellido', 'users.telefono')
         ->join('contratos_arriendos', 'contratos_arriendos.idContratoArriendo', '=', 'estados_pagos.idContrato')
         ->join('users', 'users.id', '=', 'contratos_arriendos.idUsuarioArrendatario')
@@ -92,7 +119,7 @@ class AlertaController extends Controller
                 if(date("Y-m-d",strtotime($estadoPago->fechaVencimiento)) == $fechaActual)
                 {
                     //UltimoDiaParaPagar::dispatch($estadoPago);
-                    $enviar = SMS::sendSMS();
+                    /*$enviar = SMS::sendSMS();
                     $var = $enviar['cliente']->messages->create( 'whatsapp:+56'. $estadoPago->telefono,
                         ['from' => 'whatsapp:'.$enviar['numero'], 
                         'messagingServiceSid ' => 'MGd211ce449e9d2c3193f109fd199e1a3a', 
@@ -113,6 +140,19 @@ class AlertaController extends Controller
 
                         PROPITECH By Cirobu
                         Hacemos tu sueño realidad. "] 
+                    );*/
+                    $enviar = SMS::sendSMS();
+                    $var = $enviar['cliente']->messages->create(
+                        'whatsapp:+56'.$estadoPago->telefono,
+                        [
+                            "from" => 'whatsapp:'.$twilio_number, // Messaging Service SID
+                            "contentSid" => $contentSid, // Content Template SID
+                            "contentVariables" => json_encode([
+                                '1' => $estadoPago->name,
+                                '2' => $mesPalabras,
+                                '3' => $anioActual
+                            ])
+                        ]
                     );
                     $nuevoLogCorreo = new LogCorreoEnviado();
                     $nuevoLogCorreo->nombre_tipo_correo = 'ULTIMO DIA RECORDATORIO PAGO DE ARRIENDO POR WHATSAPP';
@@ -242,6 +282,12 @@ class AlertaController extends Controller
             $anioActual = date('Y');
             $mesActual = date('m');
             $mesPalabras = strftime("%B");
+            
+            $account_sid = getenv("TWILIO_SID");
+            $auth_token = getenv("TWILIO_TOKEN");
+            $twilio_number = getenv("TWILIO_FROM");
+            $contentSid = 'HX1adc889820999bd0fe015b6728c6cb47'; // Reemplaza con tu SID de contenido
+            $from = 'MGd211ce449e9d2c3193f109fd199e1a3a';     // Reemplaza con tu Messaging Service SID
 
             $estadosPagos = EstadoPago::select('estados_pagos.*', 'users.email', 'users.id as idUsuario', 'users.name', 'users.apellido', 'users.telefono')
             ->join('contratos_arriendos', 'contratos_arriendos.idContratoArriendo', '=', 'estados_pagos.idContrato')
@@ -261,7 +307,7 @@ class AlertaController extends Controller
                         {
                             if($estadoPago->idUsuario == $usuarioo)
                             {
-                                $enviar = SMS::sendSMS();
+                                /*$enviar = SMS::sendSMS();
                                 $var = $enviar['cliente']->messages->create( 'whatsapp:+56'. $estadoPago->telefono,
                                     ['from' => 'whatsapp:'.$enviar['numero'], 
                                     'messagingServiceSid ' => 'MGd211ce449e9d2c3193f109fd199e1a3a', 
@@ -283,6 +329,19 @@ class AlertaController extends Controller
 
                                     PROPITECH By Cirobu
                                     Hacemos tu sueño realidad."] 
+                                );*/
+                                $enviar = SMS::sendSMS();
+                                $var = $enviar['cliente']->messages->create(
+                                    'whatsapp:+56'.$estadoPago->telefono,
+                                    [
+                                        "from" => 'whatsapp:'.$twilio_number, // Messaging Service SID
+                                        "contentSid" => $contentSid, // Content Template SID
+                                        "contentVariables" => json_encode([
+                                            '1' => $estadoPago->name,
+                                            '2' => $mesPalabras,
+                                            '3' => $anioActual
+                                        ])
+                                    ]
                                 );
                             }
                         }

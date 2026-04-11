@@ -474,7 +474,7 @@ class PropertyController extends Controller
 			return back();
 		}
 	}
-    public function exportExcel()
+    /*public function exportExcel()
     {
 		try {
             return Excel::download(new PropertiesExport, 'propiedades.xlsx');
@@ -488,7 +488,7 @@ class PropertyController extends Controller
 			toastr()->error('Se ha producido un error, favor intente nuevamente');
 			return back();
 		}
-	}
+	}*/
     public function suspendidas()
     {
         $user = Auth::user();
@@ -607,6 +607,7 @@ class PropertyController extends Controller
             $propiedad = new Propiedad();
             $propiedad->idNivelUsoPropiedad = $propiedadDuplicada->idNivelUsoPropiedad;
             $propiedad->idTipoComercial = $propiedadDuplicada->idTipoComercial;
+            $propiedad->tituloExtendido = $propiedadDuplicada->tituloExtendido;
             $propiedad->mostrarTituloAutomatico = $propiedadDuplicada->mostrarTituloAutomatico;
             $propiedad->nombrePropiedad = $propiedadDuplicada->nombrePropiedad;
             $propiedad->rut = $propiedadDuplicada->rut;

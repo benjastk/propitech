@@ -556,7 +556,7 @@ class IntegracionPortalController extends Controller
                 {
                     $bodega = 0;
                 }
-                $fotosss = json_encode($fotosFinales);
+                return $fotosss = json_encode($fotosFinales);
                 $descripcion = json_encode($propiedad->descripcion2, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE);
                 $titulo = json_encode($propiedad->nombrePropiedad, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE);
                 $request = '{"title": '.$titulo.',

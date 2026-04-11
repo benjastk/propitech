@@ -77,7 +77,12 @@ class InicioController extends Controller
 
         $planes = PlanAdministracion::where('activo', 1)
         ->where('eliminado', 0)
-        ->orderBy('comisionAdministracion', 'asc')
+        ->orderByRaw("
+            CAST(
+                REPLACE(comisionAdministracion, ',', '.') 
+            AS DECIMAL(10,2)
+            )
+        ASC")
         ->get();
         if($planes)
         {
@@ -502,7 +507,12 @@ class InicioController extends Controller
     {
         $planes = PlanAdministracion::where('activo', 1)
         ->where('eliminado', 0)
-        ->orderBy('comisionAdministracion', 'asc')
+        ->orderByRaw("
+            CAST(
+                REPLACE(comisionAdministracion, ',', '.') 
+            AS DECIMAL(10,2)
+            )
+        ASC")
         ->get();
         if($planes)
         {
@@ -692,7 +702,7 @@ class InicioController extends Controller
                 Session::put('tokenOtrosPagos', $estadoPago->token);
                 if($estadoPago->idTipoRut == 2)
                 {
-                    $tipoRut = '07';
+                    $tipoRut = '02';
                 }
                 else
                 {

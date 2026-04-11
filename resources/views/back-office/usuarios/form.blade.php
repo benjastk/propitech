@@ -55,7 +55,21 @@
     <br>
     <div class="row">
         <div class="col-lg-4 col-md-4 col-sm-12">
-        <label>Rut</label>
+        <label>Tipo Rut</label>
+            @if(!isset($usuario->idTipoRut))
+                <select name="idTipoRut" id="idTipoRut" class="form-control" required>
+                    <option value="1" {{ old('idTipoRut') == 1 ? 'selected' : '' }}>RUT</option>
+                    <option value="2" {{ old('idTipoRut') == 2 ? 'selected' : '' }}>PASAPORTE</option>
+                </select>
+            @else
+                <select name="idTipoRut" id="idTipoRut" class="form-control" required>
+                    <option value="1" {{ $usuario->idTipoRut == 1 ? 'selected' : '' }}>RUT</option>
+                    <option value="2" {{ $usuario->idTipoRut == 2 ? 'selected' : '' }}>PASAPORTE</option>
+                </select>
+            @endif
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-12">
+        <label>Rut/Pasaporte</label>
             @if(!isset($usuario->rut))
                 <input type="text" name="rut" value="{{old('rut')}}" class="form-control" placeholder="Rut" required>
             @else
@@ -71,18 +85,18 @@
                 <input type="text" name="numeroSerie" value="{{ $usuario->numeroSerie }}" class="form-control" placeholder="Numero de Serie">
             @endif
         </div>
+    </div>
+    <br>
+    <div class="row">
         <div class="col-lg-4 col-md-4 col-sm-12">
-        <label>Correo electronico</label>
+            <label>Correo electronico</label>
             @if(!isset($usuario->email))
                 <input type="email" name="email" value="{{old('email')}}" class="form-control" placeholder="Correo" required>
             @else
                 <input type="email" name="email" value="{{ $usuario->email }}" class="form-control" placeholder="Correo" required>
             @endif
         </div>
-    </div>
-    <br>
-    <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="col-lg-4 col-md-4 col-sm-12">
         <label>Telefono</label>
             @if(!isset($usuario->telefono))
                 <input type="text" name="telefono" value="{{old('telefono')}}" class="form-control" placeholder="Telefono" required>
@@ -90,7 +104,7 @@
                 <input type="text" name="telefono" value="{{ $usuario->telefono }}" class="form-control" placeholder="Telefono" required>
             @endif
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="col-lg-4 col-md-4 col-sm-12">
         <label>Profesion</label>
             @if(!isset($usuario->profesion))
                 <input type="text" name="profesion" value="{{old('profesion')}}" class="form-control" placeholder="Profesion" >

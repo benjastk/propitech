@@ -100,7 +100,7 @@ class DataGeneralController extends Controller
     public function maps($request) 
     {
         $nuevadireccion = urlencode($request);
-        $json = "https://maps.googleapis.com/maps/api/geocode/json?address={$nuevadireccion}&key=AIzaSyAzyDN_wIGU_xsKCYm-0L7pF54cuR2sq5I";
+        $json = "https://geocode.maps.co/search?q={$nuevadireccion}&api_key=686c5dbfc09a7563008728tvf3382c1";
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $json);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

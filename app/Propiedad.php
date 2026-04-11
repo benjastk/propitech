@@ -13,6 +13,7 @@ class Propiedad extends Model
         'idTipoComercial',
         'mostrarTituloAutomatico',
         'nombrePropiedad',
+        'tituloExtendido',
         'rut',
         'numeroClienteAgua',
         'numeroClienteLuz',

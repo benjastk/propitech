@@ -15,7 +15,7 @@
                 <name><![CDATA[Isabel Sainz]]></name>
                 @endif
             </contact>
-            <title><![CDATA[{{ $propiedad->nombrePropiedad }}]]></title>
+            <title><![CDATA[{{ $propiedad->tituloExtendido }}]]></title>
             <description><![CDATA[{!! $propiedad->descripcion2 !!}]]></description>
             <prices>
                 @if($propiedad->idTipoComercial == 1)

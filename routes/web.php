@@ -57,9 +57,10 @@ Route::get('/login', function () {
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/leads', 'HomeController@leads')->name('leads');
+Route::get('/cache', 'HomeController@cache')->name('cache');
 Route::get('/ultimoDiaParaPagar', 'AlertaController@ultimoDiaParaPagar');
 Route::get('/mailPorCorreo', 'AlertaController@mailPorCorreo');
-Route::get('/morosos', 'EstadoPagoController@cambiarAMorosoDOS');
+Route::get('/morosos', 'EstadoPagoController@cambiarAMoroso');
 //Route::get('/vencidos', 'EstadoPagoController@cambiarAVencido');
 Route::get('/sanitizarTexto', 'PropertyController@sanitizarDescripciones');
 Route::get('/agregarPorcentajeAMorosos', 'EstadoPagoController@agregarPorcentajeAMorosos');
@@ -91,8 +92,7 @@ Route::prefix('properties')->group(function () {
     
     Route::post('/img/subir/{id}', 'PropertyController@subirImagen');
     Route::post('/img/eliminar/{fileName}', 'PropertyController@eliminarImagen');
-    Route::get('/export', 'PropertyController@exportExcel')->name('export-properties');
-
+    //Route::get('/export', 'PropertyController@exportExcel')->name('export-properties');
     Route::get('/suspendidas', 'PropertyController@suspendidas');
     Route::post('/suspender/{propiedad}', 'PropertyController@suspender');
 });
@@ -189,6 +189,9 @@ Route::prefix('estados-pagos')->group(function () {
     Route::post('/createCargoDescuento', 'EstadoPagoController@createCargoDescuento');
     Route::post('/destroyCargoDescuento', 'EstadoPagoController@destroyCargoDescuento');
     
+    Route::post('/createCargoDescuentoPropietario', 'EstadoPagoController@createCargoDescuentoPropietario')->name('createCargoDescuentoPropietario');
+    Route::post('/destroyCargoDescuentoPropietario', 'EstadoPagoController@destroyCargoDescuentoPropietario')->name('destroyCargoDescuentoPropietario');
+    
     Route::get('/pagos/{id}', 'EstadoPagoController@indexPagos');
     Route::post('/pago-manual', 'EstadoPagoController@pagoManual')->name('pagoManual');
     Route::post('/pago-manual-index', 'EstadoPagoController@pagoManualDesdeIndex')->name('pagoManualIndex');
@@ -227,3 +230,8 @@ Route::get('/portalinmobiliario/desactivate/{id}', 'Api\IntegracionPortalControl
 Route::get('/portalinmobiliario/delete/{id}', 'Api\IntegracionPortalController@deleteProperties');
 Route::get('/portalinmobiliario/deletePI/{code}', 'Api\IntegracionPortalController@deletePropertiesPortal');
 Route::get('/portalinmobiliario/updateDescription/{id}', 'Api\IntegracionPortalController@updateDescription');
+
+Route::get('/clear-cache', function() {
+    $exitCode = Artisan::call('optimize:clear');
+    // return what you want
+});
