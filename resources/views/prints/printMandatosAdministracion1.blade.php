@@ -48,7 +48,7 @@
         <footer>
         </footer>
         <main>
-            <p style="text-align: center;"><span style="text-decoration: underline;"><strong>MANDATO DE ADMINISTRACI&Oacute;N CON ARRIENDO SEGURO</strong></span></p>
+            <p style="text-align: center;"><span style="text-decoration: underline;"><strong>MANDATO DE ADMINISTRACI&Oacute;N</strong></span></p>
             <p><strong>&nbsp;</strong></p>
             <p><strong>&nbsp;</strong></p>
             @php
