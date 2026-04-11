@@ -495,7 +495,7 @@ class ContratoArriendoController extends Controller
         'user3.numero as numeroCodeudor', 'comuna3.nombre as comunaCodeudor', 'user3.email as correoCodeudor', 'user1.estadoCivil as estadoCivilArrendatario',
         'user1.profesion as profesionArrendatario', 'user2.estadoCivil as estadoCivilPropietario', 'user2.profesion as profesionPropietario',
         'user3.estadoCivil as estadoCivilCodeudor', 'user3.profesion as profesionCodeudor', 'propiedades.nombreEdificioComunidad', 'propiedades.rolPropiedad', 
-        'propiedades.idNivelUsoPropiedad')
+        'propiedades.idNivelUsoPropiedad', 'user1.idTipoRut as tipoRutArrendatario', 'user3.idTipoRut as tipoRutCodeudor')
         ->join('propiedades', 'contratos_arriendos.idPropiedad', '=', 'propiedades.id')
         ->join('region', 'region.id', '=', 'propiedades.idRegion')
         ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')

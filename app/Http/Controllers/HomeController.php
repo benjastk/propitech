@@ -14,6 +14,7 @@ use App\FormularioCaptador;
 use App\FormularioContacto;
 use App\MandatoAdministracion;
 use App\ActualizacionBuyDepa;
+use Illuminate\Support\Facades\Cache;
 class HomeController extends Controller
 {
     /**
@@ -78,5 +79,10 @@ class HomeController extends Controller
         ->join('roles', 'roles.id', '=', 'rol_usuario.id_rol')
         ->get();
         return view('back-office.users', compact('user', 'users'));
+    }
+    public function cache()
+    {
+        Cache::flush();
+        return "OK";
     }
 }

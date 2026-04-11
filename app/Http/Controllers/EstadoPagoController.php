@@ -11,6 +11,7 @@ use App\Jobs\EnvioPagoArriendo;
 use App\Jobs\EnviarPagoReserva;
 use Illuminate\Http\Request;
 use App\LogTransaccionPagos;
+use App\EstadosPagosMandatarios;
 use App\ReservaPropiedad;
 use App\DocumentoReserva;
 use App\ParametroGeneral;
@@ -838,7 +839,7 @@ class EstadoPagoController extends Controller
             {
                 if($usuario->idTipoRut == 2)
                 {
-                    $tipoRut = '07';
+                    $tipoRut = '02';
                 }
                 else
                 {
@@ -1141,5 +1142,133 @@ class EstadoPagoController extends Controller
         $pdf = \PDF::loadView('emails.adjuntoPagoArrendatario', [ 'estadosDePago' => $estadosDePago, 'cargos' => $cargos, 
         'descuentos' => $descuentos, 'totalDescuento' => $totalDescuento, 'totalCargo' => $totalCargo]);
         return $pdf->download();
+    }
+    public function createCargoDescuentoPropietario(Request $request)
+    {
+        try{
+            $user = Auth::user();
+            DB::beginTransaction();
+            $id = Crypt::decrypt($request->idEstadoPago);
+            $estadoPago = EstadosPagosMandatarios::where('idEstadoPagoMandato', '=', $id)->firstOrFail();
+            if($request->tipo == 1)
+            {
+                $cargo = new Cargo();
+                $cargo->idEstadoPago = $estadoPago->idEstadoPago;
+                $cargo->nombreCargo = $request->nombre;
+                $cargo->descripcionCargo = $request->descripcion;
+                $cargo->montoCargo = $request->monto;
+                $cargo->correspondeA = 1;
+                $cargo->cargoValidado = 1;
+                $cargo->creadoPor = "1";
+                $cargo->save();
+                DB::commit();
+
+                $logTransaccion = new LogTransaccion();
+                $logTransaccion->tipoTransaccion = 'Creacion de cargo PROPIETARIO';
+                $logTransaccion->idUsuario =  Auth::user()->id;
+                $logTransaccion->webclient = $request->userAgent();
+                $logTransaccion->descripcionTransaccion = 'Creacion de cargo - Monto del cargo: '.
+                $request->monto;
+                $logTransaccion->save();
+
+                toastr()->success('Cargo creado exitosamente');
+                return back();
+            }
+            else
+            {
+                $descuento = new Descuento();
+                $descuento->idEstadoPago = $estadoPago->idEstadoPago;
+                $descuento->nombreDescuento = $request->nombre;
+                $descuento->descripcionDescuento = $request->descripcion;
+                $descuento->montoDescuento = $request->monto;
+                $descuento->correspondeADescuentos = 1;
+                $descuento->creadoPor = "1";
+                $descuento->save();
+
+                $logTransaccion = new LogTransaccion();
+                $logTransaccion->tipoTransaccion = 'Creacion de descuento PROPIETARIO';
+                $logTransaccion->idUsuario =  Auth::user()->id;
+                $logTransaccion->webclient = $request->userAgent();
+                $logTransaccion->descripcionTransaccion = 'Creacion de descuento - Monto del descuento: '.$request->monto;
+                $logTransaccion->save();
+
+                DB::commit();
+                toastr()->success('Descuento creado exitosamente');
+                return back();
+            }
+        } catch (ModelNotFoundException $e) {
+            toastr()->warning('No autorizado');
+            DB::rollback();
+            return back();
+        } catch (QueryException $e) {
+            toastr()->warning('Ha ocurrido un error, favor intente nuevamente' . $e->getMessage());
+            DB::rollback();
+            return back();
+        } catch (DecryptException $e) {
+            toastr()->info('Ocurrio un error al intentar acceder al recurso solicitado');
+            DB::rollback();
+            return back();
+        } catch (\Exception $e) {
+            toastr()->warning($e->getMessage());
+            DB::rollback();
+            return back();
+        }
+    }
+    public function destroyCargoDescuentoPropietario(Request $request)
+    {
+        try{
+            $user = Auth::user();
+            DB::beginTransaction();
+            if($request->tipo == 1)
+            {
+                $cargo = Cargo::where('idCargo', $request->id)->first();
+                $cargo->delete();
+
+                $logTransaccion = new LogTransaccion();
+                $logTransaccion->tipoTransaccion = 'Eliminacion de cargo en estado de pago';
+                $logTransaccion->idUsuario =  Auth::user()->id;
+                $logTransaccion->webclient = $request->userAgent();
+                $logTransaccion->descripcionTransaccion = 'Eliminacion de cargo en ID estado de pago: '.$request->idEstadoPago. 
+                ' - Monto del cargo: '.$cargo->montoCargo;
+                $logTransaccion->save();
+
+                DB::commit();
+                toastr()->success('Cargo eliminado exitosamente');
+                return redirect('/estados-pagos/edit/'.$request->idEstadoPago);
+            }
+            else
+            {
+                $descuento = Descuento::where('idDescuento', $request->id)->first();
+                $descuento->delete();
+
+                $logTransaccion = new LogTransaccion();
+                $logTransaccion->tipoTransaccion = 'Eliminacion de descuento en estado de pago';
+                $logTransaccion->idUsuario =  Auth::user()->id;
+                $logTransaccion->webclient = $request->userAgent();
+                $logTransaccion->descripcionTransaccion = 'Eliminacion de descuento en ID estado de pago: '.$request->idEstadoPago. 
+                ' - Monto del descuento: '.$descuento->montoDescuento;
+                $logTransaccion->save();
+
+                DB::commit();
+                toastr()->success('Descuento eliminado exitosamente');
+                return redirect('/estados-pagos/edit/'.$request->idEstadoPago);
+            }
+        } catch (ModelNotFoundException $e) {
+            toastr()->warning('No autorizado');
+            DB::rollback();
+            return back()->withInput($request->all());
+        } catch (QueryException $e) {
+            toastr()->warning('Ha ocurrido un error, favor intente nuevamente' . $e->getMessage());
+            DB::rollback();
+            return back()->withInput($request->all());
+        } catch (DecryptException $e) {
+            toastr()->info('Ocurrio un error al intentar acceder al recurso solicitado');
+            DB::rollback();
+            return back()->withInput($request->all());
+        } catch (\Exception $e) {
+            toastr()->warning($e->getMessage());
+            DB::rollback();
+            return back()->withInput($request->all());
+        }
     }
 }

@@ -291,12 +291,25 @@
                 </tr>
                 <tr>
                     <td width="225">
+                    @if($contratoArriendo->tipoRutArrendatario == 1)
                     <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp; RUT</p>
+                    @else
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp; Pasaporte</p>
+                    @endif
                     </td> 
                     <td width="225">
                         @php
-                        $rutArrendatario1 = explode( "-", $contratoArriendo->rutArrendatario );
-                        $rutArrendatario = number_format( $rutArrendatario1[0], 0, "", ".") . '-' . $rutArrendatario1[1];
+                            $rutArrendatario = $contratoArriendo->rutArrendatario;
+                            if ($contratoArriendo->tipoRutArrendatario == 2) 
+                            {
+                                $rutCodeudor = $contratoArriendo->rutArrendatario;
+                            }
+                            else
+                            {
+                                $rutArrendatario1 = explode("-", $rutArrendatario);
+                                $numero = preg_replace('/\D/', '', $rutArrendatario1[0]);
+                                $rutArrendatario = number_format((int)$numero, 0, "", ".") . '-' . $rutArrendatario1[1];
+                            }
                         @endphp
                         <p>{{ $rutArrendatario }}</p>
                     </td>
@@ -346,13 +359,23 @@
                     <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp; RUT</p>
                     </td> 
                     <td width="225">
-                        @if($contratoArriendo->idUsuarioCodeudor)
                         @php
-                        $rutCodeudor1 = explode( "-", $contratoArriendo->rutCodeudor );
-                        $rutCodeudor = number_format( $rutCodeudor1[0], 0, "", ".") . '-' . $rutCodeudor1[1];
+                            $rutCodeudor = $contratoArriendo->rutCodeudor;
+                            if($contratoArriendo->idUsuarioCodeudor)
+                            {
+                                if ($contratoArriendo->tipoRutCodeudor == 2) 
+                                {
+                                    $rutCodeudor = $contratoArriendo->rutCodeudor;
+                                }
+                                else
+                                {
+                                    $rutCodeudor1 = explode("-", $rutCodeudor);
+                                    $numero = preg_replace('/\D/', '', $rutCodeudor1[0]);
+                                    $rutCodeudor = number_format((int)$numero, 0, "", ".") . '-' . $rutCodeudor1[1];
+                                }
+                            }
                         @endphp
                         <p>{{ $rutCodeudor }}</p>
-                        @endif
                     </td>
                 </tr>
                 <tr>
@@ -597,10 +620,10 @@
             Rut {{ $rutPropietario }}, Estado civil {{ $contratoArriendo->estadoCivilPropietario }}<strong>, </strong>
             de profesi&oacute;n {{ $contratoArriendo->profesionPropietario }}, domiciliado en {{ $contratoArriendo->direccionPropietario }}, 
             Comuna {{ $contratoArriendo->comunaPropietario }}, en adelante el <strong>ARRENDADOR </strong>o la parte arrendadora y por la otra, 
-            Don <strong>{{ $contratoArriendo->nombreArrendatario }} {{ $contratoArriendo->apellidoArrendatario }}</strong>, Rut {{ $rutArrendatario }}, 
+            Don <strong>{{ $contratoArriendo->nombreArrendatario }} {{ $contratoArriendo->apellidoArrendatario }}</strong>, @if($contratoArriendo->tipoRutArrendatario == 1) RUT @else Pasaporte @endif {{ $rutArrendatario }}, 
             Estado civil {{ $contratoArriendo->estadoCivilArrendatario }}, con domicilio actual en {{ $contratoArriendo->direccionArrendatario }}, {{ $contratoArriendo->numeroArrendatario }}, 
             comuna de {{ $contratoArriendo->comunaArrendatario }}, de profesi&oacute;n {{ $contratoArriendo->profesionArrendatario }} @if($contratoArriendo->idUsuarioCodeudor) 
-            y su <strong>CODEUDOR</strong>, Don {{ $contratoArriendo->nombreCodeudor }}, Rut {{ $rutCodeudor }}, Estado civil {{ $contratoArriendo->estadoCivilCodeudor }}, 
+            y su <strong>CODEUDOR</strong>, Don {{ $contratoArriendo->nombreCodeudor }}, @if($contratoArriendo->tipoRutCodeudor == 1) RUT @else Pasaporte @endif {{ $rutCodeudor }}, Estado civil {{ $contratoArriendo->estadoCivilCodeudor }}, 
             con domicilio actual {{ $contratoArriendo->domicilioCodeudor }} comuna {{ $contratoArriendo->comunaCodeudor }}, de profesi&oacute;n {{ $contratoArriendo->profesionCodeudor }} @endif, 
             quienes har&aacute; uso de la propiedad, en calidad de en adelante el <strong>ARRENDATARIO</strong> o <strong>PARTE ARRENDATARIA</strong>, quienes acreditan
              su identidad con las respectivas c&eacute;dulas, y que han convenido en el siguiente contrato:</p>
@@ -772,7 +795,7 @@
             <p style="text-align: center;"><strong>__________________________________________</strong></p>
             <p style="text-align: center;"><strong>{{ $contratoArriendo->nombreArrendatario }} {{ $contratoArriendo->apellidoArrendatario }}</strong></p>
             <p style="text-align: center;"><strong>ARRENDATARIO</strong></p>
-            <p style="text-align: center;"><strong>RUT {{ $rutArrendatario }}</strong></p>
+            <p style="text-align: center;"><strong>@if($contratoArriendo->tipoRutArrendatario == 1) RUT @else PASAPORTE @endif {{ $rutArrendatario }}</strong></p>
             <!-- firma -->
             @if($contratoArriendo->idUsuarioCodeudor)
             <p style="text-align: center;">&nbsp;</p>
@@ -782,7 +805,7 @@
             <p style="text-align: center;"><strong>__________________________________________</strong></p>
             <p style="text-align: center;"><strong>{{ $contratoArriendo->nombreCodeudor }} {{ $contratoArriendo->apellidoCodeudor }}</strong></p>
             <p style="text-align: center;"><strong>CODEUDOR</strong></p>
-            <p style="text-align: center;"><strong>RUT {{ $rutCodeudor }}</strong></p>
+            <p style="text-align: center;"><strong>@if($contratoArriendo->tipoRutCodeudor == 1) RUT @else Pasaporte @endif {{ $rutCodeudor }}</strong></p>
             @endif
         </main>
     </body>

@@ -302,7 +302,7 @@
                             <div class="rounded-lg ml-lg-n1 mb-xl-15" data-animate="flipInX">
                                 <div class="" style="text-align:center">
                                     <!--<span class="badge badge-orange">Featured</span>-->
-                                    <a href="https://propitech.cl/proyectos-venta" class="btn" style="background-color:#2690d696; border-color: #2690d6; color: white; font-size: 20px;" >¡Invierte en propiedades aquí!</a>
+                                    <a href="https://propitech.cl/proyectos-venta" class="btn" style="background-color:#2690d696; border-color: #2690d6; color: white; font-size: 20px;" >¡NUEVO PROPITECH!</a>
                                 </div>
                             </div>
                         </div>

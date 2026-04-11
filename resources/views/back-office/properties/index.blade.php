@@ -59,9 +59,6 @@
                                 <a href="/properties/suspendidas" class="btn btn-danger waves-effect waves-light" style="margin-right: 10px">
                                     <i class="fa fa-minus"></i> Propiedades Supendidas
                                 </a>
-                                <a href="/properties/export" class="btn btn-success waves-effect waves-light" style="margin-right: 10px">
-                                    <i class="far fa-file-excel"></i> Descargar Excel
-                                </a>
                                 <a href="/properties/create" class="btn btn-info waves-effect waves-light" style="margin-right: 10px">
                                     <i class="bx bx-plus font-size-16 align-middle mr-2"></i> Crear Propiedad
                                 </a>
@@ -94,8 +91,8 @@
                                             <td>
                                                 <img src="/img/propiedad/{{ $propiedad->fotoPrincipal}}" width="120px" height="100px">
                                             </td>
-                                            <td style="width: 50px; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;">
-                                                <h5 class="text-truncate font-size-14"><a href="#" class="text-dark">{{ $propiedad->nombrePropiedad }}</a> 
+                                            <td style="width: 100%; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;">
+                                                <h5 class="text-truncate font-size-14" style="white-space: normal !important;"><a href="#" class="text-dark">{{ $propiedad->tituloExtendido }}</a> 
                                                     <br>
                                                     <span class="badge badge-soft-primary">{{ $propiedad->nombreTipoPropiedad}}</span>
                                                     
