@@ -203,7 +203,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        @php(setlocale(LC_TIME, 'spanish'))
+                                        @php(setlocale(LC_TIME, 'es_CL.UTF-8','es_CL.utf8','es_ES.UTF-8','es_ES'))
                                         @if($estadosPagosMandatarios != null)
                                         @foreach ($estadosPagosMandatarios as $estadosDePagos)
                                             <tr>

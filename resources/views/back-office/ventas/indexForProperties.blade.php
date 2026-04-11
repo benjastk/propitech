@@ -78,7 +78,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @php(setlocale(LC_TIME, 'spanish'))
+                                            @php(setlocale(LC_TIME, 'es_CL.UTF-8','es_CL.utf8','es_ES.UTF-8','es_ES'))
                                             @foreach($contratosArriendos as $contrato )
                                             <tr>
                                                 <td>{{ strftime("%d de %B de %Y", strtotime($contrato->desde)) }}</td>

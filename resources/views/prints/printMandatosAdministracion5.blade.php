@@ -55,7 +55,7 @@
             $rutPropiterario1 = explode( "-", $mandatoAdministracion->rutPropietario );
             $rutPropietario = number_format( $rutPropiterario1[0], 0, "", ".") . '-' . $rutPropiterario1[1];
             @endphp
-            @php(setlocale(LC_TIME, 'spanish'))
+            @php(setlocale(LC_TIME, 'es_CL.UTF-8','es_CL.utf8','es_ES.UTF-8','es_ES'))
             <p>En Santiago de Chile, a {{ strftime("%d de %B de %Y", strtotime($mandatoAdministracion->fechaCompromisoMandato)) }}, 
             {{ $mandatoAdministracion->nombrePropietario }} {{ $mandatoAdministracion->apellidoPropietario }} , de nacionalidad {{ $mandatoAdministracion->nacionalidadPropietario }}, estado civil 
             {{ $mandatoAdministracion->estadoCivilPropietario}}, de profesi&oacute;n {{ $mandatoAdministracion->profesionPropietario}}, 

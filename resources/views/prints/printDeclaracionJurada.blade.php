@@ -65,7 +65,7 @@
             pertinentes.</p>
             <p>&nbsp;</p>
             <p>&nbsp;</p>
-            @php(setlocale(LC_TIME, 'spanish'))
+            @php(setlocale(LC_TIME, 'es_CL.UTF-8','es_CL.utf8','es_ES.UTF-8','es_ES'))
             <p>En Santiago, a {{ strftime("%d de %B de %Y", strtotime($fechaHoy)) }}.</p>
             <p>&nbsp;</p>
             <p>&nbsp;</p>

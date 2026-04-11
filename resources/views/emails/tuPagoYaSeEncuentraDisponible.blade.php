@@ -22,7 +22,7 @@
     
     <table style="width: 100%;">
         <tbody>
-            <tr>@php(setlocale(LC_TIME, 'spanish'))
+            <tr>@php(setlocale(LC_TIME, 'es_CL.UTF-8','es_CL.utf8','es_ES.UTF-8','es_ES'))
                 <td style="width: 50%;"><strong>Valor arriendo</strong></td>
                 <td style="width: 50%; text-align: right;">$ {{ number_format($estadoPago->arriendoMensual, 0, ",", ".") }}</td>
             </tr>
