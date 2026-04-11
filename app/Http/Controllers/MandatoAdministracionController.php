@@ -417,7 +417,7 @@ class MandatoAdministracionController extends Controller
             }
             elseif($mandatoAdministracion->idPlan == 1)
             {
-                $pdf = \PDF::loadView('prints.printMandatosAdministracion4', compact('mandatoAdministracion', 'comisionCorretajePalabras', 'porcentajeAdministracionPalabras',
+                $pdf = \PDF::loadView('prints.printMandatosAdministracion1', compact('mandatoAdministracion', 'comisionCorretajePalabras', 'porcentajeAdministracionPalabras',
                 'diasEnPalabras'));
                 return $pdf->download('mandato-administracion.pdf');
             }
@@ -436,6 +436,24 @@ class MandatoAdministracionController extends Controller
             elseif($mandatoAdministracion->idPlan == 13)
             {
                 $pdf = \PDF::loadView('prints.printMandatosAdministracion4', compact('mandatoAdministracion', 'comisionCorretajePalabras', 'porcentajeAdministracionPalabras',
+                'diasEnPalabras'));
+                return $pdf->download('mandato-administracion.pdf');
+            }
+            elseif($mandatoAdministracion->idPlan == 14)
+            {
+                $pdf = \PDF::loadView('prints.printMandatosAdministracion4', compact('mandatoAdministracion', 'comisionCorretajePalabras', 'porcentajeAdministracionPalabras',
+                'diasEnPalabras'));
+                return $pdf->download('mandato-administracion.pdf');
+            }
+            elseif($mandatoAdministracion->idPlan == 15)
+            {
+                $pdf = \PDF::loadView('prints.printMandatosAdministracion4', compact('mandatoAdministracion', 'comisionCorretajePalabras', 'porcentajeAdministracionPalabras',
+                'diasEnPalabras'));
+                return $pdf->download('mandato-administracion.pdf');
+            }
+            elseif($mandatoAdministracion->idPlan == 5)
+            {
+                $pdf = \PDF::loadView('prints.printMandatosAdministracion1', compact('mandatoAdministracion', 'comisionCorretajePalabras', 'porcentajeAdministracionPalabras',
                 'diasEnPalabras'));
                 return $pdf->download('mandato-administracion.pdf');
             }
