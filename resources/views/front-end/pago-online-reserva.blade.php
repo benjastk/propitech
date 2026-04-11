@@ -32,7 +32,7 @@
                                         <!--<p class="card-text text-center">Digita tu rut y paga tu arriendo fácil y rápido</p>-->
                                         <br>
                                         <br>
-                                        @php(setlocale(LC_TIME, 'spanish'))
+                                        @php(setlocale(LC_TIME, 'es_CL.UTF-8','es_CL.utf8','es_ES.UTF-8','es_ES'))
                                         <table class="table table-hover">
                                             <thead>
                                                 <tr>

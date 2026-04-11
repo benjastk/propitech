@@ -58,7 +58,7 @@
         $rutUsuario2 = explode( "-", $salvoconducto->rutArrendatario );
         $rutUsuarios = number_format( $rutUsuario2[0], 0, "", ".") . '-' . $rutUsuario2[1];
         @endphp
-        @php(setlocale(LC_TIME, 'spanish'))
+        @php(setlocale(LC_TIME, 'es_CL.UTF-8','es_CL.utf8','es_ES.UTF-8','es_ES'))
         <p>Santiago, <strong>{{ strftime("%d de %B de %Y", strtotime($fechaHoy)) }}</strong>.</p>
         <p>&nbsp;</p>
         <p>Yo, <strong>{{ $salvoconducto->nombrePropietario }} {{ $salvoconducto->apellidoPropietario }}</strong>, c&eacute;dula nacional de 

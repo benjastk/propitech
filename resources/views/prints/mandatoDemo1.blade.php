@@ -51,7 +51,7 @@
             <p style="text-align: center;"><span style="text-decoration: underline;"><strong>MANDATO DE ADMINISTRACI&Oacute;N CON ARRIENDO SEGURO</strong></span></p>
             <p><strong>&nbsp;</strong></p>
             <p><strong>&nbsp;</strong></p>
-            @php(setlocale(LC_TIME, 'spanish'))
+            @php(setlocale(LC_TIME, 'es_CL.UTF-8','es_CL.utf8','es_ES.UTF-8','es_ES'))
             <p>En Santiago de Chile, a { fecha de mandato }, 
             { nombre y apellido de propietario} , de nacionalidad { nacionalidad de propietario}, estado civil 
             { estado civil de propietario}, de profesi&oacute;n { profesion de propietario }, 

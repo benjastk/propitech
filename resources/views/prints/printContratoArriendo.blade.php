@@ -429,7 +429,7 @@
                     <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; de contrato:</strong></p>
                     </td>
                     <td width="225">
-                        @php(setlocale(LC_TIME, 'spanish'))
+                        @php(setlocale(LC_TIME, 'es_CL.UTF-8','es_CL.utf8','es_ES.UTF-8','es_ES'))
                         <p>{{ strftime("%d de %B de %Y", strtotime($contratoArriendo->desde)) }}</p>
                     </td>
                 </tr>
@@ -471,7 +471,7 @@
                     <p>IX.&nbsp;&nbsp; <strong>Fecha de termino de contrato:</strong></p>
                     </td>
                     <td width="225">
-                        @php(setlocale(LC_TIME, 'spanish'))
+                        @php(setlocale(LC_TIME, 'es_CL.UTF-8','es_CL.utf8','es_ES.UTF-8','es_ES'))
                         <p>{{ strftime("%d de %B de %Y", strtotime($contratoArriendo->hasta)) }}</p>
                     </td>
                 </tr>
@@ -636,7 +636,7 @@
             @if($contratoArriendo->idNivelUsoPropiedad == 2) El inmueble se entrega nuevo sin uso por parte del arrendador. @endif</p>
             <p><strong>&nbsp;</strong></p>
             <p><strong><u>SEGUNDO</u></strong><strong>:</strong> <strong>PLAZO<em>:</em></strong> El presente contrato rige a contar del d&iacute;a 
-            @php(setlocale(LC_TIME, 'spanish')) {{ strftime("%d de %B de %Y", strtotime($contratoArriendo->desde)) }} al {{ strftime("%d de %B de %Y", strtotime($contratoArriendo->hasta)) }} 
+            @php(setlocale(LC_TIME, 'es_CL.UTF-8','es_CL.utf8','es_ES.UTF-8','es_ES')) {{ strftime("%d de %B de %Y", strtotime($contratoArriendo->desde)) }} al {{ strftime("%d de %B de %Y", strtotime($contratoArriendo->hasta)) }} 
             y tendr&aacute; Vigencia {{ $contratoArriendo->tiempoContrato }} meses. Confirmando las partes que contin&uacute;an con la relaci&oacute;n 
             comercial, se renueva autom&aacute;ticamente, a menos que alguna de las partes, manifieste a la otra su intenci&oacute;n de no perseverar en 
             el contrato mediante aviso enviado por carta certificada o carta simple, (correo electr&oacute;nico individualizado en condiciones particulares), 

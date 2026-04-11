@@ -33,7 +33,7 @@
                     <table style="height: 110px; width: 600px; color: white">
                     <tbody>
                         <tr>
-                        @php(setlocale(LC_TIME, 'spanish'))
+                        @php(setlocale(LC_TIME, 'es_CL.UTF-8','es_CL.utf8','es_ES.UTF-8','es_ES'))
                             <td style="width: 400px; text-align: left;"> <img src="{{ base_path() }}/public/front/LOGOPROPITECHby.png" alt="" width="60%" ></td>
                         </tr>
                         <tr>
