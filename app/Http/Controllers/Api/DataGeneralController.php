@@ -272,6 +272,7 @@ class DataGeneralController extends Controller
             ->leftjoin('users', 'users.id', '=', 'propiedades.idUsuarioExpertoVendedor')
             ->where('propiedades.idEstado', 42)
             ->where('descripcion', "!=", "")
+            ->orderBy('idTipoComercial', 'desc')
             ->get();
             if($propiedades)
             {
