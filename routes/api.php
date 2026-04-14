@@ -55,3 +55,5 @@ Route::get('/portalinmobiliario/refreshToken', 'Api\IntegracionPortalController@
 Route::get('indexVentas','Api\VentaController@indexVentas');
 Route::post('cambiarVenta','Api\VentaController@cambiarVenta');
 
+Route::get('/all-properties-for-chilepropiedades','Api\DataGeneralController@allPropertiesForChilePropiedades');
+
