@@ -34,7 +34,6 @@
             <commune>
                 <![CDATA[ {{ $propiedad->nombreComuna }} ]]>
             </commune>
-            <!--<title><![CDATA[{{ $propiedad->tituloExtendido }}]]></title>-->
             <description><![CDATA[{!! $propiedad->descripcion2 !!}]]></description>
             <prices>
                 @if($propiedad->idTipoComercial == 1)
