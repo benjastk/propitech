@@ -42,6 +42,12 @@
                     </a>
                 </li>
                 <li>
+                    <a href="/estados-pagos/detalles" class="waves-effect">
+                        <i class="bx bxs-credit-card"></i>
+                        <span>Estados de pago</span>
+                    </a>
+                </li>
+                <li>
                     <a href="/mandatos" class="waves-effect">
                         <i class="bx bxs-home-circle"></i>
                         <span>Mandatos Propiedades</span>

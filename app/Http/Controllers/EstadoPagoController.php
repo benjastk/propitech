@@ -1271,4 +1271,36 @@ class EstadoPagoController extends Controller
             return back()->withInput($request->all());
         }
     }
+    public function detalles()
+    {
+        $user = Auth::user();
+        $estados = Estado::where('idTipoEstado', 10)->get();
+        return view ('back-office.estadoPago.morosos', compact('user', 'estados'));
+    }
+    public function filtrarDetalles(Request $request)
+    {
+        return $result = EstadoPago::from('estados_pagos')
+        ->join('contratos_arriendos', 'contratos_arriendos.idContratoArriendo', '=', 'estados_pagos.idContrato')
+        ->join('users', 'users.id', '=', 'contratos_arriendos.idUsuarioArrendatario')
+        ->join('propiedades', 'propiedades.id', '=', 'contratos_arriendos.idPropiedad')
+        ->join('estados', 'estados.idEstado', '=', 'estados_pagos.idEstado')
+        ->select(
+            'users.rut',
+            'users.name',
+            'users.apellido',
+            'propiedades.direccion',
+            'propiedades.numero',
+            'propiedades.block',
+            'estados_pagos.subtotal',
+            'estados_pagos.totalPagado',
+            'estados_pagos.saldo',
+            'estados.nombreEstado',
+            'estados_pagos.fechaVencimiento'
+        )
+        ->where('contratos_arriendos.idEstado', 61)
+        ->whereBetween('estados_pagos.fechaVencimiento', [$request->desde, $request->hasta])
+        ->where('estados_pagos.idEstado', $request->estado)
+        ->orderBy('estados_pagos.fechaVencimiento')
+        ->get();
+    }
 }

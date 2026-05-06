@@ -199,6 +199,9 @@ Route::prefix('estados-pagos')->group(function () {
     Route::post('/pago-manual-reserva', 'EstadoPagoController@pagoReserva')->name('pagoManualReserva');
 
     Route::get('/pagos/print/{id}/{estadoPago}', 'EstadoPagoController@printPago');
+
+    Route::get('/detalles', 'EstadoPagoController@detalles');
+    Route::post('/detalles/filtrar', 'EstadoPagoController@filtrarDetalles')->name('pagos.filtrar');
 });
 Route::prefix('ventas')->group(function () {
     Route::get('/', 'VentaController@index');
