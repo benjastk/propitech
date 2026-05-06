@@ -13,8 +13,4 @@ class UserRol extends Model
         'id_usuario',
         'id_rol'
     ];
-    public function user()
-    {
-        return $this->belongsTo('App\User');
-    }
 }

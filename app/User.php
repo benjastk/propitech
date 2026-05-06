@@ -78,8 +78,18 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public function rol()
+    public function roles()
     {
-        return $this->hasOne('App\UserRol', 'id_usuario');
+        return $this->belongsToMany(
+            Rol::class,
+            'rol_usuario',
+            'id_usuario', // FK de user en pivot
+            'id_rol'      // FK de rol en pivot
+        );
+    }
+
+    public function hasRole($rol)
+    {
+        return $this->roles()->where('nombre', $rol)->exists();
     }
 }

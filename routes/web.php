@@ -53,20 +53,20 @@ Route::get('/pruebaMail', 'AlertaController@pruebaMail');
 Route::get('/login', function () {
     return view('auth.login');
 });
-
+// BACK OFFICE PROPITECH
 Auth::routes();
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/leads', 'HomeController@leads')->name('leads');
-Route::get('/cache', 'HomeController@cache')->name('cache');
-Route::get('/ultimoDiaParaPagar', 'AlertaController@ultimoDiaParaPagar');
-Route::get('/mailPorCorreo', 'AlertaController@mailPorCorreo');
-Route::get('/morosos', 'EstadoPagoController@cambiarAMoroso');
+Route::middleware('role:Administrador,Operador')->get('/home', 'HomeController@index')->name('home');
+Route::middleware('role:Administrador,Operador')->get('/leads', 'HomeController@leads')->name('leads');
+Route::middleware('role:Administrador,Operador')->get('/cache', 'HomeController@cache')->name('cache');
+Route::middleware('role:Administrador,Operador')->get('/ultimoDiaParaPagar', 'AlertaController@ultimoDiaParaPagar');
+Route::middleware('role:Administrador,Operador')->get('/mailPorCorreo', 'AlertaController@mailPorCorreo');
+Route::middleware('role:Administrador,Operador')->get('/morosos', 'EstadoPagoController@cambiarAMoroso');
 //Route::get('/vencidos', 'EstadoPagoController@cambiarAVencido');
-Route::get('/sanitizarTexto', 'PropertyController@sanitizarDescripciones');
-Route::get('/agregarPorcentajeAMorosos', 'EstadoPagoController@agregarPorcentajeAMorosos');
-Route::get('/recordarPagoWhatsapp', 'AlertaController@recordarPagoWhatsapp');
-Route::get('/recordarPagoWhatsappMes', 'AlertaController@recordarPagoArrendatariosMensual');
-Route::prefix('users')->group(function () {
+Route::middleware('role:Administrador,Operador')->get('/sanitizarTexto', 'PropertyController@sanitizarDescripciones');
+Route::middleware('role:Administrador,Operador')->get('/agregarPorcentajeAMorosos', 'EstadoPagoController@agregarPorcentajeAMorosos');
+Route::middleware('role:Administrador,Operador')->get('/recordarPagoWhatsapp', 'AlertaController@recordarPagoWhatsapp');
+Route::middleware('role:Administrador,Operador')->get('/recordarPagoWhatsappMes', 'AlertaController@recordarPagoArrendatariosMensual');
+Route::prefix('users')->middleware('role:Administrador,Operador')->group(function () {
     Route::get('/', 'UserController@index')->name('users');
     Route::get('/create', 'UserController@create');
     Route::post('/store', 'UserController@store');
@@ -80,7 +80,7 @@ Route::prefix('users')->group(function () {
     Route::post('/cuentas-bancarias/delete', 'UserController@deleteCuentaBancaria');
     Route::post('/reimpresionDeclaracionJurada', 'UserController@imprimirDeclaracionJurada');
 });
-Route::prefix('properties')->group(function () {
+Route::prefix('properties')->middleware('role:Administrador,Operador')->group(function () {
     Route::get('/', 'PropertyController@index')->name('properties');
     Route::get('/create', 'PropertyController@create');
     Route::post('/store', 'PropertyController@store');
@@ -96,7 +96,7 @@ Route::prefix('properties')->group(function () {
     Route::get('/suspendidas', 'PropertyController@suspendidas');
     Route::post('/suspender/{propiedad}', 'PropertyController@suspender');
 });
-Route::prefix('proyectos')->group(function () {
+Route::prefix('proyectos')->middleware('role:Administrador,Operador')->group(function () {
     Route::get('/', 'ProyectosController@index')->name('proyectos');
     Route::get('/create', 'ProyectosController@create');
     Route::post('/store', 'ProyectosController@store');
@@ -112,7 +112,7 @@ Route::prefix('proyectos')->group(function () {
     Route::post('/img/subirCercana/{id}', 'ProyectosController@subirImagenCercana');
     Route::post('/img/eliminarCercana/{fileName}', 'ProyectosController@eliminarImagenCercana');
 });
-Route::prefix('noticias')->group(function () {
+Route::prefix('noticias')->middleware('role:Administrador,Operador')->group(function () {
     Route::get('/', 'NoticiaController@index')->name('noticias');
     Route::get('/create', 'NoticiaController@create');
     Route::post('/store', 'NoticiaController@store');
@@ -120,7 +120,7 @@ Route::prefix('noticias')->group(function () {
     Route::post('/update/{propiedad}', 'NoticiaController@update');
     Route::post('/destroy', 'NoticiaController@destroy');
 });
-Route::prefix('planes')->group(function () {
+Route::prefix('planes')->middleware('role:Administrador,Operador')->group(function () {
     Route::get('/', 'PlanesAdministracionController@index')->name('planes');
     Route::get('/create', 'PlanesAdministracionController@create');
     Route::post('/store', 'PlanesAdministracionController@store');
@@ -128,7 +128,7 @@ Route::prefix('planes')->group(function () {
     Route::post('/update/{propiedad}', 'PlanesAdministracionController@update');
     Route::post('/destroy', 'PlanesAdministracionController@destroy');
 });
-Route::prefix('contratos')->group(function () {
+Route::prefix('contratos')->middleware('role:Administrador,Operador')->group(function () {
     Route::get('/', 'ContratoArriendoController@index');
     Route::get('/contratos-propiedad/{idPropiedad}', 'ContratoArriendoController@show');
     Route::get('/create', 'ContratoArriendoController@create');
@@ -144,7 +144,7 @@ Route::prefix('contratos')->group(function () {
     Route::get('/vencidos', 'ContratoArriendoController@vencidos')->name('vencidos');
     Route::post('/buscar-vencidos', 'ContratoArriendoController@buscarVencidos')->name('buscarVencidos');
 });
-Route::prefix('reservas')->group(function () {
+Route::prefix('reservas')->middleware('role:Administrador,Operador')->group(function () {
     Route::get('/', 'ReservaPropiedadController@index');
     Route::get('/create', 'ReservaPropiedadController@create');
     Route::post('/store', 'ReservaPropiedadController@store');
@@ -152,7 +152,7 @@ Route::prefix('reservas')->group(function () {
     Route::post('/update/{reserva}', 'ReservaPropiedadController@update');
     Route::post('/destroy', 'ReservaPropiedadController@destroy');
 });
-Route::prefix('mandatos')->group(function () {
+Route::prefix('mandatos')->middleware('role:Administrador,Operador')->group(function () {
     Route::get('/', 'MandatoAdministracionController@index');
     Route::get('/mandatos-propiedad/{idPropiedad}', 'MandatoAdministracionController@show');
     Route::get('/create', 'MandatoAdministracionController@create');
@@ -177,7 +177,7 @@ Route::prefix('mandatos')->group(function () {
     Route::post('excelEstadosPagosMandatos', 'MandatoAdministracionController@exportLiquidacionInversionista')->name('excelEstadosPagosMandatos');
     Route::post('excelEstadosPagosMandatosSinPago', 'MandatoAdministracionController@excelEstadosPagosMandatosSinPago')->name('excelEstadosPagosMandatosSinPago');
 });
-Route::prefix('estados-pagos')->group(function () {
+Route::prefix('estados-pagos')->middleware('role:Administrador,Operador')->group(function () {
     Route::get('/', 'EstadoPagoController@index');
     Route::get('/mostrar/{id}', 'EstadoPagoController@show');
     Route::get('/create', 'EstadoPagoController@create');
@@ -200,7 +200,7 @@ Route::prefix('estados-pagos')->group(function () {
 
     Route::get('/pagos/print/{id}/{estadoPago}', 'EstadoPagoController@printPago');
 });
-Route::prefix('ventas')->group(function () {
+Route::prefix('ventas')->middleware('role:Administrador,Operador')->group(function () {
     Route::get('/', 'VentaController@index');
     Route::get('/create', 'VentaController@create');
     Route::post('/store', 'VentaController@store');
@@ -208,7 +208,7 @@ Route::prefix('ventas')->group(function () {
     Route::post('/update/{venta}', 'VentaController@update');
     Route::post('/destroy', 'VentaController@destroy');
 });
-Route::prefix('parametros')->group(function () {
+Route::prefix('parametros')->middleware('role:Administrador,Operador')->group(function () {
     Route::get('/', 'ParametrosGeneralesController@index');
     Route::get('/edit/{parametro}', 'ParametrosGeneralesController@edit');
     Route::post('/update/{parametro}', 'ParametrosGeneralesController@update');
@@ -235,3 +235,7 @@ Route::get('/clear-cache', function() {
     $exitCode = Artisan::call('optimize:clear');
     // return what you want
 });
+
+//BACK OFFICE USUARIOS
+//Route::middleware('role:Propietario')->get('/home-users', 'HomeController2@index')->name('home-users');
+Route::get('/home-users', 'HomeController2@index')->name('home-users');

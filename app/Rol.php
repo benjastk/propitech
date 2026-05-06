@@ -11,4 +11,13 @@ class Rol extends Model
         'nombre',
         'descripcion'
     ];
+    public function users()
+    {
+        return $this->belongsToMany(
+            User::class,
+            'rol_usuario',
+            'id_rol',
+            'id_usuario'
+        );
+    }
 }

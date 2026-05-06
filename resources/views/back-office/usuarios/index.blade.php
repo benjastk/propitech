@@ -121,7 +121,6 @@
                                                         <li class="list-inline-item px-2">
                                                             <a href="" data-toggle="tooltip" data-placement="top" title="Profile"><i class="bx bx-user-circle"></i></a>
                                                         </li>-->
-                                                        @if($rolUsuario->id_rol == 1)
                                                         <li class="list-inline-item">
                                                             <form id="form1" action="{{ url('/users/reimpresionDeclaracionJurada') }}" method="post">
                                                                 {{ csrf_field() }}
@@ -143,29 +142,6 @@
                                                             </form>
                                                             <!--<a href="/users/edit/{{ $user1->id }}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bx bxs-trash-alt"></i></a>-->
                                                         </li>
-                                                        @elseif($user1->idRol == $rolUsuario->id_rol || $user1->idRol > 1)
-                                                        <li class="list-inline-item">
-                                                            <form id="form1" action="{{ url('/users/reimpresionDeclaracionJurada') }}" method="post">
-                                                                {{ csrf_field() }}
-                                                                <input type="hidden" name="id" value="{{ $user1->id }}"/>
-                                                                <button style="border: 0px; background-color: transparent;" type="submit"><i class="bx bxs-printer"></i></button>
-                                                            </form>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <a href="/users/cuentas-bancarias/{{ $user1->id }}" data-toggle="tooltip" data-placement="top" title="Cuentas Bancarias"><i class="bx bx-dollar"></i></a>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <a href="/users/edit/{{ $user1->id }}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bx bxs-edit-alt"></i></a>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <form id="form1" action="{{ url('/users/destroy') }}" method="post">
-                                                                {{ csrf_field() }}
-                                                                <input type="hidden" name="id" value="{{ $user1->id }}"/>
-                                                                <button style="border: 0px; background-color: transparent;" type="submit"><i class="bx bxs-trash-alt"></i></button>
-                                                            </form>
-                                                            <!--<a href="/users/edit/{{ $user1->id }}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bx bxs-trash-alt"></i></a>-->
-                                                        </li>
-                                                        @endif
                                                     </ul>
                                                 </td>
                                             </tr>

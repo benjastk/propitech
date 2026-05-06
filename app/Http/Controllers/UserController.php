@@ -40,7 +40,7 @@ class UserController extends Controller
         ->leftjoin('roles', 'roles.id', '=', 'rol_usuario.id_rol')
         ->where('users.eliminado', 0)
         ->get();
-        $rolUsuario = Auth::user()->rol;
+        $rolUsuario = Auth::user()->roles;
         return view('back-office.usuarios.index', compact('user', 'users', 'rolUsuario'));
     }
 
@@ -170,7 +170,7 @@ class UserController extends Controller
         $comunas = Comuna::get();
         $generos = Genero::get();
         $tiposComerciales = TipoComercial::get();
-        if(Auth::user()->rol->id_rol == 1)
+        if(Auth::user()->roles->first()->id == 1)
         {
             $roles = Rol::get();
         }
