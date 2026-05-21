@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <listings>
+    @php
+        $featuredCount = 0;
+    @endphp
     @foreach($propiedades as $propiedad)
     <listing>
         <referenceId><![CDATA[{{ $propiedad->id }}]]>
@@ -99,6 +102,19 @@
             <furnished>
                 <![CDATA[ true ]]>
             </furnished>
+            <!-- FEATURED SOLO PARA ARRIENDOS Y MAXIMO 20 -->
+            @php
+                $isFeatured = false;
+
+                if ($propiedad->idTipoComercial == 2 && $featuredCount < 20) {
+                    $isFeatured = true;
+                    $featuredCount++;
+                }
+            @endphp
+
+            <featured>
+                <![CDATA[ {{ $isFeatured ? 'true' : 'false' }} ]]>
+            </featured>
     </listing>
     @endforeach
 </listings>
