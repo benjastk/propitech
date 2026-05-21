@@ -113,7 +113,7 @@
             @endphp
 
             <featured>
-                <![CDATA[ {{ $isFeatured ? 'true' : 'false' }} ]]>
+                <![CDATA[ {{ $isFeatured }} ]]>
             </featured>
     </listing>
     @endforeach
