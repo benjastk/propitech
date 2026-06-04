@@ -33,7 +33,7 @@ class AlertaController extends Controller
         $account_sid = getenv("TWILIO_SID");
         $auth_token = getenv("TWILIO_TOKEN");
         $twilio_number = getenv("TWILIO_FROM");
-        $contentSid = 'HX42744a248a17cdac3c711513da0cc82f'; // Reemplaza con tu SID de contenido
+        $contentSid = 'HXf5da58347bf60f75c7e79ce46d172638'; // Reemplaza con tu SID de contenido
         $from = 'MGd211ce449e9d2c3193f109fd199e1a3a';     // Reemplaza con tu Messaging Service SID
         if(!$estadosPagos->isEmpty())
         {
@@ -286,7 +286,7 @@ class AlertaController extends Controller
             $account_sid = getenv("TWILIO_SID");
             $auth_token = getenv("TWILIO_TOKEN");
             $twilio_number = getenv("TWILIO_FROM");
-            $contentSid = 'HX1adc889820999bd0fe015b6728c6cb47'; // Reemplaza con tu SID de contenido
+            $contentSid = 'HXf5da58347bf60f75c7e79ce46d172638'; // Reemplaza con tu SID de contenido
             $from = 'MGd211ce449e9d2c3193f109fd199e1a3a';     // Reemplaza con tu Messaging Service SID
 
             $estadosPagos = EstadoPago::select('estados_pagos.*', 'users.email', 'users.id as idUsuario', 'users.name', 'users.apellido', 'users.telefono')
