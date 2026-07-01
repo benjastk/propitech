@@ -25,7 +25,8 @@ class MantencionPropiedadController extends Controller
         $user = Auth::user();
         $propiedades = Propiedad::select('propiedades.*', 'niveles_uso_propiedad.nombreNivelUsoPropiedad', 'tipos_propiedades.nombreTipoPropiedad',
         'paises.nombrePais', 'provincia.nombre as nombreProvincia', 'region.nombre as nombreRegion', 'comuna.nombre as nombreComuna', 'estados.nombreEstado',
-        'mantenciones_propiedades.mantencion_termo', 'mantenciones_propiedades.mantencion_encimera', 'mantenciones_propiedades.mantencion_calefont')
+        'mantenciones_propiedades.mantencion_termo', 'mantenciones_propiedades.mantencion_encimera', 'mantenciones_propiedades.mantencion_calefont',
+        'mantenciones_propiedades.tipo_mantencion')
         ->join('niveles_uso_propiedad', 'niveles_uso_propiedad.idNivelUsoPropiedad', '=', 'propiedades.idNivelUsoPropiedad')
         ->join('tipos_propiedades', 'tipos_propiedades.idTipoPropiedad', '=', 'propiedades.idTipoPropiedad')
         ->join('paises', 'paises.idPais', '=', 'propiedades.idPais')
@@ -36,6 +37,7 @@ class MantencionPropiedadController extends Controller
         ->leftjoin('mantenciones_propiedades', 'propiedades.id', '=', 'mantenciones_propiedades.id_propiedad')
         ->where('propiedades.idEstado', '!=', 46)
         ->where('propiedades.idTipoComercial', 2)
+        ->orderBy('mantenciones_propiedades.mantencion_termo', 'asc')
         ->get();
         $contador = Propiedad::where('idEstado', '!=', 46)
         ->where('idTipoComercial', 2)
@@ -63,6 +65,7 @@ class MantencionPropiedadController extends Controller
             $mantencion->mantencion_termo = $request->fecha1 ?: null;
             $mantencion->mantencion_encimera = $request->fecha2 ?: null;
             $mantencion->mantencion_calefont = $request->fecha3 ?: null;
+            $mantencion->tipo_mantencion = $request->tipo_mantencion ?: null;
             $mantencion->user_id = Auth::id();
             $mantencion->save();
 

@@ -17,6 +17,7 @@ class MantencionPropiedad extends Model
         'mantencion_encimera',
         'mantencion_calefont',
         'user_id',
+        'tipo_mantencion',
         'created_at',
         'updated_at'
     ];

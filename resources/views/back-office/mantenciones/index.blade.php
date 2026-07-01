@@ -71,6 +71,7 @@
                                 <th style="width:15%">Mantención TERMO</th>
                                 <th style="width:15%">Mantención ENCIMERA</th>
                                 <th style="width:15%">Mantención CALEFONT</th>
+                                <th >OTRO</th>
                                 <th style="width:15%; text-align:center;">Acciones</th>
                             </tr>
                         </thead>
@@ -108,6 +109,8 @@
                                     @endif
                                 </td>
                                 <td>
+                                    @if($propiedad->tipo_mantencion > 0)
+                                    @else
                                     <input
                                         type="date"
                                         class="form-control form-control-sm fecha-mantencion"
@@ -115,6 +118,7 @@
                                         value="{{ $propiedad->mantencion_termo ?? '' }}"
                                         disabled
                                     >
+                                    @endif
                                 </td>
                                 <td>
                                     <input
@@ -133,6 +137,24 @@
                                         value="{{ $propiedad->mantencion_calefont ?? '' }}"
                                         disabled
                                     >
+                                </td>
+                                <td>
+                                    <select
+                                        class="form-control form-control-sm tipo-mantencion"
+                                        name="tipo_mantencion"
+                                        disabled
+                                    >
+                                        <option value="">Seleccione</option>
+                                        <option value="1" {{ ($propiedad->tipo_mantencion ?? '') == 1 ? 'selected' : '' }}>
+                                            No aplica
+                                        </option>
+                                        <option value="2" {{ ($propiedad->tipo_mantencion ?? '') == 2 ? 'selected' : '' }}>
+                                            Tiene caldera
+                                        </option>
+                                        <option value="3" {{ ($propiedad->tipo_mantencion ?? '') == 3 ? 'selected' : '' }}>
+                                            Dpto nuevo
+                                        </option>
+                                    </select>
                                 </td>
                                 <td class="text-center">
                                     <button
@@ -201,7 +223,7 @@
 
         fila.find('.fecha-mantencion').prop('disabled', false);
         fila.find('.btn-guardar').prop('disabled', false);
-
+        fila.find('.tipo-mantencion').prop('disabled', false);
         $(this).prop('disabled', true);
     });
 
@@ -216,12 +238,14 @@
                 property_id: id,
                 fecha1: fila.find('[name="fecha1"]').val(),
                 fecha2: fila.find('[name="fecha2"]').val(),
-                fecha3: fila.find('[name="fecha3"]').val()
+                fecha3: fila.find('[name="fecha3"]').val(),
+                tipo_mantencion: fila.find('[name="tipo_mantencion"]').val(),
             },
             success: function(response) {
                 fila.find('.fecha-mantencion').prop('disabled', true);
                 fila.find('.btn-guardar').prop('disabled', true);
                 fila.find('.btn-editar').prop('disabled', false);
+                fila.find('.tipo-mantencion').prop('disabled', true);
                 toastr.success('Fechas guardadas correctamente');
             },
             error: function() {
