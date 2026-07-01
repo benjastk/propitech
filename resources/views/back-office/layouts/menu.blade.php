@@ -24,6 +24,12 @@
                     </a>
                 </li>
                 <li>
+                    <a href="/mantenciones" class="waves-effect">
+                        <i class="bx bx-wrench"></i>
+                        <span>Mantención propiedades</span>
+                    </a>
+                </li>
+                <li>
                     <a href="/proyectos" class="waves-effect">
                         <i class="bx bxs-building"></i>
                         <span>Proyectos</span>
@@ -51,12 +57,6 @@
                     <a href="/mandatos" class="waves-effect">
                         <i class="bx bxs-home-circle"></i>
                         <span>Mandatos Propiedades</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/ventas" class="waves-effect">
-                        <i class="bx bxs-pen"></i>
-                        <span>Ventas de propiedades</span>
                     </a>
                 </li>
                 <li>
