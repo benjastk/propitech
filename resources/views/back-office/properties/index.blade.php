@@ -83,110 +83,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($propiedades as $propiedad)
-                                        <tr>
-                                            <td>
-                                                <p>{{ $propiedad->id }}</p>
-                                            </td>
-                                            <td>
-                                                <img src="/img/propiedad/{{ $propiedad->fotoPrincipal}}" width="120px" height="100px">
-                                            </td>
-                                            <td style="width: 100%; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;">
-                                                <h5 class="text-truncate font-size-14" style="white-space: normal !important;"><a href="#" class="text-dark">{{ $propiedad->tituloExtendido }}</a> 
-                                                    <br>
-                                                    <span class="badge badge-soft-primary">{{ $propiedad->nombreTipoPropiedad}}</span>
-                                                    
-                                                </h5>
-                                                @if($propiedad->idDestacado == 1)
-                                                    <span class="badge badge-success" style="color:black; background-color: yellow"><i class="mdi mdi-star mr-1"></i>Destacado</span>
-                                                @endif
-                                                @if($propiedad->urlPortalInmobiliario)
-                                                    <span class="badge badge-info" style="color:black;"><i class="mdi mdi-star mr-1"></i>Portal Inmobiliario</span>
-                                                @endif
-                                                @if($propiedad->esBuyDepa == 1)
-                                                    <span class="badge badge-primary" style="color:white; background-color: blue"><i class="mdi mdi-star mr-1"></i>BuyDepa</span>
-                                                @endif
-                                                <p class="text-muted mb-0">{{ $propiedad->direccion }} {{ $propiedad->numero }}, {{ $propiedad->nombreComuna }}, {{ $propiedad->nombreRegion }}</p>
-                                                @if($propiedad->idExterno)
-                                                    ID Ext: {{ $propiedad->idExterno }} - 
-                                                @endif
-                                                    DEPARTAMENTO: {{ $propiedad->block }}
-                                            </td>
-                                            <td style="text-align:center" >
-                                            @if($propiedad->habitacion > 0)<i class="bx bx-bed"></i> {{ $propiedad->habitacion }} @else <i class="bx bx-bed"></i> Estudio @endif - 
-                                                <i class="bx bx-bath"></i> {{ $propiedad->bano }}<br>
-                                                @if($propiedad->estacionamiento)<i class="bx bx-car"></i> {{ $propiedad->estacionamiento }} - @endif
-                                                @if($propiedad->bodega)<i class="bx bx-box"></i> {{ $propiedad->bodega }}@endif
-                                            </td>
-                                            <td style="text-align:center">
-                                                @if($propiedad->idEstado == 42)
-                                                <span class="badge badge-success">{{ $propiedad->nombreEstado }}</span><br>
-                                                @elseif($propiedad->idEstado == 43)
-                                                <span class="badge badge-warning">{{ $propiedad->nombreEstado }}</span><br>
-                                                @elseif($propiedad->idEstado == 44)
-                                                <span class="badge badge-success">{{ $propiedad->nombreEstado }}</span><br>
-                                                @elseif($propiedad->idEstado == 45)
-                                                <span class="badge badge-info">{{ $propiedad->nombreEstado }}</span><br>
-                                                @elseif($propiedad->idEstado == 46)
-                                                <span class="badge badge-danger">{{ $propiedad->nombreEstado }}</span><br>
-                                                @else
-                                                <span class="badge badge-dark">{{ $propiedad->nombreEstado }}</span><br>
-                                                @endif
-                                                <span class="badge badge-soft-dark">{{ $propiedad->nombreNivelUsoPropiedad }}</span>
-                                                <br>
-                                                @if($propiedad->idTipoComercial == 1)
-                                                <span class="badge badge-info">VENTA</span>
-                                                @elseif($propiedad->idTipoComercial == 2)
-                                                <span class="badge badge-info">ARRIENDO</span>
-                                                @else
-                                                <span class="badge badge-info">SIN CATEGORIA</span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if($propiedad->idTipoComercial == 2)
-                                                    <h5><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">${{ number_format($propiedad->valorArriendo, 0, ",", ".") }} </font></font></h5>
-                                                @elseif($propiedad->idTipoComercial == 1)
-                                                <h5><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">UF {{ number_format($propiedad->precio, 0, ",", ".") }} </font></font></h5>
-                                                @else
-                                                Sin Categorizacion
-                                                @endif
-                                            </td>
-                                            <td>
-                                                <ul class="list-inline font-size-20 contact-links mb-0">
-                                                    <!--<li class="list-inline-item px-2">
-                                                        <a href="" data-toggle="tooltip" data-placement="top" title="Message"><i class="bx bx-message-square-dots"></i></a>
-                                                    </li>
-                                                    <li class="list-inline-item px-2">
-                                                        <a href="" data-toggle="tooltip" data-placement="top" title="Profile"><i class="bx bx-user-circle"></i></a>
-                                                    </li>-->
-                                                    <li class="list-inline-item">
-                                                        <a href="/contratos/contratos-propiedad/{{ $propiedad->id }}" data-toggle="tooltip" data-placement="top" title="Contratos"><i class="bx bxs-file"></i></a>
-                                                    </li>
-                                                    <li class="list-inline-item">
-                                                        <a href="/mandatos/mandatos-propiedad/{{ $propiedad->id }}" data-toggle="tooltip" data-placement="top" title="Mandatos"><i class="bx bxs-spreadsheet"></i></a>
-                                                    </li>
-                                                    <li class="list-inline-item">
-                                                        <a href="/properties/edit/{{ $propiedad->id }}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bx bxs-edit-alt"></i></a>
-                                                    </li>
-                                                    <li class="list-inline-item">
-                                                        <form id="form1" action="{{ url('/properties/destroy') }}" method="post">
-                                                            {{ csrf_field() }}
-                                                            <input type="hidden" name="id" value="{{ $propiedad->id }}"/>
-                                                            <button style="border: 0px; background-color: white;" type="submit"><i class="bx bxs-trash-alt"></i></button>
-                                                        </form>
-                                                        <!--<a href="/users/edit/{{ $user->id }}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bx bxs-trash-alt"></i></a>-->
-                                                    </li>
-                                                    <li class="list-inline-item">
-                                                        <form id="form2" action="{{ url('/properties/duplicar') }}" method="post">
-                                                            {{ csrf_field() }}
-                                                            <input type="hidden" name="id" value="{{ $propiedad->id }}"/>
-                                                            <button style="border: 0px; background-color: white;" type="submit"><i class="fa fa-clone"></i></button>
-                                                        </form>
-                                                    </li>
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                        @endforeach
                                     </tbody>
                                 </table>
                                 <div style="text-align:center">
@@ -221,7 +117,19 @@
 <script>
 	$(document).ready( function () {
 		$('#tabla-ingresos').DataTable( {
-			"order": [[ 0, "desc" ]]
+			"order": [[ 0, "desc" ]],
+			"processing": true,
+			"serverSide": true,
+			"ajax": "{{ url('/properties/datatable') }}",
+			"columns": [
+				{ "data": "id" },
+				{ "data": "foto", "orderable": false, "searchable": false },
+				{ "data": "propiedad" },
+				{ "data": "distribucion", "orderable": false, "searchable": false, "className": "text-center" },
+				{ "data": "estado", "className": "text-center" },
+				{ "data": "valor" },
+				{ "data": "acciones", "orderable": false, "searchable": false }
+			]
 		});
 	} );
 </script>

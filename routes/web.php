@@ -82,6 +82,7 @@ Route::prefix('users')->group(function () {
 });
 Route::prefix('properties')->group(function () {
     Route::get('/', 'PropertyController@index')->name('properties');
+    Route::get('/datatable', 'PropertyController@datatable');
     Route::get('/create', 'PropertyController@create');
     Route::post('/store', 'PropertyController@store');
     Route::get('/edit/{propiedad}', 'PropertyController@edit');

@@ -37,7 +37,21 @@ class PropertyController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $propiedades = Propiedad::select('propiedades.*', 'niveles_uso_propiedad.nombreNivelUsoPropiedad', 'tipos_propiedades.nombreTipoPropiedad',
+        $urlAuthYapo = getenv("YAPO_AUTH_URL");
+        $clientID = getenv("YAPO_CLIENT_ID");
+        $redirect_url = getenv("YAPO_REDIRECT_URL");
+        $urlYapoFinal = $urlAuthYapo.'/authorization?client_id='.$clientID.'&redirect_url='.$redirect_url;
+        return view('back-office.properties.index', compact('user', 'urlYapoFinal'));
+    }
+
+    /**
+     * Fuente de datos server-side para el DataTable del listado de propiedades.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function datatable(Request $request)
+    {
+        $query = Propiedad::select('propiedades.*', 'niveles_uso_propiedad.nombreNivelUsoPropiedad', 'tipos_propiedades.nombreTipoPropiedad',
         'paises.nombrePais', 'provincia.nombre as nombreProvincia', 'region.nombre as nombreRegion', 'comuna.nombre as nombreComuna', 'estados.nombreEstado')
         ->join('niveles_uso_propiedad', 'niveles_uso_propiedad.idNivelUsoPropiedad', '=', 'propiedades.idNivelUsoPropiedad')
         ->join('tipos_propiedades', 'tipos_propiedades.idTipoPropiedad', '=', 'propiedades.idTipoPropiedad')
@@ -46,13 +60,65 @@ class PropertyController extends Controller
         ->join('region', 'region.id', '=', 'propiedades.idRegion')
         ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
         ->join('estados', 'estados.idEstado', '=', 'propiedades.idEstado')
-        ->where('propiedades.idEstado', '!=', 46)
-        ->get();
-        $urlAuthYapo = getenv("YAPO_AUTH_URL");
-        $clientID = getenv("YAPO_CLIENT_ID");
-        $redirect_url = getenv("YAPO_REDIRECT_URL");
-        $urlYapoFinal = $urlAuthYapo.'/authorization?client_id='.$clientID.'&redirect_url='.$redirect_url;
-        return view('back-office.properties.index', compact('user', 'propiedades', 'urlYapoFinal'));
+        ->where('propiedades.idEstado', '!=', 46);
+
+        $recordsTotal = (clone $query)->count('propiedades.id');
+
+        $searchValue = trim((string) $request->input('search.value'));
+        if ($searchValue !== '') {
+            $query->where(function ($q) use ($searchValue) {
+                $q->where('propiedades.id', 'like', "%{$searchValue}%")
+                    ->orWhere('propiedades.tituloExtendido', 'like', "%{$searchValue}%")
+                    ->orWhere('propiedades.direccion', 'like', "%{$searchValue}%")
+                    ->orWhere('propiedades.numero', 'like', "%{$searchValue}%")
+                    ->orWhere('propiedades.block', 'like', "%{$searchValue}%")
+                    ->orWhere('propiedades.idExterno', 'like', "%{$searchValue}%")
+                    ->orWhere('comuna.nombre', 'like', "%{$searchValue}%")
+                    ->orWhere('region.nombre', 'like', "%{$searchValue}%")
+                    ->orWhere('estados.nombreEstado', 'like', "%{$searchValue}%");
+            });
+        }
+
+        $recordsFiltered = (clone $query)->count('propiedades.id');
+
+        $columnasOrdenables = [
+            0 => 'propiedades.id',
+            2 => 'propiedades.tituloExtendido',
+            4 => 'estados.nombreEstado',
+            5 => DB::raw('CASE WHEN propiedades.idTipoComercial = 2 THEN propiedades.valorArriendo ELSE propiedades.precio END'),
+        ];
+        $ordenColumna = (int) $request->input('order.0.column', 0);
+        $ordenDireccion = $request->input('order.0.dir') === 'asc' ? 'asc' : 'desc';
+        $query->orderBy($columnasOrdenables[$ordenColumna] ?? 'propiedades.id', $ordenDireccion);
+
+        $start = (int) $request->input('start', 0);
+        $length = (int) $request->input('length', 50);
+        if ($length > 0) {
+            $query->skip($start)->take($length);
+        }
+
+        $propiedades = $query->get();
+
+        $data = $propiedades->map(function ($propiedad) {
+            return [
+                'id' => $propiedad->id,
+                'foto' => $propiedad->fotoPrincipal
+                    ? '<img src="/img/propiedad/'.e($propiedad->fotoPrincipal).'" width="120px" height="100px">'
+                    : '<div style="width: 120px; height: 100px; background-color: #eff2f7; display: flex; align-items: center; justify-content: center; border-radius: 4px;"><i class="bx bx-image" style="font-size: 32px; color: #ced4da;"></i></div>',
+                'propiedad' => view('back-office.properties.partials.columna-propiedad', compact('propiedad'))->render(),
+                'distribucion' => view('back-office.properties.partials.columna-distribucion', compact('propiedad'))->render(),
+                'estado' => view('back-office.properties.partials.columna-estado', compact('propiedad'))->render(),
+                'valor' => view('back-office.properties.partials.columna-valor', compact('propiedad'))->render(),
+                'acciones' => view('back-office.properties.partials.columna-acciones', compact('propiedad'))->render(),
+            ];
+        });
+
+        return response()->json([
+            'draw' => (int) $request->input('draw', 1),
+            'recordsTotal' => $recordsTotal,
+            'recordsFiltered' => $recordsFiltered,
+            'data' => $data,
+        ]);
     }
 
     /**
