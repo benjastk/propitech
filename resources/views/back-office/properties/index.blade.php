@@ -37,6 +37,20 @@
     {
         float: right;
     }
+    #tabla-ingresos tbody tr
+    {
+        height: 100px;
+    }
+    #tabla-ingresos tbody td
+    {
+        vertical-align: middle;
+    }
+    #tabla-ingresos tbody td:nth-child(3)
+    {
+        height: 100px;
+        max-height: 100px;
+        overflow: hidden;
+    }
 </style>
 @endsection
 @section('content')
@@ -75,7 +89,7 @@
                                         <tr>
                                             <th scope="col" >ID</th>
                                             <th scope="col" style="width: 100px">Foto</th>
-                                            <th scope="col" style="width: 50px; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;">Propiedad</th>
+                                            <th scope="col" style="width: 400px; word-wrap: break-word;">Propiedad</th>
                                             <th scope="col" style="text-align:center" >Distribucion</th>
                                             <th scope="col" style="text-align:center" >Estado</th>
                                             <th scope="col" style="text-align:center" >Valor</th>
