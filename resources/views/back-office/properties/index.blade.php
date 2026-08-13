@@ -84,16 +84,16 @@
                     <div class="col-lg-12">
                         <div class="">
                             <div class="table-responsive">
-                                <table id="tabla-ingresos" class="table project-list-table table-centered table-borderless">
+                                <table id="tabla-ingresos" class="table project-list-table table-centered table-borderless" style="table-layout: fixed; width: 100%;">
                                     <thead>
                                         <tr>
-                                            <th scope="col" >ID</th>
-                                            <th scope="col" style="width: 100px">Foto</th>
-                                            <th scope="col" style="width: 400px; word-wrap: break-word;">Propiedad</th>
-                                            <th scope="col" style="text-align:center" >Distribucion</th>
-                                            <th scope="col" style="text-align:center" >Estado</th>
-                                            <th scope="col" style="text-align:center" >Valor</th>
-                                            <th scope="col" style="text-align:center" >Acciones</th>
+                                            <th scope="col" style="width: 5%">ID</th>
+                                            <th scope="col" style="width: 9%">Foto</th>
+                                            <th scope="col" style="width: 38%; word-wrap: break-word;">Propiedad</th>
+                                            <th scope="col" style="width: 11%; text-align:center" >Distribucion</th>
+                                            <th scope="col" style="width: 14%; text-align:center" >Estado</th>
+                                            <th scope="col" style="width: 13%; text-align:center" >Valor</th>
+                                            <th scope="col" style="width: 10%; text-align:center" >Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>

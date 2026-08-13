@@ -12,7 +12,7 @@
 @if($propiedad->esBuyDepa == 1)
     <span class="badge badge-primary" style="color:white; background-color: blue"><i class="mdi mdi-star mr-1"></i>BuyDepa</span>
 @endif
-<p class="text-muted mb-0 text-truncate" style="max-width: 380px;">{{ $propiedad->direccion }} {{ $propiedad->numero }}, {{ $propiedad->nombreComuna }}, {{ $propiedad->nombreRegion }}</p>
+<p class="text-muted mb-0 text-truncate" style="max-width: 100%;">{{ $propiedad->direccion }} {{ $propiedad->numero }}, {{ $propiedad->nombreComuna }}, {{ $propiedad->nombreRegion }}</p>
 @if($propiedad->idExterno)
     ID Ext: {{ $propiedad->idExterno }} -
 @endif
