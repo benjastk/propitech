@@ -1443,7 +1443,12 @@ class MandatoAdministracionController extends Controller
         $mes = '';
         $comisionCorretaje = '';
         $pdf = \PDF::loadView('emails.adjuntoPagoInversionista', [ 'estadoPagoMandato' => $estadoDePagoFinal, 'cargos' => $cargos, 'descuentos' => $descuentos, 'deudas' => $deudas, 'documentos' => $documentos, 'estadoDePagoArrendatario' => $estadoDePagoArrendatario, 'diasNoArrendado' => $diasNoArrendado, 'mes' => $mes, 'comisionCorretaje' => $comisionCorretaje]);
-        return $pdf->download();
+        $mesesEnEspanol = [1 => 'ENERO', 2 => 'FEBRERO', 3 => 'MARZO', 4 => 'ABRIL', 5 => 'MAYO', 6 => 'JUNIO', 7 => 'JULIO', 8 => 'AGOSTO', 9 => 'SEPTIEMBRE', 10 => 'OCTUBRE', 11 => 'NOVIEMBRE', 12 => 'DICIEMBRE'];
+        $mesPago = $mesesEnEspanol[(int) date('n', strtotime($estadoDePagoFinal->fechaDePago))];
+        $anioPago = date('Y', strtotime($estadoDePagoFinal->fechaDePago));
+        $blockPago = $estadoDePagoFinal->block ? 'DPTO : '.$estadoDePagoFinal->block : '';
+        $nombreArchivo = strtoupper($estadoDePagoFinal->direccion.' '.$estadoDePagoFinal->numero.' '.$blockPago.' '.$mesPago.' '.$anioPago).'.pdf';
+        return $pdf->download($nombreArchivo);
     }
     public function enviarComprobanteInversionista($id)
     {
