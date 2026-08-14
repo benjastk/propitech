@@ -412,17 +412,134 @@
             @endforeach
         @endif
         @if($estadosPagosMandatarios)
-            @foreach ($estadosPagosMandatarios as $estadoPagoModalCargo)    
+            @foreach ($estadosPagosMandatarios as $estadoPagoModalCargo)
             <div class="modal fade" id="exampleModalCargoDescuento-{{$estadoPagoModalCargo->idEstadoPagoMandato}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                     <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Crear Cargo/Descuento</h5>
+                        <h5 class="modal-title" id="exampleModalLongTitle">Cargo/Descuento</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
+                        @php
+                            $cargosDelEstado = $cargosPropietario->where('idEstadoPago', $estadoPagoModalCargo->idEstadoPago);
+                            $descuentosDelEstado = $descuentosPropietario->where('idEstadoPago', $estadoPagoModalCargo->idEstadoPago);
+                        @endphp
+                        @if($cargosDelEstado->count() || $descuentosDelEstado->count())
+                        <div class="table-responsive mb-3">
+                            <table class="table table-sm table-bordered">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Tipo</th>
+                                        <th>Nombre</th>
+                                        <th>Monto</th>
+                                        <th>Descripcion</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($cargosDelEstado as $cargo)
+                                    <tr id="cargoView-{{$cargo->idCargo}}">
+                                        <td><span class="badge badge-soft-primary">Cargo</span></td>
+                                        <td>{{ $cargo->nombreCargo }}</td>
+                                        <td>${{ number_format($cargo->montoCargo, 0, '', '.') }}</td>
+                                        <td>{{ $cargo->descripcionCargo }}</td>
+                                        <td class="text-nowrap">
+                                            <button type="button" class="btn btn-sm btn-warning" onclick="toggleEditRow('cargoView-{{$cargo->idCargo}}','cargoEdit-{{$cargo->idCargo}}')"><i class="fa fa-edit"></i></button>
+                                            <form style="display:inline" method="POST" action="{{ route('destroyCargoDescuentoPropietario') }}" onsubmit="return confirm('¿Esta seguro que desea eliminar este cargo?');">
+                                                @csrf
+                                                <input type="hidden" name="id" value="{{ $cargo->idCargo }}">
+                                                <input type="hidden" name="tipo" value="1">
+                                                <input type="hidden" name="idEstadoPago" value="{{ $cargo->idEstadoPago }}">
+                                                <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    <tr id="cargoEdit-{{$cargo->idCargo}}" style="display:none">
+                                        <td colspan="5">
+                                            <form method="POST" action="{{ route('updateCargoDescuentoPropietario') }}">
+                                                @csrf
+                                                <input type="hidden" name="id" value="{{ $cargo->idCargo }}">
+                                                <input type="hidden" name="tipo" value="1">
+                                                <div class="row">
+                                                    <div class="col-4">
+                                                        <label>Nombre</label>
+                                                        <input type="text" name="nombre" class="form-control" value="{{ $cargo->nombreCargo }}" required>
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <label>Monto</label>
+                                                        <input type="number" name="monto" class="form-control" value="{{ $cargo->montoCargo }}" required>
+                                                    </div>
+                                                    <div class="col-5">
+                                                        <label>Descripcion</label>
+                                                        <input type="text" name="descripcion" class="form-control" value="{{ $cargo->descripcionCargo }}">
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-2">
+                                                    <div class="col-12 text-right">
+                                                        <button type="button" class="btn btn-sm btn-secondary" onclick="toggleEditRow('cargoEdit-{{$cargo->idCargo}}','cargoView-{{$cargo->idCargo}}')">Cancelar</button>
+                                                        <button type="submit" class="btn btn-sm btn-success">Guardar</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                    @foreach($descuentosDelEstado as $descuento)
+                                    <tr id="descuentoView-{{$descuento->idDescuento}}">
+                                        <td><span class="badge badge-soft-danger">Descuento</span></td>
+                                        <td>{{ $descuento->nombreDescuento }}</td>
+                                        <td>${{ number_format($descuento->montoDescuento, 0, '', '.') }}</td>
+                                        <td>{{ $descuento->descripcionDescuento }}</td>
+                                        <td class="text-nowrap">
+                                            <button type="button" class="btn btn-sm btn-warning" onclick="toggleEditRow('descuentoView-{{$descuento->idDescuento}}','descuentoEdit-{{$descuento->idDescuento}}')"><i class="fa fa-edit"></i></button>
+                                            <form style="display:inline" method="POST" action="{{ route('destroyCargoDescuentoPropietario') }}" onsubmit="return confirm('¿Esta seguro que desea eliminar este descuento?');">
+                                                @csrf
+                                                <input type="hidden" name="id" value="{{ $descuento->idDescuento }}">
+                                                <input type="hidden" name="tipo" value="2">
+                                                <input type="hidden" name="idEstadoPago" value="{{ $descuento->idEstadoPago }}">
+                                                <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    <tr id="descuentoEdit-{{$descuento->idDescuento}}" style="display:none">
+                                        <td colspan="5">
+                                            <form method="POST" action="{{ route('updateCargoDescuentoPropietario') }}">
+                                                @csrf
+                                                <input type="hidden" name="id" value="{{ $descuento->idDescuento }}">
+                                                <input type="hidden" name="tipo" value="2">
+                                                <div class="row">
+                                                    <div class="col-4">
+                                                        <label>Nombre</label>
+                                                        <input type="text" name="nombre" class="form-control" value="{{ $descuento->nombreDescuento }}" required>
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <label>Monto</label>
+                                                        <input type="number" name="monto" class="form-control" value="{{ $descuento->montoDescuento }}" required>
+                                                    </div>
+                                                    <div class="col-5">
+                                                        <label>Descripcion</label>
+                                                        <input type="text" name="descripcion" class="form-control" value="{{ $descuento->descripcionDescuento }}">
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-2">
+                                                    <div class="col-12 text-right">
+                                                        <button type="button" class="btn btn-sm btn-secondary" onclick="toggleEditRow('descuentoEdit-{{$descuento->idDescuento}}','descuentoView-{{$descuento->idDescuento}}')">Cancelar</button>
+                                                        <button type="submit" class="btn btn-sm btn-success">Guardar</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <hr>
+                        @endif
+                        <h6>Agregar Cargo/Descuento</h6>
                         <form method="POST" action="{{ route('createCargoDescuentoPropietario') }}" >
                         @csrf
                         <div class="row">
@@ -510,6 +627,10 @@
 <script src="{{ url('js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ url('js/dataTables.bootstrap.min.js') }}"></script>
 <script>
+    window.toggleEditRow = function(hideId, showId) {
+        document.getElementById(hideId).style.display = 'none';
+        document.getElementById(showId).style.display = '';
+    };
 	$(document).ready( function () {
 		$('#tabla-ingresos').DataTable( {
 			"order": [[ 0, "desc" ]]

@@ -191,6 +191,7 @@ Route::prefix('estados-pagos')->group(function () {
     Route::post('/destroyCargoDescuento', 'EstadoPagoController@destroyCargoDescuento');
     
     Route::post('/createCargoDescuentoPropietario', 'EstadoPagoController@createCargoDescuentoPropietario')->name('createCargoDescuentoPropietario');
+    Route::post('/updateCargoDescuentoPropietario', 'EstadoPagoController@updateCargoDescuentoPropietario')->name('updateCargoDescuentoPropietario');
     Route::post('/destroyCargoDescuentoPropietario', 'EstadoPagoController@destroyCargoDescuentoPropietario')->name('destroyCargoDescuentoPropietario');
     
     Route::get('/pagos/{id}', 'EstadoPagoController@indexPagos');

@@ -1214,6 +1214,64 @@ class EstadoPagoController extends Controller
             return back();
         }
     }
+    public function updateCargoDescuentoPropietario(Request $request)
+    {
+        try{
+            $user = Auth::user();
+            DB::beginTransaction();
+            if($request->tipo == 1)
+            {
+                $cargo = Cargo::where('idCargo', $request->id)->firstOrFail();
+                $cargo->nombreCargo = $request->nombre;
+                $cargo->descripcionCargo = $request->descripcion;
+                $cargo->montoCargo = $request->monto;
+                $cargo->save();
+
+                $logTransaccion = new LogTransaccion();
+                $logTransaccion->tipoTransaccion = 'Edicion de cargo PROPIETARIO';
+                $logTransaccion->idUsuario =  Auth::user()->id;
+                $logTransaccion->webclient = $request->userAgent();
+                $logTransaccion->descripcionTransaccion = 'Edicion de cargo - Monto del cargo: '.
+                $request->monto;
+                $logTransaccion->save();
+
+                DB::commit();
+                toastr()->success('Cargo actualizado exitosamente');
+                return back();
+            }
+            else
+            {
+                $descuento = Descuento::where('idDescuento', $request->id)->firstOrFail();
+                $descuento->nombreDescuento = $request->nombre;
+                $descuento->descripcionDescuento = $request->descripcion;
+                $descuento->montoDescuento = $request->monto;
+                $descuento->save();
+
+                $logTransaccion = new LogTransaccion();
+                $logTransaccion->tipoTransaccion = 'Edicion de descuento PROPIETARIO';
+                $logTransaccion->idUsuario =  Auth::user()->id;
+                $logTransaccion->webclient = $request->userAgent();
+                $logTransaccion->descripcionTransaccion = 'Edicion de descuento - Monto del descuento: '.$request->monto;
+                $logTransaccion->save();
+
+                DB::commit();
+                toastr()->success('Descuento actualizado exitosamente');
+                return back();
+            }
+        } catch (ModelNotFoundException $e) {
+            toastr()->warning('No autorizado');
+            DB::rollback();
+            return back();
+        } catch (QueryException $e) {
+            toastr()->warning('Ha ocurrido un error, favor intente nuevamente' . $e->getMessage());
+            DB::rollback();
+            return back();
+        } catch (\Exception $e) {
+            toastr()->warning($e->getMessage());
+            DB::rollback();
+            return back();
+        }
+    }
     public function destroyCargoDescuentoPropietario(Request $request)
     {
         try{
@@ -1228,13 +1286,13 @@ class EstadoPagoController extends Controller
                 $logTransaccion->tipoTransaccion = 'Eliminacion de cargo en estado de pago';
                 $logTransaccion->idUsuario =  Auth::user()->id;
                 $logTransaccion->webclient = $request->userAgent();
-                $logTransaccion->descripcionTransaccion = 'Eliminacion de cargo en ID estado de pago: '.$request->idEstadoPago. 
+                $logTransaccion->descripcionTransaccion = 'Eliminacion de cargo en ID estado de pago: '.$request->idEstadoPago.
                 ' - Monto del cargo: '.$cargo->montoCargo;
                 $logTransaccion->save();
 
                 DB::commit();
                 toastr()->success('Cargo eliminado exitosamente');
-                return redirect('/estados-pagos/edit/'.$request->idEstadoPago);
+                return back();
             }
             else
             {
@@ -1245,13 +1303,13 @@ class EstadoPagoController extends Controller
                 $logTransaccion->tipoTransaccion = 'Eliminacion de descuento en estado de pago';
                 $logTransaccion->idUsuario =  Auth::user()->id;
                 $logTransaccion->webclient = $request->userAgent();
-                $logTransaccion->descripcionTransaccion = 'Eliminacion de descuento en ID estado de pago: '.$request->idEstadoPago. 
+                $logTransaccion->descripcionTransaccion = 'Eliminacion de descuento en ID estado de pago: '.$request->idEstadoPago.
                 ' - Monto del descuento: '.$descuento->montoDescuento;
                 $logTransaccion->save();
 
                 DB::commit();
                 toastr()->success('Descuento eliminado exitosamente');
-                return redirect('/estados-pagos/edit/'.$request->idEstadoPago);
+                return back();
             }
         } catch (ModelNotFoundException $e) {
             toastr()->warning('No autorizado');

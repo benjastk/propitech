@@ -508,7 +508,9 @@ class MandatoAdministracionController extends Controller
             ->get();
         $estadosPagosMandatarios = null;
         $tipo = '';
-        return view('back-office.mandatos.liquidacionInversionista', compact('filtro', 'estadosPagosMandatarios', 'filtroDos', 'user', 'anio', 'mes', 'tipo'));
+        $cargosPropietario = collect();
+        $descuentosPropietario = collect();
+        return view('back-office.mandatos.liquidacionInversionista', compact('filtro', 'estadosPagosMandatarios', 'filtroDos', 'user', 'anio', 'mes', 'tipo', 'cargosPropietario', 'descuentosPropietario'));
     }
     public function buscarPagosMandatosMes(Request $request)
     {
@@ -557,7 +559,10 @@ class MandatoAdministracionController extends Controller
             ->groupby('diaPago')
             ->get();
         $estados = Estado::where('idTipoEstado', '=', 16)->get();
-        return view('back-office.mandatos.liquidacionInversionista', compact('estadosPagosMandatarios', 'filtro', 'anio', 'mes', 'filtroDos', 'estados', 'tipo', 'user'));
+        $idsEstadosPago = $estadosPagosMandatarios->pluck('idEstadoPago');
+        $cargosPropietario = Cargo::whereIn('idEstadoPago', $idsEstadosPago)->where('correspondeA', 1)->get();
+        $descuentosPropietario = Descuento::whereIn('idEstadoPago', $idsEstadosPago)->where('correspondeADescuentos', 1)->get();
+        return view('back-office.mandatos.liquidacionInversionista', compact('estadosPagosMandatarios', 'filtro', 'anio', 'mes', 'filtroDos', 'estados', 'tipo', 'user', 'cargosPropietario', 'descuentosPropietario'));
     }
     public function comisionMandato($mes, $anio)
     {
