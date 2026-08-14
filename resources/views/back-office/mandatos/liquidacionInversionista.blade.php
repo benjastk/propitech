@@ -432,6 +432,7 @@
                                     <tr>
                                         <th>Tipo</th>
                                         <th>Nombre</th>
+                                        <th>Corresponde A</th>
                                         <th>Monto</th>
                                         <th>Descripcion</th>
                                         <th>Acciones</th>
@@ -442,6 +443,13 @@
                                     <tr id="cargoView-{{$cargo->idCargo}}">
                                         <td><span class="badge badge-soft-primary">Cargo</span></td>
                                         <td>{{ $cargo->nombreCargo }}</td>
+                                        <td>
+                                            @if($cargo->correspondeA == 1)
+                                            <span class="badge badge-soft-secondary">Propietario</span>
+                                            @else
+                                            <span class="badge badge-pill badge-dark">Arrendatario</span>
+                                            @endif
+                                        </td>
                                         <td>${{ number_format($cargo->montoCargo, 0, '', '.') }}</td>
                                         <td>{{ $cargo->descripcionCargo }}</td>
                                         <td class="text-nowrap">
@@ -456,21 +464,28 @@
                                         </td>
                                     </tr>
                                     <tr id="cargoEdit-{{$cargo->idCargo}}" style="display:none">
-                                        <td colspan="5">
+                                        <td colspan="6">
                                             <form method="POST" action="{{ route('updateCargoDescuentoPropietario') }}">
                                                 @csrf
                                                 <input type="hidden" name="id" value="{{ $cargo->idCargo }}">
                                                 <input type="hidden" name="tipo" value="1">
                                                 <div class="row">
-                                                    <div class="col-4">
+                                                    <div class="col-3">
                                                         <label>Nombre</label>
                                                         <input type="text" name="nombre" class="form-control" value="{{ $cargo->nombreCargo }}" required>
                                                     </div>
                                                     <div class="col-3">
+                                                        <label>Corresponde A</label>
+                                                        <select name="correspondeA" class="form-control" required>
+                                                            <option value="1" {{ $cargo->correspondeA == 1 ? 'selected' : '' }}>Propietario</option>
+                                                            <option value="2" {{ $cargo->correspondeA == 2 ? 'selected' : '' }}>Arrendatario</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-2">
                                                         <label>Monto</label>
                                                         <input type="number" name="monto" class="form-control" value="{{ $cargo->montoCargo }}" required>
                                                     </div>
-                                                    <div class="col-5">
+                                                    <div class="col-4">
                                                         <label>Descripcion</label>
                                                         <input type="text" name="descripcion" class="form-control" value="{{ $cargo->descripcionCargo }}">
                                                     </div>
@@ -489,6 +504,13 @@
                                     <tr id="descuentoView-{{$descuento->idDescuento}}">
                                         <td><span class="badge badge-soft-danger">Descuento</span></td>
                                         <td>{{ $descuento->nombreDescuento }}</td>
+                                        <td>
+                                            @if($descuento->correspondeADescuentos == 1)
+                                            <span class="badge badge-soft-secondary">Propietario</span>
+                                            @else
+                                            <span class="badge badge-pill badge-dark">Arrendatario</span>
+                                            @endif
+                                        </td>
                                         <td>${{ number_format($descuento->montoDescuento, 0, '', '.') }}</td>
                                         <td>{{ $descuento->descripcionDescuento }}</td>
                                         <td class="text-nowrap">
@@ -503,21 +525,28 @@
                                         </td>
                                     </tr>
                                     <tr id="descuentoEdit-{{$descuento->idDescuento}}" style="display:none">
-                                        <td colspan="5">
+                                        <td colspan="6">
                                             <form method="POST" action="{{ route('updateCargoDescuentoPropietario') }}">
                                                 @csrf
                                                 <input type="hidden" name="id" value="{{ $descuento->idDescuento }}">
                                                 <input type="hidden" name="tipo" value="2">
                                                 <div class="row">
-                                                    <div class="col-4">
+                                                    <div class="col-3">
                                                         <label>Nombre</label>
                                                         <input type="text" name="nombre" class="form-control" value="{{ $descuento->nombreDescuento }}" required>
                                                     </div>
                                                     <div class="col-3">
+                                                        <label>Corresponde A</label>
+                                                        <select name="correspondeA" class="form-control" required>
+                                                            <option value="1" {{ $descuento->correspondeADescuentos == 1 ? 'selected' : '' }}>Propietario</option>
+                                                            <option value="2" {{ $descuento->correspondeADescuentos == 2 ? 'selected' : '' }}>Arrendatario</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-2">
                                                         <label>Monto</label>
                                                         <input type="number" name="monto" class="form-control" value="{{ $descuento->montoDescuento }}" required>
                                                     </div>
-                                                    <div class="col-5">
+                                                    <div class="col-4">
                                                         <label>Descripcion</label>
                                                         <input type="text" name="descripcion" class="form-control" value="{{ $descuento->descripcionDescuento }}">
                                                     </div>

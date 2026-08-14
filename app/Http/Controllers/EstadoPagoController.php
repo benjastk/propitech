@@ -1225,6 +1225,7 @@ class EstadoPagoController extends Controller
                 $cargo->nombreCargo = $request->nombre;
                 $cargo->descripcionCargo = $request->descripcion;
                 $cargo->montoCargo = $request->monto;
+                $cargo->correspondeA = $request->correspondeA;
                 $cargo->save();
 
                 $logTransaccion = new LogTransaccion();
@@ -1245,6 +1246,7 @@ class EstadoPagoController extends Controller
                 $descuento->nombreDescuento = $request->nombre;
                 $descuento->descripcionDescuento = $request->descripcion;
                 $descuento->montoDescuento = $request->monto;
+                $descuento->correspondeADescuentos = $request->correspondeA;
                 $descuento->save();
 
                 $logTransaccion = new LogTransaccion();
