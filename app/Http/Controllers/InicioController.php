@@ -43,6 +43,8 @@ class InicioController extends Controller
         ->join('region', 'region.id', '=', 'propiedades.idRegion')
         ->where('propiedades.idEstado', 42)
         ->where('propiedades.idTipoComercial', 2) //Arriendo
+        ->orderBy('propiedades.created_at', 'desc')
+        ->take(12)
         ->get();
         $propiedadesEnVenta = Propiedad::select('propiedades.*', 'comuna.nombre as nombreComuna', 'provincia.nombre as nombreProvincia',
         'region.nombre as nombreRegion')
@@ -51,14 +53,8 @@ class InicioController extends Controller
         ->join('region', 'region.id', '=', 'propiedades.idRegion')
         ->where('propiedades.idEstado', 42)
         ->where('propiedades.idTipoComercial', 1) //Venta
-        ->get();
-        $propiedadesDestacadas = Propiedad::select('propiedades.*', 'comuna.nombre as nombreComuna', 'provincia.nombre as nombreProvincia',
-        'region.nombre as nombreRegion')
-        ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
-        ->join('provincia', 'provincia.id', '=', 'propiedades.idProvincia')
-        ->join('region', 'region.id', '=', 'propiedades.idRegion')
-        ->where('propiedades.idEstado', 42)
-        ->where('idDestacado', 1) //Venta
+        ->orderBy('propiedades.created_at', 'desc')
+        ->take(12)
         ->get();
         $habitaciones = Propiedad::select('propiedades.habitacion')
         ->join('comuna', 'comuna.id', '=', 'propiedades.idComuna')
@@ -79,42 +75,38 @@ class InicioController extends Controller
         ->where('eliminado', 0)
         ->orderByRaw("
             CAST(
-                REPLACE(comisionAdministracion, ',', '.') 
+                REPLACE(comisionAdministracion, ',', '.')
             AS DECIMAL(10,2)
             )
         ASC")
         ->get();
-        if($planes)
+        $caracteristicasPlanes = CaracteristicaPlan::get();
+        if($planes->count())
         {
-            foreach ($planes as $plan) 
+            $asignadasPorPlan = CaracteristicaPlanAsignada::select('idPlan', 'idCaracteristicaPlan')
+            ->whereIn('idPlan', $planes->pluck('id'))
+            ->get()
+            ->groupBy('idPlan');
+            foreach ($planes as $plan)
             {
-                $caracteristicas = CaracteristicaPlanAsignada::select('idCaracteristicaPlan')->where('idPlan', $plan->id)->get();
+                $caracteristicas = $asignadasPorPlan->get($plan->id, collect());
                 $plan->caracteristicas = $caracteristicas;
-                $noContemplados= [];
-                if($caracteristicas)
-                {
-                    foreach ($caracteristicas as $carac) 
-                    {
-                        array_push($noContemplados, $carac->idCaracteristicaPlan);
-                    }
-                }
-                $noCaracteristicasPlanes = CaracteristicaPlan::whereNotIn('idCaracteristica', $noContemplados)->get();
-                $plan->noCaracteristicas = $noCaracteristicasPlanes;
+                $noContemplados = $caracteristicas->pluck('idCaracteristicaPlan')->all();
+                $plan->noCaracteristicas = $caracteristicasPlanes->whereNotIn('idCaracteristica', $noContemplados)->values();
             }
         }
-        $caracteristicasPlanes = CaracteristicaPlan::get();
-        $telefonoWhatsapp = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP')->first();
-        $telefonoWhatsapp2 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 2')->first();
-        $telefonoWhatsapp3 = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP 3')->first();
-        $nuevo = ParametroGeneral::where('parametroGeneral', 'TELEFONO WHATSAPP NUEVO')->first();
-        $correoHome = ParametroGeneral::where('parametroGeneral', 'CORREO HOME')->first();
-        $direccionHome = ParametroGeneral::where('parametroGeneral', 'DIRECCION HOME')->first();
-        $twitter = ParametroGeneral::where('parametroGeneral', 'TWITTER')->first();
-        $linkedin = ParametroGeneral::where('parametroGeneral', 'LINKEDIN')->first();
-        $instagram = ParametroGeneral::where('parametroGeneral', 'INSTAGRAM')->first();
-        $isCyber = ParametroGeneral::where('parametroGeneral', 'CYBER')->first();
-        $invierteAqui = ParametroGeneral::where('parametroGeneral', 'INVIERTE AQUI')->first();
-        return view('front-end.home', compact('propiedadesEnArriendo', 'propiedadesEnVenta', 'propiedadesDestacadas', 'comunas', 'paises', 
+        $telefonoWhatsapp = ParametroGeneral::obtener('TELEFONO WHATSAPP');
+        $telefonoWhatsapp2 = ParametroGeneral::obtener('TELEFONO WHATSAPP 2');
+        $telefonoWhatsapp3 = ParametroGeneral::obtener('TELEFONO WHATSAPP 3');
+        $nuevo = ParametroGeneral::obtener('TELEFONO WHATSAPP NUEVO');
+        $correoHome = ParametroGeneral::obtener('CORREO HOME');
+        $direccionHome = ParametroGeneral::obtener('DIRECCION HOME');
+        $twitter = ParametroGeneral::obtener('TWITTER');
+        $linkedin = ParametroGeneral::obtener('LINKEDIN');
+        $instagram = ParametroGeneral::obtener('INSTAGRAM');
+        $isCyber = ParametroGeneral::obtener('CYBER');
+        $invierteAqui = ParametroGeneral::obtener('INVIERTE AQUI');
+        return view('front-end.home', compact('propiedadesEnArriendo', 'propiedadesEnVenta', 'comunas', 'paises',
         'regiones', 'provincias', 'habitaciones', 'noticias', 'planes', 'caracteristicasPlanes',
         'telefonoWhatsapp', 'telefonoWhatsapp2', 'telefonoWhatsapp3', 'nuevo', 'correoHome', 'direccionHome', 'twitter', 'linkedin', 'instagram', 'isCyber', 'invierteAqui'));
     }

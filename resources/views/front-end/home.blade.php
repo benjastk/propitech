@@ -358,7 +358,7 @@
                             </svg>
                         </div>
                         @endif
-                        <img src="/img/propiedad/{{ $propiedad2->fotoPrincipal }}" alt="" style="height: 230px; width: 100%">
+                        <img src="/img/propiedad/{{ $propiedad2->fotoPrincipal }}" alt="" loading="lazy" style="height: 230px; width: 100%">
                     <div class="card-img-overlay p-2 d-flex flex-column">
                         <div class="mt-auto d-flex hover-image">
                         </div>
@@ -458,7 +458,7 @@
                             </svg>
                         </div>
                         @endif
-                        <img src="/img/propiedad/{{ $propiedad1->fotoPrincipal }}" alt="" style="height: 230px; width: 100%">
+                        <img src="/img/propiedad/{{ $propiedad1->fotoPrincipal }}" alt="" loading="lazy" style="height: 230px; width: 100%">
                     <div class="card-img-overlay p-2 d-flex flex-column">
                         <div class="mt-auto d-flex hover-image">
                         </div>
@@ -714,7 +714,7 @@
                         <div class="card border-0 shadow-xxs-3" data-animate="fadeInUp" style="height: 100%;">
                         <div class="position-relative d-flex align-items-end card-img-top">
                             <a href="/blog/{{ $noticia->idNoticia }}" class="hover-shine">
-                                <img src="/img/noticias/{{ $noticia->imagenNoticia }}" alt="" style="height: 240px !important; width: 100% !important">
+                                <img src="/img/noticias/{{ $noticia->imagenNoticia }}" alt="" loading="lazy" style="height: 240px !important; width: 100% !important">
                             </a>
                             <!--<a href="#" class="badge text-white bg-dark-opacity-04 fs-13 font-weight-500 bg-hover-primary hover-white mx-2 my-4 position-absolute pos-fixed-bottom">
                             Creative

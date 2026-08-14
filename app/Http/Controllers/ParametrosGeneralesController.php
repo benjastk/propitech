@@ -9,6 +9,7 @@ use App\User;
 use Session;
 use Auth;
 use DB;
+use Illuminate\Support\Facades\Cache;
 class ParametrosGeneralesController extends Controller
 {
     /**
@@ -93,6 +94,7 @@ class ParametrosGeneralesController extends Controller
             $valorAnterior = $parametroGeneral->valorParametro;
             $parametroGeneral->fill($request->all());
             $parametroGeneral->save();
+            Cache::forget('parametros_generales');
             DB::commit();
 
             $logTransaccion = new LogTransaccion();
