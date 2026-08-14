@@ -203,7 +203,9 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        @php(setlocale(LC_TIME, 'es_CL.UTF-8','es_CL.utf8','es_ES.UTF-8','es_ES'))
+                                        @php
+                                            setlocale(LC_TIME, 'es_CL.UTF-8','es_CL.utf8','es_ES.UTF-8','es_ES');
+                                        @endphp
                                         @if($estadosPagosMandatarios != null)
                                         @foreach ($estadosPagosMandatarios as $estadosDePagos)
                                             <tr>
@@ -423,11 +425,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        @php
-                            $cargosDelEstado = $cargosPropietario->where('idEstadoPago', $estadoPagoModalCargo->idEstadoPago);
-                            $descuentosDelEstado = $descuentosPropietario->where('idEstadoPago', $estadoPagoModalCargo->idEstadoPago);
-                        @endphp
-                        @if($cargosDelEstado->count() || $descuentosDelEstado->count())
+                        @if($cargosPropietario->has($estadoPagoModalCargo->idEstadoPago) || $descuentosPropietario->has($estadoPagoModalCargo->idEstadoPago))
                         <div class="table-responsive mb-3">
                             <table class="table table-sm table-bordered">
                                 <thead class="thead-light">
@@ -440,7 +438,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($cargosDelEstado as $cargo)
+                                    @foreach($cargosPropietario->get($estadoPagoModalCargo->idEstadoPago, collect()) as $cargo)
                                     <tr id="cargoView-{{$cargo->idCargo}}">
                                         <td><span class="badge badge-soft-primary">Cargo</span></td>
                                         <td>{{ $cargo->nombreCargo }}</td>
@@ -487,7 +485,7 @@
                                         </td>
                                     </tr>
                                     @endforeach
-                                    @foreach($descuentosDelEstado as $descuento)
+                                    @foreach($descuentosPropietario->get($estadoPagoModalCargo->idEstadoPago, collect()) as $descuento)
                                     <tr id="descuentoView-{{$descuento->idDescuento}}">
                                         <td><span class="badge badge-soft-danger">Descuento</span></td>
                                         <td>{{ $descuento->nombreDescuento }}</td>

@@ -560,8 +560,8 @@ class MandatoAdministracionController extends Controller
             ->get();
         $estados = Estado::where('idTipoEstado', '=', 16)->get();
         $idsEstadosPago = $estadosPagosMandatarios->pluck('idEstadoPago');
-        $cargosPropietario = Cargo::whereIn('idEstadoPago', $idsEstadosPago)->where('correspondeA', 1)->get();
-        $descuentosPropietario = Descuento::whereIn('idEstadoPago', $idsEstadosPago)->where('correspondeADescuentos', 1)->get();
+        $cargosPropietario = Cargo::whereIn('idEstadoPago', $idsEstadosPago)->where('correspondeA', 1)->get()->groupBy('idEstadoPago');
+        $descuentosPropietario = Descuento::whereIn('idEstadoPago', $idsEstadosPago)->where('correspondeADescuentos', 1)->get()->groupBy('idEstadoPago');
         return view('back-office.mandatos.liquidacionInversionista', compact('estadosPagosMandatarios', 'filtro', 'anio', 'mes', 'filtroDos', 'estados', 'tipo', 'user', 'cargosPropietario', 'descuentosPropietario'));
     }
     public function comisionMandato($mes, $anio)
