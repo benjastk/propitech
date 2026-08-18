@@ -1458,6 +1458,11 @@ class MandatoAdministracionController extends Controller
     public function enviarComprobanteInversionista($id)
     {
         try {
+            $estadoPago = EstadosPagosMandatarios::where('idEstadoPagoMandato', '=', $id)->firstOrFail();
+            $estadoPago->idEstado = 69;
+            $estadoPago->fechaLiquidado = date("Y-m-d");
+            $estadoPago->save();
+
             EnvioPagoInversionista::dispatch($id);
             toastr()->success('Comprobante enviado exitosamente', 'Operacion exitosa');
             //return view('pagos.factura', compact('estadosDePago', 'cargos', 'descuentos', 'totalDescuento', 'totalCargo'));
