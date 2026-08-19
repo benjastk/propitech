@@ -17,112 +17,94 @@ class IntegracionPortalController extends Controller
         $urlAuthPortal = "https://auth.mercadolibre.cl/authorization?response_type=code&client_id=";
         $clientID = getenv("PORTALINMOBILIARIO_CLIENT_ID");
         $redirect_url = getenv("PORTALINMOBILIARIO_REDIRECT_URL");
-        return redirect()->to($urlAuthPortal.$clientID.'&redirect_uri='.$redirect_url);
+        $state = bin2hex(random_bytes(16));
+        session(['portalinmobiliario_oauth_state' => $state]);
+        return redirect()->to($urlAuthPortal.$clientID.'&redirect_uri='.$redirect_url.'&state='.$state);
     }
     public function auth(Request $request)
     {
         try
         {
-            $urlAuthPortal = getenv("PORTALINMOBILIARIO_AUTH_URL");
+            $expectedState = session('portalinmobiliario_oauth_state');
+            session()->forget('portalinmobiliario_oauth_state');
+            if (!$expectedState || !$request->filled('state') || !hash_equals($expectedState, (string) $request->state))
+            {
+                toastr()->error('Solicitud de autorización inválida o expirada', 'Error de autenticación');
+                return redirect('/properties');
+            }
+
             $clientIDPortal = getenv("PORTALINMOBILIARIO_CLIENT_ID");
             $redirectUrlPortal = getenv("PORTALINMOBILIARIO_REDIRECT_URL");
             $secretClientPortal = getenv("PORTALINMOBILIARIO_SECRET_CLIENT");
             $portalApiUrl = getenv("PORTALINMOBILIARIO_API_URL");
 
-            $curl = curl_init();
-            curl_setopt_array($curl, array(
-            CURLOPT_URL => $portalApiUrl.'/oauth/token',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS =>'{
-                "grant_type": "authorization_code",
-                "client_id": "'.$clientIDPortal.'",
-                "client_secret": "'.$secretClientPortal.'",
-                "code": "'.$request->code.'",
-                "redirect_uri": "'.$redirectUrlPortal.'"
-            }',
-            CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/json'
-                ),
-            ));
+            $tokenRequest = json_encode([
+                'grant_type' => 'authorization_code',
+                'client_id' => $clientIDPortal,
+                'client_secret' => $secretClientPortal,
+                'code' => $request->code,
+                'redirect_uri' => $redirectUrlPortal,
+            ]);
 
-            $response = curl_exec($curl);
-            curl_close($curl);
-            $responseDos = json_decode($response, true);
-            $user = User::where('id', 1)->first();
+            $result = $this->callPortalApi($portalApiUrl.'/oauth/token', 'POST', $tokenRequest);
+            $responseDos = $result['data'];
+
+            $user = $this->getPortalUsers()->first();
             if($user)
             {
-                $user->tokenPortal = $responseDos['access_token'];
-                $user->tokenType = $responseDos['token_type'];
-                $user->tiempoSesionPortal = $responseDos['expires_in'];
-                $user->userIDPortal = $responseDos['user_id'];
-                $user->refreshTokenPortal = $responseDos['refresh_token'];
+                $user->tokenPortal = $responseDos['access_token'] ?? null;
+                $user->tokenType = $responseDos['token_type'] ?? null;
+                $user->tiempoSesionPortal = $responseDos['expires_in'] ?? null;
+                $user->userIDPortal = $responseDos['user_id'] ?? null;
+                $user->refreshTokenPortal = $responseDos['refresh_token'] ?? null;
                 $user->save();
+                toastr()->success('Sesion inicidada correctamente en PORTALINMOBILIARIO', 'Operacion exitosa');
             }
-            toastr()->success('Sesion inicidada correctamente en PORTALINMOBILIARIO', 'Operacion exitosa');
+            else
+            {
+                toastr()->error('No hay un usuario habilitado para recibir la sesión de Portal Inmobiliario', 'Algo falló');
+            }
             return redirect('/properties');
-            //return response()->json($responseDos);
         } catch (\Exception $e) {
-            return response()->json($e->getMessage());
+            Log::info('error', array('body' => $e->getMessage()));
+            toastr()->error('Tenemos un problema al iniciar sesión en Portal Inmobiliario', 'Algo Falló');
+            return redirect('/properties');
         }
     }
     public function refreshToken()
     {
         try
         {
-            $users = User::select('users.*', 'roles.nombre', 'roles.id as idRol')
-            ->join('rol_usuario', 'rol_usuario.id_usuario', '=', 'users.id')
-            ->join('roles', 'roles.id', '=', 'rol_usuario.id_rol')
-            ->whereIn('rol_usuario.id_rol', [1, 2])
-            ->get();
+            $users = $this->getPortalUsers();
+            if($users->isEmpty())
+            {
+                Log::info('error', array('body' => 'No hay usuarios habilitados para Portal Inmobiliario'));
+                return false;
+            }
 
-            $tokenRefreshPortal = $users[0]->refreshTokenPortal;
-            $urlAuthPortal = getenv("PORTALINMOBILIARIO_AUTH_URL");
+            $tokenRefreshPortal = $users->first()->refreshTokenPortal;
             $clientIDPortal = getenv("PORTALINMOBILIARIO_CLIENT_ID");
-            $redirectUrlPortal = getenv("PORTALINMOBILIARIO_REDIRECT_URL");
             $secretClientPortal = getenv("PORTALINMOBILIARIO_SECRET_CLIENT");
             $portalApiUrl = getenv("PORTALINMOBILIARIO_API_URL");
 
-            $curl = curl_init();
-            curl_setopt_array($curl, array(
-            CURLOPT_URL => $portalApiUrl.'/oauth/token',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS =>'{
-                "grant_type": "refresh_token",
-                "client_id": "'.$clientIDPortal.'",
-                "client_secret": "'.$secretClientPortal.'",
-                "refresh_token": "'.$tokenRefreshPortal.'"
-            }',
-            CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/json'
-                ),
-            ));
+            $tokenRequest = json_encode([
+                'grant_type' => 'refresh_token',
+                'client_id' => $clientIDPortal,
+                'client_secret' => $secretClientPortal,
+                'refresh_token' => $tokenRefreshPortal,
+            ]);
 
-            $response = curl_exec($curl);
-            curl_close($curl);
-            $responseDos = json_decode($response, true);
-            if($users)
+            $result = $this->callPortalApi($portalApiUrl.'/oauth/token', 'POST', $tokenRequest);
+            $responseDos = $result['data'];
+
+            foreach ($users as $user)
             {
-                foreach ($users as $user) 
-                {
-                    $user->tokenPortal = $responseDos['access_token'];
-                    $user->tokenType = $responseDos['token_type'];
-                    $user->tiempoSesionPortal = $responseDos['expires_in'];
-                    $user->userIDPortal = $responseDos['user_id'];
-                    $user->refreshTokenPortal = $responseDos['refresh_token'];
-                    $user->save();
-                }
+                $user->tokenPortal = $responseDos['access_token'] ?? null;
+                $user->tokenType = $responseDos['token_type'] ?? null;
+                $user->tiempoSesionPortal = $responseDos['expires_in'] ?? null;
+                $user->userIDPortal = $responseDos['user_id'] ?? null;
+                $user->refreshTokenPortal = $responseDos['refresh_token'] ?? null;
+                $user->save();
             }
             return true;
         } catch (\Exception $e) {
@@ -132,12 +114,11 @@ class IntegracionPortalController extends Controller
     }
     public function listAds()
     {
-        
+
     }
     public function storeProperties($id)
     {
         try {
-            $clientIDPortal = getenv("PORTALINMOBILIARIO_CLIENT_ID");
             $urlPortal = getenv("PORTALINMOBILIARIO_API_URL");
             $propiedad = Propiedad::select('propiedades.*', 'niveles_uso_propiedad.nombreNivelUsoPropiedad', 'tipos_propiedades.nombreTipoPropiedad',
             'paises.nombrePais', 'provincia.nombre as nombreProvincia', 'region.nombre as nombreRegion', 'comuna.codigoComunaPortal', 'estados.nombreEstado')
@@ -157,7 +138,7 @@ class IntegracionPortalController extends Controller
                 $fotosFinales = array();
                 if($fotos)
                 {
-                    foreach ($fotos as $foto) 
+                    foreach ($fotos as $foto)
                     {
                         $url = 'https://propitech.cl/img/propiedad/'. $foto->nombreArchivo;
                         array_push($fotosFinales, array('source' => $url));
@@ -304,11 +285,9 @@ class IntegracionPortalController extends Controller
                     $mascotas = "Sí";
                 }
                 else
-                {   
+                {
                     $mascotas = "No";
                 }
-                $fotosss = json_encode($fotosFinales);
-                $titulo = json_encode($propiedad->nombrePropiedad, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE);
                 $text = str_replace(['<br>', '<br/>', '<br />', '</p>', '</h1>'], '\n', $propiedad->descripcion2);
 
                 // Elimina el resto de etiquetas HTML
@@ -319,156 +298,69 @@ class IntegracionPortalController extends Controller
 
                 // Elimina posibles espacios extra
                 $textoPlano = trim($textoPlano);
-                $request = '{"title": '.$titulo.',
-                        "category_id": "'.$categoriaSelect.'",
-                        "price": "'.$precio.'",
-                        "currency_id": "'.$moneda.'",
-                        "available_quantity": 1,
-                        "buying_mode": "classified",
-                        "listing_type_id": "silver",
-                        "condition": "not_specified",
-                        "channels": 
-                        [
-                            "marketplace" 
-                        ], 
-                        "pictures": '.$fotosss.',
-                        "location": {
-                            "address_line": "'.$propiedad->direccion.' '.$propiedad->numero.'",
-                            "city": {
-                                "id": "'.$propiedad->codigoComunaPortal.'"
-                            },
-                            "latitude": '.$propiedad->latitud.',
-                            "longitude": '.$propiedad->longitud.'
-                        },
-                        "attributes": [
-                            {
-                                "id": "ROOMS",
-                                "value_name": "'.$propiedad->habitacion.'"
-                            },
-                            {
-                                "id": "FULL_BATHROOMS",
-                                "value_name": "'.$propiedad->bano.'"
-                            },
-                            {
-                                "id": "PARKING_LOTS",
-                                "value_name": "'.$estacionamiento.'"
-                            },
-                            {
-                                "id": "WAREHOUSES",
-                                "value_name": "'.$bodega.'"
-                            },
-                            {
-                                "id": "BEDROOMS",
-                                "value_name": "'.$propiedad->habitacion.'"
-                            },
-                            {
-                                "id": "COVERED_AREA",
-                                "value_name": "'.$propiedad->mConstruido.' m²"
-                            },
-                            {
-                                "id": "TOTAL_AREA",
-                                "value_name": "'.$propiedad->mTotal.' m²"
-                            },
-                            {
-                                "id": "MAINTENANCE_FEE",
-                                "value_name": "'.$propiedad->gastosComunes.'"
-                            },
-                            {
-                                "id": "HAS_INTERNET_ACCESS",
-                                "value_name": "Sí"
-                            },
-                            {
-                                "id": "HAS_TAP_WATER",
-                                "value_name": "Sí"
-                            },
-                            {
-                                "id": "HAS_GUEST_PARKING",
-                                "value_name": "Sí"
-                            },
-                            {
-                                "id": "FURNISHED",
-                                "value_name": "No"
-                            },
-                            {
-                                "id": "IS_SUITABLE_FOR_PETS",
-                                "value_name": "'.$mascotas.'"
-                            }
-                        ]
-                        }';
-                $users = User::select('users.*', 'roles.nombre', 'roles.id as idRol')
-                ->join('rol_usuario', 'rol_usuario.id_usuario', '=', 'users.id')
-                ->join('roles', 'roles.id', '=', 'rol_usuario.id_rol')
-                ->whereIn('rol_usuario.id_rol', [1, 2])
-                ->get();
-                $tokenPortal = $users[0]->tokenPortal;
-                $curl = curl_init();
-                curl_setopt_array($curl, array(
-                CURLOPT_URL => $urlPortal.'/items/validate',
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => $request,
-                CURLOPT_HTTPHEADER => array(
-                    'Content-Type: application/json',
-                    'Authorization: Bearer '.$tokenPortal
-                    ),
-                ));
-                $response = curl_exec($curl);
-                $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-                curl_close($curl);
-                $responseDos = json_decode($response, true);
+
+                $request = [
+                    'title' => $propiedad->nombrePropiedad,
+                    'category_id' => $categoriaSelect,
+                    'price' => (string) $precio,
+                    'currency_id' => $moneda,
+                    'available_quantity' => 1,
+                    'buying_mode' => 'classified',
+                    'listing_type_id' => 'silver',
+                    'condition' => 'not_specified',
+                    'channels' => ['marketplace'],
+                    'pictures' => $fotosFinales,
+                    'location' => [
+                        'address_line' => $propiedad->direccion.' '.$propiedad->numero,
+                        'city' => ['id' => $propiedad->codigoComunaPortal],
+                        'latitude' => (float) $propiedad->latitud,
+                        'longitude' => (float) $propiedad->longitud,
+                    ],
+                    'attributes' => [
+                        ['id' => 'ROOMS', 'value_name' => (string) $propiedad->habitacion],
+                        ['id' => 'FULL_BATHROOMS', 'value_name' => (string) $propiedad->bano],
+                        ['id' => 'PARKING_LOTS', 'value_name' => (string) $estacionamiento],
+                        ['id' => 'WAREHOUSES', 'value_name' => (string) $bodega],
+                        ['id' => 'BEDROOMS', 'value_name' => (string) $propiedad->habitacion],
+                        ['id' => 'COVERED_AREA', 'value_name' => $propiedad->mConstruido.' m²'],
+                        ['id' => 'TOTAL_AREA', 'value_name' => $propiedad->mTotal.' m²'],
+                        ['id' => 'MAINTENANCE_FEE', 'value_name' => (string) $propiedad->gastosComunes],
+                        ['id' => 'HAS_INTERNET_ACCESS', 'value_name' => 'Sí'],
+                        ['id' => 'HAS_TAP_WATER', 'value_name' => 'Sí'],
+                        ['id' => 'HAS_GUEST_PARKING', 'value_name' => 'Sí'],
+                        ['id' => 'FURNISHED', 'value_name' => 'No'],
+                        ['id' => 'IS_SUITABLE_FOR_PETS', 'value_name' => $mascotas],
+                    ],
+                ];
+                $requestJson = json_encode($request, JSON_UNESCAPED_UNICODE);
+
+                $portalUser = $this->getPortalUsers()->first();
+                if(!$portalUser)
+                {
+                    toastr()->error('No hay un usuario habilitado con sesión de Portal Inmobiliario', 'Algo falló');
+                    return redirect('/properties');
+                }
+                $tokenPortal = $portalUser->tokenPortal;
+
+                $validate = $this->callPortalApi($urlPortal.'/items/validate', 'POST', $requestJson, $tokenPortal);
+                $responseDos = $validate['data'];
+                $httpcode = $validate['httpcode'];
+
                 if($httpcode > 199 && $httpcode < 300)
                 {
-                    $curlDos = curl_init();
-                    curl_setopt_array($curlDos, array(
-                    CURLOPT_URL => $urlPortal.'/items',
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_ENCODING => '',
-                    CURLOPT_TIMEOUT => 0,
-                    CURLOPT_FOLLOWLOCATION => true,
-                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                    CURLOPT_CUSTOMREQUEST => 'POST',
-                    CURLOPT_POSTFIELDS => $request,
-                    CURLOPT_HTTPHEADER => array(
-                        'Content-Type: application/json',
-                        'Authorization: Bearer '.$tokenPortal
-                        ),
-                    ));
-                    $responses = curl_exec($curlDos);
-                    $httpcodeDos = curl_getinfo($curlDos, CURLINFO_HTTP_CODE);
-                    curl_close($curlDos);
-                    $responseTres = json_decode($responses, true);
+                    $create = $this->callPortalApi($urlPortal.'/items', 'POST', $requestJson, $tokenPortal);
+                    $responseTres = $create['data'];
+                    $httpcodeDos = $create['httpcode'];
+
                     $propiedadActualizada = Propiedad::where('id', $id)->first();
-                    $propiedadActualizada->urlPortalInmobiliario = $responseTres['permalink'];
-                    $propiedadActualizada->itemIDPortal = $responseTres['id'];
+                    $propiedadActualizada->urlPortalInmobiliario = $responseTres['permalink'] ?? null;
+                    $propiedadActualizada->itemIDPortal = $responseTres['id'] ?? null;
                     $propiedadActualizada->save();
                     if($httpcodeDos > 199 && $httpcodeDos < 300)
                     {
                         // INICIO DESCRIPCION
-                        $requestDos = '{
-                            "plain_text": "'.$textoPlano.'"
-                        }';
-                        $curlTres = curl_init();
-                        curl_setopt_array($curlTres, array(
-                        CURLOPT_URL => $urlPortal.'/items/'.$responseTres['id'].'/description',
-                        CURLOPT_RETURNTRANSFER => true,
-                        CURLOPT_ENCODING => '',
-                        CURLOPT_TIMEOUT => 0,
-                        CURLOPT_FOLLOWLOCATION => true,
-                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                        CURLOPT_CUSTOMREQUEST => 'POST',
-                        CURLOPT_POSTFIELDS => $requestDos,
-                        CURLOPT_HTTPHEADER => array(
-                            'Content-Type: application/json',
-                            'Authorization: Bearer '.$tokenPortal
-                            ),
-                        ));
-                        $responsesCuatro = curl_exec($curlTres);
-                        curl_close($curlTres);
+                        $requestDos = json_encode(['plain_text' => $textoPlano], JSON_UNESCAPED_UNICODE);
+                        $this->callPortalApi($urlPortal.'/items/'.$responseTres['id'].'/description', 'POST', $requestDos, $tokenPortal);
                         // FIN DESCRIPCION
                         toastr()->success('Subida a portalinmobiliario.cl', 'Operación Exitosa');
                         return redirect('/properties');
@@ -476,14 +368,14 @@ class IntegracionPortalController extends Controller
                     else
                     {
                         Log::info('error', array('body' => $responseTres));
-                        toastr()->error($responseTres['message'], 'PUBLICACION CON PARAMETROS INVALIDOS');
+                        toastr()->error($responseTres['message'] ?? 'Error desconocido', 'PUBLICACION CON PARAMETROS INVALIDOS');
                         return redirect('/properties');
                     }
                 }
                 else
                 {
                     Log::info('error', array('body' => $responseDos));
-                    toastr()->error($responseDos['message'], 'PUBLICACION CON PARAMETROS INVALIDOS');
+                    toastr()->error($responseDos['message'] ?? 'Error desconocido', 'PUBLICACION CON PARAMETROS INVALIDOS');
                     return redirect('/properties');
                 }
             }
@@ -499,9 +391,8 @@ class IntegracionPortalController extends Controller
         }
     }
     public function updateProperties($id)
-    {       
+    {
         try {
-            $clientIDPortal = getenv("PORTALINMOBILIARIO_CLIENT_ID");
             $urlPortal = getenv("PORTALINMOBILIARIO_API_URL");
             $propiedad = Propiedad::select('propiedades.*', 'niveles_uso_propiedad.nombreNivelUsoPropiedad', 'tipos_propiedades.nombreTipoPropiedad',
             'paises.nombrePais', 'provincia.nombre as nombreProvincia', 'region.nombre as nombreRegion', 'comuna.codigoComunaPortal', 'estados.nombreEstado')
@@ -515,14 +406,14 @@ class IntegracionPortalController extends Controller
             ->where('propiedades.idEstado', '!=', 46)
             ->where('propiedades.id', '=', $id)
             ->first();
-            $publicacionAEditar = $propiedad->itemIDPortal;
             if($propiedad)
             {
+                $publicacionAEditar = $propiedad->itemIDPortal;
                 $fotos = Foto::where('idPropiedad', $id)->limit(20)->get();
                 $fotosFinales = array();
                 if($fotos)
                 {
-                    foreach ($fotos as $foto) 
+                    foreach ($fotos as $foto)
                     {
                         $url = 'https://propitech.cl/img/propiedad/'. $foto->nombreArchivo;
                         array_push($fotosFinales, array('source' => $url));
@@ -556,161 +447,90 @@ class IntegracionPortalController extends Controller
                 {
                     $bodega = 0;
                 }
-                return $fotosss = json_encode($fotosFinales);
-                $descripcion = json_encode($propiedad->descripcion2, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE);
-                $titulo = json_encode($propiedad->nombrePropiedad, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE);
-                $request = '{"title": '.$titulo.',
-                        "price": "'.$precio.'",
-                        "location": {
-                            "address_line": "'.$propiedad->direccion.' '.$propiedad->numero.'",
-                            "city": {
-                                "id": "'.$propiedad->codigoComunaPortal.'"
-                            },
-                            "latitude": '.$propiedad->latitud.',
-                            "longitude": '.$propiedad->longitud.'
-                        },
-                        "attributes": [
-                            {
-                                "id": "ROOMS",
-                                "value_name": "'.$propiedad->habitacion.'"
-                            },
-                            {
-                                "id": "FULL_BATHROOMS",
-                                "value_name": "'.$propiedad->bano.'"
-                            },
-                            {
-                                "id": "PARKING_LOTS",
-                                "value_name": "'.$estacionamiento.'"
-                            },
-                            {
-                                "id": "WAREHOUSES",
-                                "value_name": "'.$bodega.'"
-                            },
-                            {
-                                "id": "BEDROOMS",
-                                "value_name": "'.$propiedad->habitacion.'"
-                            },
-                            {
-                                "id": "COVERED_AREA",
-                                "value_name": "'.$propiedad->mConstruido.' m²"
-                            },
-                            {
-                                "id": "TOTAL_AREA",
-                                "value_name": "'.$propiedad->mTotal.' m²"
-                            },
-                            {
-                                "id": "CONDO_VALUE",
-                                "value_name": "'.$propiedad->gastosComunes.'"
-                            },
-                            {
-                                "id": "HAS_INTERNET_ACCESS",
-                                "value_name": "Sí"
-                            }
-                        ]
-                        }';
-                $users = User::select('users.*', 'roles.nombre', 'roles.id as idRol')
-                ->join('rol_usuario', 'rol_usuario.id_usuario', '=', 'users.id')
-                ->join('roles', 'roles.id', '=', 'rol_usuario.id_rol')
-                ->whereIn('rol_usuario.id_rol', [1, 2])
-                ->get();
-                $tokenPortal = $users[0]->tokenPortal;
-                $curlDos = curl_init();
-                curl_setopt_array($curlDos, array(
-                CURLOPT_URL => $urlPortal.'/items/'.$publicacionAEditar,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'PUT',
-                CURLOPT_POSTFIELDS => $request,
-                CURLOPT_HTTPHEADER => array(
-                    'Content-Type: application/json',
-                    'Authorization: Bearer '.$tokenPortal
-                    ),
-                ));
-                $responses = curl_exec($curlDos);
-                $httpcodeDos = curl_getinfo($curlDos, CURLINFO_HTTP_CODE);
-                curl_close($curlDos);
+                $fotosss = json_encode($fotosFinales);
+
+                $request = [
+                    'title' => $propiedad->nombrePropiedad,
+                    'price' => (string) $precio,
+                    'location' => [
+                        'address_line' => $propiedad->direccion.' '.$propiedad->numero,
+                        'city' => ['id' => $propiedad->codigoComunaPortal],
+                        'latitude' => (float) $propiedad->latitud,
+                        'longitude' => (float) $propiedad->longitud,
+                    ],
+                    'attributes' => [
+                        ['id' => 'ROOMS', 'value_name' => (string) $propiedad->habitacion],
+                        ['id' => 'FULL_BATHROOMS', 'value_name' => (string) $propiedad->bano],
+                        ['id' => 'PARKING_LOTS', 'value_name' => (string) $estacionamiento],
+                        ['id' => 'WAREHOUSES', 'value_name' => (string) $bodega],
+                        ['id' => 'BEDROOMS', 'value_name' => (string) $propiedad->habitacion],
+                        ['id' => 'COVERED_AREA', 'value_name' => $propiedad->mConstruido.' m²'],
+                        ['id' => 'TOTAL_AREA', 'value_name' => $propiedad->mTotal.' m²'],
+                        ['id' => 'CONDO_VALUE', 'value_name' => (string) $propiedad->gastosComunes],
+                        ['id' => 'HAS_INTERNET_ACCESS', 'value_name' => 'Sí'],
+                    ],
+                ];
+                $requestJson = json_encode($request, JSON_UNESCAPED_UNICODE);
+
+                $portalUser = $this->getPortalUsers()->first();
+                if(!$portalUser)
+                {
+                    toastr()->error('No hay un usuario habilitado con sesión de Portal Inmobiliario', 'Algo falló');
+                    return redirect('/properties');
+                }
+                $tokenPortal = $portalUser->tokenPortal;
+
+                $update = $this->callPortalApi($urlPortal.'/items/'.$publicacionAEditar, 'PUT', $requestJson, $tokenPortal);
+                $responses = $update['data'];
+                $httpcodeDos = $update['httpcode'];
+
                 if($httpcodeDos > 199 && $httpcodeDos < 300)
                 {
                     $text = str_replace(['<br>', '<br/>', '<br />', '</p>', '</h1>'], '\n', $propiedad->descripcion2);
                     $textoPlano = strip_tags($text);
                     $textoPlano = html_entity_decode($textoPlano);
                     $textoPlano = trim($textoPlano);
-                    $requestDos = '{
-                        "plain_text": "'.$textoPlano.'"
-                    }';
-                    $curlTres = curl_init();
-                    curl_setopt_array($curlTres, array(
-                    CURLOPT_URL => $urlPortal.'/items/'.$publicacionAEditar.'/description',
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_ENCODING => '',
-                    CURLOPT_TIMEOUT => 0,
-                    CURLOPT_FOLLOWLOCATION => true,
-                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                    CURLOPT_CUSTOMREQUEST => 'PUT',
-                    CURLOPT_POSTFIELDS => $requestDos,
-                    CURLOPT_HTTPHEADER => array(
-                        'Content-Type: application/json',
-                        'Authorization: Bearer '.$tokenPortal
-                        ),
-                    ));
-                    $responsesCuatro = curl_exec($curlTres);
-                    curl_close($curlTres);
+                    $requestDos = json_encode(['plain_text' => $textoPlano], JSON_UNESCAPED_UNICODE);
+                    $this->callPortalApi($urlPortal.'/items/'.$publicacionAEditar.'/description', 'PUT', $requestDos, $tokenPortal);
                     toastr()->success('Actualizado en portalinmobiliario.cl', 'Operación Exitosa');
                     return redirect('/properties');
                 }
                 else
                 {
                     Log::info('error', array('body' => $responses));
-                    toastr()->error($responses, 'PUBLICACION CON PARAMETROS INVALIDOS');
+                    toastr()->error($responses['message'] ?? 'Error desconocido', 'PUBLICACION CON PARAMETROS INVALIDOS');
                     return redirect('/properties');
                 }
+            }
+            else
+            {
+                toastr()->error('Propiedad no encontrada', 'Algo fallo');
+                return redirect('/properties');
             }
         } catch (\Exception $e) {
             Log::info('error', array('body' => $e->getMessage()));
             toastr()->error('Tenemos un problema al actualizar la publicacion', 'Algo Falló');
             return redirect('/properties');
         }
-        
+
     }
     public function desativateProperties($id)
     {
         try {
-            $clientIDPortal = getenv("PORTALINMOBILIARIO_CLIENT_ID");
             $urlPortal = getenv("PORTALINMOBILIARIO_API_URL");
-            $request = '{
-                "status": "closed"
-            }';
-            $users = User::select('users.*', 'roles.nombre', 'roles.id as idRol')
-            ->join('rol_usuario', 'rol_usuario.id_usuario', '=', 'users.id')
-            ->join('roles', 'roles.id', '=', 'rol_usuario.id_rol')
-            ->whereIn('rol_usuario.id_rol', [1, 2])
-            ->get();
+            $request = json_encode(['status' => 'closed']);
+            $portalUser = $this->getPortalUsers()->first();
             $propiedad = Propiedad::where('id', $id)->first();
             if($propiedad)
             {
-                $tokenPortal = $users[0]->tokenPortal;
-                $curl = curl_init();
-                curl_setopt_array($curl, array(
-                CURLOPT_URL => $urlPortal.'/items/'.$propiedad->itemIDPortal,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'PUT',
-                CURLOPT_POSTFIELDS => $request,
-                CURLOPT_HTTPHEADER => array(
-                    'Content-Type: application/json',
-                    'Authorization: Bearer '.$tokenPortal
-                    ),
-                ));
-                $response = curl_exec($curl);
-                $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-                curl_close($curl);
+                if(!$portalUser)
+                {
+                    toastr()->error('No hay un usuario habilitado con sesión de Portal Inmobiliario', 'Algo falló');
+                    return redirect('/properties');
+                }
+                $tokenPortal = $portalUser->tokenPortal;
+                $result = $this->callPortalApi($urlPortal.'/items/'.$propiedad->itemIDPortal, 'PUT', $request, $tokenPortal);
+                $httpcode = $result['httpcode'];
                 if($httpcode > 199 && $httpcode < 300)
                 {
                     $propiedad->eliminadoPortalInmobiliario = 1;
@@ -720,7 +540,7 @@ class IntegracionPortalController extends Controller
                 }
                 else
                 {
-                    Log::info('error', array('body' => $response));
+                    Log::info('error', array('body' => $result['data']));
                     toastr()->error('revisar logs', 'Algo falló al eliminar');
                     return redirect('/properties');
                 }
@@ -739,39 +559,20 @@ class IntegracionPortalController extends Controller
     public function deleteProperties($id)
     {
         try {
-            $clientIDPortal = getenv("PORTALINMOBILIARIO_CLIENT_ID");
             $urlPortal = getenv("PORTALINMOBILIARIO_API_URL");
-            $request = '{
-                "deleted": "true"
-            }';
-            $users = User::select('users.*', 'roles.nombre', 'roles.id as idRol')
-            ->join('rol_usuario', 'rol_usuario.id_usuario', '=', 'users.id')
-            ->join('roles', 'roles.id', '=', 'rol_usuario.id_rol')
-            ->whereIn('rol_usuario.id_rol', [1, 2])
-            ->get();
+            $request = json_encode(['deleted' => 'true']);
+            $portalUser = $this->getPortalUsers()->first();
             $propiedad = Propiedad::where('id', $id)->first();
             if($propiedad)
             {
-                $tokenPortal = $users[0]->tokenPortal;
-                $curl = curl_init();
-                curl_setopt_array($curl, array(
-                CURLOPT_URL => $urlPortal.'/items/'.$propiedad->itemIDPortal,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'PUT',
-                CURLOPT_POSTFIELDS => $request,
-                CURLOPT_HTTPHEADER => array(
-                    'Content-Type: application/json',
-                    'Authorization: Bearer '.$tokenPortal
-                    ),
-                ));
-                $response = curl_exec($curl);
-                $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-                curl_close($curl);
+                if(!$portalUser)
+                {
+                    toastr()->error('No hay un usuario habilitado con sesión de Portal Inmobiliario', 'Algo falló');
+                    return redirect('/properties');
+                }
+                $tokenPortal = $portalUser->tokenPortal;
+                $result = $this->callPortalApi($urlPortal.'/items/'.$propiedad->itemIDPortal, 'PUT', $request, $tokenPortal);
+                $httpcode = $result['httpcode'];
                 if($httpcode > 199 && $httpcode < 300)
                 {
                     $propiedad->itemIDPortal = "";
@@ -783,8 +584,8 @@ class IntegracionPortalController extends Controller
                 }
                 else
                 {
-                    Log::info('error', array('body' => $response));
-                    toastr()->error($response['message'], 'Algo falló al eliminar');
+                    Log::info('error', array('body' => $result['data']));
+                    toastr()->error($result['data']['message'] ?? 'Error desconocido', 'Algo falló al eliminar');
                     return redirect('/properties');
                 }
             }
@@ -802,37 +603,17 @@ class IntegracionPortalController extends Controller
     public function deletePropertiesPortal($code)
     {
         try {
-            $clientIDPortal = getenv("PORTALINMOBILIARIO_CLIENT_ID");
             $urlPortal = getenv("PORTALINMOBILIARIO_API_URL");
-            $request = '{
-                "deleted": "true"
-            }';
-            $users = User::select('users.*', 'roles.nombre', 'roles.id as idRol')
-            ->join('rol_usuario', 'rol_usuario.id_usuario', '=', 'users.id')
-            ->join('roles', 'roles.id', '=', 'rol_usuario.id_rol')
-            ->whereIn('rol_usuario.id_rol', [1, 2])
-            ->get();
-            
-            $tokenPortal = $users[0]->tokenPortal;
-            $curl = curl_init();
-            curl_setopt_array($curl, array(
-            CURLOPT_URL => $urlPortal.'/items/'.$code,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'PUT',
-            CURLOPT_POSTFIELDS => $request,
-            CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/json',
-                'Authorization: Bearer '.$tokenPortal
-                ),
-            ));
-            $response = curl_exec($curl);
-            $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-            curl_close($curl);
+            $request = json_encode(['deleted' => 'true']);
+            $portalUser = $this->getPortalUsers()->first();
+            if(!$portalUser)
+            {
+                toastr()->error('No hay un usuario habilitado con sesión de Portal Inmobiliario', 'Algo falló');
+                return redirect('/properties');
+            }
+            $tokenPortal = $portalUser->tokenPortal;
+            $result = $this->callPortalApi($urlPortal.'/items/'.$code, 'PUT', $request, $tokenPortal);
+            $httpcode = $result['httpcode'];
             if($httpcode > 199 && $httpcode < 300)
             {
                 toastr()->success('Eliminado en portalinmobiliario.cl', 'Operación Exitosa');
@@ -840,8 +621,8 @@ class IntegracionPortalController extends Controller
             }
             else
             {
-                Log::info('error', array('body' => $response));
-                toastr()->error($response['message'], 'Algo falló al eliminar');
+                Log::info('error', array('body' => $result['data']));
+                toastr()->error($result['data']['message'] ?? 'Error desconocido', 'Algo falló al eliminar');
                 return redirect('/properties');
             }
         } catch (\Exception $e) {
@@ -853,43 +634,30 @@ class IntegracionPortalController extends Controller
     public function updateDescription($id)
     {
         try {
-            $clientIDPortal = getenv("PORTALINMOBILIARIO_CLIENT_ID");
             $urlPortal = getenv("PORTALINMOBILIARIO_API_URL");
 
-            $users = User::select('users.*', 'roles.nombre', 'roles.id as idRol')
-            ->join('rol_usuario', 'rol_usuario.id_usuario', '=', 'users.id')
-            ->join('roles', 'roles.id', '=', 'rol_usuario.id_rol')
-            ->whereIn('rol_usuario.id_rol', [1, 2])
-            ->get();
-
+            $portalUser = $this->getPortalUsers()->first();
             $propiedad = Propiedad::where('id', $id)->first();
+            if(!$propiedad)
+            {
+                toastr()->error('No existe la propiedad', 'Algo falló');
+                return back();
+            }
+            if(!$portalUser)
+            {
+                toastr()->error('No hay un usuario habilitado con sesión de Portal Inmobiliario', 'Algo falló');
+                return back();
+            }
             $publicacionAEditar = $propiedad->itemIDPortal;
-            $tokenPortal = $users[0]->tokenPortal;
+            $tokenPortal = $portalUser->tokenPortal;
             $text = str_replace(['<br>', '<br/>', '<br />', '</p>', '</h1>'], '\n', $propiedad->descripcion2);
             $textoPlano = strip_tags($text);
             $textoPlano = html_entity_decode($textoPlano);
             $textoPlano = trim($textoPlano);
-            $requestDos = '{
-                "plain_text": "'.$propiedad->descripcion2.'"
-            }';
-            $curlTres = curl_init();
-            curl_setopt_array($curlTres, array(
-            CURLOPT_URL => $urlPortal.'/items/'.$publicacionAEditar.'/description',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'PUT',
-            CURLOPT_POSTFIELDS => $requestDos,
-            CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/json',
-                'Authorization: Bearer '.$tokenPortal
-                ),
-            ));
-            $responsesCuatro = curl_exec($curlTres);
-            $httpcodeDos = curl_getinfo($curlTres, CURLINFO_HTTP_CODE);
-            curl_close($curlTres);
+            $requestDos = json_encode(['plain_text' => $textoPlano], JSON_UNESCAPED_UNICODE);
+
+            $result = $this->callPortalApi($urlPortal.'/items/'.$publicacionAEditar.'/description', 'PUT', $requestDos, $tokenPortal);
+            $httpcodeDos = $result['httpcode'];
             if($httpcodeDos > 199 && $httpcodeDos < 300)
             {
                 toastr()->success('Descripcion actualizada en portalinmobiliario.cl', 'Operación Exitosa');
@@ -897,8 +665,8 @@ class IntegracionPortalController extends Controller
             }
             else
             {
-                Log::info('error', array('body' => $responsesCuatro));
-                toastr()->error($responsesCuatro['message'], 'PUBLICACION CON PARAMETROS INVALIDOS');
+                Log::info('error', array('body' => $result['data']));
+                toastr()->error($result['data']['message'] ?? 'Error desconocido', 'PUBLICACION CON PARAMETROS INVALIDOS');
                 return redirect('/properties/edit/'.$propiedad->id);
             }
         } catch (\Exception $e) {
@@ -906,5 +674,52 @@ class IntegracionPortalController extends Controller
             toastr()->error('Tenemos un problema al eliminar la publicacion', 'Algo Falló');
             return back();
         }
+    }
+
+    private function getPortalUsers()
+    {
+        return User::select('users.*', 'roles.nombre', 'roles.id as idRol')
+            ->join('rol_usuario', 'rol_usuario.id_usuario', '=', 'users.id')
+            ->join('roles', 'roles.id', '=', 'rol_usuario.id_rol')
+            ->whereIn('rol_usuario.id_rol', [1, 2])
+            ->get();
+    }
+
+    private function callPortalApi($url, $method, $body, $tokenPortal = null)
+    {
+        $headers = ['Content-Type: application/json'];
+        if ($tokenPortal)
+        {
+            $headers[] = 'Authorization: Bearer '.$tokenPortal;
+        }
+
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => $method,
+            CURLOPT_POSTFIELDS => $body,
+            CURLOPT_HTTPHEADER => $headers,
+        ));
+
+        $response = curl_exec($curl);
+        if ($response === false)
+        {
+            $error = curl_error($curl);
+            curl_close($curl);
+            throw new \RuntimeException('Error de conexión con Portal Inmobiliario: '.$error);
+        }
+        $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        curl_close($curl);
+
+        return [
+            'httpcode' => $httpcode,
+            'data' => json_decode($response, true),
+        ];
     }
 }
