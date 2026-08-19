@@ -596,8 +596,6 @@ class IntegracionPortalController extends Controller
                 {
                     $bodega = 0;
                 }
-                $fotosss = json_encode($fotosFinales);
-
                 if ($propiedad->habitacion >= 1 && $propiedad->habitacion <= 4)
                 {
                     $maxHabitantes = $propiedad->habitacion + 1;
@@ -709,6 +707,7 @@ class IntegracionPortalController extends Controller
                 $request = [
                     'title' => $propiedad->nombrePropiedad,
                     'price' => (string) $precio,
+                    'pictures' => $fotosFinales,
                     'location' => [
                         'address_line' => $propiedad->direccion.' '.$propiedad->numero,
                         'city' => ['id' => $propiedad->codigoComunaPortal],
