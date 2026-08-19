@@ -306,7 +306,7 @@ class IntegracionPortalController extends Controller
                     'currency_id' => $moneda,
                     'available_quantity' => 1,
                     'buying_mode' => 'classified',
-                    'listing_type_id' => 'silver',
+                    'listing_type_id' => 'free',
                     'condition' => 'not_specified',
                     'channels' => ['marketplace'],
                     'pictures' => $fotosFinales,
@@ -330,6 +330,7 @@ class IntegracionPortalController extends Controller
                         ['id' => 'HAS_GUEST_PARKING', 'value_name' => 'Sí'],
                         ['id' => 'FURNISHED', 'value_name' => 'No'],
                         ['id' => 'IS_SUITABLE_FOR_PETS', 'value_name' => $mascotas],
+                        ['id' => 'CMG_SITE', 'value_name' => 'POI'],
                     ],
                 ];
                 $requestJson = json_encode($request, JSON_UNESCAPED_UNICODE);
@@ -367,15 +368,15 @@ class IntegracionPortalController extends Controller
                     }
                     else
                     {
-                        Log::info('error', array('body' => $responseTres));
-                        toastr()->error($responseTres['message'] ?? 'Error desconocido', 'PUBLICACION CON PARAMETROS INVALIDOS');
+                        Log::info('error', array('httpcode' => $httpcodeDos, 'body' => $responseTres));
+                        toastr()->error($this->portalErrorMessage($responseTres), 'PUBLICACION CON PARAMETROS INVALIDOS');
                         return redirect('/properties');
                     }
                 }
                 else
                 {
-                    Log::info('error', array('body' => $responseDos));
-                    toastr()->error($responseDos['message'] ?? 'Error desconocido', 'PUBLICACION CON PARAMETROS INVALIDOS');
+                    Log::info('error', array('httpcode' => $httpcode, 'body' => $responseDos));
+                    toastr()->error($this->portalErrorMessage($responseDos), 'PUBLICACION CON PARAMETROS INVALIDOS');
                     return redirect('/properties');
                 }
             }
@@ -468,6 +469,7 @@ class IntegracionPortalController extends Controller
                         ['id' => 'TOTAL_AREA', 'value_name' => $propiedad->mTotal.' m²'],
                         ['id' => 'CONDO_VALUE', 'value_name' => (string) $propiedad->gastosComunes],
                         ['id' => 'HAS_INTERNET_ACCESS', 'value_name' => 'Sí'],
+                        ['id' => 'CMG_SITE', 'value_name' => 'POI'],
                     ],
                 ];
                 $requestJson = json_encode($request, JSON_UNESCAPED_UNICODE);
@@ -497,8 +499,8 @@ class IntegracionPortalController extends Controller
                 }
                 else
                 {
-                    Log::info('error', array('body' => $responses));
-                    toastr()->error($responses['message'] ?? 'Error desconocido', 'PUBLICACION CON PARAMETROS INVALIDOS');
+                    Log::info('error', array('httpcode' => $httpcodeDos, 'body' => $responses));
+                    toastr()->error($this->portalErrorMessage($responses), 'PUBLICACION CON PARAMETROS INVALIDOS');
                     return redirect('/properties');
                 }
             }
@@ -540,7 +542,7 @@ class IntegracionPortalController extends Controller
                 }
                 else
                 {
-                    Log::info('error', array('body' => $result['data']));
+                    Log::info('error', array('httpcode' => $httpcode, 'body' => $result['data']));
                     toastr()->error('revisar logs', 'Algo falló al eliminar');
                     return redirect('/properties');
                 }
@@ -584,8 +586,8 @@ class IntegracionPortalController extends Controller
                 }
                 else
                 {
-                    Log::info('error', array('body' => $result['data']));
-                    toastr()->error($result['data']['message'] ?? 'Error desconocido', 'Algo falló al eliminar');
+                    Log::info('error', array('httpcode' => $httpcode, 'body' => $result['data']));
+                    toastr()->error($this->portalErrorMessage($result['data']), 'Algo falló al eliminar');
                     return redirect('/properties');
                 }
             }
@@ -621,8 +623,8 @@ class IntegracionPortalController extends Controller
             }
             else
             {
-                Log::info('error', array('body' => $result['data']));
-                toastr()->error($result['data']['message'] ?? 'Error desconocido', 'Algo falló al eliminar');
+                Log::info('error', array('httpcode' => $httpcode, 'body' => $result['data']));
+                toastr()->error($this->portalErrorMessage($result['data']), 'Algo falló al eliminar');
                 return redirect('/properties');
             }
         } catch (\Exception $e) {
@@ -665,8 +667,8 @@ class IntegracionPortalController extends Controller
             }
             else
             {
-                Log::info('error', array('body' => $result['data']));
-                toastr()->error($result['data']['message'] ?? 'Error desconocido', 'PUBLICACION CON PARAMETROS INVALIDOS');
+                Log::info('error', array('httpcode' => $httpcodeDos, 'body' => $result['data']));
+                toastr()->error($this->portalErrorMessage($result['data']), 'PUBLICACION CON PARAMETROS INVALIDOS');
                 return redirect('/properties/edit/'.$propiedad->id);
             }
         } catch (\Exception $e) {
@@ -674,6 +676,34 @@ class IntegracionPortalController extends Controller
             toastr()->error('Tenemos un problema al eliminar la publicacion', 'Algo Falló');
             return back();
         }
+    }
+
+    private function portalErrorMessage($data)
+    {
+        if (!is_array($data))
+        {
+            return 'Error desconocido';
+        }
+        if (!empty($data['message']))
+        {
+            return $data['message'];
+        }
+        if (!empty($data['cause']) && is_array($data['cause']))
+        {
+            $messages = array_filter(array_map(function ($cause) {
+                return $cause['message'] ?? null;
+            }, $data['cause']));
+            if ($messages)
+            {
+                return implode(' | ', $messages);
+            }
+        }
+        if (!empty($data['status']) && $data['status'] !== 'active')
+        {
+            $subStatus = !empty($data['sub_status']) ? ' ('.implode(', ', (array) $data['sub_status']).')' : '';
+            return 'La publicación quedó en estado "'.$data['status'].'"'.$subStatus.'. Revisa el plan/medio de pago habilitado en Mercado Libre para Portal Inmobiliario.';
+        }
+        return 'Error desconocido';
     }
 
     private function getPortalUsers()
