@@ -168,7 +168,8 @@ class IntegracionPortalController extends Controller
                     $i = 0;
                     while (count($fotosFinales) < 12)
                     {
-                        $fotosFinales[] = $fotosFinales[$i % $totalFotosFinales];
+                        $fuente = $fotosFinales[$i % $totalFotosFinales]['source'];
+                        $fotosFinales[] = ['source' => $fuente.(strpos($fuente, '?') === false ? '?' : '&').'dup='.($i + 1)];
                         $i++;
                     }
                 }
@@ -564,7 +565,8 @@ class IntegracionPortalController extends Controller
                     $i = 0;
                     while (count($fotosFinales) < 12)
                     {
-                        $fotosFinales[] = $fotosFinales[$i % $totalFotosFinales];
+                        $fuente = $fotosFinales[$i % $totalFotosFinales]['source'];
+                        $fotosFinales[] = ['source' => $fuente.(strpos($fuente, '?') === false ? '?' : '&').'dup='.($i + 1)];
                         $i++;
                     }
                 }
