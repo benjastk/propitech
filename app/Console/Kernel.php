@@ -26,12 +26,12 @@ class Kernel extends ConsoleKernel
     {
         $mes = date("m");
         $anio = date("Y");
-        $schedule->call('App\Http\Controllers\EstadoPagoController@cambiarAMoroso')->dailyAt('03:00');
-        $schedule->call('App\Http\Controllers\EstadoPagoController@cambiarAVencido')->dailyAt('03:10');
+        /*$schedule->call('App\Http\Controllers\EstadoPagoController@cambiarAMoroso')->dailyAt('03:00');
+        $schedule->call('App\Http\Controllers\EstadoPagoController@cambiarAVencido')->dailyAt('03:10');*/
         $schedule->call('App\Http\Controllers\EstadoPagoController@agregarPorcentajeAMorosos')->dailyAt('03:20');
-        $schedule->call('App\Http\Controllers\AlertaController@recordarPagoArrendatariosMensual')->dailyAt('10:00');
+        /*$schedule->call('App\Http\Controllers\AlertaController@recordarPagoArrendatariosMensual')->dailyAt('10:00');
         $schedule->call('App\Http\Controllers\AlertaController@ultimoDiaParaPagar')->dailyAt('10:30');
-        $schedule->call('App\Http\Controllers\Api\BuyDepaIntegracionController@sincronizeProperties')->dailyAt('09:00');
+        $schedule->call('App\Http\Controllers\Api\BuyDepaIntegracionController@sincronizeProperties')->dailyAt('09:00');*/
         //$schedule->call('App\Http\Controllers\Api\IntegracionYapoController@refreshToken')->everyFourHours();
         $schedule->call('App\Http\Controllers\Api\IntegracionPortalController@refreshToken')->everyFourHours();
         //$schedule->call('App\Http\Controllers\AlertaController@pruebaMail')->dailyAt('13:45');
