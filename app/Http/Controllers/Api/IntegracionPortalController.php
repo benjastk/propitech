@@ -384,8 +384,10 @@ class IntegracionPortalController extends Controller
                     $attributes[] = ['id' => 'UNIT_FLOOR', 'value_name' => (string) $pisoUnidad];
                     $attributes[] = ['id' => 'APARTMENTS_PER_FLOOR', 'value_name' => '10'];
                     $attributes[] = ['id' => 'FLOORS', 'value_name' => '30'];
-                    $attributes[] = ['id' => 'PROPERTY_AGE', 'value_name' => '2 años'];
+                    $antiguedad = $propiedad->idNivelUsoPropiedad == 2 ? '2 años' : '5 años';
+                    $attributes[] = ['id' => 'PROPERTY_AGE', 'value_name' => $antiguedad];
                     $attributes[] = ['id' => 'APARTMENT_PROPERTY_SUBTYPE', 'value_name' => 'Departamento'];
+                    $attributes[] = ['id' => 'FACING', 'value_name' => 'NOSP'];
                     $attributes[] = ['id' => 'HAS_PLAYGROUND', 'value_name' => 'Sí'];
                     $attributes[] = ['id' => 'HAS_BUSINESS_CENTER', 'value_name' => 'No'];
                     $attributes[] = ['id' => 'HAS_TENNIS_COURT', 'value_name' => 'No'];
@@ -650,8 +652,10 @@ class IntegracionPortalController extends Controller
                     $attributes[] = ['id' => 'UNIT_FLOOR', 'value_name' => (string) $pisoUnidad];
                     $attributes[] = ['id' => 'APARTMENTS_PER_FLOOR', 'value_name' => '10'];
                     $attributes[] = ['id' => 'FLOORS', 'value_name' => '30'];
-                    $attributes[] = ['id' => 'PROPERTY_AGE', 'value_name' => '2 años'];
+                    $antiguedad = $propiedad->idNivelUsoPropiedad == 2 ? '2 años' : '5 años';
+                    $attributes[] = ['id' => 'PROPERTY_AGE', 'value_name' => $antiguedad];
                     $attributes[] = ['id' => 'APARTMENT_PROPERTY_SUBTYPE', 'value_name' => 'Departamento'];
+                    $attributes[] = ['id' => 'FACING', 'value_name' => 'NOSP'];
                     $attributes[] = ['id' => 'HAS_PLAYGROUND', 'value_name' => 'Sí'];
                     $attributes[] = ['id' => 'HAS_BUSINESS_CENTER', 'value_name' => 'No'];
                     $attributes[] = ['id' => 'HAS_TENNIS_COURT', 'value_name' => 'No'];
