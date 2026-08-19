@@ -52,14 +52,21 @@ class IntegracionPortalController extends Controller
             ]);
             $responseDos = $result['data'];
 
+            if ($result['httpcode'] < 200 || $result['httpcode'] > 299 || empty($responseDos['access_token']))
+            {
+                Log::info('error', array('httpcode' => $result['httpcode'], 'body' => $responseDos));
+                toastr()->error($this->portalErrorMessage($responseDos), 'Error de autenticación');
+                return redirect('/properties');
+            }
+
             $user = $this->getPortalUsers()->first();
             if($user)
             {
-                $user->tokenPortal = $responseDos['access_token'] ?? null;
-                $user->tokenType = $responseDos['token_type'] ?? null;
-                $user->tiempoSesionPortal = $responseDos['expires_in'] ?? null;
-                $user->userIDPortal = $responseDos['user_id'] ?? null;
-                $user->refreshTokenPortal = $responseDos['refresh_token'] ?? null;
+                $user->tokenPortal = $responseDos['access_token'];
+                $user->tokenType = $responseDos['token_type'] ?? $user->tokenType;
+                $user->tiempoSesionPortal = $responseDos['expires_in'] ?? $user->tiempoSesionPortal;
+                $user->userIDPortal = $responseDos['user_id'] ?? $user->userIDPortal;
+                $user->refreshTokenPortal = $responseDos['refresh_token'] ?? $user->refreshTokenPortal;
                 $user->save();
                 toastr()->success('Sesion inicidada correctamente en PORTALINMOBILIARIO', 'Operacion exitosa');
             }
@@ -98,13 +105,19 @@ class IntegracionPortalController extends Controller
             ]);
             $responseDos = $result['data'];
 
+            if ($result['httpcode'] < 200 || $result['httpcode'] > 299 || empty($responseDos['access_token']))
+            {
+                Log::info('error', array('httpcode' => $result['httpcode'], 'body' => $responseDos));
+                return false;
+            }
+
             foreach ($users as $user)
             {
-                $user->tokenPortal = $responseDos['access_token'] ?? null;
-                $user->tokenType = $responseDos['token_type'] ?? null;
-                $user->tiempoSesionPortal = $responseDos['expires_in'] ?? null;
-                $user->userIDPortal = $responseDos['user_id'] ?? null;
-                $user->refreshTokenPortal = $responseDos['refresh_token'] ?? null;
+                $user->tokenPortal = $responseDos['access_token'];
+                $user->tokenType = $responseDos['token_type'] ?? $user->tokenType;
+                $user->tiempoSesionPortal = $responseDos['expires_in'] ?? $user->tiempoSesionPortal;
+                $user->userIDPortal = $responseDos['user_id'] ?? $user->userIDPortal;
+                $user->refreshTokenPortal = $responseDos['refresh_token'] ?? $tokenRefreshPortal;
                 $user->save();
             }
             return true;
@@ -338,12 +351,82 @@ class IntegracionPortalController extends Controller
                 {
                     $attributes[] = ['id' => 'APARTMENT_NUMBER', 'value_name' => (string) $propiedad->block];
                 }
-                if (in_array($propiedad->idTipoPropiedad, [2, 4, 6, 9]))
+                if (in_array($propiedad->idTipoPropiedad, [1, 2, 4, 6, 7, 9]))
                 {
+                    if (empty($propiedad->block))
+                    {
+                        $pisoUnidad = 1;
+                    }
+                    elseif (strlen((string) $propiedad->block) == 3)
+                    {
+                        $pisoUnidad = (int) substr((string) $propiedad->block, 0, 1);
+                    }
+                    else
+                    {
+                        $pisoUnidad = 1;
+                    }
+
                     $attributes[] = ['id' => 'HAS_COMMON_LAUNDRY', 'value_name' => 'Sí'];
                     $attributes[] = ['id' => 'HAS_MULTIPURPOSE_ROOM', 'value_name' => 'Sí'];
                     $attributes[] = ['id' => 'HAS_SECURITY', 'value_name' => 'Sí'];
                     $attributes[] = ['id' => 'SECURITY_TYPE', 'value_name' => '24 horas'];
+                    $attributes[] = ['id' => 'UNIT_FLOOR', 'value_name' => (string) $pisoUnidad];
+                    $attributes[] = ['id' => 'APARTMENTS_PER_FLOOR', 'value_name' => '10'];
+                    $attributes[] = ['id' => 'FLOORS', 'value_name' => '30'];
+                    $attributes[] = ['id' => 'PROPERTY_AGE', 'value_name' => '2 años'];
+                    $attributes[] = ['id' => 'APARTMENT_PROPERTY_SUBTYPE', 'value_name' => 'Departamento'];
+                    $attributes[] = ['id' => 'HAS_PLAYGROUND', 'value_name' => 'Sí'];
+                    $attributes[] = ['id' => 'HAS_BUSINESS_CENTER', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_TENNIS_COURT', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_FRONT_DESK', 'value_name' => 'Sí'];
+                    $attributes[] = ['id' => 'HAS_ROOF_GARDEN', 'value_name' => 'Sí'];
+                    $attributes[] = ['id' => 'HAS_PARTY_ROOM', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_LIFT', 'value_name' => 'Sí'];
+                    $attributes[] = ['id' => 'HAS_BASKETBALL_COURT', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_PADDLE_COURT', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_MULTIPLE_USE_COURT', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_INDOOR_FIREPLACE', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'WITH_GREEN_AREA', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'WITH_SOCCER_FIELD', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_GYM', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'WHEELCHAIR_RAMP', 'value_name' => 'Sí'];
+                    $attributes[] = ['id' => 'HAS_FRIDGE', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_SAUNA', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_CINEMA_HALL', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'PROFESSIONAL_USE_ALLOWED', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_NATURAL_GAS', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_TELEPHONE_LINE', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_CABLE_TV', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_AIR_CONDITIONING', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_HEATING', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_CISTERN', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_BOILER', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'WITH_LAUNDRY_CONNECTION', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'WITH_SOLAR_ENERGY', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'WITH_SATELITE_TV', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_ELECTRIC_GENERATOR', 'value_name' => 'No'];
+
+                    $tieneTerraza = $propiedad->mTerraza > 0 ? 'Sí' : 'No';
+                    $attributes[] = ['id' => 'HAS_BALCONY', 'value_name' => $tieneTerraza];
+                    $attributes[] = ['id' => 'HAS_TERRACE', 'value_name' => $tieneTerraza];
+
+                    $attributes[] = ['id' => 'HAS_KITCHEN', 'value_name' => 'Sí'];
+                    $attributes[] = ['id' => 'HAS_DINNING_ROOM', 'value_name' => 'Sí'];
+                    $attributes[] = ['id' => 'HAS_LIVING_ROOM', 'value_name' => 'Sí'];
+                    $attributes[] = ['id' => 'HAS_BEDROOM_SUITE', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_STUDY', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_JACUZZI', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_PATIO', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_CLOSETS', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_PLAYROOM', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_DRESSING_ROOM', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_LAUNDRY', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_HALF_BATH', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_BREAKFAST_BAR', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_MAID_ROOM', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_GARDEN', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_GRILL', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_SWIMMING_POOL', 'value_name' => 'No'];
                 }
 
                 $request = [
@@ -525,12 +608,82 @@ class IntegracionPortalController extends Controller
                 {
                     $attributes[] = ['id' => 'APARTMENT_NUMBER', 'value_name' => (string) $propiedad->block];
                 }
-                if (in_array($propiedad->idTipoPropiedad, [2, 4, 6, 9]))
+                if (in_array($propiedad->idTipoPropiedad, [1, 2, 4, 6, 7, 9]))
                 {
+                    if (empty($propiedad->block))
+                    {
+                        $pisoUnidad = 1;
+                    }
+                    elseif (strlen((string) $propiedad->block) == 3)
+                    {
+                        $pisoUnidad = (int) substr((string) $propiedad->block, 0, 1);
+                    }
+                    else
+                    {
+                        $pisoUnidad = 1;
+                    }
+
                     $attributes[] = ['id' => 'HAS_COMMON_LAUNDRY', 'value_name' => 'Sí'];
                     $attributes[] = ['id' => 'HAS_MULTIPURPOSE_ROOM', 'value_name' => 'Sí'];
                     $attributes[] = ['id' => 'HAS_SECURITY', 'value_name' => 'Sí'];
                     $attributes[] = ['id' => 'SECURITY_TYPE', 'value_name' => '24 horas'];
+                    $attributes[] = ['id' => 'UNIT_FLOOR', 'value_name' => (string) $pisoUnidad];
+                    $attributes[] = ['id' => 'APARTMENTS_PER_FLOOR', 'value_name' => '10'];
+                    $attributes[] = ['id' => 'FLOORS', 'value_name' => '30'];
+                    $attributes[] = ['id' => 'PROPERTY_AGE', 'value_name' => '2 años'];
+                    $attributes[] = ['id' => 'APARTMENT_PROPERTY_SUBTYPE', 'value_name' => 'Departamento'];
+                    $attributes[] = ['id' => 'HAS_PLAYGROUND', 'value_name' => 'Sí'];
+                    $attributes[] = ['id' => 'HAS_BUSINESS_CENTER', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_TENNIS_COURT', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_FRONT_DESK', 'value_name' => 'Sí'];
+                    $attributes[] = ['id' => 'HAS_ROOF_GARDEN', 'value_name' => 'Sí'];
+                    $attributes[] = ['id' => 'HAS_PARTY_ROOM', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_LIFT', 'value_name' => 'Sí'];
+                    $attributes[] = ['id' => 'HAS_BASKETBALL_COURT', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_PADDLE_COURT', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_MULTIPLE_USE_COURT', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_INDOOR_FIREPLACE', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'WITH_GREEN_AREA', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'WITH_SOCCER_FIELD', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_GYM', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'WHEELCHAIR_RAMP', 'value_name' => 'Sí'];
+                    $attributes[] = ['id' => 'HAS_FRIDGE', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_SAUNA', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_CINEMA_HALL', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'PROFESSIONAL_USE_ALLOWED', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_NATURAL_GAS', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_TELEPHONE_LINE', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_CABLE_TV', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_AIR_CONDITIONING', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_HEATING', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_CISTERN', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_BOILER', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'WITH_LAUNDRY_CONNECTION', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'WITH_SOLAR_ENERGY', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'WITH_SATELITE_TV', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_ELECTRIC_GENERATOR', 'value_name' => 'No'];
+
+                    $tieneTerraza = $propiedad->mTerraza > 0 ? 'Sí' : 'No';
+                    $attributes[] = ['id' => 'HAS_BALCONY', 'value_name' => $tieneTerraza];
+                    $attributes[] = ['id' => 'HAS_TERRACE', 'value_name' => $tieneTerraza];
+
+                    $attributes[] = ['id' => 'HAS_KITCHEN', 'value_name' => 'Sí'];
+                    $attributes[] = ['id' => 'HAS_DINNING_ROOM', 'value_name' => 'Sí'];
+                    $attributes[] = ['id' => 'HAS_LIVING_ROOM', 'value_name' => 'Sí'];
+                    $attributes[] = ['id' => 'HAS_BEDROOM_SUITE', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_STUDY', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_JACUZZI', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_PATIO', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_CLOSETS', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_PLAYROOM', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_DRESSING_ROOM', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_LAUNDRY', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_HALF_BATH', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_BREAKFAST_BAR', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_MAID_ROOM', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_GARDEN', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_GRILL', 'value_name' => 'No'];
+                    $attributes[] = ['id' => 'HAS_SWIMMING_POOL', 'value_name' => 'No'];
                 }
 
                 $request = [
