@@ -19,28 +19,19 @@ class IntegracionPortalController extends Controller
         $redirectUrl = getenv("PORTALINMOBILIARIO_REDIRECT_URL");
 
         $state = bin2hex(random_bytes(16));
-        $codeVerifier = rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '=');
-        $codeChallenge = rtrim(strtr(base64_encode(hash('sha256', $codeVerifier, true)), '+/', '-_'), '=');
-
-        session([
-            'portalinmobiliario_oauth_state' => $state,
-            'portalinmobiliario_oauth_verifier' => $codeVerifier,
-        ]);
+        session(['portalinmobiliario_oauth_state' => $state]);
 
         return redirect()->to($urlAuthPortal.$clientID
             .'&redirect_uri='.rawurlencode($redirectUrl)
-            .'&state='.$state
-            .'&code_challenge='.$codeChallenge
-            .'&code_challenge_method=S256');
+            .'&state='.$state);
     }
     public function auth(Request $request)
     {
         try
         {
             $expectedState = session('portalinmobiliario_oauth_state');
-            $codeVerifier = session('portalinmobiliario_oauth_verifier');
-            session()->forget(['portalinmobiliario_oauth_state', 'portalinmobiliario_oauth_verifier']);
-            if (!$expectedState || !$codeVerifier || !$request->filled('state') || !hash_equals($expectedState, (string) $request->state))
+            session()->forget('portalinmobiliario_oauth_state');
+            if (!$expectedState || !$request->filled('state') || !hash_equals($expectedState, (string) $request->state))
             {
                 toastr()->error('Solicitud de autorización inválida o expirada', 'Error de autenticación');
                 return redirect('/properties');
@@ -57,7 +48,6 @@ class IntegracionPortalController extends Controller
                 'client_secret' => $secretClientPortal,
                 'code' => $request->code,
                 'redirect_uri' => $redirectUrlPortal,
-                'code_verifier' => $codeVerifier,
             ]);
 
             $result = $this->callPortalApi($portalApiUrl.'/oauth/token', 'POST', $tokenRequest);
