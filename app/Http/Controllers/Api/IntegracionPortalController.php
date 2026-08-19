@@ -42,15 +42,13 @@ class IntegracionPortalController extends Controller
             $secretClientPortal = getenv("PORTALINMOBILIARIO_SECRET_CLIENT");
             $portalApiUrl = getenv("PORTALINMOBILIARIO_API_URL");
 
-            $tokenRequest = json_encode([
+            $result = $this->requestPortalToken($portalApiUrl, [
                 'grant_type' => 'authorization_code',
                 'client_id' => $clientIDPortal,
                 'client_secret' => $secretClientPortal,
                 'code' => $request->code,
                 'redirect_uri' => $redirectUrlPortal,
             ]);
-
-            $result = $this->callPortalApi($portalApiUrl.'/oauth/token', 'POST', $tokenRequest);
             $responseDos = $result['data'];
 
             $user = $this->getPortalUsers()->first();
@@ -91,14 +89,12 @@ class IntegracionPortalController extends Controller
             $secretClientPortal = getenv("PORTALINMOBILIARIO_SECRET_CLIENT");
             $portalApiUrl = getenv("PORTALINMOBILIARIO_API_URL");
 
-            $tokenRequest = json_encode([
+            $result = $this->requestPortalToken($portalApiUrl, [
                 'grant_type' => 'refresh_token',
                 'client_id' => $clientIDPortal,
                 'client_secret' => $secretClientPortal,
                 'refresh_token' => $tokenRefreshPortal,
             ]);
-
-            $result = $this->callPortalApi($portalApiUrl.'/oauth/token', 'POST', $tokenRequest);
             $responseDos = $result['data'];
 
             foreach ($users as $user)
@@ -709,6 +705,41 @@ class IntegracionPortalController extends Controller
             CURLOPT_CUSTOMREQUEST => $method,
             CURLOPT_POSTFIELDS => $body,
             CURLOPT_HTTPHEADER => $headers,
+        ));
+
+        $response = curl_exec($curl);
+        if ($response === false)
+        {
+            $error = curl_error($curl);
+            curl_close($curl);
+            throw new \RuntimeException('Error de conexión con Portal Inmobiliario: '.$error);
+        }
+        $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        curl_close($curl);
+
+        return [
+            'httpcode' => $httpcode,
+            'data' => json_decode($response, true),
+        ];
+    }
+
+    private function requestPortalToken($portalApiUrl, $fields)
+    {
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $portalApiUrl.'/oauth/token',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => http_build_query($fields),
+            CURLOPT_HTTPHEADER => array(
+                'accept: application/json',
+                'content-type: application/x-www-form-urlencoded',
+            ),
         ));
 
         $response = curl_exec($curl);
