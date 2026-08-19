@@ -162,6 +162,16 @@ class IntegracionPortalController extends Controller
                         array_push($fotosFinales, array('source' => $url));
                     }
                 }
+                $totalFotosFinales = count($fotosFinales);
+                if($totalFotosFinales > 0 && $totalFotosFinales < 12)
+                {
+                    $i = 0;
+                    while (count($fotosFinales) < 12)
+                    {
+                        $fotosFinales[] = $fotosFinales[$i % $totalFotosFinales];
+                        $i++;
+                    }
+                }
                 if($propiedad->idTipoComercial == 1)
                 {
                     $tipoOperacion = 'venta';
@@ -546,6 +556,16 @@ class IntegracionPortalController extends Controller
                     {
                         $url = 'https://propitech.cl/img/propiedad/'. $foto->nombreArchivo;
                         array_push($fotosFinales, array('source' => $url));
+                    }
+                }
+                $totalFotosFinales = count($fotosFinales);
+                if($totalFotosFinales > 0 && $totalFotosFinales < 12)
+                {
+                    $i = 0;
+                    while (count($fotosFinales) < 12)
+                    {
+                        $fotosFinales[] = $fotosFinales[$i % $totalFotosFinales];
+                        $i++;
                     }
                 }
                 if($propiedad->idTipoComercial == 1)
