@@ -16,18 +16,31 @@ class IntegracionPortalController extends Controller
     {
         $urlAuthPortal = "https://auth.mercadolibre.cl/authorization?response_type=code&client_id=";
         $clientID = getenv("PORTALINMOBILIARIO_CLIENT_ID");
-        $redirect_url = getenv("PORTALINMOBILIARIO_REDIRECT_URL");
+        $redirectUrl = getenv("PORTALINMOBILIARIO_REDIRECT_URL");
+
         $state = bin2hex(random_bytes(16));
-        session(['portalinmobiliario_oauth_state' => $state]);
-        return redirect()->to($urlAuthPortal.$clientID.'&redirect_uri='.$redirect_url.'&state='.$state);
+        $codeVerifier = rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '=');
+        $codeChallenge = rtrim(strtr(base64_encode(hash('sha256', $codeVerifier, true)), '+/', '-_'), '=');
+
+        session([
+            'portalinmobiliario_oauth_state' => $state,
+            'portalinmobiliario_oauth_verifier' => $codeVerifier,
+        ]);
+
+        return redirect()->to($urlAuthPortal.$clientID
+            .'&redirect_uri='.rawurlencode($redirectUrl)
+            .'&state='.$state
+            .'&code_challenge='.$codeChallenge
+            .'&code_challenge_method=S256');
     }
     public function auth(Request $request)
     {
         try
         {
             $expectedState = session('portalinmobiliario_oauth_state');
-            session()->forget('portalinmobiliario_oauth_state');
-            if (!$expectedState || !$request->filled('state') || !hash_equals($expectedState, (string) $request->state))
+            $codeVerifier = session('portalinmobiliario_oauth_verifier');
+            session()->forget(['portalinmobiliario_oauth_state', 'portalinmobiliario_oauth_verifier']);
+            if (!$expectedState || !$codeVerifier || !$request->filled('state') || !hash_equals($expectedState, (string) $request->state))
             {
                 toastr()->error('Solicitud de autorización inválida o expirada', 'Error de autenticación');
                 return redirect('/properties');
@@ -44,6 +57,7 @@ class IntegracionPortalController extends Controller
                 'client_secret' => $secretClientPortal,
                 'code' => $request->code,
                 'redirect_uri' => $redirectUrlPortal,
+                'code_verifier' => $codeVerifier,
             ]);
 
             $result = $this->callPortalApi($portalApiUrl.'/oauth/token', 'POST', $tokenRequest);
