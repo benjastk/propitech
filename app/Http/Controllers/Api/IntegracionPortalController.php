@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Propiedad;
 use App\Foto;
 use App\User;
+use App\ParametroGeneral;
 use Auth;
 use Log;
 
@@ -136,6 +137,10 @@ class IntegracionPortalController extends Controller
             {
                 $fotos = Foto::where('idPropiedad', $id)->limit(20)->get();
                 $fotosFinales = array();
+                if($propiedad->fotoPrincipal)
+                {
+                    array_push($fotosFinales, array('source' => 'https://propitech.cl/img/propiedad/'.$propiedad->fotoPrincipal));
+                }
                 if($fotos)
                 {
                     foreach ($fotos as $foto)
@@ -299,6 +304,48 @@ class IntegracionPortalController extends Controller
                 // Elimina posibles espacios extra
                 $textoPlano = trim($textoPlano);
 
+                if ($propiedad->habitacion >= 1 && $propiedad->habitacion <= 4)
+                {
+                    $maxHabitantes = $propiedad->habitacion + 1;
+                }
+                else
+                {
+                    $maxHabitantes = 1;
+                }
+
+                $attributes = [
+                    ['id' => 'ROOMS', 'value_name' => (string) $propiedad->habitacion],
+                    ['id' => 'FULL_BATHROOMS', 'value_name' => (string) $propiedad->bano],
+                    ['id' => 'PARKING_LOTS', 'value_name' => (string) $estacionamiento],
+                    ['id' => 'WAREHOUSES', 'value_name' => (string) $bodega],
+                    ['id' => 'BEDROOMS', 'value_name' => (string) $propiedad->habitacion],
+                    ['id' => 'COVERED_AREA', 'value_name' => $propiedad->mConstruido.' m²'],
+                    ['id' => 'TOTAL_AREA', 'value_name' => $propiedad->mTotal.' m²'],
+                    ['id' => 'MAINTENANCE_FEE', 'value_name' => (string) $propiedad->gastosComunes],
+                    ['id' => 'HAS_INTERNET_ACCESS', 'value_name' => 'Sí'],
+                    ['id' => 'HAS_TAP_WATER', 'value_name' => 'Sí'],
+                    ['id' => 'HAS_GUEST_PARKING', 'value_name' => 'Sí'],
+                    ['id' => 'FURNISHED', 'value_name' => 'No'],
+                    ['id' => 'IS_SUITABLE_FOR_PETS', 'value_name' => $mascotas],
+                    ['id' => 'MAX_GUESTS_NUMBER', 'value_name' => (string) $maxHabitantes],
+                    ['id' => 'CMG_SITE', 'value_name' => 'POI'],
+                ];
+                if (!empty($propiedad->mTerraza))
+                {
+                    $attributes[] = ['id' => 'BALCONY_AREA', 'value_name' => $propiedad->mTerraza.' m²'];
+                }
+                if (!empty($propiedad->block))
+                {
+                    $attributes[] = ['id' => 'APARTMENT_NUMBER', 'value_name' => (string) $propiedad->block];
+                }
+                if (in_array($propiedad->idTipoPropiedad, [2, 4, 6, 9]))
+                {
+                    $attributes[] = ['id' => 'HAS_COMMON_LAUNDRY', 'value_name' => 'Sí'];
+                    $attributes[] = ['id' => 'HAS_MULTIPURPOSE_ROOM', 'value_name' => 'Sí'];
+                    $attributes[] = ['id' => 'HAS_SECURITY', 'value_name' => 'Sí'];
+                    $attributes[] = ['id' => 'SECURITY_TYPE', 'value_name' => '24 horas'];
+                }
+
                 $request = [
                     'title' => $propiedad->nombrePropiedad,
                     'category_id' => $categoriaSelect,
@@ -316,23 +363,17 @@ class IntegracionPortalController extends Controller
                         'latitude' => (float) $propiedad->latitud,
                         'longitude' => (float) $propiedad->longitud,
                     ],
-                    'attributes' => [
-                        ['id' => 'ROOMS', 'value_name' => (string) $propiedad->habitacion],
-                        ['id' => 'FULL_BATHROOMS', 'value_name' => (string) $propiedad->bano],
-                        ['id' => 'PARKING_LOTS', 'value_name' => (string) $estacionamiento],
-                        ['id' => 'WAREHOUSES', 'value_name' => (string) $bodega],
-                        ['id' => 'BEDROOMS', 'value_name' => (string) $propiedad->habitacion],
-                        ['id' => 'COVERED_AREA', 'value_name' => $propiedad->mConstruido.' m²'],
-                        ['id' => 'TOTAL_AREA', 'value_name' => $propiedad->mTotal.' m²'],
-                        ['id' => 'MAINTENANCE_FEE', 'value_name' => (string) $propiedad->gastosComunes],
-                        ['id' => 'HAS_INTERNET_ACCESS', 'value_name' => 'Sí'],
-                        ['id' => 'HAS_TAP_WATER', 'value_name' => 'Sí'],
-                        ['id' => 'HAS_GUEST_PARKING', 'value_name' => 'Sí'],
-                        ['id' => 'FURNISHED', 'value_name' => 'No'],
-                        ['id' => 'IS_SUITABLE_FOR_PETS', 'value_name' => $mascotas],
-                        ['id' => 'CMG_SITE', 'value_name' => 'POI'],
-                    ],
+                    'attributes' => $attributes,
                 ];
+                $whatsapp = $this->portalWhatsapp();
+                if ($whatsapp)
+                {
+                    $request['seller_contact'] = [
+                        'country_code2' => '56',
+                        'area_code2' => '56',
+                        'phone2' => $whatsapp,
+                    ];
+                }
                 $requestJson = json_encode($request, JSON_UNESCAPED_UNICODE);
 
                 $portalUser = $this->getPortalUsers()->first();
@@ -412,6 +453,10 @@ class IntegracionPortalController extends Controller
                 $publicacionAEditar = $propiedad->itemIDPortal;
                 $fotos = Foto::where('idPropiedad', $id)->limit(20)->get();
                 $fotosFinales = array();
+                if($propiedad->fotoPrincipal)
+                {
+                    array_push($fotosFinales, array('source' => 'https://propitech.cl/img/propiedad/'.$propiedad->fotoPrincipal));
+                }
                 if($fotos)
                 {
                     foreach ($fotos as $foto)
@@ -450,6 +495,44 @@ class IntegracionPortalController extends Controller
                 }
                 $fotosss = json_encode($fotosFinales);
 
+                if ($propiedad->habitacion >= 1 && $propiedad->habitacion <= 4)
+                {
+                    $maxHabitantes = $propiedad->habitacion + 1;
+                }
+                else
+                {
+                    $maxHabitantes = 1;
+                }
+
+                $attributes = [
+                    ['id' => 'ROOMS', 'value_name' => (string) $propiedad->habitacion],
+                    ['id' => 'FULL_BATHROOMS', 'value_name' => (string) $propiedad->bano],
+                    ['id' => 'PARKING_LOTS', 'value_name' => (string) $estacionamiento],
+                    ['id' => 'WAREHOUSES', 'value_name' => (string) $bodega],
+                    ['id' => 'BEDROOMS', 'value_name' => (string) $propiedad->habitacion],
+                    ['id' => 'COVERED_AREA', 'value_name' => $propiedad->mConstruido.' m²'],
+                    ['id' => 'TOTAL_AREA', 'value_name' => $propiedad->mTotal.' m²'],
+                    ['id' => 'MAINTENANCE_FEE', 'value_name' => (string) $propiedad->gastosComunes],
+                    ['id' => 'HAS_INTERNET_ACCESS', 'value_name' => 'Sí'],
+                    ['id' => 'MAX_GUESTS_NUMBER', 'value_name' => (string) $maxHabitantes],
+                    ['id' => 'CMG_SITE', 'value_name' => 'POI'],
+                ];
+                if (!empty($propiedad->mTerraza))
+                {
+                    $attributes[] = ['id' => 'BALCONY_AREA', 'value_name' => $propiedad->mTerraza.' m²'];
+                }
+                if (!empty($propiedad->block))
+                {
+                    $attributes[] = ['id' => 'APARTMENT_NUMBER', 'value_name' => (string) $propiedad->block];
+                }
+                if (in_array($propiedad->idTipoPropiedad, [2, 4, 6, 9]))
+                {
+                    $attributes[] = ['id' => 'HAS_COMMON_LAUNDRY', 'value_name' => 'Sí'];
+                    $attributes[] = ['id' => 'HAS_MULTIPURPOSE_ROOM', 'value_name' => 'Sí'];
+                    $attributes[] = ['id' => 'HAS_SECURITY', 'value_name' => 'Sí'];
+                    $attributes[] = ['id' => 'SECURITY_TYPE', 'value_name' => '24 horas'];
+                }
+
                 $request = [
                     'title' => $propiedad->nombrePropiedad,
                     'price' => (string) $precio,
@@ -459,19 +542,17 @@ class IntegracionPortalController extends Controller
                         'latitude' => (float) $propiedad->latitud,
                         'longitude' => (float) $propiedad->longitud,
                     ],
-                    'attributes' => [
-                        ['id' => 'ROOMS', 'value_name' => (string) $propiedad->habitacion],
-                        ['id' => 'FULL_BATHROOMS', 'value_name' => (string) $propiedad->bano],
-                        ['id' => 'PARKING_LOTS', 'value_name' => (string) $estacionamiento],
-                        ['id' => 'WAREHOUSES', 'value_name' => (string) $bodega],
-                        ['id' => 'BEDROOMS', 'value_name' => (string) $propiedad->habitacion],
-                        ['id' => 'COVERED_AREA', 'value_name' => $propiedad->mConstruido.' m²'],
-                        ['id' => 'TOTAL_AREA', 'value_name' => $propiedad->mTotal.' m²'],
-                        ['id' => 'CONDO_VALUE', 'value_name' => (string) $propiedad->gastosComunes],
-                        ['id' => 'HAS_INTERNET_ACCESS', 'value_name' => 'Sí'],
-                        ['id' => 'CMG_SITE', 'value_name' => 'POI'],
-                    ],
+                    'attributes' => $attributes,
                 ];
+                $whatsapp = $this->portalWhatsapp();
+                if ($whatsapp)
+                {
+                    $request['seller_contact'] = [
+                        'country_code2' => '56',
+                        'area_code2' => '56',
+                        'phone2' => $whatsapp,
+                    ];
+                }
                 $requestJson = json_encode($request, JSON_UNESCAPED_UNICODE);
 
                 $portalUser = $this->getPortalUsers()->first();
@@ -562,7 +643,6 @@ class IntegracionPortalController extends Controller
     {
         try {
             $urlPortal = getenv("PORTALINMOBILIARIO_API_URL");
-            $request = json_encode(['deleted' => 'true']);
             $portalUser = $this->getPortalUsers()->first();
             $propiedad = Propiedad::where('id', $id)->first();
             if($propiedad)
@@ -573,7 +653,17 @@ class IntegracionPortalController extends Controller
                     return redirect('/properties');
                 }
                 $tokenPortal = $portalUser->tokenPortal;
-                $result = $this->callPortalApi($urlPortal.'/items/'.$propiedad->itemIDPortal, 'PUT', $request, $tokenPortal);
+
+                // Mercado Libre exige cerrar la publicación antes de poder eliminarla
+                $close = $this->callPortalApi($urlPortal.'/items/'.$propiedad->itemIDPortal, 'PUT', json_encode(['status' => 'closed']), $tokenPortal);
+                if($close['httpcode'] < 200 || $close['httpcode'] > 299)
+                {
+                    Log::info('error', array('httpcode' => $close['httpcode'], 'body' => $close['data']));
+                    toastr()->error($this->portalErrorMessage($close['data']), 'Algo falló al eliminar');
+                    return redirect('/properties');
+                }
+
+                $result = $this->callPortalApi($urlPortal.'/items/'.$propiedad->itemIDPortal, 'PUT', json_encode(['deleted' => true]), $tokenPortal);
                 $httpcode = $result['httpcode'];
                 if($httpcode > 199 && $httpcode < 300)
                 {
@@ -606,7 +696,6 @@ class IntegracionPortalController extends Controller
     {
         try {
             $urlPortal = getenv("PORTALINMOBILIARIO_API_URL");
-            $request = json_encode(['deleted' => 'true']);
             $portalUser = $this->getPortalUsers()->first();
             if(!$portalUser)
             {
@@ -614,7 +703,17 @@ class IntegracionPortalController extends Controller
                 return redirect('/properties');
             }
             $tokenPortal = $portalUser->tokenPortal;
-            $result = $this->callPortalApi($urlPortal.'/items/'.$code, 'PUT', $request, $tokenPortal);
+
+            // Mercado Libre exige cerrar la publicación antes de poder eliminarla
+            $close = $this->callPortalApi($urlPortal.'/items/'.$code, 'PUT', json_encode(['status' => 'closed']), $tokenPortal);
+            if($close['httpcode'] < 200 || $close['httpcode'] > 299)
+            {
+                Log::info('error', array('httpcode' => $close['httpcode'], 'body' => $close['data']));
+                toastr()->error($this->portalErrorMessage($close['data']), 'Algo falló al eliminar');
+                return redirect('/properties');
+            }
+
+            $result = $this->callPortalApi($urlPortal.'/items/'.$code, 'PUT', json_encode(['deleted' => true]), $tokenPortal);
             $httpcode = $result['httpcode'];
             if($httpcode > 199 && $httpcode < 300)
             {
@@ -713,6 +812,21 @@ class IntegracionPortalController extends Controller
             ->join('roles', 'roles.id', '=', 'rol_usuario.id_rol')
             ->whereIn('rol_usuario.id_rol', [1, 2])
             ->get();
+    }
+
+    private function portalWhatsapp()
+    {
+        $parametro = ParametroGeneral::obtener('TELEFONO WHATSAPP 2');
+        if (!$parametro || !$parametro->valorParametro)
+        {
+            return null;
+        }
+        $numero = preg_replace('/\D/', '', $parametro->valorParametro);
+        if (strpos($numero, '56') === 0)
+        {
+            $numero = substr($numero, 2);
+        }
+        return $numero ?: null;
     }
 
     private function callPortalApi($url, $method, $body, $tokenPortal = null)
