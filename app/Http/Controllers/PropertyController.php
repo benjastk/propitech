@@ -75,7 +75,15 @@ class PropertyController extends Controller
                     ->orWhere('propiedades.idExterno', 'like', "%{$searchValue}%")
                     ->orWhere('comuna.nombre', 'like', "%{$searchValue}%")
                     ->orWhere('region.nombre', 'like', "%{$searchValue}%")
-                    ->orWhere('estados.nombreEstado', 'like', "%{$searchValue}%");
+                    ->orWhere('estados.nombreEstado', 'like', "%{$searchValue}%")
+                    ->orWhere('tipos_propiedades.nombreTipoPropiedad', 'like', "%{$searchValue}%");
+
+                if (stripos('venta', $searchValue) !== false || stripos($searchValue, 'venta') !== false) {
+                    $q->orWhere('propiedades.idTipoComercial', 1);
+                }
+                if (stripos('arriendo', $searchValue) !== false || stripos($searchValue, 'arriendo') !== false) {
+                    $q->orWhere('propiedades.idTipoComercial', '!=', 1);
+                }
             });
         }
 
