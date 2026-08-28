@@ -140,6 +140,13 @@
                                                             <a href="/estados-pagos/mostrar/{{ $contrato->idContratoArriendo }}" data-toggle="tooltip" data-placement="top" title="Estados de pago"><i class="bx bxs-dollar-circle"></i></a>
                                                         </li>
                                                         <li class="list-inline-item">
+                                                            <form id="formGastoComun{{ $contrato->idContratoArriendo }}" action="{{ url('/contratos/notificar-gasto-comun') }}" method="post" onsubmit="return confirm('¿Enviar notificación de gastos comunes pendientes a {{ $contrato->nombreArrendatario }} {{ $contrato->apellidoArrendatario }}?');">
+                                                                {{ csrf_field() }}
+                                                                <input type="hidden" name="id" value="{{ $contrato->idContratoArriendo }}"/>
+                                                                <button style="border: 0px; background-color: transparent;" type="submit"><i class="bx bxs-bell" title="Notificar Gastos Comunes Pendientes"></i></button>
+                                                            </form>
+                                                        </li>
+                                                        <li class="list-inline-item">
                                                             <a href="/contratos/edit/{{ $contrato->idContratoArriendo }}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bx bxs-edit-alt"></i></a>
                                                         </li>
                                                         <li class="list-inline-item">

@@ -12,6 +12,8 @@ use App\ReservaPropiedad;
 use App\NumerosEnLetras;
 use App\TiempoPagoGarantia;
 use App\LogTransaccion;
+use App\LogCorreoEnviado;
+use App\Jobs\NotificarGastoComunJob;
 use App\ParametroGeneral;
 use App\ContratoArriendo;
 use App\TipoComercial;
@@ -638,5 +640,28 @@ class ContratoArriendoController extends Controller
 			toastr()->error('Se ha producido un error, favor intente nuevamente');
 			return back();
 		}
+    }
+    public function notificarGastoComun(Request $request)
+    {
+        try {
+            $contrato = ContratoArriendo::where('idContratoArriendo', '=', $request->id)->first();
+            if (!$contrato) {
+                toastr()->warning('No se encontró el contrato solicitado');
+                return back();
+            }
+
+            NotificarGastoComunJob::dispatch($contrato->idContratoArriendo);
+
+            $nuevoLogCorreo = new LogCorreoEnviado();
+            $nuevoLogCorreo->nombre_tipo_correo = 'NOTIFICACION GASTOS COMUNES - Contrato #' . $contrato->idContratoArriendo;
+            $nuevoLogCorreo->usuario = Auth::user() ? Auth::user()->name : 'SISTEMA';
+            $nuevoLogCorreo->save();
+
+            toastr()->success('La notificación de gastos comunes fue encolada y se enviará en breve');
+            return back();
+        } catch (\Exception $e) {
+            toastr()->warning('Ha ocurrido un error, favor intente nuevamente');
+            return back();
+        }
     }
 }
