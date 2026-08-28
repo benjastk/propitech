@@ -46,13 +46,13 @@
                     <br/>
                 </p>
                 <p class="s14" style="padding-left: 26pt;padding-right: 26pt;text-indent: 0pt;text-align: justify;">
-                    <i>"Queda prohibido a la arrendataria: (...) d) Retrasar el pago de las cuentas de los servicios básicos, tales como luz, agua potable, teléfono, gastos comunes, extracción de basuras, cable e internet, etc. (...)"</i>
+                    <i>"Queda prohibido a la parte arrendataria: (...) d) Retrasar el pago de las cuentas de los servicios básicos, tales como luz, agua potable, teléfono, gastos comunes, extracción de basuras, cable e internet, etc. (...)"</i>
                 </p>
                 <p style="text-indent: 0pt;text-align: left;">
                     <br/>
                 </p>
                 <p class="s3" style="padding-left: 26pt;text-indent: 0pt;text-align: left;">
-                    Para evitar mayores inconvenientes, te pedimos regularizar tu situación a la brevedad, dirigiéndote directamente a administración.
+                    Para evitar mayores inconvenientes, te pedimos regularizar tu situación a la brevedad, dirigiéndote directamente a administración de tu comunidad.
                 </p>
             </td>
             <td style="width:47pt">
@@ -82,9 +82,6 @@
                         ¡Siempre estamos para ayudarte!
                     </a>
                     <br>
-                    <a href="mailto:administracion@propitech.cl" class="s11" target="_blank">
-                        contacto@propitech.cl
-                    </a>
                 </p>
                 <p style="text-indent: 0pt;text-align: left;">
                     <br/>
