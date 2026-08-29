@@ -394,7 +394,8 @@ class IntegracionPortalController extends Controller
                 {
                     $mascotas = "No";
                 }
-                $text = str_replace(['<br>', '<br/>', '<br />', '</p>', '</h1>'], '\n', $propiedad->descripcion2);
+                $text = str_replace(['<br>', '<br/>', '<br />', '</p>', '</h1>', '</li>'], "\n", $propiedad->descripcion2);
+                $text = str_replace(['<li>', '<ul>', '<ol>'], "\n- ", $text);
 
                 // Elimina el resto de etiquetas HTML
                 $textoPlano = strip_tags($text);
@@ -824,7 +825,8 @@ class IntegracionPortalController extends Controller
 
                 if($httpcodeDos > 199 && $httpcodeDos < 300)
                 {
-                    $text = str_replace(['<br>', '<br/>', '<br />', '</p>', '</h1>'], '\n', $propiedad->descripcion2);
+                    $text = str_replace(['<br>', '<br/>', '<br />', '</p>', '</h1>', '</li>'], "\n", $propiedad->descripcion2);
+                    $text = str_replace(['<li>', '<ul>', '<ol>'], "\n- ", $text);
                     $textoPlano = strip_tags($text);
                     $textoPlano = html_entity_decode($textoPlano);
                     $textoPlano = trim($textoPlano);
@@ -1006,7 +1008,8 @@ class IntegracionPortalController extends Controller
             }
             $publicacionAEditar = $propiedad->itemIDPortal;
             $tokenPortal = $portalUser->tokenPortal;
-            $text = str_replace(['<br>', '<br/>', '<br />', '</p>', '</h1>'], '\n', $propiedad->descripcion2);
+            $text = str_replace(['<br>', '<br/>', '<br />', '</p>', '</h1>', '</li>'], "\n", $propiedad->descripcion2);
+            $text = str_replace(['<li>', '<ul>', '<ol>'], "\n- ", $text);
             $textoPlano = strip_tags($text);
             $textoPlano = html_entity_decode($textoPlano);
             $textoPlano = trim($textoPlano);
