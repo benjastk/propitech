@@ -161,12 +161,26 @@ class IntegracionPortalController extends Controller
             }
 
             $contacto = $leadData['contact'] ?? $leadData ?? [];
+            $itemId = $leadData['item_id'] ?? null;
+
+            $propiedadEncontrada = null;
+            if ($itemId)
+            {
+                $propiedadEncontrada = Propiedad::select('propiedades.direccion', 'propiedades.numero', 'propiedades.block', 'comuna.nombre as nombreComuna')
+                    ->leftJoin('comuna', 'comuna.id', '=', 'propiedades.idComuna')
+                    ->where('propiedades.itemIDPortal', $itemId)
+                    ->first();
+            }
+
             $details = (object) [
                 'nombre' => $contacto['name'] ?? null,
                 'email' => $contacto['email'] ?? null,
                 'telefono' => $contacto['phone'] ?? null,
                 'mensaje' => $leadData['message'] ?? $leadData['comment'] ?? null,
-                'itemId' => $leadData['item_id'] ?? null,
+                'itemId' => $itemId,
+                'direccion' => $propiedadEncontrada ? trim($propiedadEncontrada->direccion.' '.$propiedadEncontrada->numero) : null,
+                'block' => $propiedadEncontrada->block ?? null,
+                'comuna' => $propiedadEncontrada->nombreComuna ?? null,
                 'topic' => $payload['topic'] ?? null,
                 'raw' => json_encode($leadData ?? $payload, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE),
             ];

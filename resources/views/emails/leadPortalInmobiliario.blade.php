@@ -25,6 +25,18 @@
                 <td style="width: 50%; ">{{ $details->itemId ?? 'No informado' }}</td>
             </tr>
             <tr>
+                <td style="width: 50%;">Dirección</td>
+                <td style="width: 50%; ">{{ $details->direccion ?? 'No informado' }}</td>
+            </tr>
+            <tr>
+                <td style="width: 50%;">Block/Depto</td>
+                <td style="width: 50%; ">{{ $details->block ?? 'No informado' }}</td>
+            </tr>
+            <tr>
+                <td style="width: 50%;">Comuna</td>
+                <td style="width: 50%; ">{{ $details->comuna ?? 'No informado' }}</td>
+            </tr>
+            <tr>
                 <td style="width: 50%;">Topic</td>
                 <td style="width: 50%; ">{{ $details->topic ?? 'No informado' }}</td>
             </tr>
