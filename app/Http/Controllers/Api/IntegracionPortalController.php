@@ -54,6 +54,11 @@ class IntegracionPortalController extends Controller
             ]);
             $responseDos = $result['data'];
 
+            Log::info('DEBUG auth Portal Inmobiliario - claves recibidas', array(
+                'keys' => is_array($responseDos) ? array_keys($responseDos) : 'respuesta no es array',
+                'tiene_refresh_token' => is_array($responseDos) && array_key_exists('refresh_token', $responseDos),
+            ));
+
             if ($result['httpcode'] < 200 || $result['httpcode'] > 299 || empty($responseDos['access_token']))
             {
                 Log::info('error', array('httpcode' => $result['httpcode'], 'body' => $responseDos));
