@@ -449,7 +449,7 @@ class IntegracionPortalController extends Controller
                     'currency_id' => $moneda,
                     'available_quantity' => 1,
                     'buying_mode' => 'classified',
-                    'listing_type_id' => 'free',
+                    'listing_type_id' => 'silver',
                     'condition' => 'not_specified',
                     'channels' => ['marketplace'],
                     'pictures' => $fotosFinales,
