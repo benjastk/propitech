@@ -110,9 +110,13 @@ class Propiedad extends Model
         $text = str_replace(['<br>', '<br/>', '<br />', '</p>', '</h1>', '</li>', '</div>'], "\n", $this->descripcion);
         $text = str_replace(['<li>', '<ul>', '<ol>'], "\n- ", $text);
         $text = preg_replace('/-(?:\s|&nbsp;){2,}/', "\n- ", $text);
-        $text = str_replace('–', "\n– ", $text);
+        $text = str_replace(['–', '—'], "\n- ", $text);
         $textoPlano = strip_tags($text);
         $textoPlano = html_entity_decode($textoPlano);
+        $textoPlano = str_replace(["\xC2\xA0", "\u{00A0}"], ' ', $textoPlano);
+        $textoPlano = str_replace(['“', '”', '„'], '"', $textoPlano);
+        $textoPlano = str_replace(['‘', '’'], "'", $textoPlano);
+        $textoPlano = str_replace('…', '...', $textoPlano);
         $textoPlano = preg_replace('/\n{2,}/', "\n", $textoPlano);
         return trim($textoPlano);
     }
