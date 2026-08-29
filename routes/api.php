@@ -54,4 +54,5 @@ Route::post('cambiarVenta','Api\VentaController@cambiarVenta');
 Route::get('/all-properties-for-chilepropiedades','Api\DataGeneralController@allPropertiesForChilePropiedades');
 
 Route::post('/webhook/yapo', 'WebhookController@receive');
+Route::post('/portalinmobiliario/leads', 'Api\IntegracionPortalController@leadsWebhook');
 

@@ -8,6 +8,8 @@ use App\Propiedad;
 use App\Foto;
 use App\User;
 use App\ParametroGeneral;
+use App\Mail\LeadPortalInmobiliario;
+use Illuminate\Support\Facades\Mail;
 use Auth;
 use Log;
 
@@ -129,6 +131,55 @@ class IntegracionPortalController extends Controller
     public function listAds()
     {
 
+    }
+    public function leadsWebhook(Request $request)
+    {
+        try
+        {
+            $payload = $request->all();
+            Log::info('Notificacion Leads Portal Inmobiliario', $payload);
+
+            $resource = $payload['resource'] ?? null;
+            $leadData = null;
+
+            if ($resource)
+            {
+                $portalUser = $this->getPortalUsers()->first();
+                if ($portalUser && $portalUser->tokenPortal)
+                {
+                    $urlPortal = getenv('PORTALINMOBILIARIO_API_URL');
+                    $result = $this->callPortalApi($urlPortal.$resource, 'GET', '', $portalUser->tokenPortal);
+                    if ($result['httpcode'] > 199 && $result['httpcode'] < 300)
+                    {
+                        $leadData = $result['data'];
+                    }
+                    else
+                    {
+                        Log::info('error obteniendo lead de Portal Inmobiliario', array('httpcode' => $result['httpcode'], 'body' => $result['data']));
+                    }
+                }
+            }
+
+            $contacto = $leadData['contact'] ?? $leadData ?? [];
+            $details = (object) [
+                'nombre' => $contacto['name'] ?? null,
+                'email' => $contacto['email'] ?? null,
+                'telefono' => $contacto['phone'] ?? null,
+                'mensaje' => $leadData['message'] ?? $leadData['comment'] ?? null,
+                'itemId' => $leadData['item_id'] ?? null,
+                'topic' => $payload['topic'] ?? null,
+                'raw' => json_encode($leadData ?? $payload, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE),
+            ];
+
+            Mail::to('beenjaahp@hotmail.com')
+                ->cc('beenjaahp@gmail.com')
+                ->send(new LeadPortalInmobiliario($details));
+
+            return response()->json(['status' => 'ok'], 200);
+        } catch (\Exception $e) {
+            Log::info('error', array('body' => $e->getMessage()));
+            return response()->json(['status' => 'ok'], 200);
+        }
     }
     public function storeProperties($id)
     {
