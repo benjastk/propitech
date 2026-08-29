@@ -394,19 +394,7 @@ class IntegracionPortalController extends Controller
                 {
                     $mascotas = "No";
                 }
-                $text = str_replace(['<br>', '<br/>', '<br />', '</p>', '</h1>', '</li>', '</div>'], "\n", $propiedad->descripcion);
-                $text = str_replace(['<li>', '<ul>', '<ol>'], "\n- ", $text);
-                $text = preg_replace('/-(?:\s|&nbsp;){2,}/', "\n- ", $text);
-                $text = str_replace('–', "\n– ", $text);
-
-                // Elimina el resto de etiquetas HTML
-                $textoPlano = strip_tags($text);
-
-                // Decodifica las entidades HTML a caracteres comunes
-                $textoPlano = html_entity_decode($textoPlano);
-
-                // Elimina posibles espacios extra
-                $textoPlano = trim($textoPlano);
+                $textoPlano = $propiedad->descripcionLimpia;
 
                 if ($propiedad->habitacion >= 1 && $propiedad->habitacion <= 4)
                 {
@@ -827,13 +815,7 @@ class IntegracionPortalController extends Controller
 
                 if($httpcodeDos > 199 && $httpcodeDos < 300)
                 {
-                    $text = str_replace(['<br>', '<br/>', '<br />', '</p>', '</h1>', '</li>', '</div>'], "\n", $propiedad->descripcion);
-                    $text = str_replace(['<li>', '<ul>', '<ol>'], "\n- ", $text);
-                    $text = preg_replace('/-(?:\s|&nbsp;){2,}/', "\n- ", $text);
-                    $text = str_replace('–', "\n– ", $text);
-                    $textoPlano = strip_tags($text);
-                    $textoPlano = html_entity_decode($textoPlano);
-                    $textoPlano = trim($textoPlano);
+                    $textoPlano = $propiedad->descripcionLimpia;
                     $requestDos = json_encode(['plain_text' => $textoPlano], JSON_UNESCAPED_UNICODE);
                     $this->callPortalApi($urlPortal.'/items/'.$publicacionAEditar.'/description', 'PUT', $requestDos, $tokenPortal);
                     toastr()->success('Actualizado en portalinmobiliario.cl', 'Operación Exitosa');
@@ -1012,13 +994,7 @@ class IntegracionPortalController extends Controller
             }
             $publicacionAEditar = $propiedad->itemIDPortal;
             $tokenPortal = $portalUser->tokenPortal;
-            $text = str_replace(['<br>', '<br/>', '<br />', '</p>', '</h1>', '</li>', '</div>'], "\n", $propiedad->descripcion);
-            $text = str_replace(['<li>', '<ul>', '<ol>'], "\n- ", $text);
-            $text = preg_replace('/-(?:\s|&nbsp;){2,}/', "\n- ", $text);
-            $text = str_replace('–', "\n– ", $text);
-            $textoPlano = strip_tags($text);
-            $textoPlano = html_entity_decode($textoPlano);
-            $textoPlano = trim($textoPlano);
+            $textoPlano = $propiedad->descripcionLimpia;
             $requestDos = json_encode(['plain_text' => $textoPlano], JSON_UNESCAPED_UNICODE);
 
             $result = $this->callPortalApi($urlPortal.'/items/'.$publicacionAEditar.'/description', 'PUT', $requestDos, $tokenPortal);

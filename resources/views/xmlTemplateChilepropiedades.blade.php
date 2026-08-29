@@ -37,7 +37,7 @@
             <commune>
                 <![CDATA[ {{ $propiedad->nombreComuna }} ]]>
             </commune>
-            <description><![CDATA[{!! $propiedad->descripcion2 !!}]]></description>
+            <description><![CDATA[{!! $propiedad->descripcionLimpia !!}]]></description>
             <prices>
                 @if($propiedad->idTipoComercial == 1)
                 <price currency="CLF" operation="Venta">{{ $propiedad->precio }}</price>
