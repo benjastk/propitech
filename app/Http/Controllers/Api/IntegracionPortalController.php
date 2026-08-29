@@ -9,7 +9,9 @@ use App\Foto;
 use App\User;
 use App\ParametroGeneral;
 use App\Mail\LeadPortalInmobiliario;
+use App\Mail\AlertaRefreshTokenPortal;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Cache;
 use Auth;
 use Log;
 
@@ -96,6 +98,7 @@ class IntegracionPortalController extends Controller
             if($users->isEmpty())
             {
                 Log::info('error', array('body' => 'No hay usuarios habilitados para Portal Inmobiliario'));
+                $this->alertarFalloRefreshToken('No hay usuarios habilitados para Portal Inmobiliario', 'N/A');
                 return false;
             }
 
@@ -115,6 +118,7 @@ class IntegracionPortalController extends Controller
             if ($result['httpcode'] < 200 || $result['httpcode'] > 299 || empty($responseDos['access_token']))
             {
                 Log::info('error', array('httpcode' => $result['httpcode'], 'body' => $responseDos));
+                $this->alertarFalloRefreshToken('Mercado Libre rechazó el refresh del token', json_encode(array('httpcode' => $result['httpcode'], 'body' => $responseDos), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
                 return false;
             }
 
@@ -128,9 +132,11 @@ class IntegracionPortalController extends Controller
                 $user->save();
             }
             Log::info('refreshToken Portal Inmobiliario ejecutado correctamente', array('fecha' => now()->toDateTimeString()));
+            Cache::forget('alerta_refresh_token_portal_enviada');
             return true;
         } catch (\Exception $e) {
             Log::info('Info', array('error' => $e->getMessage()));
+            $this->alertarFalloRefreshToken('Excepción al refrescar el token', $e->getMessage());
             return false;
         }
     }
@@ -1057,6 +1063,22 @@ class IntegracionPortalController extends Controller
     private function getPortalUsers()
     {
         return User::where('users.id', 1)->get();
+    }
+
+    private function alertarFalloRefreshToken($motivo, $raw)
+    {
+        if (Cache::has('alerta_refresh_token_portal_enviada'))
+        {
+            return;
+        }
+        Cache::put('alerta_refresh_token_portal_enviada', true, now()->addHour());
+
+        $details = (object) [
+            'motivo' => $motivo,
+            'fecha' => now()->toDateTimeString(),
+            'raw' => $raw,
+        ];
+        Mail::to('beenjaahp@hotmail.com')->send(new AlertaRefreshTokenPortal($details));
     }
 
     private function portalWhatsapp()
