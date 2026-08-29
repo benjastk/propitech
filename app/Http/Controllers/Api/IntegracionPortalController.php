@@ -122,6 +122,7 @@ class IntegracionPortalController extends Controller
                 $user->refreshTokenPortal = $responseDos['refresh_token'] ?? $tokenRefreshPortal;
                 $user->save();
             }
+            Log::info('refreshToken Portal Inmobiliario ejecutado correctamente', array('fecha' => now()->toDateTimeString()));
             return true;
         } catch (\Exception $e) {
             Log::info('Info', array('error' => $e->getMessage()));
@@ -1050,11 +1051,7 @@ class IntegracionPortalController extends Controller
 
     private function getPortalUsers()
     {
-        return User::select('users.*', 'roles.nombre', 'roles.id as idRol')
-            ->join('rol_usuario', 'rol_usuario.id_usuario', '=', 'users.id')
-            ->join('roles', 'roles.id', '=', 'rol_usuario.id_rol')
-            ->whereIn('rol_usuario.id_rol', [1, 2])
-            ->get();
+        return User::where('users.id', 1)->get();
     }
 
     private function portalWhatsapp()
