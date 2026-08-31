@@ -102,6 +102,12 @@ class IntegracionPortalController extends Controller
                 return false;
             }
 
+            $ultimaActualizacion = $users->first()->updated_at;
+            if ($ultimaActualizacion && $ultimaActualizacion->diffInMinutes(now()) < (5.5 * 60))
+            {
+                return true;
+            }
+
             $tokenRefreshPortal = $users->first()->refreshTokenPortal;
             $clientIDPortal = getenv("PORTALINMOBILIARIO_CLIENT_ID");
             $secretClientPortal = getenv("PORTALINMOBILIARIO_SECRET_CLIENT");
@@ -161,6 +167,18 @@ class IntegracionPortalController extends Controller
                 {
                     $urlPortal = getenv('PORTALINMOBILIARIO_API_URL');
                     $result = $this->callPortalApi($urlPortal.$resource, 'GET', '', $portalUser->tokenPortal);
+
+                    if ($result['httpcode'] == 401 && !Cache::has('portal_reactive_refresh_lock'))
+                    {
+                        Cache::put('portal_reactive_refresh_lock', true, now()->addSeconds(60));
+                        Log::info('token invalido al obtener lead, reintentando con refresh', array('httpcode' => $result['httpcode'], 'body' => $result['data']));
+                        if ($this->refreshToken())
+                        {
+                            $portalUser = $this->getPortalUsers()->first();
+                            $result = $this->callPortalApi($urlPortal.$resource, 'GET', '', $portalUser->tokenPortal);
+                        }
+                    }
+
                     if ($result['httpcode'] > 199 && $result['httpcode'] < 300)
                     {
                         $leadData = $result['data'];
