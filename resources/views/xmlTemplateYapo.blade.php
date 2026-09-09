@@ -123,8 +123,8 @@
                         <advertiser><![CDATA[Agente]]></advertiser>
                     </ad>
                         <contact>
-                        <email><![CDATA[gcisternas@propitech.cl]]></email>
-                        <phone><![CDATA[956790356]]></phone>
+                        <email><![CDATA[contacto@propitech.cl]]></email>
+                        <phone><![CDATA[927429764]]></phone>
                         <contact><![CDATA[Propitech By Cirobu]]></contact>
                         <city><![CDATA[Santiago, Región Metropolitana]]></city>
                     </contact>

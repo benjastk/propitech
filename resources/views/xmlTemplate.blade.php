@@ -4,7 +4,7 @@
     <listing>
         <reference_id><![CDATA[{{ $propiedad->id }}]]></reference_id>
             <contact>
-                <phone><![CDATA[956790356]]></phone>
+                <phone><![CDATA[927429764]]></phone>
                 <whatsapp><![CDATA[+56927429764]]></whatsapp>
                 <email><![CDATA[contacto@propitech.cl]]></email>
                 <email><![CDATA[gcisternas@propitech.cl]]></email>
