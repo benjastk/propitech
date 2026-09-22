@@ -337,13 +337,17 @@ class ProyectosController extends Controller
             return back()->withInput($request->all());
         }
     }
-    public function subirImagen($id, Request $request) 
+    public function subirImagen($id, Request $request)
     {
 		try {
+			if (!$request->hasFile('file') || !$request->file('file')->isValid()) {
+				toastr()->warning('Debe seleccionar una imagen válida para subir', 'Advertencia');
+				return back();
+			}
 			$file = $request->file('file');
 		    $path = public_path() . '/img/proyecto/';
 
-		    $proyecto = Proyecto::where('idProyecto', '=', $id)->first();		    
+		    $proyecto = Proyecto::where('idProyecto', '=', $id)->first();
 			$img = \Image::make($file);
             // insertando logo a foto subida de la propiedad
 			/*$img->insert(public_path() . '/img/logos/otrologo_mini.png', 'center');*/
@@ -359,6 +363,9 @@ class ProyectosController extends Controller
 
 		} catch (QueryException $e) {
 			toastr()->warning('Error durante la subida de la(s) imagen(es). Revise que los nombres no tengan espacios ni caracteres invalidos', 'Error');
+			return back();
+		} catch (\Exception $e) {
+			toastr()->warning('No fue posible procesar la imagen seleccionada. Verifique que el archivo sea una imagen válida (JPG, PNG, GIF, BMP o WebP)', 'Error');
 			return back();
 		}
 	}
@@ -386,13 +393,17 @@ class ProyectosController extends Controller
 			return back();
 		}
 	}
-    public function subirImagenCercana($id, Request $request) 
+    public function subirImagenCercana($id, Request $request)
     {
 		try {
+			if (!$request->hasFile('file') || !$request->file('file')->isValid()) {
+				toastr()->warning('Debe seleccionar una imagen válida para subir', 'Advertencia');
+				return back();
+			}
 			$file = $request->file('file');
 		    $path = public_path() . '/img/cercana/';
 
-		    $proyecto = Proyecto::where('idProyecto', '=', $id)->first();		    
+		    $proyecto = Proyecto::where('idProyecto', '=', $id)->first();
 			$img = \Image::make($file);
             // insertando logo a foto subida de la propiedad
 			/*$img->insert(public_path() . '/img/logos/otrologo_mini.png', 'center');*/
@@ -408,6 +419,9 @@ class ProyectosController extends Controller
 
 		} catch (QueryException $e) {
 			toastr()->warning('Error durante la subida de la(s) imagen(es). Revise que los nombres no tengan espacios ni caracteres invalidos', 'Error');
+			return back();
+		} catch (\Exception $e) {
+			toastr()->warning('No fue posible procesar la imagen seleccionada. Verifique que el archivo sea una imagen válida (JPG, PNG, GIF, BMP o WebP)', 'Error');
 			return back();
 		}
 	}

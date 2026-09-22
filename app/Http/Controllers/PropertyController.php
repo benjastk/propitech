@@ -497,13 +497,17 @@ class PropertyController extends Controller
         }
     }
     // sube imagenes de propiedades
-    public function subirImagen($id, Request $request) 
+    public function subirImagen($id, Request $request)
     {
 		try {
+			if (!$request->hasFile('file') || !$request->file('file')->isValid()) {
+				toastr()->warning('Debe seleccionar una imagen válida para subir', 'Advertencia');
+				return back();
+			}
 			$file = $request->file('file');
 		    $path = public_path() . '/img/propiedad/';
 
-		    $propiedad = Propiedad::where('id', '=', $id)->first();		    
+		    $propiedad = Propiedad::where('id', '=', $id)->first();
 			$img = \Image::make($file);
             $img->insert(public_path('front/logoopacity2.png'), 'center');
             // insertando logo a foto subida de la propiedad
@@ -521,6 +525,9 @@ class PropertyController extends Controller
 
 		} catch (QueryException $e) {
 			toastr()->warning('Error durante la subida de la(s) imagen(es). Revise que los nombres no tengan espacios ni caracteres invalidos', 'Error');
+			return back();
+		} catch (\Exception $e) {
+			toastr()->warning('No fue posible procesar la imagen seleccionada. Verifique que el archivo sea una imagen válida (JPG, PNG, GIF, BMP o WebP)', 'Error');
 			return back();
 		}
 	}
