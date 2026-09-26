@@ -46,6 +46,12 @@ Route::get('/proyectos-venta', 'InicioController@proyectosEnVenta');
 Route::get('/proyectos-venta/{id}', 'InicioController@singleProyectos');
 
 Route::get('/comision/{mes}/{anio}', 'MandatoAdministracionController@comisionMandato');
+// Firma externa (sin login) del poder simple de asamblea, vía token del mandato
+Route::prefix('firma-poder-simple')->group(function () {
+    Route::get('/{token}', 'MandatoAdministracionController@firmarPoderSimpleAsamblea')->name('firma-poder-simple');
+    Route::post('/{token}', 'MandatoAdministracionController@guardarFirmaPoderSimpleAsamblea')->name('firma-poder-simple.guardar');
+    Route::get('/{token}/descargar', 'MandatoAdministracionController@descargarPoderSimplePublico')->name('firma-poder-simple.descargar');
+});
 //Route::get('/pruebaCorreo', 'PagoController@pruebaCorreo');
 Route::get('/pruebaMail', 'AlertaController@pruebaMail');
 
@@ -164,6 +170,7 @@ Route::prefix('mandatos')->group(function () {
     Route::post('/destroy', 'MandatoAdministracionController@destroy');
 
     Route::post('/reimpresionMandatoAdministracion', 'MandatoAdministracionController@imprimirMandatoAdministracion');
+    Route::get('/poder-simple/{id}', 'MandatoAdministracionController@descargarPoderSimpleAsamblea');
     Route::get('/export', 'MandatoAdministracionController@exportExcel')->name('export-mandatos');
     Route::get('/demo/{id}', 'MandatoAdministracionController@imprimirMandatoDemo');
     Route::post('/validarPagosMandatos', 'MandatoAdministracionController@validarPagosMandatos');

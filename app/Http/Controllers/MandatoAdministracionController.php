@@ -45,6 +45,14 @@ class MandatoAdministracionController extends Controller
         ->join('estados', 'estados.idEstado', '=', 'mandatos_propiedad.idEstadoMandato')
         ->join('planes', 'planes.id', '=', 'mandatos_propiedad.idPlan')
         ->get();
+        foreach ($mandatosAdministracion as $mandato)
+        {
+            if(empty($mandato->tokenMandato))
+            {
+                $mandato->tokenMandato = uniqid();
+                $mandato->save();
+            }
+        }
         return view('back-office.mandatos.index', compact('user', 'mandatosAdministracion'));
     }
 
@@ -189,6 +197,14 @@ class MandatoAdministracionController extends Controller
         ->join('planes', 'planes.id', '=', 'mandatos_propiedad.idPlan')
         ->where('propiedades.id', '=', $id)
         ->get();
+        foreach ($mandatosAdministracion as $mandato)
+        {
+            if(empty($mandato->tokenMandato))
+            {
+                $mandato->tokenMandato = uniqid();
+                $mandato->save();
+            }
+        }
         $propiedad = Propiedad::where('id', $id)->first();
         return view ('back-office.mandatos.indexForProperties', compact('user', 'mandatosAdministracion', 'propiedad'));
     }
@@ -480,6 +496,102 @@ class MandatoAdministracionController extends Controller
         }
         return $pdf->download('mandato-demo.pdf');
     }
+    /**
+     * Datos de la asamblea vigente para el poder simple. Único lugar a
+     * actualizar cuando se convoque una nueva asamblea.
+     */
+    private function datosAsambleaPoderSimple()
+    {
+        return [
+            'fechaAsamblea' => '26 de septiembre de 2026',
+            'horaAsamblea' => '11:00 horas',
+        ];
+    }
+
+    /**
+     * Descarga el poder simple para asamblea (otorgado a Gustavo Cisternas
+     * Perez, representante legal de Inversiones y Servicios Profesionales
+     * B&C SpA) del mandato indicado. Incluye la firma del propietario si ya
+     * fue firmado desde la vista externa.
+     */
+    public function descargarPoderSimpleAsamblea($id)
+    {
+        $mandato = MandatoAdministracion::where('idMandatoPropiedad', '=', $id)->first();
+        if(!$mandato)
+        {
+            toastr()->error('Mandato no encontrado');
+            return redirect('/mandatos');
+        }
+        $fechaHoy = Carbon::now();
+        $asamblea = $this->datosAsambleaPoderSimple();
+        $pdf = \PDF::loadView('prints.poderSimpleAsamblea', compact('mandato', 'fechaHoy', 'asamblea'));
+        return $pdf->download('poder-simple-asamblea-'.$mandato->idMandatoPropiedad.'.pdf');
+    }
+
+    /**
+     * Vista externa (sin autenticación) para que el propietario firme el
+     * poder simple de asamblea a través de la URL asociada a su mandato.
+     */
+    public function firmarPoderSimpleAsamblea($token)
+    {
+        $mandato = MandatoAdministracion::where('tokenMandato', '=', $token)->first();
+        if(!$mandato)
+        {
+            abort(404);
+        }
+        $fechaHoy = Carbon::now();
+        $asamblea = $this->datosAsambleaPoderSimple();
+        return view('externo.firmarPoderSimpleAsamblea', compact('mandato', 'fechaHoy', 'asamblea'));
+    }
+
+    /**
+     * Guarda la firma (imagen del canvas en base64) del propietario para el
+     * poder simple de asamblea.
+     */
+    public function guardarFirmaPoderSimpleAsamblea(Request $request, $token)
+    {
+        $mandato = MandatoAdministracion::where('tokenMandato', '=', $token)->first();
+        if(!$mandato)
+        {
+            abort(404);
+        }
+        if(!$mandato->fechaFirmaPoderSimpleAsamblea)
+        {
+            $request->validate([
+                'firma' => 'required|string',
+            ]);
+            $mandato->firmaPoderSimpleAsamblea = $request->firma;
+            $mandato->fechaFirmaPoderSimpleAsamblea = Carbon::now();
+            $mandato->save();
+
+            $logTransaccion = new LogTransaccion();
+            $logTransaccion->tipoTransaccion = 'Firma de Poder Simple Asamblea';
+            $logTransaccion->idUsuario = $mandato->idPropietario;
+            $logTransaccion->webclient = $request->userAgent();
+            $logTransaccion->descripcionTransaccion = 'Firma de poder simple para asamblea - Propiedad: '.$mandato->direccionPropiedad.' '.$mandato->departamentoPropiedad.
+            ' - Propietario: '.$mandato->nombrePropietario.' '.$mandato->apellidoPropietario.' Rut: '.$mandato->rutPropietario;
+            $logTransaccion->save();
+        }
+        return redirect('/firma-poder-simple/'.$token);
+    }
+
+    /**
+     * Descarga pública (vía token) del poder simple de asamblea, para que el
+     * propietario se lleve su copia firmada desde la misma vista externa.
+     */
+    public function descargarPoderSimplePublico($token)
+    {
+        $mandato = MandatoAdministracion::where('tokenMandato', '=', $token)->first();
+        if(!$mandato)
+        {
+            abort(404);
+        }
+        $fechaHoy = Carbon::now();
+        $asamblea = $this->datosAsambleaPoderSimple();
+        $pdf = \PDF::loadView('prints.poderSimpleAsamblea', compact('mandato', 'fechaHoy', 'asamblea'));
+        return $pdf->download('poder-simple-asamblea.pdf');
+    }
+
     public function exportExcel()
     {
 		try {

@@ -41,6 +41,8 @@ class MandatoAdministracion extends Model
         'cuentaPropietario',
         'bancoPropietario',
         'tokenMandato',
+        'firmaPoderSimpleAsamblea',
+        'fechaFirmaPoderSimpleAsamblea',
         'fechaCompromisoMandato',
         'idEstadoMandato',
         'duracion',

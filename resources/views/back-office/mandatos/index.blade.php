@@ -136,6 +136,16 @@
                                                             <a href="/mandatos/edit/{{ $mandato->idMandatoPropiedad }}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bx bxs-edit-alt"></i></a>
                                                         </li>
                                                         <li class="list-inline-item">
+                                                            <a href="/mandatos/poder-simple/{{ $mandato->idMandatoPropiedad }}" data-toggle="tooltip" data-placement="top" title="Descargar Poder Simple Asamblea"><i class="bx bxs-file-pdf"></i></a>
+                                                        </li>
+                                                        <li class="list-inline-item">
+                                                            @if($mandato->fechaFirmaPoderSimpleAsamblea)
+                                                            <a href="javascript:void(0)" class="link-firma" data-url="{{ url('/firma-poder-simple/'.$mandato->tokenMandato) }}" data-toggle="tooltip" data-placement="top" title="Firmado el {{ \Carbon\Carbon::parse($mandato->fechaFirmaPoderSimpleAsamblea)->format('d-m-Y H:i') }} - Copiar link"><i class="bx bxs-check-circle" style="color:#34c38f;"></i></a>
+                                                            @else
+                                                            <a href="javascript:void(0)" class="link-firma" data-url="{{ url('/firma-poder-simple/'.$mandato->tokenMandato) }}" data-toggle="tooltip" data-placement="top" title="Copiar Link de Firma - Poder Simple"><i class="bx bx-link"></i></a>
+                                                            @endif
+                                                        </li>
+                                                        <li class="list-inline-item">
                                                             <form id="form1" action="{{ url('/mandatos/destroy') }}" method="post">
                                                                 {{ csrf_field() }}
                                                                 <input type="hidden" name="id" value="{{ $mandato->idMandatoPropiedad }}"/>
@@ -183,6 +193,16 @@
 	$(document).ready( function () {
 		$('#tabla-ingresos').DataTable( {
 			"order": [[ 0, "desc" ]]
+		});
+
+		$(document).on('click', '.link-firma', function () {
+			var url = $(this).data('url');
+			var elemento = this;
+			navigator.clipboard.writeText(url).then(function () {
+				$(elemento).attr('data-original-title', 'Link copiado!').tooltip('show');
+			}).catch(function () {
+				window.prompt('Copia el link de firma:', url);
+			});
 		});
 	} );
 </script>
