@@ -520,6 +520,20 @@ class MandatoAdministracionController extends Controller
     }
 
     /**
+     * Mandato para el poder simple, con el numero de unidad (block) tomado
+     * en vivo desde la propiedad (mandatos_propiedad.departamentoPropiedad
+     * es una copia que puede quedar desactualizada si la propiedad se
+     * corrige despues de creado el mandato).
+     */
+    private function mandatoParaPoderSimple($columna, $valor)
+    {
+        return MandatoAdministracion::select('mandatos_propiedad.*', 'propiedades.block as blockPropiedad')
+            ->join('propiedades', 'mandatos_propiedad.idPropiedad', '=', 'propiedades.id')
+            ->where('mandatos_propiedad.'.$columna, '=', $valor)
+            ->first();
+    }
+
+    /**
      * Descarga el poder simple para asamblea (otorgado a Gustavo Cisternas
      * Perez, representante legal de Inversiones y Servicios Profesionales
      * B&C SpA) del mandato indicado. Incluye la firma del propietario si ya
@@ -527,7 +541,7 @@ class MandatoAdministracionController extends Controller
      */
     public function descargarPoderSimpleAsamblea($id)
     {
-        $mandato = MandatoAdministracion::where('idMandatoPropiedad', '=', $id)->first();
+        $mandato = $this->mandatoParaPoderSimple('idMandatoPropiedad', $id);
         if(!$mandato)
         {
             toastr()->error('Mandato no encontrado');
@@ -546,7 +560,7 @@ class MandatoAdministracionController extends Controller
      */
     public function firmarPoderSimpleAsamblea($token)
     {
-        $mandato = MandatoAdministracion::where('tokenMandato', '=', $token)->first();
+        $mandato = $this->mandatoParaPoderSimple('tokenMandato', $token);
         if(!$mandato)
         {
             abort(404);
@@ -594,7 +608,7 @@ class MandatoAdministracionController extends Controller
      */
     public function descargarPoderSimplePublico($token)
     {
-        $mandato = MandatoAdministracion::where('tokenMandato', '=', $token)->first();
+        $mandato = $this->mandatoParaPoderSimple('tokenMandato', $token);
         if(!$mandato)
         {
             abort(404);

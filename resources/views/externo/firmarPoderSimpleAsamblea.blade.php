@@ -117,7 +117,7 @@
             <p>Yo, <strong>{{ $mandato->nombrePropietario }} {{ $mandato->apellidoPropietario }}</strong>, c&eacute;dula de
             identidad N.&ordm; <strong>{{ $rutPropietarioFormateado }}</strong>, domiciliado(a) en
             <strong>{{ $mandato->direccionPropietario }}</strong>, en mi calidad de copropietario(a) de la unidad N.&ordm;
-            <strong>{{ $mandato->departamentoPropiedad }}</strong>, ubicada en <strong>{{ $mandato->direccionPropiedad }}</strong>,
+            <strong>{{ $mandato->blockPropiedad }}</strong>, ubicada en <strong>{{ $mandato->direccionPropiedad }}</strong>,
             por el presente instrumento confiero poder simple a don <strong>Gustavo Cisternas</strong>, c&eacute;dula de
             identidad <strong>11.857.826-0</strong>, Representante legal de <strong>Inversiones y Servicios Profesionales B&amp;C</strong>,
             c&eacute;dula de identidad N.&ordm; <strong>77.135.302-9</strong>, para que me represente en la Asamblea de
