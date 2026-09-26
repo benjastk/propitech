@@ -115,6 +115,13 @@
                                                         <a href="#" class="badge badge-soft-info font-size-11 m-1">AQUA</a>
                                                         @endif
                                                     </div>
+                                                    <div>
+                                                        @if($mandato->fechaFirmaPoderSimpleAsamblea)
+                                                        <a href="#" data-toggle="tooltip" data-placement="top" title="Firmado el {{ \Carbon\Carbon::parse($mandato->fechaFirmaPoderSimpleAsamblea)->format('d-m-Y H:i') }}" class="badge badge-soft-success font-size-11 m-1"><i class="bx bxs-check-circle"></i> Poder Simple Firmado</a>
+                                                        @else
+                                                        <a href="#" class="badge badge-soft-warning font-size-11 m-1"><i class="bx bx-time-five"></i> Poder Simple Pendiente</a>
+                                                        @endif
+                                                    </div>
                                                 </td>
                                                 <td>{{ $mandato->comisionAdministracion }}%</td>
                                                 <td>
