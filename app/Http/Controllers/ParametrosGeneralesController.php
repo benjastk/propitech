@@ -136,4 +136,46 @@ class ParametrosGeneralesController extends Controller
     {
         //
     }
+
+    /**
+     * Vista para capturar/actualizar la firma de Gustavo Cisternas
+     * (apoderado), guardada como parametro general y reutilizada en todos
+     * los poderes simples de asamblea.
+     */
+    public function firmaApoderadoAsamblea()
+    {
+        $user = Auth::user();
+        $parametroFirma = ParametroGeneral::firstOrCreate(
+            ['parametroGeneral' => 'FIRMA APODERADO ASAMBLEA'],
+            ['notas' => 'Firma de Gustavo Cisternas usada en el poder simple de asamblea']
+        );
+        return view('back-office.parametros.firmaApoderadoAsamblea', compact('user', 'parametroFirma'));
+    }
+
+    /**
+     * Guarda la firma (imagen del canvas en base64) del apoderado.
+     */
+    public function guardarFirmaApoderadoAsamblea(Request $request)
+    {
+        $request->validate([
+            'firma' => 'required|string',
+        ]);
+        $parametroFirma = ParametroGeneral::firstOrCreate(
+            ['parametroGeneral' => 'FIRMA APODERADO ASAMBLEA'],
+            ['notas' => 'Firma de Gustavo Cisternas usada en el poder simple de asamblea']
+        );
+        $parametroFirma->textoValorParametro = $request->firma;
+        $parametroFirma->save();
+        Cache::forget('parametros_generales');
+
+        $logTransaccion = new LogTransaccion();
+        $logTransaccion->tipoTransaccion = 'Actualizacion de firma de apoderado asamblea';
+        $logTransaccion->idUsuario = Auth::user()->id;
+        $logTransaccion->webclient = $request->userAgent();
+        $logTransaccion->descripcionTransaccion = 'Actualizacion de firma de apoderado asamblea (Gustavo Cisternas)';
+        $logTransaccion->save();
+
+        toastr()->success('Firma de apoderado actualizada exitosamente');
+        return redirect('/parametros/firma-apoderado-asamblea');
+    }
 }

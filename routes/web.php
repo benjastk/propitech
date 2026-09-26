@@ -226,6 +226,8 @@ Route::prefix('parametros')->group(function () {
     Route::get('/edit/{parametro}', 'ParametrosGeneralesController@edit');
     Route::post('/update/{parametro}', 'ParametrosGeneralesController@update');
     Route::post('/enviar-whatsapp', 'AlertaController@recordarPagoWhatsapp');
+    Route::get('/firma-apoderado-asamblea', 'ParametrosGeneralesController@firmaApoderadoAsamblea');
+    Route::post('/firma-apoderado-asamblea', 'ParametrosGeneralesController@guardarFirmaApoderadoAsamblea');
 });
 Route::prefix('mantenciones')->group(function () {
     Route::get('/', 'MantencionPropiedadController@index');

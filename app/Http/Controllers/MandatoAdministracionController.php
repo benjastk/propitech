@@ -509,6 +509,17 @@ class MandatoAdministracionController extends Controller
     }
 
     /**
+     * Firma de Gustavo Cisternas (apoderado), guardada como parametro
+     * general en /parametros/firma-apoderado-asamblea. Se usa en todos los
+     * poderes simples de asamblea.
+     */
+    private function firmaApoderadoAsamblea()
+    {
+        $parametro = ParametroGeneral::obtener('FIRMA APODERADO ASAMBLEA');
+        return $parametro ? $parametro->textoValorParametro : null;
+    }
+
+    /**
      * Descarga el poder simple para asamblea (otorgado a Gustavo Cisternas
      * Perez, representante legal de Inversiones y Servicios Profesionales
      * B&C SpA) del mandato indicado. Incluye la firma del propietario si ya
@@ -524,7 +535,8 @@ class MandatoAdministracionController extends Controller
         }
         $fechaHoy = Carbon::now();
         $asamblea = $this->datosAsambleaPoderSimple();
-        $pdf = \PDF::loadView('prints.poderSimpleAsamblea', compact('mandato', 'fechaHoy', 'asamblea'));
+        $firmaApoderado = $this->firmaApoderadoAsamblea();
+        $pdf = \PDF::loadView('prints.poderSimpleAsamblea', compact('mandato', 'fechaHoy', 'asamblea', 'firmaApoderado'));
         return $pdf->download('poder-simple-asamblea-'.$mandato->idMandatoPropiedad.'.pdf');
     }
 
@@ -541,7 +553,8 @@ class MandatoAdministracionController extends Controller
         }
         $fechaHoy = Carbon::now();
         $asamblea = $this->datosAsambleaPoderSimple();
-        return view('externo.firmarPoderSimpleAsamblea', compact('mandato', 'fechaHoy', 'asamblea'));
+        $firmaApoderado = $this->firmaApoderadoAsamblea();
+        return view('externo.firmarPoderSimpleAsamblea', compact('mandato', 'fechaHoy', 'asamblea', 'firmaApoderado'));
     }
 
     /**
@@ -588,7 +601,8 @@ class MandatoAdministracionController extends Controller
         }
         $fechaHoy = Carbon::now();
         $asamblea = $this->datosAsambleaPoderSimple();
-        $pdf = \PDF::loadView('prints.poderSimpleAsamblea', compact('mandato', 'fechaHoy', 'asamblea'));
+        $firmaApoderado = $this->firmaApoderadoAsamblea();
+        $pdf = \PDF::loadView('prints.poderSimpleAsamblea', compact('mandato', 'fechaHoy', 'asamblea', 'firmaApoderado'));
         return $pdf->download('poder-simple-asamblea.pdf');
     }
 

@@ -56,6 +56,9 @@
                                 <button type="button" class="btn btn-success waves-effect waves-light" data-toggle="modal" data-target=".bs-example-modal-lg">
                                     <i class="fa fa-whatsapp"></i> Whatsapp de Cobro
                                 </button>
+                                <a href="/parametros/firma-apoderado-asamblea" class="btn btn-info waves-effect waves-light" style="margin-left: 10px">
+                                    <i class="bx bx-pen"></i> Firma Apoderado Asamblea
+                                </a>
                                 <!--<ol class="breadcrumb m-0">
                                     <li class="breadcrumb-item"><a href="javascript: void(0);">Contactos</a></li>
                                     <li class="breadcrumb-item active">Lista de usuarios</li>

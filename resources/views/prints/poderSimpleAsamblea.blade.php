@@ -91,13 +91,14 @@
                     <p>Firma del/de la otorgante</p>
                     <p>Nombre: {{ $mandato->nombrePropietario }} {{ $mandato->apellidoPropietario }}</p>
                     <p>RUT: {{ $rutPropietarioFormateado }}</p>
-                    @if($mandato->fechaFirmaPoderSimpleAsamblea)
-                    <p>Firmado electr&oacute;nicamente el {{ strftime("%d-%m-%Y %H:%M", strtotime($mandato->fechaFirmaPoderSimpleAsamblea)) }}</p>
-                    @endif
                 </td>
                 <td>
+                    @if($firmaApoderado)
+                    <center><img src="{{ $firmaApoderado }}" style="max-width: 220px; max-height: 90px;"></center>
+                    @else
                     <p>&nbsp;</p>
                     <p>&nbsp;</p>
+                    @endif
                     <p>________________________________</p>
                     <p>Firma del apoderado</p>
                     <p>Nombre: Gustavo Cisternas</p>
