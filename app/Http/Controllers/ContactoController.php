@@ -16,10 +16,21 @@ class ContactoController extends Controller
 {
     public function contactoController(Request $request)
     {
+        $datos = $request->validate([
+            'id_formulario' => 'nullable|integer',
+            'nombre' => 'required|string|max:150',
+            'telefono' => 'required|string|max:30|regex:/^[0-9 ()+\-]+$/',
+            'email' => 'required|email|max:150',
+            'mensaje' => 'nullable|string|max:2000',
+        ]);
+        $datos['nombre'] = strip_tags($datos['nombre']);
+        if(isset($datos['mensaje'])) {
+            $datos['mensaje'] = strip_tags($datos['mensaje']);
+        }
         try{
             DB::beginTransaction();
             $formulario = new FormularioContacto();
-            $formulario->fill($request->all());
+            $formulario->fill($datos);
             $formulario->save();
             
             $formularioDos = FormularioContacto::select('formulario_contacto.*', 'tipo_formulario.nombreFormulario')
@@ -52,10 +63,20 @@ class ContactoController extends Controller
     }
     public function formularioCanje(Request $request)
     {
+        $datos = $request->validate([
+            'nombreCorredor' => 'required|string|max:150',
+            'emailCorredor' => 'required|email|max:150',
+            'telefonoCorredor' => 'required|string|max:30|regex:/^[0-9 ()+\-]+$/',
+            'cantidadPropiedades' => 'required|integer|min:0',
+            'tipoOperacion' => 'required|integer',
+            'ciudadCorredor' => 'required|string|max:150',
+        ]);
+        $datos['nombreCorredor'] = strip_tags($datos['nombreCorredor']);
+        $datos['ciudadCorredor'] = strip_tags($datos['ciudadCorredor']);
         try{
             DB::beginTransaction();
             $formulario = new FormularioCanje();
-            $formulario->fill($request->all());
+            $formulario->fill($datos);
             $formulario->save();
             
             $formularioDos = FormularioCanje::select('formulario_canjes.*', 'tipos_comerciales.nombreTipoComercial')
@@ -88,10 +109,31 @@ class ContactoController extends Controller
     }
     public function formularioCaptador(Request $request)
     {
+        $datos = $request->validate([
+            'nombrePropietario' => 'required|string|max:150',
+            'correoPropietario' => 'required|email|max:150',
+            'telefonoPropietario' => 'required|string|max:30|regex:/^[0-9 ()+\-]+$/',
+            'diaVisita' => 'nullable|string|max:150',
+            'direccionPropiedad' => 'required|string|max:255',
+            'tipoOperacion' => 'required|integer',
+            'tipoPropiedad' => 'required|integer',
+            'dormitorios' => 'required|integer',
+            'banos' => 'required|integer',
+            'estacionamiento' => 'required|boolean',
+            'bodega' => 'required|boolean',
+            'nombreCaptador' => 'required|string|max:150',
+            'rutCaptador' => 'required|string|max:20|regex:/^[0-9kK.\-]+$/',
+            'telefonoCaptador' => 'required|string|max:30|regex:/^[0-9 ()+\-]+$/',
+        ]);
+        foreach(['nombrePropietario', 'diaVisita', 'direccionPropiedad', 'nombreCaptador'] as $campo) {
+            if(isset($datos[$campo])) {
+                $datos[$campo] = strip_tags($datos[$campo]);
+            }
+        }
         try{
             DB::beginTransaction();
             $formulario = new FormularioCaptador();
-            $formulario->fill($request->all());
+            $formulario->fill($datos);
             $formulario->save();
             
             $formularioDos = FormularioCaptador::select('formulario_captador.*', 'tipos_comerciales.nombreTipoComercial', 'tipos_propiedades.nombreTipoPropiedad')
@@ -125,10 +167,24 @@ class ContactoController extends Controller
     }
     public function formularioPublicaTuPropiedad(Request $request)
     {
+        $datos = $request->validate([
+            'nombrePropietario' => 'required|string|max:150',
+            'correoPropietario' => 'required|email|max:150',
+            'telefonoPropietario' => 'required|string|max:30|regex:/^[0-9 ()+\-]+$/',
+            'direccionPropiedad' => 'required|string|max:255',
+            'tipoOperacion' => 'required|integer',
+            'tipoPropiedad' => 'nullable|integer',
+            'mensaje' => 'nullable|string|max:2000',
+        ]);
+        foreach(['nombrePropietario', 'direccionPropiedad', 'mensaje'] as $campo) {
+            if(isset($datos[$campo])) {
+                $datos[$campo] = strip_tags($datos[$campo]);
+            }
+        }
         try{
             DB::beginTransaction();
             $formulario = new FormularioCaptador();
-            $formulario->fill($request->all());
+            $formulario->fill($datos);
             $formulario->isCaptador = 0;
             $formulario->save();
             
@@ -164,18 +220,28 @@ class ContactoController extends Controller
     }
     public function formularioInversiones(Request $request)
     {
+        $datos = $request->validate([
+            'id_formulario' => 'nullable|integer',
+            'nombre' => 'required|string|max:150',
+            'telefono' => 'required|string|max:30|regex:/^[0-9 ()+\-]+$/',
+            'email' => 'required|email|max:150',
+            'mensaje' => 'nullable|string|max:2000',
+            'idRentaMensual' => 'nullable|integer',
+        ]);
+        $datos['nombre'] = strip_tags($datos['nombre']);
+        $mensaje = isset($datos['mensaje']) ? strip_tags($datos['mensaje']) : null;
         try{
-            $renta = RentaMensual::where('idRentaMensual', $request->idRentaMensual)->first();
+            $renta = isset($datos['idRentaMensual']) ? RentaMensual::where('idRentaMensual', $datos['idRentaMensual'])->first() : null;
             DB::beginTransaction();
             $formulario = new FormularioContacto();
-            $formulario->fill($request->all());
+            $formulario->fill($datos);
             if($renta)
             {
-                $formulario->mensaje = $request->mensaje. ' - Renta Mensual: '. $renta->nombreRentaMensual;
+                $formulario->mensaje = $mensaje. ' - Renta Mensual: '. $renta->nombreRentaMensual;
             }
             else
             {
-                $formulario->mensaje = $request->mensaje;
+                $formulario->mensaje = $mensaje;
             }
             $formulario->save();
             
