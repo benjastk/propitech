@@ -59,10 +59,27 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
+                                <form id="form-relist" action="{{ url('/portalinmobiliario/relist-lote') }}" method="post">
+                                    {{ csrf_field() }}
+                                    <div id="ids-relist"></div>
+                                    @if(($resumen['vencida'] ?? 0) > 0)
+                                    <div class="mb-3">
+                                        <button type="submit" class="btn btn-danger" id="btn-relist">
+                                            <i class="bx bx-refresh"></i> Republicar seleccionadas (<span id="cnt-relist">0</span>)
+                                        </button>
+                                        <small class="text-muted ml-2">Solo se republica lo que en el portal siga cerrado. Cada una queda con un item ID nuevo.</small>
+                                    </div>
+                                    @endif
+                                </form>
                                 <div class="table-responsive">
                                     <table id="tabla-pi" class="table table-centered table-borderless">
                                         <thead>
                                             <tr>
+                                                <th>
+                                                    @if(($resumen['vencida'] ?? 0) > 0)
+                                                    <input type="checkbox" id="chk-todas" title="Seleccionar todas las vencidas">
+                                                    @endif
+                                                </th>
                                                 <th>Categoría</th>
                                                 <th>ID</th>
                                                 <th>Propiedad</th>
@@ -76,6 +93,11 @@
                                             @foreach($filas as $fila)
                                             @php $et = $etiquetas[$fila->categoria] ?? [$fila->categoria, 'dark', '']; @endphp
                                             <tr>
+                                                <td>
+                                                    @if($fila->categoria == 'vencida' && $fila->propiedad)
+                                                    <input type="checkbox" class="chk-relist" value="{{ $fila->propiedad->id }}">
+                                                    @endif
+                                                </td>
                                                 <td data-order="{{ array_search($fila->categoria, array_keys($etiquetas)) }}">
                                                     <span class="badge badge-{{ $et[1] }}" title="{{ $et[2] }}">{{ $et[0] }}</span>
                                                 </td>
@@ -112,6 +134,13 @@
                                                 <td>
                                                     @if($fila->propiedad)
                                                         <a href="/properties/edit/{{ $fila->propiedad->id }}" title="Editar propiedad"><i class="bx bxs-edit-alt font-size-18"></i></a>
+                                                        @if($fila->categoria == 'vencida')
+                                                            <a href="/portalinmobiliario/relist/{{ $fila->propiedad->id }}" class="btn btn-sm btn-outline-danger ml-1"
+                                                               onclick="return confirm('¿Republicar la propiedad {{ $fila->propiedad->id }} en Portal Inmobiliario?')">Republicar</a>
+                                                        @elseif($fila->categoria == 'no_encontrada')
+                                                            <a href="/portalinmobiliario/add/{{ $fila->propiedad->id }}" class="btn btn-sm btn-outline-primary ml-1"
+                                                               onclick="return confirm('El item ya no existe en el portal. ¿Crear una publicación nueva para la propiedad {{ $fila->propiedad->id }}?')">Publicar de nuevo</a>
+                                                        @endif
                                                     @endif
                                                 </td>
                                             </tr>
@@ -141,9 +170,41 @@
 <script src="{{ url('js/dataTables.bootstrap.min.js') }}"></script>
 <script>
     $(document).ready(function () {
-        $('#tabla-pi').DataTable({
-            "order": [[ 0, "asc" ], [ 5, "asc" ]],
+        var tabla = $('#tabla-pi').DataTable({
+            "order": [[ 1, "asc" ], [ 6, "asc" ]],
+            "columnDefs": [{ "orderable": false, "targets": [0, 7] }],
             "pageLength": 50
+        });
+
+        // Usa la API de DataTables para incluir también filas de otras páginas
+        function seleccionadas() {
+            return tabla.$('input.chk-relist:checked');
+        }
+        function actualizarContador() {
+            $('#cnt-relist').text(seleccionadas().length);
+        }
+        $('#chk-todas').on('change', function () {
+            tabla.$('input.chk-relist').prop('checked', this.checked);
+            actualizarContador();
+        });
+        $('#tabla-pi').on('change', 'input.chk-relist', actualizarContador);
+
+        $('#form-relist').on('submit', function (e) {
+            var marcadas = seleccionadas();
+            if (marcadas.length === 0) {
+                alert('Selecciona al menos una propiedad vencida.');
+                e.preventDefault();
+                return;
+            }
+            if (!confirm('¿Republicar ' + marcadas.length + ' propiedades en Portal Inmobiliario? Puede tardar un par de minutos.')) {
+                e.preventDefault();
+                return;
+            }
+            var contenedor = $('#ids-relist').empty();
+            marcadas.each(function () {
+                contenedor.append($('<input>', { type: 'hidden', name: 'ids[]', value: this.value }));
+            });
+            $('#btn-relist').prop('disabled', true).html('<i class="bx bx-loader bx-spin"></i> Republicando…');
         });
     });
 </script>

@@ -258,6 +258,147 @@ class IntegracionPortalController extends Controller
         }
     }
 
+    /**
+     * Fase 3: republica (relist) una publicación vencida.
+     * Mercado Libre entrega un item ID nuevo; se guarda en la propiedad.
+     */
+    public function relistProperties($id)
+    {
+        try {
+            $portalUser = $this->getPortalUsers()->first();
+            if (!$portalUser || !$portalUser->tokenPortal)
+            {
+                toastr()->error('No hay un usuario habilitado con sesión de Portal Inmobiliario', 'Algo falló');
+                return redirect('/portalinmobiliario/list');
+            }
+            $resultado = $this->relistarPropiedad($id, $portalUser);
+            if ($resultado['ok'])
+            {
+                toastr()->success($resultado['mensaje'], 'Republicada');
+            }
+            else
+            {
+                toastr()->error($resultado['mensaje'], 'No se pudo republicar');
+            }
+        } catch (\Exception $e) {
+            Log::info('relistProperties error', array('id' => $id, 'body' => $e->getMessage()));
+            toastr()->error('Tenemos un problema al republicar', 'Algo Falló');
+        }
+        return redirect('/portalinmobiliario/list');
+    }
+
+    public function relistLote(Request $request)
+    {
+        $ids = array_filter(array_map('intval', (array) $request->input('ids', [])));
+        if (!$ids)
+        {
+            toastr()->warning('No seleccionaste propiedades', 'Sin cambios');
+            return redirect('/portalinmobiliario/list');
+        }
+        $portalUser = $this->getPortalUsers()->first();
+        if (!$portalUser || !$portalUser->tokenPortal)
+        {
+            toastr()->error('No hay un usuario habilitado con sesión de Portal Inmobiliario', 'Algo falló');
+            return redirect('/portalinmobiliario/list');
+        }
+
+        set_time_limit(600);
+        $ok = 0;
+        $errores = [];
+        foreach ($ids as $id)
+        {
+            try {
+                $resultado = $this->relistarPropiedad($id, $portalUser);
+            } catch (\Exception $e) {
+                Log::info('relistLote error', array('id' => $id, 'body' => $e->getMessage()));
+                $resultado = ['ok' => false, 'mensaje' => 'Propiedad '.$id.': error inesperado'];
+            }
+            if ($resultado['ok'])
+            {
+                $ok++;
+            }
+            else
+            {
+                $errores[] = $resultado['mensaje'];
+            }
+            usleep(300000); // evitar rate limit de la API
+        }
+
+        if ($ok)
+        {
+            toastr()->success($ok.' de '.count($ids).' propiedades republicadas', 'Republicación en lote');
+        }
+        if ($errores)
+        {
+            toastr()->error(implode('<br>', $errores), count($errores).' con error');
+        }
+        return redirect('/portalinmobiliario/list');
+    }
+
+    private function relistarPropiedad($id, &$portalUser)
+    {
+        $urlPortal = getenv("PORTALINMOBILIARIO_API_URL");
+        $propiedad = Propiedad::where('id', $id)->first();
+        if (!$propiedad || !$propiedad->itemIDPortal)
+        {
+            return ['ok' => false, 'mensaje' => 'Propiedad '.$id.': no tiene publicación asociada'];
+        }
+        if ($propiedad->idEstado == 46)
+        {
+            return ['ok' => false, 'mensaje' => 'Propiedad '.$id.': está suspendida'];
+        }
+        $itemAnterior = $propiedad->itemIDPortal;
+
+        // Confirmar estado actual: solo se republica lo que realmente está cerrado
+        $actual = $this->callPortalApiConReintento($urlPortal.'/items/'.$itemAnterior.'?attributes=id,status,sub_status', $portalUser);
+        if ($actual['httpcode'] < 200 || $actual['httpcode'] > 299)
+        {
+            return ['ok' => false, 'mensaje' => 'Propiedad '.$id.': el item '.$itemAnterior.' no existe en el portal (usar "Agregar")'];
+        }
+        if (($actual['data']['status'] ?? null) !== 'closed')
+        {
+            return ['ok' => false, 'mensaje' => 'Propiedad '.$id.': el item está "'.($actual['data']['status'] ?? '?').'", no vencido'];
+        }
+
+        $precio = $propiedad->idTipoComercial == 1 ? $propiedad->precio : $propiedad->valorArriendo;
+        $body = json_encode([
+            'price' => (string) $precio,
+            'quantity' => 1,
+            'listing_type_id' => 'silver',
+        ]);
+        $relist = $this->callPortalApi($urlPortal.'/items/'.$itemAnterior.'/relist', 'POST', $body, $portalUser->tokenPortal);
+        if ($relist['httpcode'] < 200 || $relist['httpcode'] > 299 || empty($relist['data']['id']))
+        {
+            Log::info('relist error', array('id' => $id, 'item' => $itemAnterior, 'httpcode' => $relist['httpcode'], 'body' => $relist['data']));
+            return ['ok' => false, 'mensaje' => 'Propiedad '.$id.': '.$this->portalErrorMessage($relist['data'])];
+        }
+
+        $itemNuevo = $relist['data']['id'];
+        $propiedad->itemIDPortal = $itemNuevo;
+        $propiedad->urlPortalInmobiliario = $relist['data']['permalink'] ?? $propiedad->urlPortalInmobiliario;
+        $propiedad->eliminadoPortalInmobiliario = 0;
+        $propiedad->save();
+        Log::info('relist OK', array('id' => $id, 'itemAnterior' => $itemAnterior, 'itemNuevo' => $itemNuevo, 'status' => $relist['data']['status'] ?? null));
+
+        // Asegurar descripción en el item nuevo (no bloqueante)
+        if ($propiedad->descripcionLimpia)
+        {
+            $desc = json_encode(['plain_text' => $propiedad->descripcionLimpia], JSON_UNESCAPED_UNICODE);
+            $put = $this->callPortalApi($urlPortal.'/items/'.$itemNuevo.'/description', 'PUT', $desc, $portalUser->tokenPortal);
+            if ($put['httpcode'] < 200 || $put['httpcode'] > 299)
+            {
+                $this->callPortalApi($urlPortal.'/items/'.$itemNuevo.'/description', 'POST', $desc, $portalUser->tokenPortal);
+            }
+        }
+
+        $estadoNuevo = $relist['data']['status'] ?? 'active';
+        if ($estadoNuevo !== 'active')
+        {
+            return ['ok' => true, 'mensaje' => 'Propiedad '.$id.' republicada como '.$itemNuevo.', pero quedó en estado "'.$estadoNuevo.'"'];
+        }
+        return ['ok' => true, 'mensaje' => 'Propiedad '.$id.' republicada como '.$itemNuevo];
+    }
+
     private function clasificarPublicacion($propiedad, $item)
     {
         if (!$item)
