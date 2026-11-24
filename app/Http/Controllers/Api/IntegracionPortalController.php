@@ -237,7 +237,8 @@ class IntegracionPortalController extends Controller
 
             $resumen = array_count_values(array_map(function ($f) { return $f->categoria; }, $filas));
 
-            return view('back-office.properties.portal-estado', compact('filas', 'resumen'));
+            $user = Auth::user();
+            return view('back-office.properties.portal-estado', compact('user', 'filas', 'resumen'));
         } catch (\Exception $e) {
             Log::info('listAds error', array('body' => $e->getMessage()));
             toastr()->error('No se pudo consultar el estado en Portal Inmobiliario', 'Algo Falló');
