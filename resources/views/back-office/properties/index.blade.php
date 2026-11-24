@@ -73,6 +73,9 @@
                                 <a href="/properties/suspendidas" class="btn btn-danger waves-effect waves-light" style="margin-right: 10px">
                                     <i class="fa fa-minus"></i> Propiedades Supendidas
                                 </a>
+                                <a href="/portalinmobiliario/list" class="btn btn-warning waves-effect waves-light" style="margin-right: 10px">
+                                    <i class="bx bx-globe font-size-16 align-middle mr-2"></i> Estado Portal Inmobiliario
+                                </a>
                                 <a href="/properties/create" class="btn btn-info waves-effect waves-light" style="margin-right: 10px">
                                     <i class="bx bx-plus font-size-16 align-middle mr-2"></i> Crear Propiedad
                                 </a>

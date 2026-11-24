@@ -146,9 +146,148 @@ class IntegracionPortalController extends Controller
             return false;
         }
     }
+    /**
+     * Fase 1 (solo lectura): cruza las propiedades publicadas en propitech con el
+     * estado real de sus items en Portal Inmobiliario / Mercado Libre.
+     * No modifica nada ni en BD ni en el portal.
+     */
     public function listAds()
     {
+        try {
+            $urlPortal = getenv("PORTALINMOBILIARIO_API_URL");
+            $portalUser = $this->getPortalUsers()->first();
+            if (!$portalUser || !$portalUser->tokenPortal)
+            {
+                toastr()->error('No hay un usuario habilitado con sesión de Portal Inmobiliario', 'Algo falló');
+                return redirect('/properties');
+            }
 
+            $propiedades = Propiedad::select('propiedades.id', 'propiedades.nombrePropiedad', 'propiedades.direccion', 'propiedades.numero',
+                'propiedades.fotoPrincipal', 'propiedades.itemIDPortal', 'propiedades.urlPortalInmobiliario',
+                'propiedades.eliminadoPortalInmobiliario', 'propiedades.idEstado', 'comuna.nombre as nombreComuna', 'estados.nombreEstado')
+                ->leftJoin('comuna', 'comuna.id', '=', 'propiedades.idComuna')
+                ->leftJoin('estados', 'estados.idEstado', '=', 'propiedades.idEstado')
+                ->whereNotNull('propiedades.itemIDPortal')
+                ->where('propiedades.itemIDPortal', '!=', '')
+                ->get()
+                ->keyBy('itemIDPortal');
+
+            // Items del vendedor en el portal (para detectar publicaciones que propitech ya no referencia)
+            $idsVendedor = [];
+            if ($portalUser->userIDPortal)
+            {
+                $offset = 0;
+                do {
+                    $search = $this->callPortalApiConReintento($urlPortal.'/users/'.$portalUser->userIDPortal.'/items/search?limit=50&offset='.$offset, $portalUser);
+                    if ($search['httpcode'] < 200 || $search['httpcode'] > 299)
+                    {
+                        Log::info('listAds: error buscando items del vendedor', array('httpcode' => $search['httpcode'], 'body' => $search['data']));
+                        break;
+                    }
+                    $resultados = $search['data']['results'] ?? [];
+                    $idsVendedor = array_merge($idsVendedor, $resultados);
+                    $total = $search['data']['paging']['total'] ?? 0;
+                    $offset += 50;
+                } while (count($resultados) > 0 && $offset < $total && $offset < 1000);
+            }
+
+            $todosLosIds = array_values(array_unique(array_merge($propiedades->keys()->all(), $idsVendedor)));
+
+            // Multiget de a 20 (máximo permitido por /items?ids=)
+            $items = [];
+            foreach (array_chunk($todosLosIds, 20) as $lote)
+            {
+                $multi = $this->callPortalApiConReintento($urlPortal.'/items?ids='.implode(',', $lote).'&attributes=id,status,sub_status,stop_time,date_created,last_updated,permalink,title', $portalUser);
+                if ($multi['httpcode'] < 200 || $multi['httpcode'] > 299 || !is_array($multi['data']))
+                {
+                    Log::info('listAds: error en multiget', array('httpcode' => $multi['httpcode'], 'body' => $multi['data']));
+                    continue;
+                }
+                foreach ($multi['data'] as $respuesta)
+                {
+                    $body = $respuesta['body'] ?? [];
+                    $id = $body['id'] ?? null;
+                    if ($id && ($respuesta['code'] ?? 0) == 200)
+                    {
+                        $items[$id] = $body;
+                    }
+                }
+            }
+
+            $filas = [];
+            foreach ($todosLosIds as $itemId)
+            {
+                $propiedad = $propiedades->get($itemId);
+                $item = $items[$itemId] ?? null;
+                $filas[] = (object) [
+                    'itemId' => $itemId,
+                    'propiedad' => $propiedad,
+                    'item' => $item,
+                    'status' => $item['status'] ?? null,
+                    'subStatus' => $item ? implode(', ', (array) ($item['sub_status'] ?? [])) : null,
+                    'stopTime' => !empty($item['stop_time']) ? \Carbon\Carbon::parse($item['stop_time'])->setTimezone(config('app.timezone')) : null,
+                    'categoria' => $this->clasificarPublicacion($propiedad, $item),
+                ];
+            }
+
+            $orden = ['vencida' => 0, 'por_vencer' => 1, 'pausada' => 2, 'no_encontrada' => 3, 'huerfana' => 4, 'cerrada_manual' => 5, 'activa' => 6];
+            usort($filas, function ($a, $b) use ($orden) {
+                return ($orden[$a->categoria] ?? 9) <=> ($orden[$b->categoria] ?? 9);
+            });
+
+            $resumen = array_count_values(array_map(function ($f) { return $f->categoria; }, $filas));
+
+            return view('back-office.properties.portal-estado', compact('filas', 'resumen'));
+        } catch (\Exception $e) {
+            Log::info('listAds error', array('body' => $e->getMessage()));
+            toastr()->error('No se pudo consultar el estado en Portal Inmobiliario', 'Algo Falló');
+            return redirect('/properties');
+        }
+    }
+
+    private function clasificarPublicacion($propiedad, $item)
+    {
+        if (!$item)
+        {
+            return 'no_encontrada';
+        }
+        $status = $item['status'] ?? null;
+        if ($status === 'closed')
+        {
+            if (!$propiedad)
+            {
+                return 'huerfana';
+            }
+            return $propiedad->eliminadoPortalInmobiliario == 1 ? 'cerrada_manual' : 'vencida';
+        }
+        if (!$propiedad)
+        {
+            return 'huerfana';
+        }
+        if ($status === 'active')
+        {
+            if (!empty($item['stop_time']) && \Carbon\Carbon::parse($item['stop_time'])->lte(now()->addDays(7)))
+            {
+                return 'por_vencer';
+            }
+            return 'activa';
+        }
+        return 'pausada'; // paused, under_review, inactive, etc.
+    }
+
+    private function callPortalApiConReintento($url, &$portalUser)
+    {
+        $result = $this->callPortalApi($url, 'GET', '', $portalUser->tokenPortal);
+        if ($result['httpcode'] == 401 && !Cache::has('portal_reactive_refresh_lock'))
+        {
+            Cache::put('portal_reactive_refresh_lock', true, now()->addSeconds(60));
+            if ($this->refreshToken())
+            {
+                $portalUser = $this->getPortalUsers()->first();
+                $result = $this->callPortalApi($url, 'GET', '', $portalUser->tokenPortal);
+            }
+        }
+        return $result;
     }
     public function leadsWebhook(Request $request)
     {
