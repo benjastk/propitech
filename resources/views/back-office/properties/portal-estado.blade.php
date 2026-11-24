@@ -21,6 +21,7 @@
     $etiquetas = [
         'vencida'        => ['Vencida', 'danger', 'Cerrada en el portal sin que propitech la desactivara'],
         'por_vencer'     => ['Vence en ≤ 7 días', 'warning', 'Activa, pero su fecha de término está cerca'],
+        'sin_publicar'   => ['Disponible sin publicar', 'primary', 'Propiedad DISPONIBLE que no tiene publicación en Portal Inmobiliario'],
         'pausada'        => ['Pausada / revisión', 'secondary', 'paused, under_review u otro estado no activo'],
         'no_encontrada'  => ['No existe en PI', 'dark', 'El item guardado en propitech no responde en el portal (borrado o ID inválido)'],
         'huerfana'       => ['Sin propiedad', 'info', 'Item del vendedor en el portal que ninguna propiedad de propitech referencia'],
@@ -71,6 +72,19 @@
                                     </div>
                                     @endif
                                 </form>
+                                <form id="form-add" action="{{ url('/portalinmobiliario/add-lote') }}" method="post">
+                                    {{ csrf_field() }}
+                                    <div id="ids-add"></div>
+                                    @if(($resumen['sin_publicar'] ?? 0) > 0)
+                                    <div class="mb-3">
+                                        <button type="submit" class="btn btn-primary" id="btn-add">
+                                            <i class="bx bx-upload"></i> Publicar seleccionadas (<span id="cnt-add">0</span>)
+                                        </button>
+                                        <button type="button" class="btn btn-outline-primary btn-sm ml-1" id="sel-add-todas">Seleccionar todas las disponibles sin publicar</button>
+                                        <small class="text-muted ml-2">Usa la misma publicación que el botón "Agregar" de la ficha.</small>
+                                    </div>
+                                    @endif
+                                </form>
                                 <div class="table-responsive">
                                     <table id="tabla-pi" class="table table-centered table-borderless">
                                         <thead>
@@ -96,6 +110,8 @@
                                                 <td>
                                                     @if($fila->categoria == 'vencida' && $fila->propiedad)
                                                     <input type="checkbox" class="chk-relist" value="{{ $fila->propiedad->id }}">
+                                                    @elseif($fila->categoria == 'sin_publicar')
+                                                    <input type="checkbox" class="chk-add" value="{{ $fila->propiedad->id }}">
                                                     @endif
                                                 </td>
                                                 <td data-order="{{ array_search($fila->categoria, array_keys($etiquetas)) }}">
@@ -113,7 +129,9 @@
                                                 </td>
                                                 <td>
                                                     @php $link = $fila->item['permalink'] ?? ($fila->propiedad->urlPortalInmobiliario ?? null); @endphp
-                                                    @if($link)
+                                                    @if(!$fila->itemId)
+                                                        <span class="text-muted">—</span>
+                                                    @elseif($link)
                                                         <a href="{{ $link }}" target="_blank" rel="noopener">{{ $fila->itemId }}</a>
                                                     @else
                                                         {{ $fila->itemId }}
@@ -137,6 +155,9 @@
                                                         @if($fila->categoria == 'vencida')
                                                             <a href="/portalinmobiliario/relist/{{ $fila->propiedad->id }}" class="btn btn-sm btn-outline-danger ml-1"
                                                                onclick="return confirm('¿Republicar la propiedad {{ $fila->propiedad->id }} en Portal Inmobiliario?')">Republicar</a>
+                                                        @elseif($fila->categoria == 'sin_publicar')
+                                                            <a href="/portalinmobiliario/add/{{ $fila->propiedad->id }}" class="btn btn-sm btn-outline-primary ml-1"
+                                                               onclick="return confirm('¿Publicar la propiedad {{ $fila->propiedad->id }} en Portal Inmobiliario?')">Publicar</a>
                                                         @elseif($fila->categoria == 'no_encontrada')
                                                             <a href="/portalinmobiliario/add/{{ $fila->propiedad->id }}" class="btn btn-sm btn-outline-primary ml-1"
                                                                onclick="return confirm('El item ya no existe en el portal. ¿Crear una publicación nueva para la propiedad {{ $fila->propiedad->id }}?')">Publicar de nuevo</a>
@@ -205,6 +226,39 @@
                 contenedor.append($('<input>', { type: 'hidden', name: 'ids[]', value: this.value }));
             });
             $('#btn-relist').prop('disabled', true).html('<i class="bx bx-loader bx-spin"></i> Republicando…');
+        });
+
+        // Publicación en lote de disponibles sin publicar
+        function seleccionadasAdd() {
+            return tabla.$('input.chk-add:checked');
+        }
+        function actualizarContadorAdd() {
+            $('#cnt-add').text(seleccionadasAdd().length);
+        }
+        $('#sel-add-todas').on('click', function () {
+            var todas = tabla.$('input.chk-add');
+            var marcar = todas.length !== seleccionadasAdd().length;
+            todas.prop('checked', marcar);
+            actualizarContadorAdd();
+        });
+        $('#tabla-pi').on('change', 'input.chk-add', actualizarContadorAdd);
+
+        $('#form-add').on('submit', function (e) {
+            var marcadas = seleccionadasAdd();
+            if (marcadas.length === 0) {
+                alert('Selecciona al menos una propiedad disponible sin publicar.');
+                e.preventDefault();
+                return;
+            }
+            if (!confirm('¿Publicar ' + marcadas.length + ' propiedades en Portal Inmobiliario? Puede tardar varios minutos.')) {
+                e.preventDefault();
+                return;
+            }
+            var contenedor = $('#ids-add').empty();
+            marcadas.each(function () {
+                contenedor.append($('<input>', { type: 'hidden', name: 'ids[]', value: this.value }));
+            });
+            $('#btn-add').prop('disabled', true).html('<i class="bx bx-loader bx-spin"></i> Publicando…');
         });
     });
 </script>

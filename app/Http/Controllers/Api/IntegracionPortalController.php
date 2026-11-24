@@ -242,7 +242,34 @@ class IntegracionPortalController extends Controller
                 ];
             }
 
-            $orden = ['vencida' => 0, 'por_vencer' => 1, 'pausada' => 2, 'no_encontrada' => 3, 'huerfana' => 4, 'cerrada_manual' => 5, 'activa' => 6];
+            // Propiedades DISPONIBLES (idEstado 42) que nunca se publicaron en el portal
+            $sinPublicar = Propiedad::select('propiedades.id', 'propiedades.nombrePropiedad', 'propiedades.direccion', 'propiedades.numero',
+                'propiedades.fotoPrincipal', 'propiedades.itemIDPortal', 'propiedades.urlPortalInmobiliario',
+                'propiedades.eliminadoPortalInmobiliario', 'propiedades.idEstado', 'comuna.nombre as nombreComuna', 'estados.nombreEstado')
+                ->leftJoin('comuna', 'comuna.id', '=', 'propiedades.idComuna')
+                ->leftJoin('estados', 'estados.idEstado', '=', 'propiedades.idEstado')
+                ->where('propiedades.idEstado', 42)
+                ->where(function ($q) {
+                    $q->whereNull('propiedades.itemIDPortal')->orWhere('propiedades.itemIDPortal', '');
+                })
+                ->where(function ($q) {
+                    $q->whereNull('propiedades.esBuyDepa')->orWhere('propiedades.esBuyDepa', '!=', 1);
+                })
+                ->get();
+            foreach ($sinPublicar as $propiedad)
+            {
+                $filas[] = (object) [
+                    'itemId' => null,
+                    'propiedad' => $propiedad,
+                    'item' => null,
+                    'status' => null,
+                    'subStatus' => null,
+                    'stopTime' => null,
+                    'categoria' => 'sin_publicar',
+                ];
+            }
+
+            $orden = ['vencida' => 0, 'por_vencer' => 1, 'sin_publicar' => 2, 'pausada' => 3, 'no_encontrada' => 4, 'huerfana' => 5, 'cerrada_manual' => 6, 'activa' => 7];
             usort($filas, function ($a, $b) use ($orden) {
                 return ($orden[$a->categoria] ?? 9) <=> ($orden[$b->categoria] ?? 9);
             });
@@ -327,6 +354,71 @@ class IntegracionPortalController extends Controller
         if ($ok)
         {
             toastr()->success($ok.' de '.count($ids).' propiedades republicadas', 'Republicación en lote');
+        }
+        if ($errores)
+        {
+            toastr()->error(implode('<br>', $errores), count($errores).' con error');
+        }
+        return redirect('/portalinmobiliario/list');
+    }
+
+    /**
+     * Publica en lote propiedades DISPONIBLES sin publicación, reutilizando storeProperties().
+     * Los toasts individuales de storeProperties se recogen y se reemplazan por un resumen.
+     */
+    public function storeLote(Request $request)
+    {
+        $ids = array_filter(array_map('intval', (array) $request->input('ids', [])));
+        if (!$ids)
+        {
+            toastr()->warning('No seleccionaste propiedades', 'Sin cambios');
+            return redirect('/portalinmobiliario/list');
+        }
+
+        set_time_limit(900);
+        $flasher = app('flasher.storage_manager');
+        $ok = 0;
+        $errores = [];
+        foreach ($ids as $id)
+        {
+            $propiedad = Propiedad::where('id', $id)->first();
+            if (!$propiedad || $propiedad->idEstado != 42 || !empty($propiedad->itemIDPortal) || $propiedad->esBuyDepa == 1)
+            {
+                $errores[] = 'Propiedad '.$id.': ya no está disponible sin publicar, se omitió';
+                continue;
+            }
+
+            $previos = $flasher->all();
+            try {
+                $this->storeProperties($id);
+            } catch (\Exception $e) {
+                Log::info('storeLote error', array('id' => $id, 'body' => $e->getMessage()));
+            }
+            $nuevos = array_slice($flasher->all(), count($previos));
+            $mensajes = array_map(function ($env) { return $env->getMessage(); }, array_filter($nuevos, function ($env) {
+                return $env->getType() === 'error';
+            }));
+            if ($nuevos)
+            {
+                $flasher->remove($nuevos);
+            }
+
+            $propiedad->refresh();
+            if (!empty($propiedad->itemIDPortal))
+            {
+                $ok++;
+                Log::info('storeLote OK', array('id' => $id, 'item' => $propiedad->itemIDPortal));
+            }
+            else
+            {
+                $errores[] = 'Propiedad '.$id.': '.($mensajes ? implode(' | ', $mensajes) : 'no se pudo publicar');
+            }
+            usleep(300000);
+        }
+
+        if ($ok)
+        {
+            toastr()->success($ok.' de '.count($ids).' propiedades publicadas', 'Publicación en lote');
         }
         if ($errores)
         {
