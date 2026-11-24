@@ -249,6 +249,8 @@ Route::get('/portalinmobiliario/list', 'Api\IntegracionPortalController@listAds'
 Route::get('/portalinmobiliario/relist/{id}', 'Api\IntegracionPortalController@relistProperties')->middleware('auth');
 Route::post('/portalinmobiliario/relist-lote', 'Api\IntegracionPortalController@relistLote')->middleware('auth');
 Route::post('/portalinmobiliario/add-lote', 'Api\IntegracionPortalController@storeLote')->middleware('auth');
+Route::get('/portalinmobiliario/baja/{id}', 'Api\IntegracionPortalController@bajaProperties')->middleware('auth');
+Route::post('/portalinmobiliario/baja-lote', 'Api\IntegracionPortalController@bajaLote')->middleware('auth');
 Route::get('/portalinmobiliario/add/{id}', 'Api\IntegracionPortalController@storeProperties');
 Route::get('/portalinmobiliario/update/{id}', 'Api\IntegracionPortalController@updateProperties');
 Route::get('/portalinmobiliario/desactivate/{id}', 'Api\IntegracionPortalController@desativateProperties');

@@ -173,13 +173,19 @@ class IntegracionPortalController extends Controller
                 ->get()
                 ->keyBy('itemIDPortal');
 
-            // Items de propiedades suspendidas: se excluyen también de la búsqueda del vendedor
-            // para que no aparezcan como "Sin propiedad"
-            $itemsSuspendidas = Propiedad::where('idEstado', 46)
-                ->whereNotNull('itemIDPortal')
-                ->where('itemIDPortal', '!=', '')
-                ->pluck('itemIDPortal')
-                ->all();
+            // Suspendidas con item en el portal: se consultan aparte y solo se muestran
+            // si siguen publicadas (categoría "suspendida_publicada") para darlas de baja
+            $suspendidas = Propiedad::select('propiedades.id', 'propiedades.nombrePropiedad', 'propiedades.direccion', 'propiedades.numero',
+                'propiedades.fotoPrincipal', 'propiedades.itemIDPortal', 'propiedades.urlPortalInmobiliario',
+                'propiedades.eliminadoPortalInmobiliario', 'propiedades.idEstado', 'comuna.nombre as nombreComuna', 'estados.nombreEstado')
+                ->leftJoin('comuna', 'comuna.id', '=', 'propiedades.idComuna')
+                ->leftJoin('estados', 'estados.idEstado', '=', 'propiedades.idEstado')
+                ->where('propiedades.idEstado', 46)
+                ->whereNotNull('propiedades.itemIDPortal')
+                ->where('propiedades.itemIDPortal', '!=', '')
+                ->get()
+                ->keyBy('itemIDPortal');
+            $itemsSuspendidas = $suspendidas->keys()->all();
 
             // Items del vendedor en el portal (para detectar publicaciones que propitech ya no referencia)
             $idsVendedor = [];
@@ -207,7 +213,7 @@ class IntegracionPortalController extends Controller
 
             // Multiget de a 20 (máximo permitido por /items?ids=)
             $items = [];
-            foreach (array_chunk($todosLosIds, 20) as $lote)
+            foreach (array_chunk(array_values(array_unique(array_merge($todosLosIds, $itemsSuspendidas))), 20) as $lote)
             {
                 $multi = $this->callPortalApiConReintento($urlPortal.'/items?ids='.implode(',', $lote).'&attributes=id,status,sub_status,stop_time,date_created,last_updated,permalink,title', $portalUser);
                 if ($multi['httpcode'] < 200 || $multi['httpcode'] > 299 || !is_array($multi['data']))
@@ -242,6 +248,24 @@ class IntegracionPortalController extends Controller
                 ];
             }
 
+            foreach ($suspendidas as $itemId => $propiedad)
+            {
+                $item = $items[$itemId] ?? null;
+                if (!$item || ($item['status'] ?? null) === 'closed')
+                {
+                    continue; // ya no está publicada: nada que dar de baja
+                }
+                $filas[] = (object) [
+                    'itemId' => $itemId,
+                    'propiedad' => $propiedad,
+                    'item' => $item,
+                    'status' => $item['status'] ?? null,
+                    'subStatus' => implode(', ', (array) ($item['sub_status'] ?? [])),
+                    'stopTime' => !empty($item['stop_time']) ? \Carbon\Carbon::parse($item['stop_time'])->setTimezone(config('app.timezone')) : null,
+                    'categoria' => 'suspendida_publicada',
+                ];
+            }
+
             // Propiedades DISPONIBLES (idEstado 42) que nunca se publicaron en el portal
             $sinPublicar = Propiedad::select('propiedades.id', 'propiedades.nombrePropiedad', 'propiedades.direccion', 'propiedades.numero',
                 'propiedades.fotoPrincipal', 'propiedades.itemIDPortal', 'propiedades.urlPortalInmobiliario',
@@ -269,7 +293,7 @@ class IntegracionPortalController extends Controller
                 ];
             }
 
-            $orden = ['vencida' => 0, 'por_vencer' => 1, 'sin_publicar' => 2, 'pausada' => 3, 'no_encontrada' => 4, 'huerfana' => 5, 'cerrada_manual' => 6, 'activa' => 7];
+            $orden = ['suspendida_publicada' => 0, 'vencida' => 1, 'por_vencer' => 2, 'sin_publicar' => 3, 'pausada' => 4, 'no_encontrada' => 5, 'huerfana' => 6, 'cerrada_manual' => 7, 'activa' => 8];
             usort($filas, function ($a, $b) use ($orden) {
                 return ($orden[$a->categoria] ?? 9) <=> ($orden[$b->categoria] ?? 9);
             });
@@ -425,6 +449,116 @@ class IntegracionPortalController extends Controller
             toastr()->error(implode('<br>', $errores), count($errores).' con error');
         }
         return redirect('/portalinmobiliario/list');
+    }
+
+    /**
+     * Da de baja (cierra) en el portal la publicación de una propiedad suspendida.
+     */
+    public function bajaProperties($id)
+    {
+        try {
+            $portalUser = $this->getPortalUsers()->first();
+            if (!$portalUser || !$portalUser->tokenPortal)
+            {
+                toastr()->error('No hay un usuario habilitado con sesión de Portal Inmobiliario', 'Algo falló');
+                return redirect('/portalinmobiliario/list');
+            }
+            $resultado = $this->darDeBajaSuspendida($id, $portalUser);
+            if ($resultado['ok'])
+            {
+                toastr()->success($resultado['mensaje'], 'Dada de baja');
+            }
+            else
+            {
+                toastr()->error($resultado['mensaje'], 'No se pudo dar de baja');
+            }
+        } catch (\Exception $e) {
+            Log::info('bajaProperties error', array('id' => $id, 'body' => $e->getMessage()));
+            toastr()->error('Tenemos un problema al dar de baja', 'Algo Falló');
+        }
+        return redirect('/portalinmobiliario/list');
+    }
+
+    public function bajaLote(Request $request)
+    {
+        $ids = array_filter(array_map('intval', (array) $request->input('ids', [])));
+        if (!$ids)
+        {
+            toastr()->warning('No seleccionaste propiedades', 'Sin cambios');
+            return redirect('/portalinmobiliario/list');
+        }
+        $portalUser = $this->getPortalUsers()->first();
+        if (!$portalUser || !$portalUser->tokenPortal)
+        {
+            toastr()->error('No hay un usuario habilitado con sesión de Portal Inmobiliario', 'Algo falló');
+            return redirect('/portalinmobiliario/list');
+        }
+
+        set_time_limit(600);
+        $ok = 0;
+        $errores = [];
+        foreach ($ids as $id)
+        {
+            try {
+                $resultado = $this->darDeBajaSuspendida($id, $portalUser);
+            } catch (\Exception $e) {
+                Log::info('bajaLote error', array('id' => $id, 'body' => $e->getMessage()));
+                $resultado = ['ok' => false, 'mensaje' => 'Propiedad '.$id.': error inesperado'];
+            }
+            if ($resultado['ok'])
+            {
+                $ok++;
+            }
+            else
+            {
+                $errores[] = $resultado['mensaje'];
+            }
+            usleep(300000);
+        }
+
+        if ($ok)
+        {
+            toastr()->success($ok.' de '.count($ids).' suspendidas dadas de baja en el portal', 'Baja en lote');
+        }
+        if ($errores)
+        {
+            toastr()->error(implode('<br>', $errores), count($errores).' con error');
+        }
+        return redirect('/portalinmobiliario/list');
+    }
+
+    private function darDeBajaSuspendida($id, &$portalUser)
+    {
+        $urlPortal = getenv("PORTALINMOBILIARIO_API_URL");
+        $propiedad = Propiedad::where('id', $id)->first();
+        if (!$propiedad || !$propiedad->itemIDPortal)
+        {
+            return ['ok' => false, 'mensaje' => 'Propiedad '.$id.': no tiene publicación asociada'];
+        }
+        if ($propiedad->idEstado != 46)
+        {
+            return ['ok' => false, 'mensaje' => 'Propiedad '.$id.': ya no está suspendida, se omitió'];
+        }
+
+        $actual = $this->callPortalApiConReintento($urlPortal.'/items/'.$propiedad->itemIDPortal.'?attributes=id,status', $portalUser);
+        if ($actual['httpcode'] >= 200 && $actual['httpcode'] <= 299 && ($actual['data']['status'] ?? null) === 'closed')
+        {
+            $propiedad->eliminadoPortalInmobiliario = 1;
+            $propiedad->save();
+            return ['ok' => true, 'mensaje' => 'Propiedad '.$id.': ya estaba cerrada en el portal'];
+        }
+
+        $close = $this->callPortalApi($urlPortal.'/items/'.$propiedad->itemIDPortal, 'PUT', json_encode(['status' => 'closed']), $portalUser->tokenPortal);
+        if ($close['httpcode'] < 200 || $close['httpcode'] > 299)
+        {
+            Log::info('baja suspendida error', array('id' => $id, 'item' => $propiedad->itemIDPortal, 'httpcode' => $close['httpcode'], 'body' => $close['data']));
+            return ['ok' => false, 'mensaje' => 'Propiedad '.$id.': '.$this->portalErrorMessage($close['data'])];
+        }
+
+        $propiedad->eliminadoPortalInmobiliario = 1;
+        $propiedad->save();
+        Log::info('baja suspendida OK', array('id' => $id, 'item' => $propiedad->itemIDPortal));
+        return ['ok' => true, 'mensaje' => 'Propiedad '.$id.' dada de baja ('.$propiedad->itemIDPortal.')'];
     }
 
     private function relistarPropiedad($id, &$portalUser)

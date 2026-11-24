@@ -19,7 +19,8 @@
 @section('content')
 @php
     $etiquetas = [
-        'vencida'        => ['Vencida', 'danger', 'Cerrada en el portal sin que propitech la desactivara'],
+        'suspendida_publicada' => ['Suspendida publicada', 'danger', 'Propiedad SUSPENDIDA cuyo aviso sigue publicado en el portal: hay que darla de baja'],
+        'vencida'       => ['Vencida', 'danger', 'Cerrada en el portal sin que propitech la desactivara'],
         'por_vencer'     => ['Vence en ≤ 7 días', 'warning', 'Activa, pero su fecha de término está cerca'],
         'sin_publicar'   => ['Disponible sin publicar', 'primary', 'Propiedad DISPONIBLE que no tiene publicación en Portal Inmobiliario'],
         'pausada'        => ['Pausada / revisión', 'secondary', 'paused, under_review u otro estado no activo'],
@@ -72,6 +73,19 @@
                                     </div>
                                     @endif
                                 </form>
+                                <form id="form-baja" action="{{ url('/portalinmobiliario/baja-lote') }}" method="post">
+                                    {{ csrf_field() }}
+                                    <div id="ids-baja"></div>
+                                    @if(($resumen['suspendida_publicada'] ?? 0) > 0)
+                                    <div class="mb-3">
+                                        <button type="submit" class="btn btn-dark" id="btn-baja">
+                                            <i class="bx bx-block"></i> Dar de baja suspendidas seleccionadas (<span id="cnt-baja">0</span>)
+                                        </button>
+                                        <button type="button" class="btn btn-outline-dark btn-sm ml-1" id="sel-baja-todas">Seleccionar todas las suspendidas publicadas</button>
+                                        <small class="text-muted ml-2">Cierra el aviso en el portal y lo marca como desactivado en propitech.</small>
+                                    </div>
+                                    @endif
+                                </form>
                                 <form id="form-add" action="{{ url('/portalinmobiliario/add-lote') }}" method="post">
                                     {{ csrf_field() }}
                                     <div id="ids-add"></div>
@@ -112,6 +126,8 @@
                                                     <input type="checkbox" class="chk-relist" value="{{ $fila->propiedad->id }}">
                                                     @elseif($fila->categoria == 'sin_publicar')
                                                     <input type="checkbox" class="chk-add" value="{{ $fila->propiedad->id }}">
+                                                    @elseif($fila->categoria == 'suspendida_publicada')
+                                                    <input type="checkbox" class="chk-baja" value="{{ $fila->propiedad->id }}">
                                                     @endif
                                                 </td>
                                                 <td data-order="{{ array_search($fila->categoria, array_keys($etiquetas)) }}">
@@ -155,6 +171,9 @@
                                                         @if($fila->categoria == 'vencida')
                                                             <a href="/portalinmobiliario/relist/{{ $fila->propiedad->id }}" class="btn btn-sm btn-outline-danger ml-1"
                                                                onclick="return confirm('¿Republicar la propiedad {{ $fila->propiedad->id }} en Portal Inmobiliario?')">Republicar</a>
+                                                        @elseif($fila->categoria == 'suspendida_publicada')
+                                                            <a href="/portalinmobiliario/baja/{{ $fila->propiedad->id }}" class="btn btn-sm btn-outline-dark ml-1"
+                                                               onclick="return confirm('¿Dar de baja en Portal Inmobiliario la propiedad suspendida {{ $fila->propiedad->id }}?')">Dar de baja</a>
                                                         @elseif($fila->categoria == 'sin_publicar')
                                                             <a href="/portalinmobiliario/add/{{ $fila->propiedad->id }}" class="btn btn-sm btn-outline-primary ml-1"
                                                                onclick="return confirm('¿Publicar la propiedad {{ $fila->propiedad->id }} en Portal Inmobiliario?')">Publicar</a>
@@ -226,6 +245,37 @@
                 contenedor.append($('<input>', { type: 'hidden', name: 'ids[]', value: this.value }));
             });
             $('#btn-relist').prop('disabled', true).html('<i class="bx bx-loader bx-spin"></i> Republicando…');
+        });
+
+        // Baja en lote de suspendidas publicadas
+        function seleccionadasBaja() {
+            return tabla.$('input.chk-baja:checked');
+        }
+        function actualizarContadorBaja() {
+            $('#cnt-baja').text(seleccionadasBaja().length);
+        }
+        $('#sel-baja-todas').on('click', function () {
+            var todas = tabla.$('input.chk-baja');
+            todas.prop('checked', todas.length !== seleccionadasBaja().length);
+            actualizarContadorBaja();
+        });
+        $('#tabla-pi').on('change', 'input.chk-baja', actualizarContadorBaja);
+        $('#form-baja').on('submit', function (e) {
+            var marcadas = seleccionadasBaja();
+            if (marcadas.length === 0) {
+                alert('Selecciona al menos una propiedad suspendida publicada.');
+                e.preventDefault();
+                return;
+            }
+            if (!confirm('¿Dar de baja ' + marcadas.length + ' propiedades suspendidas en Portal Inmobiliario?')) {
+                e.preventDefault();
+                return;
+            }
+            var contenedor = $('#ids-baja').empty();
+            marcadas.each(function () {
+                contenedor.append($('<input>', { type: 'hidden', name: 'ids[]', value: this.value }));
+            });
+            $('#btn-baja').prop('disabled', true).html('<i class="bx bx-loader bx-spin"></i> Dando de baja…');
         });
 
         // Publicación en lote de disponibles sin publicar
