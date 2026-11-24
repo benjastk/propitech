@@ -360,16 +360,21 @@ class IntegracionPortalController extends Controller
             return ['ok' => false, 'mensaje' => 'Propiedad '.$id.': el item está "'.($actual['data']['status'] ?? '?').'", no vencido'];
         }
 
-        $precio = $propiedad->idTipoComercial == 1 ? $propiedad->precio : $propiedad->valorArriendo;
+        $esVenta = $propiedad->idTipoComercial == 1;
+        $precio = $this->normalizarPrecio($esVenta ? $propiedad->precio : $propiedad->valorArriendo, $esVenta);
+        if (!$precio)
+        {
+            return ['ok' => false, 'mensaje' => 'Propiedad '.$id.': no tiene '.($esVenta ? 'precio de venta' : 'valor de arriendo').' válido'];
+        }
         $body = json_encode([
-            'price' => (string) $precio,
+            'price' => $precio,
             'quantity' => 1,
             'listing_type_id' => 'silver',
         ]);
         $relist = $this->callPortalApi($urlPortal.'/items/'.$itemAnterior.'/relist', 'POST', $body, $portalUser->tokenPortal);
         if ($relist['httpcode'] < 200 || $relist['httpcode'] > 299 || empty($relist['data']['id']))
         {
-            Log::info('relist error', array('id' => $id, 'item' => $itemAnterior, 'httpcode' => $relist['httpcode'], 'body' => $relist['data']));
+            Log::info('relist error', array('id' => $id, 'item' => $itemAnterior, 'request' => $body, 'httpcode' => $relist['httpcode'], 'body' => $relist['data']));
             return ['ok' => false, 'mensaje' => 'Propiedad '.$id.': '.$this->portalErrorMessage($relist['data'])];
         }
 
@@ -397,6 +402,42 @@ class IntegracionPortalController extends Controller
             return ['ok' => true, 'mensaje' => 'Propiedad '.$id.' republicada como '.$itemNuevo.', pero quedó en estado "'.$estadoNuevo.'"'];
         }
         return ['ok' => true, 'mensaje' => 'Propiedad '.$id.' republicada como '.$itemNuevo];
+    }
+
+    /**
+     * Convierte el precio guardado a número para la API.
+     * Arriendo (CLP): entero, ignorando puntos/comas de miles ("290.000" -> 290000).
+     * Venta (UF/CLF): admite decimales ("3.500,5" -> 3500.5, "3500.5" -> 3500.5).
+     */
+    private function normalizarPrecio($valor, $esUF)
+    {
+        if ($valor === null || $valor === '')
+        {
+            return null;
+        }
+        if (is_int($valor) || is_float($valor))
+        {
+            $numero = $esUF ? (float) $valor : (int) round($valor);
+            return $numero > 0 ? $numero : null;
+        }
+        $texto = trim((string) $valor);
+        if (!$esUF)
+        {
+            $soloDigitos = preg_replace('/[^\d]/', '', preg_replace('/[.,]\d{1,2}$/', '', $texto));
+            $numero = (int) $soloDigitos;
+            return $numero > 0 ? $numero : null;
+        }
+        if (strpos($texto, ',') !== false)
+        {
+            $texto = str_replace('.', '', $texto);
+            $texto = str_replace(',', '.', $texto);
+        }
+        elseif (substr_count($texto, '.') > 1)
+        {
+            $texto = str_replace('.', '', $texto);
+        }
+        $numero = (float) preg_replace('/[^\d.]/', '', $texto);
+        return $numero > 0 ? $numero : null;
     }
 
     private function clasificarPublicacion($propiedad, $item)
