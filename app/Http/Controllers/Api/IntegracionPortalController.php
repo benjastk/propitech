@@ -169,8 +169,17 @@ class IntegracionPortalController extends Controller
                 ->leftJoin('estados', 'estados.idEstado', '=', 'propiedades.idEstado')
                 ->whereNotNull('propiedades.itemIDPortal')
                 ->where('propiedades.itemIDPortal', '!=', '')
+                ->where('propiedades.idEstado', '!=', 46) // suspendidas fuera
                 ->get()
                 ->keyBy('itemIDPortal');
+
+            // Items de propiedades suspendidas: se excluyen también de la búsqueda del vendedor
+            // para que no aparezcan como "Sin propiedad"
+            $itemsSuspendidas = Propiedad::where('idEstado', 46)
+                ->whereNotNull('itemIDPortal')
+                ->where('itemIDPortal', '!=', '')
+                ->pluck('itemIDPortal')
+                ->all();
 
             // Items del vendedor en el portal (para detectar publicaciones que propitech ya no referencia)
             $idsVendedor = [];
@@ -191,7 +200,10 @@ class IntegracionPortalController extends Controller
                 } while (count($resultados) > 0 && $offset < $total && $offset < 1000);
             }
 
-            $todosLosIds = array_values(array_unique(array_merge($propiedades->keys()->all(), $idsVendedor)));
+            $todosLosIds = array_values(array_diff(
+                array_unique(array_merge($propiedades->keys()->all(), $idsVendedor)),
+                $itemsSuspendidas
+            ));
 
             // Multiget de a 20 (máximo permitido por /items?ids=)
             $items = [];
